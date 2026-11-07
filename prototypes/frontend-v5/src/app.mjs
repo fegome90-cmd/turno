@@ -12,7 +12,7 @@ let inputModality='keyboard',renderedView=null;
 const renderedParts=new Map();
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const icon=name=>`<img class="icon" src="./assets/icons/${name}.svg" alt="" aria-hidden="true">`;
+const icon=name=>`<i class="icon" aria-hidden="true" style="--icon:url('./assets/icons/${name}.svg')"></i>`;
 const btn=(label,action,iconName='',cls='',attrs='')=>`<button type="button" class="${cls}" data-action="${action}" ${attrs}>${iconName?icon(iconName):''}<span>${esc(label)}</span></button>`;
 let data,view='home',selected=null,draft=null,dirty=false,busy=false,inspector=true,tab='task',filter='all',query='',archiveId=null,error='',feedback='',pendingNavigation=null,rawTemporal=null,overlay=null,returnFocus=null;
 let fieldErrors={};
@@ -68,7 +68,7 @@ function navigation(){const s=shift();const vt=visibleTasks();return `
  ${view!=='home'&&s?`<div class="section-heading bed-heading"><span>Camas</span>${!archiveId?btn('Agregar cama','add-bed','plus','icon-button'):''}</div>
  <div id="task-tree">${data.beds.filter(b=>b.shiftId===s.id).map(b=>{const inBed=vt.filter(t=>t.bedId===b.id);const isOpen=expanded.has(b.id)||query;return `<section class="bed-group"><div class="bed-line">${btn(b.label,'bed:'+b.id,isOpen?'chevron-down':'chevron-right','bed-toggle',`aria-expanded="${!!isOpen}" aria-controls="group-${b.id}"`)}${!archiveId?btn('Editar nombre de '+b.label,'rename-bed:'+b.id,'pencil','icon-button subtle',`aria-label="${esc('Editar nombre de '+b.label)}"`)+btn('Agregar tarea a '+b.label,'add-task:'+b.id,'plus','icon-button subtle'):''}</div><div id="group-${b.id}" ${!isOpen?'hidden':''}>${isOpen?inBed.map(taskRow).join(''):''}</div></section>`;}).join('')}${vt.filter(t=>!t.bedId).map(taskRow).join('')}${vt.length===0?`<p class="nav-hint">${query?'Sin coincidencias para «'+esc(query)+'».':filter==='pending'?'No hay tareas pendientes.':'Este turno todavía no tiene tareas.'}</p>${query||filter==='pending'?btn('Limpiar filtros','clear-filters','','nav-item'):''}`:''}</div>`:''}
  </div>
- <div class="nav-footer">${btn('Turnos anteriores','archive','archive','nav-item')}${active()?btn('Cerrar turno','close-shift','power','nav-item'):''}${btn('Demostración local','demo','settings','nav-item demo-button')}<p>Datos sintéticos · Se reinician al recargar</p></div>`;}
+ <div class="nav-footer">${btn('Turnos anteriores','archive','archive','nav-item')}${active()?btn('Cerrar turno','close-shift','power','nav-item'):''}</div>`;}
 function taskRow(t){return `<div class="task-row ${selected?.id===t.id?'current':''}"><input type="checkbox" data-check="${t.id}" aria-label="${esc((t.completed?'Reabrir ':'Completar ')+t.title)}" ${t.completed?'checked':''} ${archiveId||busy?'disabled':''}><button type="button" data-action="task:${t.id}" class="task-select ${t.completed?'completed':''}" ${selected?.id===t.id?'aria-current="true"':''}>${esc(t.title)}</button></div>`;}
 function toolbar(){return `<header class="toolbar"><div>${btn('Abrir navegación','navigation','panel-left','icon-button mobile-navigation')}${view!=='home'?`<span class="breadcrumb">${archiveId?'Archivo · ':''}${selectedIsNote()?'Notas rápidas':draft?esc(bedLabel(draft))+' <span>/</span> '+esc(draft.reason||'Tareas'):esc(shift()?.label||'Turno')}</span>`:''}</div><div>${btn(inspector&&view!=='home'?'Ocultar Tiempo':'Mostrar Tiempo','toggle-inspector','clock','icon-button',`aria-expanded="${inspector&&view!=='home'}"`)}${btn('Más opciones','more','ellipsis','icon-button')}</div></header>`;}
 function center(){if(view==='home')return `<main id="main" tabindex="-1" class="home"><div class="greeting"><h1>${data.profile.preferredName?'Hola, '+esc(data.profile.preferredName)+'.':'Hola.'}</h1><p>${esc(homeSubtitle)}</p></div></main>`;
@@ -152,7 +152,9 @@ function render(){
  if(typeof selection==='number')try{document.activeElement?.setSelectionRange(selection,selection);}catch{}
  if(viewChanged){motion.cancelAll();motion.enter($('#main'),'screen',inputModality);}
  renderedView=view;
+ syncScrollCue();
 }
+function syncScrollCue(){for(const el of document.querySelectorAll('.nav-scroll'))el.classList.toggle('has-more',el.scrollTop+el.clientHeight<el.scrollHeight-1);}
 
 function updateDirty(){
  // Keep submitted errors until the corresponding constraint is actually resolved.
@@ -268,7 +270,7 @@ async function handle(action){if(busy)return;
  case 'archive-shift':return requestNavigation(()=>{archiveId=id;const first=tasks()[0];if(first)select('task',first.id);else{view='workspace';selected=draft=null;render();}});
  case 'close-shift':return requestNavigation(()=>{const count=data.tasks.filter(t=>t.shiftId===data.activeShiftId&&!t.completed).length;modal('Cerrar turno',`<p><strong>${count} ${count===1?'tarea pendiente':'tareas pendientes'}</strong> ${count===1?'se conservará':'se conservarán'} en el archivo.</p><p>No se completarán ni pasarán al siguiente turno. Este prototipo no tiene avisos conectados.</p><p class="error" id="close-error" role="alert"></p>`,btn('Volver','dismiss')+btn('Cerrar y archivar','confirm-close','','primary'));});
  case 'confirm-close':busy=true;$('#modal button[data-action="confirm-close"]').disabled=true;try{await adapter.closeShift(data.activeShiftId);data=await adapter.load();closeModal();archiveId=null;selected=draft=null;view='home';notify('Turno archivado en esta demostración. Los pendientes se conservan.');}catch(e){$('#close-error').textContent=e.code==='SIMULATED_CONFLICT'?'Conflicto simulado. El turno sigue abierto. Vuelve a pulsar «Cerrar y archivar».':e.message;}finally{busy=false;const retry=$('#modal [data-action="confirm-close"]');if(retry)retry.disabled=false;render();}return;
- case 'more':return modal('Más opciones',active()?btn('Cerrar turno','close-shift','power','nav-item'):'<p>Sin acciones adicionales.</p>');
+ case 'more':return modal('Más opciones',(active()?btn('Cerrar turno','close-shift','power','nav-item'):'')+btn('Demostración local','demo','settings','nav-item')+'<p class="muted">Datos sintéticos · Se reinician al recargar</p>');
  case 'demo':return modal('Demostración local','<p>Esta interfaz usa datos sintéticos y memoria temporal. Al recargar se restablece el ejemplo. No hay conexión con Supabase, ChatGPT ni avisos.</p><p>Prueba la recuperación de la siguiente acción de demostración:</p>',btn('Simular fallo','simulate-error')+btn('Simular conflicto','simulate-conflict'));
  case 'simulate-error':case 'simulate-conflict':adapter.failNext(type==='simulate-error'?'error':'conflict');closeModal();notify('La próxima acción de demostración simulará un fallo.');return;
  case 'dismiss':pendingNavigation=null;return closeModal();
@@ -278,6 +280,8 @@ async function handle(action){if(busy)return;
 }
 async function create(event){event.preventDefault();if(busy)return;const f=event.target,kind=f.dataset.kind,title=$('#new-title').value,bed=f.dataset.bed||null;if(!validateNameInput($('#new-title'),$('#create-error'),kind==='bed'||kind==='shift'?'Nombre':'Título'))return;const submit=f.querySelector('[type="submit"]');submit.disabled=true;busy=true;try{let item;if(kind==='task')item=await adapter.createTask(title,bed);if(kind==='bed')item=await adapter.createBed(title);if(kind==='note')item=await adapter.createNote(title);if(kind==='shift')item=await adapter.openShift(title);data=await adapter.load();closeModal();archiveId=null;if(kind==='task'){expanded.add(bed);select('task',item.id);}else if(kind==='note')select('note',item.id);else if(kind==='bed'){expanded.add(item.id);view='workspace';render();}else openFirstTask();notify('Creado en esta demostración.');}catch(e){$('#create-error').textContent=e.message;submit.disabled=false;}finally{busy=false;render();}}
 document.documentElement.dataset.inputModality='keyboard';
+document.addEventListener('scroll',e=>{if(e.target.classList?.contains('nav-scroll'))syncScrollCue();},true);
+window.addEventListener('resize',syncScrollCue);
 document.addEventListener('pointerdown',()=>{inputModality='pointer';document.documentElement.dataset.inputModality='pointer';},true);
 document.addEventListener('keydown',()=>{inputModality='keyboard';document.documentElement.dataset.inputModality='keyboard';motion.cancelAll();},true);
 document.addEventListener('click',e=>{

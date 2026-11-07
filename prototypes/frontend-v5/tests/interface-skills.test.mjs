@@ -53,7 +53,7 @@ test('closing desktop Time returns focus to its visible trigger',async()=>{
 test('checkbox completion restores its focus identity on success and failure',async()=>{
  const a=await setup();await a.click('[data-action="open-shift"]');
  for(const fail of [false,true]){
-  if(fail){await a.click('[data-action="demo"]');await a.click('[data-action="simulate-error"]');}
+  if(fail){await a.click('[data-action="more"]');await a.click('#modal [data-action="demo"]');await a.click('[data-action="simulate-error"]');}
   const check=a.q('[data-check="task-1"]');check.focus();check.checked=!check.checked;
   check.dispatchEvent(new a.window.Event('change',{bubbles:true}));await pause(500);
   assert.equal(a.window.document.activeElement,a.q('[data-check="task-1"]'));
@@ -67,14 +67,14 @@ test('completing the last focused pending checkbox has a safe fallback',async()=
  assert.equal(a.window.document.activeElement,a.q('#main'));
 });
 test('close shift failure can be retried in the same dialog',async()=>{
- const a=await setup();await a.click('[data-action="demo"]');await a.click('[data-action="simulate-error"]');
+ const a=await setup();await a.click('[data-action="more"]');await a.click('#modal [data-action="demo"]');await a.click('[data-action="simulate-error"]');
  await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await pause(500);
  assert.ok(a.q('#modal').open);assert.equal(a.q('[data-action="confirm-close"]').disabled,false);
  await a.click('[data-action="confirm-close"]');await pause(500);assert.equal(a.q('#modal').open,false);
 });
 test('simulated conflict offers retry without reloading or dropping the draft',async()=>{
  const a=await setup();await a.click('[data-action="open-shift"]');a.fill('#body','Conservar');
- await a.click('[data-action="demo"]');await a.click('[data-action="simulate-conflict"]');await a.submit();
+ await a.click('[data-action="more"]');await a.click('#modal [data-action="demo"]');await a.click('[data-action="simulate-conflict"]');await a.submit();
  assert.doesNotMatch(a.q('#save-error').textContent,/Recarga/);
  assert.match(a.q('#save-error').textContent,/Vuelve a guardar/);assert.equal(a.q('#body').value,'Conservar');
  await a.submit();assert.match(a.q('#save-feedback').textContent,/Guardado/);
@@ -128,4 +128,59 @@ test('checkbox completion does not steal focus from a newer input',async()=>{
  check.dispatchEvent(new a.window.Event('change',{bubbles:true}));
  a.q('#search').focus();await pause(500);
  assert.equal(a.window.document.activeElement,a.q('#search'));
+});
+
+test('icons are CSS masks painted with currentColor so forced-colors mode keeps them visible',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ const icon=a.q('.nav-item .icon');
+ assert.equal(icon.localName,'i');assert.equal(icon.getAttribute('aria-hidden'),'true');
+ assert.match(icon.getAttribute('style'),/--icon:url\(/);
+ assert.equal(a.q('img.icon'),null);
+ assert.match(a.q('details.property summary .disclosure-chevron').className,/^icon disclosure-chevron$/);
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/\.icon\{[^}]*display:inline-block[^}]*background-color:currentColor[^}]*mask:var\(--icon\) center\/contain no-repeat/);
+ assert.match(css,/@media \(forced-colors:active\)\{\.icon\{forced-color-adjust:none;background-color:currentColor\}\}/);
+ assert.doesNotMatch(css,/filter:invert\(1\)/);
+});
+test('toolbar keeps its trailing actions from being pushed out by a long bed name',async()=>{
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/\.toolbar>div\{display:flex;align-items:center;gap:8px;min-width:0\}/);
+ assert.match(css,/\.toolbar>div:first-child\{flex:1 1 auto;min-width:0\}\.toolbar>div:last-child\{flex-shrink:0\}/);
+});
+test('demo controls move into More options and the sidebar footer keeps only shift actions',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ assert.equal(a.q('.nav-footer [data-action="demo"]'),null);
+ assert.equal(a.q('.nav-footer p'),null);
+ assert.ok(a.q('.nav-footer [data-action="archive"]'));assert.ok(a.q('.nav-footer [data-action="close-shift"]'));
+ await a.click('[data-action="more"]');
+ assert.ok(a.q('#modal [data-action="demo"]'));
+ assert.match(a.q('#modal').textContent,/Datos sintéticos · Se reinician al recargar/);
+});
+test('sidebar task tree shows a scroll cue only while more content is below',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ const nav=a.q('.nav-scroll');let top=0;
+ Object.defineProperties(nav,{scrollTop:{get:()=>top,set:value=>{top=value;},configurable:true},scrollHeight:{value:500,configurable:true},clientHeight:{value:200,configurable:true}});
+ // LinkeDOM delivers only bubbling events to document capture listeners; browsers deliver scroll either way.
+ nav.dispatchEvent(new a.window.Event('scroll',{bubbles:true}));
+ assert.equal(nav.classList.contains('has-more'),true);
+ top=300;nav.dispatchEvent(new a.window.Event('scroll',{bubbles:true}));
+ assert.equal(nav.classList.contains('has-more'),false);
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/\.nav-scroll\.has-more\{-webkit-mask-image:linear-gradient\(to bottom,#000 calc\(100% - 40px\),transparent\);mask-image:linear-gradient\(to bottom,#000 calc\(100% - 40px\),transparent\)\}/);
+});
+test('mobile-native rules stop tap flash, text inflation and iOS press callouts',async()=>{
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/html\{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%\}/);
+ assert.match(css,/button,summary\{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none\}/);
+});
+test('motion tokens are short and only the primary action gets press feedback',async()=>{
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/transition:background-color 120ms ease\}/);
+ assert.match(css,/:root\{[^}]*--motion-feedback:120ms/);
+ assert.match(css,/@media\(prefers-reduced-motion:no-preference\)\{button\.primary\{transition:background-color 120ms ease,transform 120ms cubic-bezier\(0\.23,1,0\.32,1\)\}button\.primary:not\(:disabled\):active\{transform:scale\(0\.97\)\}\}/);
+});
+test('reduced motion keeps colour transitions and only removes smooth scrolling',async()=>{
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/@media\(prefers-reduced-motion:reduce\)\{\*\{scroll-behavior:auto!important\}\}/);
+ assert.doesNotMatch(css,/prefers-reduced-motion:reduce\)\{\*\{transition:none/);
 });

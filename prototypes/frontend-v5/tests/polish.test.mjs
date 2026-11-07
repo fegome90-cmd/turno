@@ -74,7 +74,13 @@ test('disclosure keyboard, reduced preference and missing WAAPI keep native cont
   for (const options of [{}, {reduced: true}, {api: false}]) {
     const f = disclosureFixture(options);
     f.motion.disclosure(f.details, true, options.reduced || options.api === false ? 'pointer' : 'keyboard');
-    assert.equal(f.calls.length, 0);
+    if (options.reduced) {
+      // Reduced motion keeps only the content opacity fade: no chevron turn and no movement.
+      assert.equal(f.calls.length, 1);
+      assert.equal(f.calls[0].node, f.content);
+      assert.ok(f.calls[0].frames.every(frame => !('transform' in frame)));
+      assert.ok(f.calls[0].options.duration <= 150);
+    } else assert.equal(f.calls.length, 0);
     assert.ok(f.details.hasAttribute('open'));
     assert.equal(f.content.hasAttribute('inert'), false);
     f.motion.disclosure(f.details, false, 'keyboard');
@@ -104,7 +110,7 @@ test('retiring a DOM subtree cancels its animations and finished effects leave n
   assert.ok(f.details.hasAttribute('open'));
 });
 
-test('tab marker uses only transform for 180 ms and skips keyboard or unchanged position', () => {
+test('tab marker uses only transform for 150 ms and skips keyboard or unchanged position', () => {
   const calls = [];
   const marker = {getBoundingClientRect: () => ({left: 120, width: 120}), animate(frames, options) {calls.push({frames, options}); return {cancel() {}};}};
   const motion = createMotion();

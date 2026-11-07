@@ -18,3 +18,4 @@ test('live notification regions remain mounted and are not hidden while empty',a
  }
  assert.doesNotMatch(css,/\.notification\s+p:empty\s*\{[^}]*display\s*:\s*none/);
 });
+test('selected tabs do not take the hover background while unselected tabs still do',async()=>{const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');const {document}=parseHTML('<button role="tab" aria-selected="true" data-hover>Tarea</button><button role="tab" aria-selected="false" data-hover>Agenda</button>');const [selected,other]=document.querySelectorAll('button');assert.notEqual(styleFor(css,selected)['background-color'],'var(--hover)');assert.equal(styleFor(css,other)['background-color'],'var(--hover)');});
