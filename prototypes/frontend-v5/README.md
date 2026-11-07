@@ -12,9 +12,9 @@ Demostración aislada de la interfaz de Turno. No es una release ni el plugin of
 
 El código se mantiene dentro de `prototypes/frontend-v5/` para no imponer estructura ni contratos al backend que se desarrolla por separado.
 
-## Ajustes de diseño (v7)
+## Ajustes de diseño (v7 completado)
 
-Navegación compacta con el árbol antes de las notas secundarias, controles táctiles de completar, prioridad alta visible en árbol y Agenda, filtros con borde y subrayado, y campos de edición con etiquetas y límites visibles. Se conserva el saludo, sus cuatro frases y el movimiento v6.
+Navegación compacta con Demo y el aviso dentro de Más opciones, cierre de turno en la barra superior, controles táctiles, prioridad visible, filtros y edición reconocible. Incluye tema claro, oscuro o del sistema, seis roles tipográficos en rem y ancho de editor compartido. Se conserva el saludo por nombre de perfil, sus cuatro frases y el movimiento v6. La copia pública usa Demo; el generador admite --preferred-name para un preview local personalizado no versionado.
 
 [Correspondencia con la auditoría, decisiones y límites de verificación](docs/DESIGN_V7.md).
 
@@ -48,6 +48,6 @@ Antes de integrar, hacen falta QA en navegadores y dispositivos reales, revisió
 
 ## Procedencia
 
-Base: candidato v5 de Turno. Esta copia para GitHub incluye código, tests, assets y licencias. Se sustituyó el nombre personalizado por **Demo** en los datos de ejemplo y sus aserciones, y se omitieron informes históricos y archivos generados. Los assets conservan sus bytes originales.
+Base: candidato v5 de Turno. Esta copia para GitHub incluye código, tests, assets y licencias. Se sustituyó el nombre personalizado por **Demo** en los datos de ejemplo y sus aserciones, y se omitieron informes históricos y archivos generados. Los assets usados conservan sus bytes originales. Se retiran dos fuentes no referenciadas, conservando sus licencias.
 
 Fuentes Source Sans 3 y Source Serif Pro bajo SIL Open Font License; iconos Lucide bajo ISC. Las atribuciones aplicables están en `licenses/`. La marca Turno se incluye como asset del proyecto; no se concede una licencia general sobre ella ni sobre el código del proyecto.

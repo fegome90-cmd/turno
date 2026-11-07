@@ -27,16 +27,19 @@ async function setup(width=1440){
  return {q,click,fill,submit,window};
 }
 const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
-test('compact footer retains three named direct actions and tree precedes secondary notes',async()=>{
+test('compact footer keeps Archive and a disclosure while close shift moves to toolbar',async()=>{
  const a=await setup();await a.click('[data-action="open-shift"]');
  const nav=a.q('.navigation');
- assert.equal(nav.querySelectorAll('.footer-actions>button').length,3);
+ assert.equal(nav.querySelectorAll('.footer-actions>button').length,2);
  assert.equal(nav.querySelector('.footer-actions [data-action="archive"]').getAttribute('aria-label'),'Archivo de turnos anteriores');
  assert.match(nav.querySelector('.nav-footer p').textContent,/Datos sintéticos/);
  assert.ok(nav.innerHTML.indexOf('id="task-tree"')<nav.innerHTML.indexOf('data-action="notes"'));
- assert.equal(a.q('[data-action="more"]'),null);
- assert.match(a.q('[data-action="open-shift"]').textContent,/Ir al turno/);
- assert.match(css,/\.footer-actions\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
+ assert.equal(a.q('[data-action="more"]').getAttribute('aria-expanded'),'false');
+ assert.equal(nav.querySelector('[data-action="close-shift"]'),null);
+ assert.ok(a.q('.toolbar [data-action="close-shift"]'));
+ assert.equal(nav.querySelector('#more-options').hidden,true);
+ assert.match(a.q('[data-action="open-shift"]').textContent,/Ir al turno actual/);
+ assert.match(css,/\.footer-actions\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
  assert.match(css,/\.nav-scroll\{[^}]*overflow:auto;[^}]*min-height:0/);
 });
 test('checkbox target is a native wrapping label with no adjacent action in its 44px target',async()=>{
@@ -108,7 +111,7 @@ test('archive preserves high-priority text and disables both completion paths',a
  await a.click('[data-action="tab-agenda"]');assert.equal(a.q('.agenda [data-action="task:task-4"] .priority-badge').textContent,'Prioridad Alta');
 });
 test('typography, border affordances, shared editor edge and hover guards are explicit contracts',()=>{
- for(const role of ['caption','small','body','section','title'])assert.ok(css.includes('--type-'+role+':'));
+ for(const role of ['caption','small','body','writing','section','title'])assert.ok(css.includes('--type-'+role+':'));
  assert.match(css,/\.editor form\{[^}]*max-width:76ch/);
  assert.match(css,/\.editor textarea\{[^}]*border:1px solid var\(--control\);padding:10px 12px/);
  assert.match(css,/\.notes-heading\{[^}]*padding-inline:12px/);

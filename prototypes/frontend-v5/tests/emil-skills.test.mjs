@@ -124,7 +124,7 @@ test('viewport safe areas opt in without disabling user zoom',async()=>{
 test('touch changes target controls and coarse pointers without suppressing text selection globally',async()=>{
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
  assert.match(css,/button,summary,input\[type=checkbox\]\s*\{[^}]*touch-action:manipulation/);
- assert.match(css,/@media\s*\(pointer:coarse\)[\s\S]*font-size:1rem/);
+ assert.match(css,/@media\s*\(pointer:coarse\)[\s\S]*font-size:var\(--type-body\)/);
  assert.doesNotMatch(css,/(?:body|html|\*)\s*\{[^}]*user-select:none/);
  assert.doesNotMatch(css,/touch-action:none/);
  assert.match(css,/button:not\(:disabled\):active/);

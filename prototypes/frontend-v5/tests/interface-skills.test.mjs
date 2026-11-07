@@ -92,7 +92,7 @@ test('note body uses its visible label as its accessible name',async()=>{
 });
 test('mobile input, wrapping and overlay CSS constraints are explicit',async()=>{
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
- assert.match(css,/@media\(max-width:999px\)[\s\S]*font-size:1rem/);
+ assert.match(css,/@media\(max-width:999px\)[\s\S]*font-size:var\(--type-body\)/);
  assert.match(css,/dialog,\.drawer,\.nav-scroll\{overscroll-behavior:contain/);
  assert.match(css,/\.task-select,\.agenda-task\{line-height:1\.4/);
 });

@@ -1,3 +1,4 @@
+import {createTheme} from './theme.mjs';
 import {createPreviewAdapter} from './preview-adapter.mjs';
 import {validateEditor} from './validation.mjs';
 import {createToasts} from './toasts.mjs';
@@ -5,7 +6,7 @@ import {createMotion} from './motion.mjs';
 import {chooseHomeSubtitle} from './home-subtitle.mjs';
 import {displayDate,groupAgenda,ZONE} from './format.mjs';
 import {createTemporalDraft,applyTemporalDraft} from './draft-state.mjs';
-const adapter=createPreviewAdapter({delay:220});
+const adapter=createPreviewAdapter({delay:220,preferredName:document.querySelector('meta[name="turno-preview-name"]')?.content||'Demo'});
 const motion=createMotion(window.matchMedia?.bind(window));
 // One selection per page visit; returning Home or rendering panels cannot change it.
 const homeSubtitle=chooseHomeSubtitle();
@@ -16,7 +17,10 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const icon=name=>`<img class="icon" src="./assets/icons/${name}.svg" alt="" aria-hidden="true">`;
 const btn=(label,action,iconName='',cls='',attrs='')=>`<button type="button" class="${cls}" data-action="${action}" ${attrs}>${iconName?icon(iconName):''}<span>${esc(label)}</span></button>`;
 let data,view='home',selected=null,draft=null,dirty=false,busy=false,inspector=true,tab='task',filter='all',query='',archiveId=null,error='',feedback='',pendingNavigation=null,rawTemporal=null,overlay=null,returnFocus=null;
-let fieldErrors={};
+let fieldErrors={},moreOpen=false;
+const theme=createTheme({root:document.documentElement,matchMedia:window.matchMedia?.bind(window),onChange:({effective})=>{
+ document.querySelector('meta[name="theme-color"]')?.setAttribute('content',effective==='dark'?'#171817':'#ffffff');
+}});
 const expanded=new Set(['bed-1']);
 const expandedProperties=new Set();
 const active=()=>data?.shifts.find(s=>s.id===data.activeShiftId);
@@ -42,15 +46,15 @@ function restoreFocus(key){
  else if(key.check)$('#main')?.focus();
 }
 
-function closeModal(){motion.cancelAll();const m=$('#modal');const wasOpen=m.open;if(wasOpen)m.close();m.replaceChildren();overlay=null;if(wasOpen){render();restoreFocus(returnFocus);}returnFocus=null;notifications.setSuspended(false);}
-function modal(title,body,footer=''){const origin=focusKey(document.activeElement);closeModal();returnFocus=origin;const m=$('#modal');m.className='';m.innerHTML=`<div class="dialog-heading"><h2 id="dialog-title">${esc(title)}</h2>${btn('Cerrar','dismiss','x','icon-button')}</div>${body}<div class="dialog-actions">${footer}</div>`;notifications.setSuspended(true);m.showModal();motion.enter(m,'dialog',inputModality);}
+function closeModal(){moreOpen=false;motion.cancelAll();const m=$('#modal');const wasOpen=m.open;if(wasOpen)m.close();m.replaceChildren();overlay=null;if(wasOpen){render();restoreFocus(returnFocus);}returnFocus=null;notifications.setSuspended(false);}
+function modal(title,body,footer=''){const origin=document.activeElement?.closest('.more-options-menu')?{action:overlay==='navigation-drawer'&&window.innerWidth<700?'navigation':'more'}:focusKey(document.activeElement);closeModal();returnFocus=origin;const m=$('#modal');m.className='';m.innerHTML=`<div class="dialog-heading"><h2 id="dialog-title">${esc(title)}</h2>${btn('Cerrar','dismiss','x','icon-button')}</div>${body}<div class="dialog-actions">${footer}</div>`;notifications.setSuspended(true);m.showModal();motion.enter(m,'dialog',inputModality);}
 function requestNavigation(fn){if(busy)return;if(dirty){pendingNavigation=fn;modal('Hay cambios sin guardar','<p>Tu borrador todavía no se ha guardado en esta demostración.</p>',btn('Volver','dismiss')+btn('Descartar cambios','discard-navigation')+btn('Guardar y continuar','save-navigation','','primary'));}else{closeModal();fn();}}
 function bedLabel(t){return data.beds.find(b=>b.id===t?.bedId)?.label||'Sin cama';}
 function navigation(){const s=shift();const vt=visibleTasks();return `
  <div class="brand">${btn('Inicio','home','','brand-button',`aria-label="Turno · Inicio"`)}<img src="./assets/flor-negro-512.png" class="brand-flower" alt=""></div>
  <div class="nav-scroll">
  <div class="nav-actions">${btn('Inicio','home','house',view==='home'?'nav-item selected':'nav-item')}
- ${btn(active()?'Ir al turno':'Iniciar turno','open-shift','play','nav-item shift-button'+(view==='workspace'&&!archiveId?' selected':''))}
+ ${btn(active()?'Ir al turno actual':'Iniciar turno','open-shift','play','nav-item shift-button'+(!active()?' start-shift':'')+(view==='workspace'&&!archiveId?' selected':''))}
  ${btn('Agregar tarea','add-task','plus','nav-item add-task-button',!active()?'disabled aria-describedby="task-hint"':'')}
  </div>
  ${!active()?'<p id="task-hint" class="nav-hint">Inicia un turno para agregar tareas.</p>':''}
@@ -62,10 +66,15 @@ function navigation(){const s=shift();const vt=visibleTasks();return `
  <div class="section-heading">${btn('Notas rápidas','notes','notebook-pen','section-title')}${btn('Agregar nota rápida','add-note','plus','icon-button')}</div>
  ${(view==='notes')?data.notes.map(n=>btn(n.title,'note:'+n.id,'file-pen-line','tree-task '+(selected?.id===n.id?'current':''))).join(''):''}
  </div>
- <div class="nav-footer"><div class="footer-actions">${btn('Archivo','archive','archive','footer-action','aria-label="Archivo de turnos anteriores" title="Turnos anteriores"')}${active()?btn('Cerrar turno','close-shift','power','footer-action'):''}${btn('Demo local','demo','settings','footer-action','aria-label="Demo local: datos sintéticos"')}</div><p>Datos sintéticos · Se reinician al recargar</p></div>`;}
+ <div class="nav-footer"><div class="footer-actions">${btn('Archivo','archive','archive','footer-action','aria-label="Archivo de turnos anteriores" title="Turnos anteriores"')}${btn('Más opciones','more','settings','footer-action',`aria-expanded="${moreOpen}" aria-controls="more-options"`)}</div>
+ <section id="more-options" class="more-options-menu" aria-label="Más opciones" ${!moreOpen?'hidden':''}>
+ ${btn('Demo local','demo','settings','nav-item','aria-label="Demo local: datos sintéticos"')}
+ <p>Datos sintéticos · Se reinician al recargar</p>
+ <label class="theme-control" for="theme-preference"><span>Apariencia</span><select id="theme-preference">${[['system','Usar el sistema'],['light','Clara'],['dark','Oscura']].map(([value,label])=>`<option value="${value}" ${theme.preference===value?'selected':''}>${label}</option>`).join('')}</select></label>
+ </section></div>`;}
 const priorityBadge=task=>task.priority==='high'?`<span class="priority-badge">${icon('priority-high')}<span class="sr-only">Prioridad </span>Alta</span>`:'';
 function taskRow(t){return `<div class="task-row ${selected?.id===t.id?'current':''}"><label class="check-target"><input type="checkbox" data-check="${t.id}" aria-label="${esc((t.completed?'Reabrir ':'Completar ')+t.title)}" ${t.completed?'checked':''} ${archiveId||busy?'disabled':''}></label><button type="button" data-action="task:${t.id}" class="task-select ${selected?.id===t.id?'current':''} ${t.completed?'completed':''}" ${selected?.id===t.id?'aria-current="true"':''}><span class="task-title">${esc(t.title)}</span>${priorityBadge(t)}</button></div>`;}
-function toolbar(){return `<header class="toolbar"><div>${btn('Abrir navegación','navigation','panel-left','icon-button mobile-navigation')}${view!=='home'?`<span class="breadcrumb">${archiveId?'Archivo · ':''}${selectedIsNote()?'Notas rápidas':draft?esc(bedLabel(draft))+' <span>/</span> '+esc(draft.reason||'Tareas'):esc(shift()?.label||'Turno')}</span>`:''}</div><div>${btn(inspector&&view!=='home'?'Ocultar Tiempo':'Mostrar Tiempo','toggle-inspector','clock','icon-button',`aria-expanded="${inspector&&view!=='home'}"`)}</div></header>`;}
+function toolbar(){return `<header class="toolbar"><div>${btn('Abrir navegación','navigation','panel-left','icon-button mobile-navigation')}${view!=='home'?`<span class="breadcrumb">${archiveId?'Archivo · ':''}${selectedIsNote()?'Notas rápidas':draft?esc(bedLabel(draft))+' <span>/</span> '+esc(draft.reason||'Tareas'):esc(shift()?.label||'Turno')}</span>`:''}</div><div>${active()?btn('Cerrar turno','close-shift','power','close-shift-button'):''}${btn(inspector&&view!=='home'?'Ocultar Tiempo':'Mostrar Tiempo','toggle-inspector','clock','icon-button',`aria-expanded="${inspector&&view!=='home'}"`)}</div></header>`;}
 function center(){if(view==='home')return `<main id="main" tabindex="-1" class="home"><div class="greeting"><h1>${data.profile.preferredName?'Hola, '+esc(data.profile.preferredName)+'.':'Hola.'}</h1><p>${esc(homeSubtitle)}</p></div></main>`;
  if(view==='archive')return `<main id="main" tabindex="-1" class="archive-view"><h1>Turnos anteriores</h1><p class="muted">Consulta de solo lectura. Los pendientes se conservan.</p><div class="archive-list">${data.shifts.filter(s=>s.status==='closed').map(s=>btn(s.label+' · '+displayDate(s.date),'archive-shift:'+s.id,'archive','archive-link')).join('')||'<p class="empty">Todavía no hay turnos cerrados.</p>'}</div></main>`;
  if(!draft)return `<main id="main" tabindex="-1" class="empty-workspace"><h1>${view==='notes'?'Notas rápidas':esc(shift()?.label||'Turno')}</h1><p>${view==='notes'?'Selecciona una nota o crea una nueva.':'Selecciona una tarea o agrega la primera.'}</p>${!archiveId?btn(view==='notes'?'Crear nota':'Agregar tarea',view==='notes'?'add-note':'add-task','plus','primary'):''}</main>`;
@@ -105,7 +114,7 @@ function selectTab(next, modality=inputModality) {
  motion.tabIndicator($('.tab-indicator'),previous,modality);
 }
 
-function drawerBody(){return `<h2 id="dialog-title" class="sr-only">${overlay==='navigation-drawer'?'Navegación':'Tiempo'}</h2>${overlay==='navigation-drawer'?`<div class="drawer-close">${btn('Cerrar navegación','dismiss','x','icon-button')}</div><nav aria-label="Navegación móvil">${navigation()}</nav>`:inspectorContent()}`;}
+function drawerBody(){return `<h2 id="dialog-title" class="sr-only">${overlay==='navigation-drawer'?'Navegación':'Tiempo'}</h2>${overlay==='navigation-drawer'?`<div class="drawer-close">${active()?btn('Cerrar turno','close-shift','power','close-shift-button'):''}${btn('Cerrar navegación','dismiss','x','icon-button')}</div><nav aria-label="Navegación móvil">${navigation()}</nav>`:inspectorContent()}`;}
 function updateRegion(key,element,markup){if(renderedParts.get(key)!==markup){motion.cancelWithin(element);element.innerHTML=markup;renderedParts.set(key,markup);}}
 function updateWorkspacePart(key,selector,markup){if(renderedParts.get(key)===markup)return;const old=$('.workspace').querySelector(selector);if(old){motion.cancelWithin(old);old.outerHTML=markup;}else $('.workspace').insertAdjacentHTML('beforeend',markup);renderedParts.set(key,markup);}
 function syncControls(){
@@ -233,7 +242,18 @@ async function renameBed(event) {
   render();
  }
 }
+function closeMore({restore=false}={}){
+ if(!moreOpen)return;
+ moreOpen=false;
+ renderedParts.delete('navigation');renderedParts.delete('drawer');
+ // Never replace a newly focused control before its pending native click.
+ for(const panel of document.querySelectorAll('#more-options'))panel.hidden=true;
+ for(const trigger of document.querySelectorAll('[data-action="more"]'))trigger.setAttribute('aria-expanded','false');
+ if(restore)$('[data-action="more"]')?.focus();
+}
 async function handle(action){if(busy)return;
+ if(action==='more'){moreOpen=!moreOpen;render();return;}
+ moreOpen=false;
  const [type,id]=action.split(':');
  switch(type){
  case 'home':return requestNavigation(()=>{view='home';archiveId=null;selected=draft=null;render();});
@@ -274,6 +294,7 @@ document.documentElement.dataset.inputModality='keyboard';
 document.addEventListener('pointerdown',()=>{inputModality='pointer';document.documentElement.dataset.inputModality='pointer';},true);
 document.addEventListener('keydown',()=>{inputModality='keyboard';document.documentElement.dataset.inputModality='keyboard';motion.cancelAll();},true);
 document.addEventListener('click',e=>{
+ if(moreOpen&&!e.target.closest('.nav-footer'))closeMore();
  const summary=e.target.closest('.property > summary');
  if(summary){e.preventDefault();motion.disclosure(summary.parentElement,!summary.parentElement.hasAttribute('open'),inputModality);return;}
  const b=e.target.closest('[data-action]');if(b)handle(b.dataset.action);
@@ -289,6 +310,7 @@ document.addEventListener('submit',e=>{if(e.target.id==='editor-form'){e.prevent
 document.addEventListener('input',e=>{const t=e.target;if(['new-title','bed-name'].includes(t.id)){t.removeAttribute('aria-invalid');const hint=$('#'+(t.id==='new-title'?'create-error':'rename-bed-error'));if(hint)hint.textContent='';return;}if(t.id==='search'){query=t.value;const pos=t.selectionStart;render();$('#search')?.focus();try{$('#search')?.setSelectionRange(pos,pos);}catch{}return;}if(!draft||readonly()||busy)return;if(['title','body','reason','priority'].includes(t.id)){draft[t.id]=t.value;updateDirty();}if(t.dataset.field){rawTemporal[t.dataset.field]=t.value;updateDirty();}});
 document.addEventListener('change',e=>{
  const t=e.target;
+ if(t.id==='theme-preference'){theme.setPreference(t.value);return;}
  if(busy){if(t.dataset.check)t.checked=Boolean(data.tasks.find(task=>task.id===t.dataset.check)?.completed);return;}
  if(t.id==='priority'){draft.priority=t.value;updateDirty();}
  if(t.id==='editor-completed'){draft.completed=t.checked;updateDirty();}
@@ -309,6 +331,7 @@ document.addEventListener('change',e=>{
  }
 });
 document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&moreOpen){e.preventDefault();e.stopPropagation();closeMore({restore:true});return;}
  if(e.target.getAttribute('role')==='tab'&&['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){
   e.preventDefault();
   const keys=['task','agenda'];
@@ -317,7 +340,10 @@ document.addEventListener('keydown',e=>{
   selectTab(next,'keyboard');$('#tab-'+tab)?.focus();
  }
 });
-$('#modal').addEventListener('cancel',e=>{e.preventDefault();if(!busy){pendingNavigation=null;closeModal();}});
+$('#modal').addEventListener('cancel',e=>{e.preventDefault();if(moreOpen){closeMore({restore:true});return;}if(!busy){pendingNavigation=null;closeModal();}});
+document.addEventListener('focusin',e=>{
+ if(moreOpen&&!e.target.closest('.nav-footer'))closeMore();
+});
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 async function init(){try{data=await adapter.load();render();}catch(e){$('#app').innerHTML=`<main><h1>No se pudo cargar</h1><p>${esc(e.message)}</p></main>`;}}
 init();
