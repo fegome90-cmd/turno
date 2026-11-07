@@ -24,7 +24,7 @@ input[type=checkbox]:checked:after{content:'';width:8px;height:4px;border-left:2
 .icon{width:20px;height:20px;flex:none}
 .icon-button{padding:10px;min-width:44px}
 .icon-button span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
-.shell{display:grid;grid-template-columns:var(--left) minmax(0,1fr);min-height:100dvh;padding-left:env(safe-area-inset-left, 0px);padding-right:env(safe-area-inset-right, 0px)}
+.shell{width:100%;display:grid;grid-template-columns:var(--left) minmax(0,1fr);min-height:100dvh;padding-left:env(safe-area-inset-left, 0px);padding-right:env(safe-area-inset-right, 0px)}
 .shell.with-inspector{grid-template-columns:var(--left) minmax(0,1fr) var(--right)}
 .home-shell{--left:256px;--right:280px}
 .navigation{height:100dvh;position:sticky;top:0;display:flex;flex-direction:column;min-width:0;background:var(--sidebar);border-right:1px solid var(--border);padding:16px 14px;min-height:0;overflow:hidden}
@@ -75,7 +75,7 @@ input[type=checkbox]:checked:after{content:'';width:8px;height:4px;border-left:2
 .greeting h1{font-family:var(--font-writing);font-size:clamp(3rem,10.5cqw,9.0625rem);font-weight:400;line-height:1.08;letter-spacing:-.035em;margin:0;overflow-wrap:break-word}
 .greeting p{font-size:clamp(1.25rem,2.8cqw,2.125rem);color:var(--secondary);margin:32px 0 0}
 .editor{display:flex;flex:1;min-width:0;padding:0 30px 20px;padding-bottom:calc(20px + env(safe-area-inset-bottom, 0px))}
-.editor form{display:flex;flex-direction:column;width:100%;min-width:0;max-width:76ch}
+.editor form{display:flex;flex-direction:column;width:100%;min-width:0;max-width:76ch;margin-inline:auto}
 .title-line{display:flex;align-items:center;gap:14px}
 .title-line h1{margin:0;flex:1;min-width:0}
 .title-line #title{border:1px solid var(--control);padding:6px 12px;width:100%;min-width:0;font-size:var(--type-title);font-weight:600;letter-spacing:-.02em;background:var(--field)}
@@ -123,9 +123,9 @@ input[type=checkbox]:checked:after{content:'';width:8px;height:4px;border-left:2
 .archive-view h1,.empty-workspace h1{font-size:var(--type-title);font-weight:600;margin:8px 0}
 .archive-list{margin-top:32px}
 .archive-link{display:flex;width:100%;justify-content:flex-start;border-bottom:1px solid var(--border);border-radius:0}
-.archive-notice{font-size:var(--type-caption);padding:8px 12px;background:var(--hover);margin:0 0 20px}
-.editor:has(.archive-notice){flex-direction:column}
-.editor:has(.archive-notice) form{flex:1}
+.archive-notice{width:100%;font-size:var(--type-caption);padding:8px 12px;background:var(--hover);margin-block:0 20px}
+.editor:has(.archive-notice){display:grid;grid-template-columns:minmax(0,76ch);grid-template-rows:auto 1fr;justify-content:center}
+.editor:has(.archive-notice) form{max-width:100%}
 .empty{padding-top:24px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .skip{position:fixed;z-index:20;left:12px;top:-100px;background:var(--canvas);color:var(--ink);padding:12px}

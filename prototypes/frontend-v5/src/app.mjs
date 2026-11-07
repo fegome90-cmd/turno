@@ -130,7 +130,7 @@ function syncControls(){
  if(submit)submit.disabled=!dirty||busy;
  if(cancel)cancel.disabled=!dirty||busy;
 }
-function render(){
+function render({preserveCenter=false}={}){
  if(!data)return;
  const focused=document.activeElement,key=focusKey(focused),selection=focused?.selectionStart;
  const properties=[...document.querySelectorAll('.property')];
@@ -142,7 +142,9 @@ function render(){
  $('.shell').className=`shell ${view==='home'?'home-shell':''} ${inspector&&view!=='home'?'with-inspector':''}`;
  updateRegion('navigation',$('.navigation'),overlay==='navigation-drawer'?'':navigation());
  updateWorkspacePart('toolbar','.toolbar',toolbar());
- updateWorkspacePart('center','#main',center());
+ const centerMarkup=center();
+ if(preserveCenter&&$('#main'))renderedParts.set('center',centerMarkup);
+ else updateWorkspacePart('center','#main',centerMarkup);
  $('.inspector').hidden=!(inspector&&view!=='home');
  updateRegion('inspector',$('.inspector'),overlay==='time-drawer'?'':inspectorContent());
  if(overlay&&$('#modal').open)updateRegion('drawer',$('#modal'),drawerBody());
@@ -344,6 +346,49 @@ $('#modal').addEventListener('cancel',e=>{e.preventDefault();if(moreOpen){closeM
 document.addEventListener('focusin',e=>{
  if(moreOpen&&!e.target.closest('.nav-footer'))closeMore();
 });
+// CSS owns fluid sizing. Only reconcile panel placement/focus at breakpoints;
+// resizing must not recreate the editor or reset session/user state.
+const viewportMode=()=>({navigation:window.innerWidth>=700,time:window.innerWidth>=1000});
+let lastViewport=viewportMode();
+function reconcileViewport(){
+ const next=viewportMode(),previous=lastViewport;lastViewport=next;
+ if(!data)return;
+ const m=$('#modal'),focused=document.activeElement;
+ const dockNavigation=overlay==='navigation-drawer'&&next.navigation;
+ // Home and a deliberately hidden inspector keep Time as an overlay.
+ const dockTime=overlay==='time-drawer'&&next.time&&inspector&&view!=='home';
+ const dock=dockNavigation||dockTime;
+ if(!dock&&next.navigation===previous.navigation&&next.time===previous.time)return;
+ motion.cancelAll();
+ if(dock){
+  const key=m.contains(focused)?focusKey(focused):null;
+  const selection=focused?.selectionStart,end=focused?.selectionEnd;
+  const scroll=dockNavigation?m.querySelector('.nav-scroll')?.scrollTop||0:m.scrollTop;
+  // Preserve open properties before their drawer nodes are removed.
+  for(const property of m.querySelectorAll('.property')){
+   const propertyKey=property.querySelector('summary').dataset.focus;
+   property.hasAttribute('open')?expandedProperties.add(propertyKey):expandedProperties.delete(propertyKey);
+  }
+  moreOpen=false;returnFocus=null;m.close();m.replaceChildren();overlay=null;
+  notifications.setSuspended(false);render({preserveCenter:true});
+  const panel=dockNavigation?$('.navigation'):$('.inspector');
+  const scroller=dockNavigation?panel.querySelector('.nav-scroll'):panel;
+  if(scroller)scroller.scrollTop=scroll;
+  if(key?.action!=='dismiss')restoreFocus(key);
+  if(!panel.contains(document.activeElement)){
+   (dockNavigation?panel.querySelector('[data-action="home"]'):panel.querySelector('#tab-'+tab))?.focus();
+  }
+  if(typeof selection==='number')try{document.activeElement?.setSelectionRange(selection,end??selection);}catch{}
+  return;
+ }
+ // CSS hides inline panels as the window narrows. Never leave focus in them.
+ if(!m.open){
+  if(!next.navigation&&$('.navigation')?.contains(focused))$('[data-action="navigation"]')?.focus();
+  else if(!next.time&&$('.inspector')?.contains(focused))$('[data-action="toggle-inspector"]')?.focus();
+ }
+}
+window.addEventListener('resize',reconcileViewport);
+document.addEventListener('fullscreenchange',reconcileViewport);
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 async function init(){try{data=await adapter.load();render();}catch(e){$('#app').innerHTML=`<main><h1>No se pudo cargar</h1><p>${esc(e.message)}</p></main>`;}}
 init();

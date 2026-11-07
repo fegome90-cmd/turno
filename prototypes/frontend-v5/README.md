@@ -18,6 +18,12 @@ Navegación compacta con Demo y el aviso dentro de Más opciones, cierre de turn
 
 [Correspondencia con la auditoría, decisiones y límites de verificación](docs/DESIGN_V7.md).
 
+## Ajuste de pantalla completa y resize
+
+El editor conserva su límite legible de 76ch y se centra en el espacio disponible. La cuadrícula ocupa el ancho del contenedor. Al volver a escritorio, los paneles abiertos en drawer regresan a sus columnas sin reconstruir el editor. Se conservan borrador, errores, pestaña, filtros, tema y scroll. Inicio y un inspector ocultado explícitamente conservan Tiempo como overlay.
+
+[Diagnóstico y pruebas de viewport](docs/VIEWPORT.md).
+
 ## Avisos expandidos (v6)
 
 La nueva pila conserva cada aviso hasta cerrarlo, agrupa repetidos, permite cierres individuales y mantiene los errores disponibles. Alt+T lleva a los avisos; Escape cierra el aviso enfocado. Se inspira en el modo expandido de Sonner, con implementación propia para la demo vanilla y sin instalar React.
