@@ -1,0 +1,8 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {createMotion} from '../src/motion.mjs';
+function fixture(matches=false){let callback;const query={matches,addEventListener(_,cb){callback=cb;}};const calls=[];const animations=[];const node={animate(frames,options){calls.push({frames,options});let resolve;const finished=new Promise(r=>resolve=r);const a={finished,cancelled:false,cancel(){this.cancelled=true;resolve();}};animations.push(a);return a;}};return {query,node,calls,animations,reduce(){query.matches=true;callback?.();}};}
+test('pointer screen transition is gentle and never begins invisible',()=>{const f=fixture(),m=createMotion(()=>f.query);m.enter(f.node,'screen','pointer');assert.equal(f.calls.length,1);assert.equal(f.calls[0].options.duration,300);assert.ok(f.calls[0].frames[0].opacity>=.7);assert.equal(f.calls[0].frames.at(-1).opacity,1);});
+test('keyboard and reduced motion never start transitions',()=>{const f=fixture(),m=createMotion(()=>f.query);m.enter(f.node,'screen','keyboard');assert.equal(f.calls.length,0);f.reduce();m.enter(f.node,'drawer','pointer');assert.equal(f.calls.length,0);});
+test('interruption cancels previous animation and reduced motion cancels active animation',()=>{const f=fixture(),m=createMotion(()=>f.query);m.enter(f.node,'screen','pointer');m.enter(f.node,'drawer','pointer');assert.equal(f.animations[0].cancelled,true);assert.equal(f.calls[1].options.duration,340);f.reduce();assert.equal(f.animations[1].cancelled,true);});
+test('missing animation API keeps content available without throwing',()=>{const m=createMotion();assert.doesNotThrow(()=>m.enter({},'screen','pointer'));});

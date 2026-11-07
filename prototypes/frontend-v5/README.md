@@ -1,0 +1,39 @@
+# Turno: prototipo de frontend v5
+
+Demostración aislada de la interfaz de Turno. No es una release ni el plugin oficial; no está conectada al backend y no se ha desplegado.
+
+## Alcance
+
+- Inicio, turnos, grupos de tareas editables, notas, Agenda y archivo.
+- Datos sintéticos en memoria. Todo se reinicia al recargar.
+- Sin autenticación, API, persistencia, recordatorios ni datos reales de pacientes.
+- El perfil de ejemplo usa el nombre genérico **Demo**.
+- No introducir información real ni datos que necesites conservar.
+
+El código se mantiene dentro de `prototypes/frontend-v5/` para no imponer estructura ni contratos al backend que se desarrolla por separado.
+
+## Ejecutar localmente
+
+Desde este directorio, con Node.js 20.19 o superior y Python 3:
+
+```sh
+npm ci --ignore-scripts
+npm test
+python scripts/build_preview.py
+node scripts/check_portable.mjs
+npm run preview
+```
+
+Abrir `http://127.0.0.1:4175/`. También se genera `preview.html`, un HTML autónomo con los assets incluidos. Ese archivo generado y `node_modules/` no se versionan.
+
+## Comprobaciones y límites
+
+La suite automatizada comprueba lógica, contratos de estilos y DOM simulado mediante LinkeDOM. No reemplaza pruebas visuales ni demuestra foco nativo, accesibilidad, rendimiento o compatibilidad móvil real. El backend y la integración con ChatGPT no se prueban aquí.
+
+Antes de integrar, hacen falta QA en navegadores y dispositivos reales, revisión de accesibilidad y un contrato acordado con el backend.
+
+## Procedencia
+
+Base: candidato v5 de Turno. Esta copia para GitHub incluye código, tests, assets y licencias. Se sustituyó el nombre personalizado por **Demo** en los datos de ejemplo y sus aserciones, y se omitieron informes históricos y archivos generados. Los assets conservan sus bytes originales.
+
+Fuentes Source Sans 3 y Source Serif Pro bajo SIL Open Font License; iconos Lucide bajo ISC. Las atribuciones aplicables están en `licenses/`. La marca Turno se incluye como asset del proyecto; no se concede una licencia general sobre ella ni sobre el código del proyecto.
