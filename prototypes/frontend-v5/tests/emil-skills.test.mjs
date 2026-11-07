@@ -133,7 +133,7 @@ test('touch changes target controls and coarse pointers without suppressing text
 test('long labels reserve trailing controls rather than truncating their identity',async()=>{
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
  assert.match(css,/\.bed-line>\.icon-button\s*\{[^}]*flex-shrink:0/);
- assert.match(css,/\.shift-context strong,\.metadata>span:first-child,\.tree-task span,\.archive-link span\s*\{[^}]*overflow-wrap:anywhere/);
+ assert.match(css,/\.shift-context strong,\.metadata>span:first-child,\.tree-task span,\.archive-link span\s*\{[^}]*overflow-wrap:break-word/);
 });
 test('active backgrounds win the inherited hover cascade for ordinary and selected controls',async()=>{
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');

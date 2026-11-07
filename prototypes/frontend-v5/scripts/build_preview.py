@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def data(path,mime):return 'data:'+mime+';base64,'+base64.b64encode(path.read_bytes()).decode()
 css=(ROOT/'src/styles.css').read_text()
 css=re.sub(r"url\('../assets/fonts/([^']+)'\)",lambda m:'url("'+data(ROOT/'assets/fonts'/m[1],'font/woff2')+'")',css)
-js='\n'.join((ROOT/'src'/p).read_text() for p in ['format.mjs','home-subtitle.mjs','draft-state.mjs','validation.mjs','preview-adapter.mjs','motion.mjs','app.mjs'])
+js='\n'.join((ROOT/'src'/p).read_text() for p in ['format.mjs','draft-state.mjs','validation.mjs','preview-adapter.mjs','motion.mjs','app.mjs'])
 js=re.sub(r'^import .*?;\n','',js,flags=re.M);js=re.sub(r'\bexport (?=function|const)','',js)
 iconmap={p.stem:data(p,'image/svg+xml') for p in sorted((ROOT/'assets/icons').glob('*.svg'))}
 import json

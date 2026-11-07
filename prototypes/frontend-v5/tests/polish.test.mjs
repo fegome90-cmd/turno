@@ -34,9 +34,9 @@ test('disclosure opens native state immediately and reveals only its content', (
   const f = disclosureFixture();
   f.motion.disclosure(f.details, true, 'pointer');
   assert.ok(f.details.hasAttribute('open'));
-  assert.equal(f.summary.getAttribute('aria-expanded'), 'true');
+  assert.equal(f.details.hasAttribute('open'), true);
   assert.equal(f.content.hasAttribute('inert'), false);
-  assert.equal(f.content.getAttribute('aria-hidden'), 'false');
+  assert.equal(f.content.hasAttribute('aria-hidden'), false);
   assert.equal(f.calls.length, 2);
   assert.ok(f.calls.every(call => call.options.duration === 220));
   assert.ok(f.calls.every(call => call.options.fill === 'none'));
@@ -49,7 +49,7 @@ test('disclosure close is instant, inert and restores focus outside hidden contr
   f.focusInput();
   f.motion.disclosure(f.details, false, 'pointer');
   assert.equal(f.details.hasAttribute('open'), false);
-  assert.equal(f.summary.getAttribute('aria-expanded'), 'false');
+  assert.equal(f.details.hasAttribute('open'), false);
   assert.equal(f.content.hasAttribute('inert'), true);
   assert.equal(f.document.activeElement, f.summary);
   assert.ok(f.animations[0].cancelled);
@@ -171,7 +171,7 @@ test('external native close cancels outstanding reveal and returns focus without
   assert.ok(f.animations.every(animation => animation.cancelled));
   assert.equal(f.document.activeElement, f.summary);
   assert.equal(f.content.hasAttribute('inert'), true);
-  assert.equal(f.summary.getAttribute('aria-expanded'), 'false');
+  assert.equal(f.details.hasAttribute('open'), false);
 });
 
 test('synchronizing own toggle does not cancel its chevron animation', () => {

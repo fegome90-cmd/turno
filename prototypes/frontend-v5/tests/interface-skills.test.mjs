@@ -87,7 +87,7 @@ test('filtered empty state escapes query and clears filters without dropping dra
 });
 test('note body uses its visible label as its accessible name',async()=>{
  const a=await setup();await a.click('[data-action="notes"]');
- assert.equal(a.q('label[for="body"]').textContent,'Escritura');
+ assert.equal(a.q('label[for="body"]').textContent,'Texto de la nota');
  assert.equal(a.q('#body').hasAttribute('aria-label'),false);
 });
 test('mobile input, wrapping and overlay CSS constraints are explicit',async()=>{
@@ -101,7 +101,7 @@ test('renaming an empty group name identifies the field and permits correction',
  a.fill('#bed-name','   ');await a.submit('rename-bed-form');
  assert.equal(a.q('#bed-name').getAttribute('aria-invalid'),'true');
  assert.equal(a.window.document.activeElement,a.q('#bed-name'));
- assert.match(a.q('#rename-bed-error').textContent,/Nombre del grupo/);
+ assert.match(a.q('#rename-bed-error').textContent,/Nombre de la cama/);
  a.fill('#bed-name','Nombre corregido');await a.submit('rename-bed-form');assert.equal(a.q('#modal').open,false);
 });
 test('creating an empty title identifies the field and permits correction',async()=>{
@@ -183,4 +183,82 @@ test('reduced motion keeps colour transitions and only removes smooth scrolling'
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
  assert.match(css,/@media\(prefers-reduced-motion:reduce\)\{\*\{scroll-behavior:auto!important\}\}/);
  assert.doesNotMatch(css,/prefers-reduced-motion:reduce\)\{\*\{transition:none/);
+});
+
+test('Motivo and Prioridad are named by visible wrapping labels with no fixed widths',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ assert.match(a.q('#reason').closest('label').textContent,/Motivo/);
+ assert.match(a.q('#priority').closest('label').textContent,/Prioridad/);
+ assert.equal(a.q('#reason').hasAttribute('aria-label'),false);
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.doesNotMatch(css,/width:115px/);
+ assert.match(css,/\.metadata input\{field-sizing:content;min-width:8ch;max-width:100%;width:auto\}/);
+ assert.match(css,/\.meta-field\{display:inline-flex;align-items:baseline;gap:6px;min-width:0;max-width:100%\}/);
+});
+test('title is a wrapping textarea: Enter adds no line and pasted newlines become spaces',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ const title=a.q('#title');assert.equal(title.localName,'textarea');assert.equal(title.value,'Task 1');
+ const enter=new a.window.Event('keydown',{bubbles:true,cancelable:true});enter.key='Enter';title.dispatchEvent(enter);
+ assert.equal(enter.defaultPrevented,true);
+ a.fill('#title','Uno\nDos');assert.equal(a.q('#title').value,'Uno Dos');
+ a.fill('#title','Revisión');await a.submit();assert.equal(a.q('#title').value,'Revisión');
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/\.title-line #title\{resize:none;field-sizing:content;overflow-wrap:break-word;line-height:1\.2;font-family:inherit/);
+});
+test('renamed copy: beds are cama, task notes and quick-note bodies have specific labels, shift entry names the current shift',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ assert.equal(a.q('label[for="body"]').textContent,'Notas de la tarea');
+ assert.equal(a.q('[data-action="open-shift"]').textContent,'Ir al turno actual');
+ await a.click('[data-action="rename-bed:bed-1"]');
+ assert.equal(a.q('#modal h2').textContent,'Editar nombre de cama');
+ assert.equal(a.q('label[for="bed-name"]').textContent,'Nombre de la cama');
+ assert.match(a.q('#bed-name-hint').textContent,/esta cama/);
+});
+test('high priority is named in the task row and agenda while normal priority is not',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');await a.click('[data-action="bed:bed-2"]');
+ assert.match(a.q('[data-action="task:task-4"]').textContent,/Alta/);
+ assert.equal(a.q('[data-action="task:task-1"]').textContent.includes('Alta'),false);
+ await a.click('[data-action="tab-agenda"]');
+ assert.match(a.q('.agenda-task[data-action="task:task-4"]').textContent,/Alta/);
+ assert.equal(a.q('.agenda-task[data-action="task:task-1"]').textContent.includes('Alta'),false);
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/\.priority-badge\{display:inline-block;margin-inline-start:6px;padding:0 6px;border:1px solid var\(--control\);border-radius:4px;font-size:\.75rem;font-weight:600/);
+});
+test('hierarchy: smaller brand, larger editor title and inspector heading, start-only shift border',async()=>{
+ const a=await setup();
+ assert.equal(a.q('.shift-button').classList.contains('start'),false);
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/\.brand-button\{font-weight:700;font-size:20px;/);
+ assert.match(css,/\.brand-button span:after\{content:'Turno';font-size:20px\}/);
+ assert.match(css,/\.title-line #title\{border:0;padding:4px 0;width:100%;min-width:0;font-size:2rem;/);
+ assert.match(css,/\.inspector-heading h2\{font-size:20px;/);
+ assert.match(css,/\.shift-button\{margin:12px 0 8px\}\.shift-button\.start\{border-color:#808080\}/);
+ await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await new Promise(r=>setTimeout(r,500));
+ assert.equal(a.q('.shift-button').classList.contains('start'),true);
+});
+test('every completion checkbox sits in a 40px label hit area and one change completes the task once',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ for(const check of a.window.document.querySelectorAll('[data-check]'))assert.equal(check.parentElement.matches('label.check-hit'),true);
+ const check=a.q('[data-check="task-1"]');check.checked=true;check.dispatchEvent(new a.window.Event('change',{bubbles:true}));
+ await new Promise(r=>setTimeout(r,500));
+ assert.equal(a.q('[data-check="task-1"]').checked,true);
+ assert.match(a.q('#property-content-activity').textContent,/Versión local 2/);
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/\.check-hit\{display:inline-flex;align-items:center;justify-content:center;width:40px;min-height:44px;margin-inline-start:-10px;/);
+});
+test('disclosure summaries rely on the native open state without duplicate ARIA',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ const summary=a.q('[data-focus="property-date"]');
+ assert.equal(summary.hasAttribute('aria-expanded'),false);assert.equal(summary.hasAttribute('aria-controls'),false);
+ const content=a.q('#property-content-date');
+ assert.equal(content.hasAttribute('aria-hidden'),false);assert.equal(content.hasAttribute('inert'),true);
+});
+test('typography and measure: break-word, pretty and balanced wrapping, one shared editor measure',async()=>{
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/body\{margin:0;[^}]*line-height:1\.5;hyphens:auto\}/);
+ assert.doesNotMatch(css,/font-synthesis|overflow-wrap:anywhere|72ch/);
+ assert.match(css,/\.editor textarea,\.property-content p\{text-wrap:pretty\}/);
+ assert.match(css,/\.greeting h1\{text-wrap:balance\}/);
+ assert.match(css,/--measure:46rem/);
+ assert.match(css,/\.title-line,\.metadata,\.notes-heading,\.editor textarea,\.save-footer\{max-width:var\(--measure\)\}/);
 });

@@ -1,19 +1,17 @@
 import {createPreviewAdapter} from './preview-adapter.mjs';
 import {validateEditor} from './validation.mjs';
 import {createMotion} from './motion.mjs';
-import {chooseHomeSubtitle} from './home-subtitle.mjs';
 import {displayDate,groupAgenda,ZONE} from './format.mjs';
 import {createTemporalDraft,applyTemporalDraft} from './draft-state.mjs';
 const adapter=createPreviewAdapter({delay:220});
 const motion=createMotion(window.matchMedia?.bind(window));
-// One selection per page visit; returning Home or rendering panels cannot change it.
-const homeSubtitle=chooseHomeSubtitle();
 let inputModality='keyboard',renderedView=null;
 const renderedParts=new Map();
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const icon=name=>`<i class="icon" aria-hidden="true" style="--icon:url('./assets/icons/${name}.svg')"></i>`;
 const btn=(label,action,iconName='',cls='',attrs='')=>`<button type="button" class="${cls}" data-action="${action}" ${attrs}>${iconName?icon(iconName):''}<span>${esc(label)}</span></button>`;
+const priorityBadge=t=>t.priority==='high'?'<span class="priority-badge">Alta</span>':'';
 let data,view='home',selected=null,draft=null,dirty=false,busy=false,inspector=true,tab='task',filter='all',query='',archiveId=null,error='',feedback='',pendingNavigation=null,rawTemporal=null,overlay=null,returnFocus=null;
 let fieldErrors={};
 const expanded=new Set(['bed-1']);
@@ -57,7 +55,7 @@ function navigation(){const s=shift();const vt=visibleTasks();return `
  <div class="brand">${btn('Inicio','home','','brand-button',`aria-label="Turno · Inicio"`)}<img src="./assets/flor-negro-512.png" class="brand-flower" alt=""></div>
  <div class="nav-scroll">
  ${btn('Inicio','home','house',view==='home'?'nav-item selected':'nav-item')}
- ${btn(active()?'Abrir turno':'Iniciar turno','open-shift','play','nav-item shift-button')}
+ ${btn(active()?'Ir al turno actual':'Iniciar turno','open-shift','play',active()?'nav-item shift-button':'nav-item shift-button start')}
  ${btn('Agregar tarea','add-task','plus','nav-item',!active()?'disabled aria-describedby="task-hint"':'')}
  ${!active()?'<p id="task-hint" class="nav-hint">Inicia un turno para agregar tareas.</p>':''}
  ${view!=='home'&&s?`<div class="shift-context"><strong>${esc(s.label)}</strong><span>${displayDate(s.date)} · ${s.status==='closed'?'Archivado':'Abierto'}</span></div>
@@ -69,18 +67,19 @@ function navigation(){const s=shift();const vt=visibleTasks();return `
  <div id="task-tree">${data.beds.filter(b=>b.shiftId===s.id).map(b=>{const inBed=vt.filter(t=>t.bedId===b.id);const isOpen=expanded.has(b.id)||query;return `<section class="bed-group"><div class="bed-line">${btn(b.label,'bed:'+b.id,isOpen?'chevron-down':'chevron-right','bed-toggle',`aria-expanded="${!!isOpen}" aria-controls="group-${b.id}"`)}${!archiveId?btn('Editar nombre de '+b.label,'rename-bed:'+b.id,'pencil','icon-button subtle',`aria-label="${esc('Editar nombre de '+b.label)}"`)+btn('Agregar tarea a '+b.label,'add-task:'+b.id,'plus','icon-button subtle'):''}</div><div id="group-${b.id}" ${!isOpen?'hidden':''}>${isOpen?inBed.map(taskRow).join(''):''}</div></section>`;}).join('')}${vt.filter(t=>!t.bedId).map(taskRow).join('')}${vt.length===0?`<p class="nav-hint">${query?'Sin coincidencias para «'+esc(query)+'».':filter==='pending'?'No hay tareas pendientes.':'Este turno todavía no tiene tareas.'}</p>${query||filter==='pending'?btn('Limpiar filtros','clear-filters','','nav-item'):''}`:''}</div>`:''}
  </div>
  <div class="nav-footer">${btn('Turnos anteriores','archive','archive','nav-item')}${active()?btn('Cerrar turno','close-shift','power','nav-item'):''}</div>`;}
-function taskRow(t){return `<div class="task-row ${selected?.id===t.id?'current':''}"><input type="checkbox" data-check="${t.id}" aria-label="${esc((t.completed?'Reabrir ':'Completar ')+t.title)}" ${t.completed?'checked':''} ${archiveId||busy?'disabled':''}><button type="button" data-action="task:${t.id}" class="task-select ${t.completed?'completed':''}" ${selected?.id===t.id?'aria-current="true"':''}>${esc(t.title)}</button></div>`;}
+function taskRow(t){return `<div class="task-row ${selected?.id===t.id?'current':''}"><label class="check-hit"><input type="checkbox" data-check="${t.id}" aria-label="${esc((t.completed?'Reabrir ':'Completar ')+t.title)}" ${t.completed?'checked':''} ${archiveId||busy?'disabled':''}></label><button type="button" data-action="task:${t.id}" class="task-select ${t.completed?'completed':''}" ${selected?.id===t.id?'aria-current="true"':''}>${esc(t.title)}${priorityBadge(t)}</button></div>`;}
 function toolbar(){return `<header class="toolbar"><div>${btn('Abrir navegación','navigation','panel-left','icon-button mobile-navigation')}${view!=='home'?`<span class="breadcrumb">${archiveId?'Archivo · ':''}${selectedIsNote()?'Notas rápidas':draft?esc(bedLabel(draft))+' <span>/</span> '+esc(draft.reason||'Tareas'):esc(shift()?.label||'Turno')}</span>`:''}</div><div>${btn(inspector&&view!=='home'?'Ocultar Tiempo':'Mostrar Tiempo','toggle-inspector','clock','icon-button',`aria-expanded="${inspector&&view!=='home'}"`)}${btn('Más opciones','more','ellipsis','icon-button')}</div></header>`;}
-function center(){if(view==='home')return `<main id="main" tabindex="-1" class="home"><div class="greeting"><h1>${data.profile.preferredName?'Hola, '+esc(data.profile.preferredName)+'.':'Hola.'}</h1><p>${esc(homeSubtitle)}</p></div></main>`;
+function homeSummary(){const open=active();if(!open)return '<p>No hay un turno abierto.</p>'+btn('Iniciar turno','open-shift','play','primary');const pending=data.tasks.filter(t=>t.shiftId===open.id&&!t.completed).length;return `<p>${esc(open.label)} · ${pending} ${pending===1?'pendiente':'pendientes'}</p>`+btn('Ir al turno actual','open-shift','play','primary');}
+function center(){if(view==='home')return `<main id="main" tabindex="-1" class="home"><div class="greeting"><h1>${data.profile.preferredName?'Hola, '+esc(data.profile.preferredName)+'.':'Hola.'}</h1><div class="home-summary">${homeSummary()}</div></div></main>`;
  if(view==='archive')return `<main id="main" tabindex="-1" class="archive-view"><h1>Turnos anteriores</h1><p class="muted">Consulta de solo lectura. Los pendientes se conservan.</p><div class="archive-list">${data.shifts.filter(s=>s.status==='closed').map(s=>btn(s.label+' · '+displayDate(s.date),'archive-shift:'+s.id,'archive','archive-link')).join('')||'<p class="empty">Todavía no hay turnos cerrados.</p>'}</div></main>`;
  if(!draft)return `<main id="main" tabindex="-1" class="empty-workspace"><h1>${view==='notes'?'Notas rápidas':esc(shift()?.label||'Turno')}</h1><p>${view==='notes'?'Selecciona una nota o crea una nueva.':'Selecciona una tarea o agrega la primera.'}</p>${!archiveId?btn(view==='notes'?'Crear nota':'Agregar tarea',view==='notes'?'add-note':'add-task','plus','primary'):''}</main>`;
  return `<main id="main" tabindex="-1" class="editor ${selectedIsNote()?'note-editor':''}">
  ${archiveId?'<div class="archive-notice">Turno archivado · Solo lectura. Los pendientes se conservan.</div>':''}
- <form id="editor-form" aria-describedby="save-feedback save-error"><div class="title-line">${!selectedIsNote()?`<input type="checkbox" id="editor-completed" aria-label="Tarea completada" ${draft.completed?'checked':''} ${readonly()||busy?'disabled':''}>`:''}<h1><input id="title" aria-label="Título de ${selectedIsNote()?'nota':'tarea'}" value="${esc(draft.title)}" maxlength="300" required ${readonly()||busy?'readonly':''}></h1>${!selectedIsNote()&&!archiveId?btn('Agregar tarea','add-task','plus','add-inline'):''}</div>
- ${!selectedIsNote()?`<div class="metadata"><span>${esc(bedLabel(draft))}</span><span class="dot">·</span><label class="sr-only" for="reason">Motivo</label><input id="reason" aria-label="Motivo" value="${esc(draft.reason)}" placeholder="Motivo" maxlength="80" ${readonly()||busy?'readonly':''}><span class="dot">·</span><select id="priority" aria-label="Prioridad" ${readonly()||busy?'disabled':''}>${[['normal','Normal'],['high','Alta'],['low','Baja']].map(([v,l])=>`<option value="${v}" ${v===draft.priority?'selected':''}>${l}</option>`).join('')}</select></div>`:'<p class="note-caption">Una nota independiente de tus turnos y camas.</p>'}
- <label class="notes-heading" for="body">${selectedIsNote()?'Escritura':'Notas'}</label><textarea id="body" placeholder="Escribe aquí…" maxlength="10000" ${readonly()||busy?'readonly':''}>${esc(draft.body)}</textarea>
+ <form id="editor-form" aria-describedby="save-feedback save-error"><div class="title-line">${!selectedIsNote()?`<input type="checkbox" id="editor-completed" aria-label="Tarea completada" ${draft.completed?'checked':''} ${readonly()||busy?'disabled':''}>`:''}<h1><textarea id="title" rows="1" aria-label="Título de ${selectedIsNote()?'nota':'tarea'}" maxlength="300" required ${readonly()||busy?'readonly':''}>${esc(draft.title)}</textarea></h1>${!selectedIsNote()&&!archiveId?btn('Agregar tarea','add-task','plus','add-inline'):''}</div>
+ ${!selectedIsNote()?`<div class="metadata"><span>${esc(bedLabel(draft))}</span><span class="dot" aria-hidden="true">·</span><label class="meta-field"><span class="meta-label">Motivo</span><input id="reason" value="${esc(draft.reason)}" placeholder="Motivo" maxlength="80" ${readonly()||busy?'readonly':''}></label><span class="dot" aria-hidden="true">·</span><label class="meta-field"><span class="meta-label">Prioridad</span><select id="priority" ${readonly()||busy?'disabled':''}>${[['normal','Normal'],['high','Alta'],['low','Baja']].map(([v,l])=>`<option value="${v}" ${v===draft.priority?'selected':''}>${l}</option>`).join('')}</select></label></div>`:'<p class="note-caption">Una nota independiente de tus turnos y camas.</p>'}
+ <label class="notes-heading" for="body">${selectedIsNote()?'Texto de la nota':'Notas de la tarea'}</label><textarea id="body" placeholder="Escribe aquí…" maxlength="10000" ${readonly()||busy?'readonly':''}>${esc(draft.body)}</textarea>
  <div class="save-footer"><div><p id="save-error" class="error">${esc(error)}</p><p id="save-feedback" class="save-feedback">${esc(feedback||(dirty?'Cambios sin guardar':readonly()?'Solo lectura':'Guardado en memoria de demostración'))}</p></div>${!readonly()?`<div class="save-actions">${btn('Cancelar','cancel-draft','','',!dirty||busy?'disabled':'')}<button type="submit" class="primary" ${!dirty||busy?'disabled':''}>${busy?'Guardando…':'Guardar'}</button></div>`:''}</div></form></main>`;}
-function fieldRow(id,label,ic,value,content){return `<details class="property"><summary data-focus="property-${id}" aria-controls="property-content-${id}" aria-expanded="false">${icon(ic)}<span>${label}</span><span class="property-value" id="value-${id}">${esc(value)}</span>${icon('chevron-down').replace('class="icon"', 'class="icon disclosure-chevron"')}</summary><div id="property-content-${id}" class="property-content" inert aria-hidden="true">${content}</div></details>`;}
+function fieldRow(id,label,ic,value,content){return `<details class="property"><summary data-focus="property-${id}">${icon(ic)}<span>${label}</span><span class="property-value" id="value-${id}">${esc(value)}</span>${icon('chevron-down').replace('class="icon"', 'class="icon disclosure-chevron"')}</summary><div id="property-content-${id}" class="property-content" inert>${content}</div></details>`;}
 const field=(id,label,value,placeholder='',type='text')=>`<label for="${id}">${label}</label><input id="${id}" data-field="${id}" type="${type}" value="${esc(value)}" placeholder="${placeholder}" ${readonly()||busy?'disabled':''} ${type==='number'?'min="0" max="1440" step="1"':''}>`;
 function inspectorContent(){let contents='';if(tab==='agenda')contents=agenda();else if(view==='home'||!draft)contents='<div class="note-inspector"><p>Selecciona una tarea</p><p class="muted">Abre una tarea del turno para ver sus fechas y tiempos. En Agenda puedes consultar la lista completa.</p></div>';else if(selectedIsNote())contents='<div class="note-inspector"><p>Nota rápida</p><p class="muted">Esta nota no pertenece a un turno ni tiene fechas de tarea.</p></div>';else contents=`
  ${fieldRow('date','Fecha','calendar-days',displayDate(draft.date),field('date','Día / mes / año',rawTemporal?.date??'','DD/MM/AAAA')+'<p>Una fecha sin hora no programa un aviso.</p>')}
@@ -98,7 +97,7 @@ function agenda(){
  const groups=groupAgenda(tasks());
  const pending=tasks().filter(task=>!task.completed).length;
  return `<div class="agenda"><div class="agenda-overview"><p class="agenda-caption">${esc(shift()?.label||'Sin turno activo')}</p><p class="agenda-count">${tasks().length} ${tasks().length===1?'tarea':'tareas'} · ${pending} ${pending===1?'pendiente':'pendientes'}</p></div>
- ${groups.map((group,index)=>`<section class="agenda-group" aria-labelledby="agenda-group-${index}"><div class="agenda-group-heading"><h3 id="agenda-group-${index}">${esc(group.label)}</h3>${group.date&&['Hoy','Mañana'].includes(group.label)?`<span>${displayDate(group.date)}</span>`:''}</div><div class="agenda-items">${group.tasks.map(t=>`<button type="button" class="agenda-task ${t.completed?'is-completed':''} ${selected?.id===t.id?'current':''}" data-action="task:${t.id}" ${selected?.id===t.id?'aria-current="true"':''}><span class="agenda-time">${esc(t.time||'Sin hora')}</span><span class="agenda-detail"><span class="agenda-title">${esc(t.title)}</span><small>${esc(bedLabel(t))}${t.completed?' · Completada':''}</small></span>${t.completed?icon('circle-check'):''}</button>`).join('')}</div></section>`).join('')||`<div class="agenda-empty">${icon('calendar-days')}<p>No hay tareas en este turno.</p><span>${active()&&!archiveId?'Agrega una tarea. Aparecerá aquí aunque no tenga fecha.':'Las tareas con y sin fecha aparecerán aquí.'}</span>${active()&&!archiveId?btn('Agregar tarea','add-task','plus'):''}</div>`}
+ ${groups.map((group,index)=>`<section class="agenda-group" aria-labelledby="agenda-group-${index}"><div class="agenda-group-heading"><h3 id="agenda-group-${index}">${esc(group.label)}</h3>${group.date&&['Hoy','Mañana'].includes(group.label)?`<span>${displayDate(group.date)}</span>`:''}</div><div class="agenda-items">${group.tasks.map(t=>`<button type="button" class="agenda-task ${t.completed?'is-completed':''} ${selected?.id===t.id?'current':''}" data-action="task:${t.id}" ${selected?.id===t.id?'aria-current="true"':''}><span class="agenda-time">${esc(t.time||'Sin hora')}</span><span class="agenda-detail"><span class="agenda-title">${esc(t.title)}${priorityBadge(t)}</span><small>${esc(bedLabel(t))}${t.completed?' · Completada':''}</small></span>${t.completed?icon('circle-check'):''}</button>`).join('')}</div></section>`).join('')||`<div class="agenda-empty">${icon('calendar-days')}<p>No hay tareas en este turno.</p><span>${active()&&!archiveId?'Agrega una tarea. Aparecerá aquí aunque no tenga fecha.':'Las tareas con y sin fecha aparecerán aquí.'}</span>${active()&&!archiveId?btn('Agregar tarea','add-task','plus'):''}</div>`}
  <p class="agenda-zone">${ZONE}<br>Lista del turno · Sin avisos programados</p></div>`;
 }
 function selectTab(next, modality=inputModality) {
@@ -206,7 +205,7 @@ function inputModal(kind,bedId){const labels={task:['Agregar tarea','Título de 
 function renameBedModal(id) {
  const bed=data.beds.find(item=>item.id===id);
  if(!bed||archiveId)return;
- modal('Editar nombre de grupo', `<form id="rename-bed-form" data-bed="${esc(id)}"><label for="bed-name">Nombre del grupo o cama</label><input id="bed-name" value="${esc(bed.label)}" required maxlength="300" aria-describedby="bed-name-hint rename-bed-error"><p id="bed-name-hint" class="muted">Las tareas permanecen en este grupo. Solo cambia su nombre en esta demostración.</p><p id="rename-bed-error" class="error" role="alert"></p><div class="dialog-actions">${btn('Cancelar','dismiss')}<button type="submit" class="primary">Guardar nombre</button></div></form>`);
+ modal('Editar nombre de cama', `<form id="rename-bed-form" data-bed="${esc(id)}"><label for="bed-name">Nombre de la cama</label><input id="bed-name" value="${esc(bed.label)}" required maxlength="300" aria-describedby="bed-name-hint rename-bed-error"><p id="bed-name-hint" class="muted">Las tareas permanecen en esta cama. Solo cambia su nombre en esta demostración.</p><p id="rename-bed-error" class="error" role="alert"></p><div class="dialog-actions">${btn('Cancelar','dismiss')}<button type="submit" class="primary">Guardar nombre</button></div></form>`);
  $('#bed-name').focus();
 }
 function validateNameInput(input,hint,label){
@@ -223,7 +222,7 @@ async function renameBed(event) {
  if(!bed||bed.shiftId!==data.activeShiftId)return;
  // A no-op does not consume a failure fixture or mutate the domain.
  if(input.value.trim()===bed.label){closeModal();return;}
- if(!validateNameInput(input,form.querySelector('#rename-bed-error'),'Nombre del grupo'))return;
+ if(!validateNameInput(input,form.querySelector('#rename-bed-error'),'Nombre de la cama'))return;
  const buttons=[...$('#modal').querySelectorAll('button')];
  busy=true;input.readOnly=true;buttons.forEach(button=>button.disabled=true);
  form.querySelector('#rename-bed-error').textContent='';
@@ -231,7 +230,7 @@ async function renameBed(event) {
   await adapter.renameBed(bed.id,input.value);
   data=await adapter.load();
   closeModal();
-  notify('Nombre del grupo guardado en esta demostración.');
+  notify('Nombre de la cama guardado en esta demostración.');
  }catch(e){
   form.querySelector('#rename-bed-error').textContent=e.message;
  }finally{
@@ -283,7 +282,7 @@ document.documentElement.dataset.inputModality='keyboard';
 document.addEventListener('scroll',e=>{if(e.target.classList?.contains('nav-scroll'))syncScrollCue();},true);
 window.addEventListener('resize',syncScrollCue);
 document.addEventListener('pointerdown',()=>{inputModality='pointer';document.documentElement.dataset.inputModality='pointer';},true);
-document.addEventListener('keydown',()=>{inputModality='keyboard';document.documentElement.dataset.inputModality='keyboard';motion.cancelAll();},true);
+document.addEventListener('keydown',e=>{if(e.target.id==='title'&&e.key==='Enter')e.preventDefault();inputModality='keyboard';document.documentElement.dataset.inputModality='keyboard';motion.cancelAll();},true);
 document.addEventListener('click',e=>{
  const summary=e.target.closest('.property > summary');
  if(summary){e.preventDefault();motion.disclosure(summary.parentElement,!summary.parentElement.hasAttribute('open'),inputModality);return;}
@@ -297,7 +296,8 @@ document.addEventListener('toggle',e=>{
  details.hasAttribute('open')?expandedProperties.add(key):expandedProperties.delete(key);
 },true);
 document.addEventListener('submit',e=>{if(e.target.id==='editor-form'){e.preventDefault();save();}if(e.target.id==='create-form')create(e);if(e.target.id==='rename-bed-form')renameBed(e);});
-document.addEventListener('input',e=>{const t=e.target;if(['new-title','bed-name'].includes(t.id)){t.removeAttribute('aria-invalid');const hint=$('#'+(t.id==='new-title'?'create-error':'rename-bed-error'));if(hint)hint.textContent='';return;}if(t.id==='search'){query=t.value;const pos=t.selectionStart;render();$('#search')?.focus();try{$('#search')?.setSelectionRange(pos,pos);}catch{}return;}if(!draft||readonly()||busy)return;if(['title','body','reason','priority'].includes(t.id)){draft[t.id]=t.value;updateDirty();}if(t.dataset.field){rawTemporal[t.dataset.field]=t.value;updateDirty();}});
+document.addEventListener('input',e=>{const t=e.target;if(['new-title','bed-name'].includes(t.id)){t.removeAttribute('aria-invalid');const hint=$('#'+(t.id==='new-title'?'create-error':'rename-bed-error'));if(hint)hint.textContent='';return;}if(t.id==='search'){query=t.value;const pos=t.selectionStart;render();$('#search')?.focus();try{$('#search')?.setSelectionRange(pos,pos);}catch{}return;}if(t.id==='title'&&/\n/.test(t.value))t.value=t.value.replace(/\r?\n/g,' ');
+if(!draft||readonly()||busy)return;if(['title','body','reason','priority'].includes(t.id)){draft[t.id]=t.value;updateDirty();}if(t.dataset.field){rawTemporal[t.dataset.field]=t.value;updateDirty();}});
 document.addEventListener('change',e=>{
  const t=e.target;
  if(busy){if(t.dataset.check)t.checked=Boolean(data.tasks.find(task=>task.id===t.dataset.check)?.completed);return;}

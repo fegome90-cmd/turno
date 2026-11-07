@@ -70,13 +70,11 @@ export function createMotion(matchMedia) {
     const open = details.hasAttribute('open');
     const summary = details.querySelector('summary');
     const content = details.querySelector('.property-content');
-    if (summary?.getAttribute('aria-expanded') !== String(open)) cancelWithin(details);
+    if (details.dataset.open !== String(open)) cancelWithin(details);
+    details.dataset.open = String(open);
     if (!open && content?.contains(details.ownerDocument.activeElement)) summary?.focus();
-    summary?.setAttribute('aria-expanded', String(open));
-    if (content) {
-      content.toggleAttribute('inert', !open);
-      content.setAttribute('aria-hidden', String(!open));
-    }
+    // The native open attribute carries the state; only inertness is synced here.
+    content?.toggleAttribute('inert', !open);
   }
 
   function disclosure(details, open, modality = 'keyboard') {
