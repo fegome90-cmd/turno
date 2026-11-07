@@ -76,7 +76,7 @@ function center(){if(view==='home')return `<main id="main" tabindex="-1" class="
  return `<main id="main" tabindex="-1" class="editor ${selectedIsNote()?'note-editor':''}">
  ${archiveId?'<div class="archive-notice">Turno archivado · Solo lectura. Los pendientes se conservan.</div>':''}
  <form id="editor-form" aria-describedby="save-feedback save-error"><div class="title-line">${!selectedIsNote()?`<input type="checkbox" id="editor-completed" aria-label="Tarea completada" ${draft.completed?'checked':''} ${readonly()||busy?'disabled':''}>`:''}<h1><textarea id="title" rows="1" aria-label="Título de ${selectedIsNote()?'nota':'tarea'}" maxlength="300" required ${readonly()||busy?'readonly':''}>${esc(draft.title)}</textarea></h1>${!selectedIsNote()&&!archiveId?btn('Agregar tarea','add-task','plus','add-inline'):''}</div>
- ${!selectedIsNote()?`<div class="metadata"><span>${esc(bedLabel(draft))}</span><span class="dot" aria-hidden="true">·</span><label class="meta-field"><span class="meta-label">Motivo</span><input id="reason" value="${esc(draft.reason)}" placeholder="Motivo" maxlength="80" ${readonly()||busy?'readonly':''}></label><span class="dot" aria-hidden="true">·</span><label class="meta-field"><span class="meta-label">Prioridad</span><select id="priority" ${readonly()||busy?'disabled':''}>${[['normal','Normal'],['high','Alta'],['low','Baja']].map(([v,l])=>`<option value="${v}" ${v===draft.priority?'selected':''}>${l}</option>`).join('')}</select></label></div>`:'<p class="note-caption">Una nota independiente de tus turnos y camas.</p>'}
+ ${!selectedIsNote()?`<div class="metadata"><span>${esc(bedLabel(draft))}</span><span class="dot" aria-hidden="true">·</span><label class="meta-field"><span class="meta-label">Motivo</span><input id="reason" value="${esc(draft.reason)}" placeholder="Ej.: Exámenes" maxlength="80" ${readonly()||busy?'readonly':''}></label><span class="dot" aria-hidden="true">·</span><label class="meta-field"><span class="meta-label">Prioridad</span><select id="priority" ${readonly()||busy?'disabled':''}>${[['normal','Normal'],['high','Alta'],['low','Baja']].map(([v,l])=>`<option value="${v}" ${v===draft.priority?'selected':''}>${l}</option>`).join('')}</select></label></div>`:'<p class="note-caption">Una nota independiente de tus turnos y camas.</p>'}
  <label class="notes-heading" for="body">${selectedIsNote()?'Texto de la nota':'Notas de la tarea'}</label><textarea id="body" placeholder="Escribe aquí…" maxlength="10000" ${readonly()||busy?'readonly':''}>${esc(draft.body)}</textarea>
  <div class="save-footer"><div><p id="save-error" class="error">${esc(error)}</p><p id="save-feedback" class="save-feedback">${esc(feedback||(dirty?'Cambios sin guardar':readonly()?'Solo lectura':'Guardado en memoria de demostración'))}</p></div>${!readonly()?`<div class="save-actions">${btn('Cancelar','cancel-draft','','',!dirty||busy?'disabled':'')}<button type="submit" class="primary" ${!dirty||busy?'disabled':''}>${busy?'Guardando…':'Guardar'}</button></div>`:''}</div></form></main>`;}
 function fieldRow(id,label,ic,value,content){return `<details class="property"><summary data-focus="property-${id}">${icon(ic)}<span>${label}</span><span class="property-value" id="value-${id}">${esc(value)}</span>${icon('chevron-down').replace('class="icon"', 'class="icon disclosure-chevron"')}</summary><div id="property-content-${id}" class="property-content" inert>${content}</div></details>`;}
@@ -152,7 +152,13 @@ function render(){
  if(viewChanged){motion.cancelAll();motion.enter($('#main'),'screen',inputModality);}
  renderedView=view;
  syncScrollCue();
+ syncTitle();
+ if(!restoring)pushRoute();
 }
+let restoring=false;
+const routeState=()=>({view,selected,archiveId});
+function syncTitle(){const part=view==='home'?'Inicio':view==='archive'?'Turnos anteriores':draft?draft.title:view==='notes'?'Notas rápidas':(shift()?.label||'Turno');document.title=`${part} · Turno`;}
+function pushRoute(){const s=routeState(),cur=window.history?.state;if(!window.history?.pushState)return;if(cur&&cur.view===s.view&&cur.archiveId===s.archiveId&&cur.selected?.id===s.selected?.id)return;window.history.pushState(s,'');}
 function syncScrollCue(){for(const el of document.querySelectorAll('.nav-scroll'))el.classList.toggle('has-more',el.scrollTop+el.clientHeight<el.scrollHeight-1);}
 
 function updateDirty(){
@@ -281,8 +287,9 @@ async function create(event){event.preventDefault();if(busy)return;const f=event
 document.documentElement.dataset.inputModality='keyboard';
 document.addEventListener('scroll',e=>{if(e.target.classList?.contains('nav-scroll'))syncScrollCue();},true);
 window.addEventListener('resize',syncScrollCue);
+window.addEventListener('popstate',e=>{const s=e.state;if(!s)return;const apply=()=>{restoring=true;try{archiveId=s.archiveId||null;if(s.selected&&data[s.selected.kind==='note'?'notes':'tasks'].some(x=>x.id===s.selected.id))select(s.selected.kind,s.selected.id);else{view=s.view;selected=draft=null;render();}}finally{restoring=false;}};if(dirty){window.history.pushState(routeState(),'');requestNavigation(()=>{window.history.back();});}else apply();});
 document.addEventListener('pointerdown',()=>{inputModality='pointer';document.documentElement.dataset.inputModality='pointer';},true);
-document.addEventListener('keydown',e=>{if(e.target.id==='title'&&e.key==='Enter')e.preventDefault();inputModality='keyboard';document.documentElement.dataset.inputModality='keyboard';motion.cancelAll();},true);
+document.addEventListener('keydown',e=>{if(e.target.id==='title'&&e.key==='Enter'){e.preventDefault();if(dirty&&!busy&&!readonly()){const f=$('#editor-form');if(f?.requestSubmit)f.requestSubmit();else f?.dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));}}inputModality='keyboard';document.documentElement.dataset.inputModality='keyboard';motion.cancelAll();},true);
 document.addEventListener('click',e=>{
  const summary=e.target.closest('.property > summary');
  if(summary){e.preventDefault();motion.disclosure(summary.parentElement,!summary.parentElement.hasAttribute('open'),inputModality);return;}
@@ -330,5 +337,5 @@ document.addEventListener('keydown',e=>{
 });
 $('#modal').addEventListener('cancel',e=>{e.preventDefault();if(!busy){pendingNavigation=null;closeModal();}});
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
-async function init(){try{data=await adapter.load();render();}catch(e){$('#app').innerHTML=`<main><h1>No se pudo cargar</h1><p>${esc(e.message)}</p></main>`;}}
+async function init(){try{data=await adapter.load();restoring=true;try{render();}finally{restoring=false;}window.history?.replaceState?.(routeState(),'');}catch(e){$('#app').innerHTML=`<main><h1>No se pudo cargar</h1><p>${esc(e.message)}</p></main>`;}}
 init();

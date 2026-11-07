@@ -166,7 +166,7 @@ test('sidebar task tree shows a scroll cue only while more content is below',asy
  top=300;nav.dispatchEvent(new a.window.Event('scroll',{bubbles:true}));
  assert.equal(nav.classList.contains('has-more'),false);
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
- assert.match(css,/\.nav-scroll\.has-more\{-webkit-mask-image:linear-gradient\(to bottom,#000 calc\(100% - 40px\),transparent\);mask-image:linear-gradient\(to bottom,#000 calc\(100% - 40px\),transparent\)\}/);
+ assert.match(css,/\.nav-scroll\.has-more\{-webkit-mask-image:linear-gradient\(to bottom,var\(--ink\) calc\(100% - 40px\),transparent\);mask-image:linear-gradient\(to bottom,var\(--ink\) calc\(100% - 40px\),transparent\)\}/);
 });
 test('mobile-native rules stop tap flash, text inflation and iOS press callouts',async()=>{
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
@@ -228,11 +228,11 @@ test('hierarchy: smaller brand, larger editor title and inspector heading, start
  const a=await setup();
  assert.equal(a.q('.shift-button').classList.contains('start'),false);
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
- assert.match(css,/\.brand-button\{font-weight:700;font-size:20px;/);
- assert.match(css,/\.brand-button span:after\{content:'Turno';font-size:20px\}/);
+ assert.match(css,/\.brand-button\{font-weight:700;font-size:var\(--text-lg\);/);
+ assert.match(css,/\.brand-button span:after\{content:'Turno';font-size:var\(--text-lg\)\}/);
  assert.match(css,/\.title-line #title\{border:0;padding:4px 0;width:100%;min-width:0;font-size:2rem;/);
- assert.match(css,/\.inspector-heading h2\{font-size:20px;/);
- assert.match(css,/\.shift-button\{margin:12px 0 8px\}\.shift-button\.start\{border-color:#808080\}/);
+ assert.match(css,/\.inspector-heading h2\{font-size:var\(--text-lg\);/);
+ assert.match(css,/\.shift-button\{margin:12px 0 8px\}\.shift-button\.start\{border-color:var\(--control\)\}/);
  await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await new Promise(r=>setTimeout(r,500));
  assert.equal(a.q('.shift-button').classList.contains('start'),true);
 });
@@ -261,4 +261,21 @@ test('typography and measure: break-word, pretty and balanced wrapping, one shar
  assert.match(css,/\.greeting h1\{text-wrap:balance\}/);
  assert.match(css,/--measure:46rem/);
  assert.match(css,/\.title-line,\.metadata,\.notes-heading,\.editor textarea,\.save-footer\{max-width:var\(--measure\)\}/);
+});
+
+test('Enter in the title saves a dirty draft through the form submit path and inserts no line',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ assert.equal(a.q('#reason').getAttribute('placeholder'),'Ej.: Exámenes');
+ a.fill('#title','Título con Enter');
+ const enter=new a.window.Event('keydown',{bubbles:true,cancelable:true});enter.key='Enter';a.q('#title').dispatchEvent(enter);
+ assert.equal(enter.defaultPrevented,true);
+ await new Promise(r=>setTimeout(r,500));
+ assert.match(a.q('#save-feedback').textContent,/Guardado/);
+ assert.equal(a.q('#title').value,'Título con Enter');
+});
+test('Enter in a clean title does not submit anything',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ const enter=new a.window.Event('keydown',{bubbles:true,cancelable:true});enter.key='Enter';a.q('#title').dispatchEvent(enter);
+ await new Promise(r=>setTimeout(r,500));
+ assert.doesNotMatch(a.q('#save-feedback').textContent,/Guardado en esta demostración/);
 });

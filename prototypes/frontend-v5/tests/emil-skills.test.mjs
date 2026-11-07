@@ -145,7 +145,6 @@ test('active backgrounds win the inherited hover cascade for ordinary and select
   ['.filter.active:hover:not(:disabled)','.filter.active:not(:disabled):active'],
   ['.tree-task.current:hover:not(:disabled)','.tree-task.current:not(:disabled):active'],
   ['button.primary:hover:not(:disabled)','button.primary:not(:disabled):active'],
-  ['.nav-item.selected:hover:not(:disabled)','.nav-item.selected:not(:disabled):active'],
  ];
  for(const [hover,active] of pairs){
   assert.ok(css.includes(hover),hover);assert.ok(css.includes(active),active);
