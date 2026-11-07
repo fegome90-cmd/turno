@@ -1,4 +1,4 @@
-# Turno: prototipo de frontend · movimiento v6
+# Turno: prototipo de frontend · diseño v7
 
 Demostración aislada de la interfaz de Turno. No es una release ni el plugin oficial; no está conectada al backend y no se ha desplegado.
 
@@ -11,6 +11,12 @@ Demostración aislada de la interfaz de Turno. No es una release ni el plugin of
 - No introducir información real ni datos que necesites conservar.
 
 El código se mantiene dentro de `prototypes/frontend-v5/` para no imponer estructura ni contratos al backend que se desarrolla por separado.
+
+## Ajustes de diseño (v7)
+
+Navegación compacta con el árbol antes de las notas secundarias, controles táctiles de completar, prioridad alta visible en árbol y Agenda, filtros con borde y subrayado, y campos de edición con etiquetas y límites visibles. Se conserva el saludo, sus cuatro frases y el movimiento v6.
+
+[Correspondencia con la auditoría, decisiones y límites de verificación](docs/DESIGN_V7.md).
 
 ## Avisos expandidos (v6)
 

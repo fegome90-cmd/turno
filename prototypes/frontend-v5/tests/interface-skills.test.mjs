@@ -116,7 +116,7 @@ test('invalid save-and-continue closes confirmation and returns to the invalid f
  const a=await setup(390);await a.click('[data-action="open-shift"]');
  await a.click('[data-action="toggle-inspector"]');a.fill('#date','31/02/2026');await a.click('[data-action="close-inspector"]');
  await a.click('[data-action="task:task-2"]');await a.click('[data-action="save-navigation"]');await pause(50);
- assert.equal(a.q('#title').value,'Task 1');assert.ok(a.q('#modal').open);
+ assert.equal(a.q('#title').value,'Tarea 1');assert.ok(a.q('#modal').open);
  assert.equal(a.window.document.activeElement,a.q('#modal #date'));
  assert.equal(a.q('#modal #date').getAttribute('aria-invalid'),'true');
  assert.equal(a.q('#modal #date').getAttribute('aria-describedby'),'field-error-date');
