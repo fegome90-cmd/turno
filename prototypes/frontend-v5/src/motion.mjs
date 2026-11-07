@@ -6,6 +6,7 @@ export const MOTION = Object.freeze({
   disclosure: 220,
   tabs: 180,
   feedback: 180,
+  toast: 300,
   easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
   indicatorEasing: 'cubic-bezier(0.77, 0, 0.175, 1)',
 });

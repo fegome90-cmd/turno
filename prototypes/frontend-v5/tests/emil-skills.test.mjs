@@ -103,7 +103,7 @@ test('schema-backed title extremes round-trip through the actual adapter',async(
  await assert.rejects(adapter.createTask('Revisión de material '.repeat(20)),/300/);
 });
 test('documented v4 durations are preserved instead of overriding user feedback',()=>{
- assert.deepEqual(MOTION,{screen:300,dialog:300,drawer:340,disclosure:220,tabs:180,feedback:180,easing:'cubic-bezier(0.22, 1, 0.36, 1)',indicatorEasing:'cubic-bezier(0.77, 0, 0.175, 1)'});
+ assert.deepEqual(MOTION,{screen:300,dialog:300,drawer:340,disclosure:220,tabs:180,feedback:180,toast:300,easing:'cubic-bezier(0.22, 1, 0.36, 1)',indicatorEasing:'cubic-bezier(0.77, 0, 0.175, 1)'});
 });
 test('rapid feedback retargets from current painted state before cancellation',()=>{
  const calls=[],cancels=[];

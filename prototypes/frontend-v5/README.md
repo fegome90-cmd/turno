@@ -1,4 +1,4 @@
-# Turno: prototipo de frontend v5
+# Turno: prototipo de frontend · movimiento v6
 
 Demostración aislada de la interfaz de Turno. No es una release ni el plugin oficial; no está conectada al backend y no se ha desplegado.
 
@@ -11,6 +11,14 @@ Demostración aislada de la interfaz de Turno. No es una release ni el plugin of
 - No introducir información real ni datos que necesites conservar.
 
 El código se mantiene dentro de `prototypes/frontend-v5/` para no imponer estructura ni contratos al backend que se desarrolla por separado.
+
+## Avisos expandidos (v6)
+
+La nueva pila conserva cada aviso hasta cerrarlo, agrupa repetidos, permite cierres individuales y mantiene los errores disponibles. Alt+T lleva a los avisos; Escape cierra el aviso enfocado. Se inspira en el modo expandido de Sonner, con implementación propia para la demo vanilla y sin instalar React.
+
+Entrada/salida de avisos a 300 ms para puntero, instantánea para teclado o movimiento reducido. Las pantallas/diálogos siguen en 300 ms y el drawer en 340 ms. No se afirma fluidez sin QA visual.
+
+[Decisiones, skills consultadas, licencias y límites](docs/MOTION_V6.md).
 
 ## Ejecutar localmente
 

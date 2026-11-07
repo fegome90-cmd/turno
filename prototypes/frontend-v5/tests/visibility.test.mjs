@@ -14,7 +14,7 @@ test('live notification regions remain mounted and are not hidden while empty',a
  const {document}=parseHTML(html);
  for(const id of ['live','live-error']){
   const live=document.getElementById(id);
-  assert.ok(live);assert.equal(live.hasAttribute('hidden'),false);assert.equal(live.classList.contains('sr-only'),false);
+  assert.ok(live);assert.equal(live.hasAttribute('hidden'),false);assert.equal(live.classList.contains('sr-only'),true);
  }
  assert.doesNotMatch(css,/\.notification\s+p:empty\s*\{[^}]*display\s*:\s*none/);
 });

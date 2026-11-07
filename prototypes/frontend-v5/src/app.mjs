@@ -1,5 +1,6 @@
 import {createPreviewAdapter} from './preview-adapter.mjs';
 import {validateEditor} from './validation.mjs';
+import {createToasts} from './toasts.mjs';
 import {createMotion} from './motion.mjs';
 import {chooseHomeSubtitle} from './home-subtitle.mjs';
 import {displayDate,groupAgenda,ZONE} from './format.mjs';
@@ -24,20 +25,12 @@ const selectedIsNote=()=>selected?.kind==='note';
 const readonly=()=>!selectedIsNote()&&Boolean(archiveId);
 const tasks=()=>data.tasks.filter(t=>t.shiftId===(archiveId||data.activeShiftId));
 const visibleTasks=()=>tasks().filter(t=>(filter!=='pending'||!t.completed)&&(!query||`${t.title} ${t.reason}`.toLocaleLowerCase().includes(query.toLocaleLowerCase())));
-function notify(message, kind = 'status') {
- const live = $(kind === 'error' ? '#live-error' : '#live');
- $(kind === 'error' ? '#live' : '#live-error').textContent = '';
- live.textContent = message;
- $('#dismiss-feedback').hidden = false;
- motion.enter($('#notification'), 'feedback', inputModality);
-}
-function clearNotification() {
- const restore=$('#notification').contains(document.activeElement);
- motion.cancelWithin($('#notification'));
- $('#live').textContent = $('#live-error').textContent = '';
- $('#dismiss-feedback').hidden = true;
- if(restore)($('#modal').open?$('#modal [data-action="dismiss"]'):$('#main'))?.focus();
-}
+const notifications = createToasts({
+ root: $('#notification'), matchMedia: window.matchMedia?.bind(window),
+ getModality: () => inputModality,
+ restoreFocus: () => ($('#modal').open ? $('#modal [data-action="dismiss"]') : $('#main'))?.focus(),
+});
+function notify(message, kind = 'status') { notifications.notify(message, kind); }
 const findSelected=()=>selected ? data[selectedIsNote()?'notes':'tasks'].find(x=>x.id===selected.id) : null;
 function select(kind,id){fieldErrors={};selected={kind,id};draft=structuredClone(findSelected());rawTemporal=createTemporalDraft(draft);dirty=false;error='';feedback='';view=kind==='note'?'notes':'workspace';tab='task';render();}
 function focusKey(element){return element?.id?{id:element.id}:element?.dataset?.action?{action:element.dataset.action}:element?.dataset?.focus?{focus:element.dataset.focus}:element?.dataset?.check?{check:element.dataset.check}:null;}
@@ -49,8 +42,8 @@ function restoreFocus(key){
  else if(key.check)$('#main')?.focus();
 }
 
-function closeModal(){motion.cancelAll();const m=$('#modal');const wasOpen=m.open;if(wasOpen)m.close();m.replaceChildren();overlay=null;if(wasOpen){render();restoreFocus(returnFocus);}returnFocus=null;}
-function modal(title,body,footer=''){const origin=focusKey(document.activeElement);closeModal();returnFocus=origin;const m=$('#modal');m.className='';m.innerHTML=`<div class="dialog-heading"><h2 id="dialog-title">${esc(title)}</h2>${btn('Cerrar','dismiss','x','icon-button')}</div>${body}<div class="dialog-actions">${footer}</div>`;m.showModal();motion.enter(m,'dialog',inputModality);}
+function closeModal(){motion.cancelAll();const m=$('#modal');const wasOpen=m.open;if(wasOpen)m.close();m.replaceChildren();overlay=null;if(wasOpen){render();restoreFocus(returnFocus);}returnFocus=null;notifications.setSuspended(false);}
+function modal(title,body,footer=''){const origin=focusKey(document.activeElement);closeModal();returnFocus=origin;const m=$('#modal');m.className='';m.innerHTML=`<div class="dialog-heading"><h2 id="dialog-title">${esc(title)}</h2>${btn('Cerrar','dismiss','x','icon-button')}</div>${body}<div class="dialog-actions">${footer}</div>`;notifications.setSuspended(true);m.showModal();motion.enter(m,'dialog',inputModality);}
 function requestNavigation(fn){if(busy)return;if(dirty){pendingNavigation=fn;modal('Hay cambios sin guardar','<p>Tu borrador todavía no se ha guardado en esta demostración.</p>',btn('Volver','dismiss')+btn('Descartar cambios','discard-navigation')+btn('Guardar y continuar','save-navigation','','primary'));}else{closeModal();fn();}}
 function bedLabel(t){return data.beds.find(b=>b.id===t?.bedId)?.label||'Sin cama';}
 function navigation(){const s=shift();const vt=visibleTasks();return `
@@ -192,14 +185,14 @@ function focusFirstInvalid(){
 async function save(){
  if(!draft||readonly()||busy)return !dirty;
  fieldErrors=validateEditor(draft,rawTemporal,selectedIsNote());
- if(Object.keys(fieldErrors).length){error=Object.values(fieldErrors)[0];clearNotification();render();focusFirstInvalid();return false;}
+ if(Object.keys(fieldErrors).length){error=Object.values(fieldErrors)[0];render();focusFirstInvalid();return false;}
  try{readTemporal();busy=true;render();const result=selectedIsNote()?await adapter.saveNote(draft):await adapter.saveTask(draft);data=await adapter.load();draft=result;rawTemporal=createTemporalDraft(draft);dirty=false;feedback='Guardado en esta demostración.';error='';notify(feedback);return true;}
  catch(e){error=e.code==='SIMULATED_CONFLICT'?'Conflicto simulado. Tu borrador se conserva. Vuelve a guardar para reintentar.':e.message;notify(error,'error');return false;}
  finally{busy=false;render();}
 }
 
 function openFirstTask(){view='workspace';archiveId=null;const first=data.tasks.find(t=>t.shiftId===data.activeShiftId);if(first)select('task',first.id);else{selected=draft=null;render();}}
-function drawer(kind){const origin=focusKey(document.activeElement);closeModal();returnFocus=origin;overlay=kind;if(kind==='time-drawer'&&!draft)tab='agenda';render();const m=$('#modal');m.className='drawer '+kind;m.innerHTML=drawerBody();renderedParts.set('drawer',drawerBody());syncFieldErrors();m.showModal();motion.enter(m,'drawer',inputModality);}
+function drawer(kind){const origin=focusKey(document.activeElement);closeModal();returnFocus=origin;overlay=kind;if(kind==='time-drawer'&&!draft)tab='agenda';render();const m=$('#modal');m.className='drawer '+kind;m.innerHTML=drawerBody();renderedParts.set('drawer',drawerBody());syncFieldErrors();notifications.setSuspended(true);m.showModal();motion.enter(m,'drawer',inputModality);}
 function inputModal(kind,bedId){const labels={task:['Agregar tarea','Título de tarea nueva'],bed:['Agregar cama','Nombre de cama'],note:['Nueva nota rápida','Título de nota nueva'],shift:['Iniciar turno','Nombre del turno']};const [title,label]=labels[kind];modal(title,`<form id="create-form" data-kind="${kind}" data-bed="${esc(bedId||'')}"><label for="new-title">${label}</label><input id="new-title" aria-describedby="create-error" required maxlength="300" placeholder="${kind==='bed'?'Cama 3':kind==='shift'?'Turno de noche':''}"><p class="muted">Solo contenido de prueba, sin datos de pacientes.</p><p class="error" id="create-error" role="alert"></p><div class="dialog-actions">${btn('Cancelar','dismiss')}<button class="primary" type="submit">${kind==='shift'?'Iniciar':'Crear'}</button></div></form>`);$('#new-title').focus();}
 function renameBedModal(id) {
  const bed=data.beds.find(item=>item.id===id);
@@ -263,8 +256,7 @@ async function handle(action){if(busy)return;
  case 'toggle-inspector':if(window.innerWidth<1000||view==='home')return drawer('time-drawer');inspector=!inspector;render();if(inspector)motion.enter($('.inspector'),'drawer',inputModality);return;
  case 'close-inspector':if($('#modal').open)return closeModal();inspector=false;render();$('[data-action="toggle-inspector"]')?.focus();return;
  case 'tab-task':case 'tab-agenda':return selectTab(type==='tab-task'?'task':'agenda');
- case 'clear-feedback':return clearNotification();
- case 'archive':return requestNavigation(()=>{view='archive';selected=draft=null;archiveId=null;render();});
+  case 'archive':return requestNavigation(()=>{view='archive';selected=draft=null;archiveId=null;render();});
  case 'archive-shift':return requestNavigation(()=>{archiveId=id;const first=tasks()[0];if(first)select('task',first.id);else{view='workspace';selected=draft=null;render();}});
  case 'close-shift':return requestNavigation(()=>{const count=data.tasks.filter(t=>t.shiftId===data.activeShiftId&&!t.completed).length;modal('Cerrar turno',`<p><strong>${count} ${count===1?'tarea pendiente':'tareas pendientes'}</strong> ${count===1?'se conservará':'se conservarán'} en el archivo.</p><p>No se completarán ni pasarán al siguiente turno. Este prototipo no tiene avisos conectados.</p><p class="error" id="close-error" role="alert"></p>`,btn('Volver','dismiss')+btn('Cerrar y archivar','confirm-close','','primary'));});
  case 'confirm-close':busy=true;$('#modal button[data-action="confirm-close"]').disabled=true;try{await adapter.closeShift(data.activeShiftId);data=await adapter.load();closeModal();archiveId=null;selected=draft=null;view='home';notify('Turno archivado en esta demostración. Los pendientes se conservan.');}catch(e){$('#close-error').textContent=e.code==='SIMULATED_CONFLICT'?'Conflicto simulado. El turno sigue abierto. Vuelve a pulsar «Cerrar y archivar».':e.message;}finally{busy=false;const retry=$('#modal [data-action="confirm-close"]');if(retry)retry.disabled=false;render();}return;
