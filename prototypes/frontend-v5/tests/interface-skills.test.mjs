@@ -134,12 +134,12 @@ test('icons are CSS masks painted with currentColor so forced-colors mode keeps 
  const a=await setup();await a.click('[data-action="open-shift"]');
  const icon=a.q('.nav-item .icon');
  assert.equal(icon.localName,'i');assert.equal(icon.getAttribute('aria-hidden'),'true');
- assert.match(icon.getAttribute('style'),/--icon:url\(/);
+ assert.match(icon.getAttribute('style'),/-webkit-mask-image:url\('\.\/assets\/icons\/[a-z-]+\.svg'\);mask-image:url\(/);
  assert.equal(a.q('img.icon'),null);
  assert.match(a.q('details.property summary .disclosure-chevron').className,/^icon disclosure-chevron$/);
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
- assert.match(css,/\.icon\{[^}]*display:inline-block[^}]*background-color:currentColor[^}]*mask:var\(--icon\) center\/contain no-repeat/);
- assert.match(css,/@media \(forced-colors:active\)\{\.icon\{forced-color-adjust:none;background-color:currentColor\}\}/);
+ assert.match(css,/\.icon\{[^}]*display:inline-block[^}]*background-color:currentColor[^}]*mask:center\/contain no-repeat/);
+ assert.match(css,/@media \(forced-colors:active\)\{\.icon\{forced-color-adjust:none;background-color:CanvasText\}button \.icon,summary \.icon\{background-color:ButtonText\}button:disabled \.icon\{background-color:GrayText\}\}/);
  assert.doesNotMatch(css,/filter:invert\(1\)/);
 });
 test('toolbar keeps its trailing actions from being pushed out by a long bed name',async()=>{
@@ -203,7 +203,7 @@ test('title is a wrapping textarea: Enter adds no line and pasted newlines becom
  a.fill('#title','Uno\nDos');assert.equal(a.q('#title').value,'Uno Dos');
  a.fill('#title','Revisión');await a.submit();assert.equal(a.q('#title').value,'Revisión');
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
- assert.match(css,/\.title-line #title\{resize:none;field-sizing:content;overflow-wrap:break-word;line-height:1\.2;font-family:inherit/);
+ assert.match(css,/\.title-line #title\{resize:none;field-sizing:content;overflow-wrap:break-word;hyphens:manual;line-height:1\.2;font-family:inherit/);
 });
 test('renamed copy: beds are cama, task notes and quick-note bodies have specific labels, shift entry names the current shift',async()=>{
  const a=await setup();await a.click('[data-action="open-shift"]');
@@ -222,7 +222,7 @@ test('high priority is named in the task row and agenda while normal priority is
  assert.match(a.q('.agenda-task[data-action="task:task-4"]').textContent,/Alta/);
  assert.equal(a.q('.agenda-task[data-action="task:task-1"]').textContent.includes('Alta'),false);
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
- assert.match(css,/\.priority-badge\{display:inline-block;margin-inline-start:6px;padding:0 6px;border:1px solid var\(--control\);border-radius:4px;font-size:\.75rem;font-weight:600/);
+ assert.match(css,/\.priority-badge\{display:inline-block;margin-inline-start:6px;padding:0 6px;border:1px solid var\(--checkbox-border\);border-radius:4px;font-size:\.75rem;font-weight:600/);
 });
 test('hierarchy: smaller brand, larger editor title and inspector heading, start-only shift border',async()=>{
  const a=await setup();
@@ -278,4 +278,26 @@ test('Enter in a clean title does not submit anything',async()=>{
  const enter=new a.window.Event('keydown',{bubbles:true,cancelable:true});enter.key='Enter';a.q('#title').dispatchEvent(enter);
  await new Promise(r=>setTimeout(r,500));
  assert.doesNotMatch(a.q('#save-feedback').textContent,/Guardado en esta demostración/);
+});
+
+test('every rendered icon resolves against index.html to a file on disk, and the stylesheet never references icon URLs',async()=>{
+ const {existsSync}=await import('node:fs');const {fileURLToPath}=await import('node:url');
+ const indexUrl=new URL('../index.html',import.meta.url);
+ const names=new Set();
+ const collect=a=>{for(const el of a.window.document.querySelectorAll('i.icon')){const m=(el.getAttribute('style')||'').match(/mask-image:url\('([^']+)'\)/);assert.ok(m,el.outerHTML);names.add(m[1]);}};
+ const a=await setup();collect(a);
+ await a.click('[data-action="open-shift"]');collect(a);
+ await a.click('[data-action="tab-agenda"]');collect(a);
+ await a.click('[data-action="tab-task"]');collect(a);
+ await a.click('[data-action="notes"]');collect(a);
+ await a.click('[data-action="archive"]');collect(a);
+ await a.click('[data-action="more"]');collect(a);
+ await a.click('#modal [data-action="dismiss"]');
+ const m=setup(390).then(async b=>{await b.click('[data-action="open-shift"]');await b.click('[data-action="navigation"]');collect(b);});
+ await m;
+ assert.ok(names.size>=8,[...names].join(' '));
+ for(const src of names)assert.equal(existsSync(fileURLToPath(new URL(src,indexUrl))),true,src);
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.doesNotMatch(css,/assets\/icons/);
+ assert.doesNotMatch(css,/--icon/);
 });

@@ -9,7 +9,7 @@ let inputModality='keyboard',renderedView=null;
 const renderedParts=new Map();
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const icon=name=>`<i class="icon" aria-hidden="true" style="--icon:url('./assets/icons/${name}.svg')"></i>`;
+const icon=name=>`<i class="icon" aria-hidden="true" style="-webkit-mask-image:url('./assets/icons/${name}.svg');mask-image:url('./assets/icons/${name}.svg')"></i>`;
 const btn=(label,action,iconName='',cls='',attrs='')=>`<button type="button" class="${cls}" data-action="${action}" ${attrs}>${iconName?icon(iconName):''}<span>${esc(label)}</span></button>`;
 const priorityBadge=t=>t.priority==='high'?'<span class="priority-badge">Alta</span>':'';
 let data,view='home',selected=null,draft=null,dirty=false,busy=false,inspector=true,tab='task',filter='all',query='',archiveId=null,error='',feedback='',pendingNavigation=null,rawTemporal=null,overlay=null,returnFocus=null;

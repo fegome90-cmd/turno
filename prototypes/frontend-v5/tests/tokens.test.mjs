@@ -16,9 +16,9 @@ test('font sizes use the rem type scale; only font-size:0 stays literal',async()
 });
 test('the selected treatment is one shared rule set and no black filled row remains',async()=>{
  const text=await css();
- const treatment='background:var\\(--selected\\);color:var\\(--ink\\);box-shadow:inset 3px 0 0 var\\(--ink\\);border-radius:var\\(--radius-control\\)';
+ const treatment='background:var\\(--selected\\);color:var\\(--ink\\);box-shadow:inset 3px 0 0 var\\(--ink\\);border-radius:var\\(--radius-control\\);border-start-start-radius:0;border-end-start-radius:0';
  for(const selector of ['\\.nav-item\\.selected','\\.task-row\\.current','\\.tree-task\\.current'])assert.match(text,new RegExp(selector+'\\{'+treatment+'\\}'));
- assert.match(text,/\.agenda-task\.current\{background:var\(--selected\);color:var\(--ink\);box-shadow:inset 3px 0 0 var\(--ink\);border-radius:var\(--radius-control\)\}/);
+ assert.match(text,/\.agenda-task\.current\{background:var\(--selected\);color:var\(--ink\);box-shadow:inset 3px 0 0 var\(--ink\);border-radius:var\(--radius-control\);border-start-start-radius:0;border-end-start-radius:0\}/);
  assert.match(text,/\.filter\.active\{background:var\(--selected\);font-weight:600;box-shadow:inset 0 -2px 0 var\(--ink\)\}/);
  for(const selector of ['.nav-item.selected','.task-row.current','.tree-task.current','.agenda-task.current'])assert.equal(text.includes(selector+'{background:#111'),false);
  assert.doesNotMatch(text,/border-left-color|border-left:3px solid transparent|border-left:2px solid transparent/);
