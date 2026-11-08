@@ -1,6 +1,6 @@
 # Criterios y decisiones de aceptación para fase 0
 
-**Estado: propuesta; D1–D6 pendientes; G0 STOP.** Este archivo prepara decisiones, no prueba producto ni expresa aprobación del usuario. Fuente: [PLAN, sección 2](../PLAN.md). Responsable de decidir: usuario / dueño de producto. El orquestador registra decisión y evidencia; los revisores verifican alcance y trazabilidad.
+**Estado: D1–D6 aceptadas por el dueño el 08/11/2026; G0 STOP hasta la firma del plan/ADR.** Este archivo prepara decisiones, no prueba producto ni expresa aprobación del usuario. Fuente: [PLAN, sección 2](../PLAN.md). Responsable de decidir: usuario / dueño de producto. El orquestador registra decisión y evidencia; los revisores verifican alcance y trazabilidad.
 
 ## Contrato que se conserva
 
@@ -12,12 +12,12 @@ Los 212 comportamientos de la [matriz canónica](../parity-map.json) siguen `pla
 
 | ID | Propuesta y consecuencia | Test/oráculo futuro y gate | Decisión actual |
 |---|---|---|---|
-| D1 · Tema | Proveedor propio solo de sesión. No usar next-themes con persistencia por defecto | G1A: tema claro/oscuro/sistema, sin parpadeo observado ni escritura a storage; recarga vuelve al contrato de sesión. G1B: tokens/foco en portales | Pendiente |
-| D2 · Más opciones | Popover/disclosure no modal si contiene selector de tema, sin role menu impropio | G1B: Tab sale, Escape/click externo cierran y click conserva destino; foco nativo comprobado | Pendiente |
-| D3 · Validación | Field/Form asocian y muestran errores; dominio/adaptador conservan validación | G2A/G4A: mismos límites/raw inválido y errores; sin corrección silenciosa ni guardado válido desde dato inválido | Pendiente |
-| D4 · Avisos | Sonner condicionado a paridad, adaptador público si hace falta; brecha no resuelta detiene fase | G1B/G5A: pila, 30 avisos, retención de errores, anuncios, foco y modal; alternativa solo con decisión explícita | Pendiente |
-| D5 · Evidencia de navegador | Chromium mínimo final; Firefox/WebKit y dispositivo/AT con resultados separados, sin eliminar escenarios | G7A/G7B: ejecución real por motor y reporte manual de teclado/táctil/lector/IME; BLOCKED si no se puede comprobar | Pendiente |
-| D6 · Final y host | Entregable v6 autónomo; host/backend con encargo y evidencias separados | G7 verifica prototipo; host real NOT RUN hasta sus cinco capas de evidencia del plan. No conectar por efecto secundario | Pendiente |
+| D1 · Tema | Proveedor propio solo de sesión. No usar next-themes con persistencia por defecto | G1A: tema claro/oscuro/sistema, sin parpadeo observado ni escritura a storage; recarga vuelve al contrato de sesión. G1B: tokens/foco en portales | Aceptada: proveedor propio solo de sesión, sin storage. |
+| D2 · Más opciones | Popover/disclosure no modal si contiene selector de tema, sin role menu impropio | G1B: Tab sale, Escape/click externo cierran y click conserva destino; foco nativo comprobado | Aceptada: Popover no modal. |
+| D3 · Validación | Field/Form asocian y muestran errores; dominio/adaptador conservan validación | G2A/G4A: mismos límites/raw inválido y errores; sin corrección silenciosa ni guardado válido desde dato inválido | Aceptada: el dominio valida; Field/Form solo presentan y asocian. |
+| D4 · Avisos | Sonner condicionado a paridad, adaptador público si hace falta; brecha no resuelta detiene fase | G1B/G5A: pila, 30 avisos, retención de errores, anuncios, foco y modal; alternativa solo con decisión explícita | Aceptada: Sonner con adaptador; una brecha sin resolver bloquea 5A salvo excepción concreta del dueño. |
+| D5 · Evidencia de navegador | Chromium mínimo final; Firefox/WebKit y dispositivo/AT con resultados separados, sin eliminar escenarios | G7A/G7B: ejecución real por motor y reporte manual de teclado/táctil/lector/IME; BLOCKED si no se puede comprobar | Aceptada con delta: Chromium obligatorio para cerrar G7; Firefox/WebKit y dispositivo/AT con resultados separados (BLOCKED si no hay vía). Además, revisión de diseño con Paper (paper.design) e Impeccable en la máquina local del dueño durante las fases 3–4; no cuenta como evidencia de cierre. |
+| D6 · Final y host | Entregable v6 autónomo; host/backend con encargo y evidencias separados | G7 verifica prototipo; host real NOT RUN hasta sus cinco capas de evidencia del plan. No conectar por efecto secundario | Aceptada: demo autónoma; host/backend en un encargo aparte. |
 
 No confundir «Chromium mínimo» con autorización para omitir otros checks finales requeridos por el plan. Los resultados se separan; un requisito bloqueado no se convierte en PASS.
 
@@ -32,7 +32,7 @@ No confundir «Chromium mínimo» con autorización para omitir otros checks fin
 
 Por cada D1–D6, registrar decisión explícita, referencia exacta del plan/ADR, fecha, quién decidió y cita o enlace verificable a su aceptación. Una aceptación conjunta puede cubrir las seis si el usuario conoce ese alcance; si cambia una propuesta, registrar el delta y volver a revisar solo lo afectado. Mantener riesgo/rebaseline como decisiones separadas y concretas.
 
-Registro actual de aceptación: **ninguno**. La lista operativa y los responsables de bloqueo están en [G0-RECORD](G0-RECORD.md).
+Registro actual de aceptación: **D1–D6 aceptadas**, decisión del dueño en esta sesión, 08/11/2026 (preguntas de G0 respondidas en la conversación de Claude Code). La aceptación global del plan y del ADR sigue pendiente de la firma del dueño. La lista operativa y los responsables de bloqueo están en [G0-RECORD](G0-RECORD.md).
 
 ## Auditoría estructurada y aceptación de riesgo
 

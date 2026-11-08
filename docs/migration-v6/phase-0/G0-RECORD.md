@@ -1,13 +1,13 @@
 # Registro inicial de G0
 
-**Resultado actual: STOP. G0 pendiente / no aprobado. Fase 0 de ejecución NOT RUN.** Fecha del registro: 08/11/2026. Este es un registro de preparación documental, no un reporte READY del checker ni una aceptación humana.
+**Resultado actual: STOP, listo para firma. Falta solo la aceptación global del plan/ADR por el dueño; no se crea v6.** Fecha del registro: 08/11/2026. Este es un registro de preparación documental, no un reporte READY del checker ni una aceptación humana.
 
 ## Referencias y participantes
 
 - Fuente documental inspeccionada: `70167c2a3bfa2f2e4059c41fa6d0b84138eb38e6`, árbol `d47528eaeef1f6158585fb795f2f78089aec5fa9`; PR #2 borrador.
 - Fuente de comportamiento: `0f534df9bd5b012b4ec21c202a055e1e913bcab5`; último código `7141568f9fc765a2a2555a689a4df76dc9bfa44f`.
 - Dueños de ejecución/revisión: por asignar antes de iniciar; reparto y obligaciones en [FASE_0](../FASE_0.md).
-- Aceptación del plan/ADR/D1–D6: no registrada. Autorización para implementar v6: no registrada por este paquete.
+- D1–D6: aceptadas (decisión del dueño en esta sesión, 08/11/2026 (preguntas de G0 respondidas en la conversación de Claude Code)); detalle en [ACCEPTANCE](ACCEPTANCE.md). Plan/ADR: pendientes de firma. Autorización: cerrar G0 y parar; implementar v6 **no** autorizado.
 - SHA/huella de candidato de producto, lock de producto y HTML v6: no existen. No sustituirlos por valores del fixture ni del commit documental.
 
 ## Evidencia disponible frente a trabajo no ejecutado
@@ -32,11 +32,11 @@
 
 | Bloqueo | Acción necesaria | Responsable | Estado |
 |---|---|---|---|
-| B0 · Referencia no reproducida | Repetir suite completa sin alterar tests y diagnosticar discrepancia; si corresponde, proponer rebaseline concreto | Ejecutor + revisor; usuario decide rebaseline | Corregido en `536c511` (+ `077b986`) como delta aprobado de pruebas; 3 corridas completas consecutivas 212/212 en la re-auditoría. Riesgo residual a 300 ms corregido en `ee34b76` (212/212 a 220 ms ×3, 300 ms y 600 ms; cifras del autor) |
-| B1 · Contrato no aceptado | Revisar ADR y D1–D6, registrar decisión y evidencia exacta | Usuario; orquestador registra | Pendiente |
-| B2 · Riesgo tooling | Resolver hallazgos si se reutiliza el conjunto; aceptación contextual no cambia FAIL/STOP. Repetir auditorías total/runtime al fijar lock de producto | Ejecutor/revisor proponen; usuario acepta tradeoff | FAIL histórico del fixture |
+| B0 · Referencia no reproducida | Repetir suite completa sin alterar tests y diagnosticar discrepancia; si corresponde, proponer rebaseline concreto | Ejecutor + revisor; usuario decide rebaseline | Resuelto: rebaseline aceptado por el dueño el 08/11/2026 (referencia `0f534df` + `approvedDeltas`). En `1d03821`: 212/212 a 220 ms y a 300 ms, 566 aserciones y nombres de prueba idénticos a `81544e1` |
+| B1 · Contrato no aceptado | Revisar ADR y D1–D6, registrar decisión y evidencia exacta | Usuario; orquestador registra | D1–D6 aceptadas el 08/11/2026; plan/ADR pendientes de firma |
+| B2 · Riesgo tooling | Resolver hallazgos si se reutiliza el conjunto; aceptación contextual no cambia FAIL/STOP. Repetir auditorías total/runtime al fijar lock de producto | Ejecutor/revisor proponen; usuario acepta | Disposición del dueño (08/11/2026): esperar el parche upstream, sin overrides forzados; repetir `npm audit` total y runtime al crear el lock de v6 en 1A. Hasta entonces la auditoría del fixture sigue FAIL |
 | B3 · Navegador sin vía demostrada | Identificar vía permitida para pruebas 1A y conservar pendientes nativos/manuales posteriores | Orquestador + ejecutor | Vía Chromium/Playwright de este entorno verificada, solo Chromium. Firefox, WebKit, dispositivos y AT: NOT RUN |
-| B4 · Encargo de producto no resuelto | Resolver checkout Git/rama/entorno reales y autorización de implementación; publicación de producto requiere alcance propio | Orquestador + usuario cuando haga falta | NOT RUN |
+| B4 · Encargo de producto no resuelto | Resolver checkout Git/rama/entorno reales y autorización de implementación; publicación de producto requiere alcance propio | Orquestador + usuario cuando haga falta | Alcance actual: cerrar G0 y parar. Crear `frontend-v6` requiere una nueva autorización |
 
 ### B3 · Evidencia de navegador (re-auditoría del 08/11/2026)
 
@@ -60,13 +60,24 @@ Backend/host no son un bloqueo de la demo. Registrar su NOT RUN sin convertirlo 
 Solo marcar cada punto después de reunir evidencia real en este registro o un informe enlazado:
 
 - [ ] HEAD/base/rama/entorno y delta verificados al iniciar la ejecución, sin cambios ajenos ni v5 alterada.
-- [ ] Baseline resuelto: suite completa, build y checker con comandos/códigos/artefactos y discrepancia histórica diagnosticada, o rebaseline concreto aceptado con historial conservado. Un verde nuevo aislado no basta.
-- [ ] 212 identidades fuente intactas y mapeadas; EXTRA-ROLLBACK-PHASE incluido en baseline no visual.
-- [ ] HTML de referencia identificado por ruta real y SHA256 tras build; retorno seguro documentado sin afirmar que una referencia fallida es estable.
+- [x] Baseline resuelto: suite completa, build y checker con comandos/códigos/artefactos y discrepancia histórica diagnosticada, o rebaseline concreto aceptado con historial conservado. Un verde nuevo aislado no basta.
+- [x] 212 identidades fuente intactas y mapeadas; EXTRA-ROLLBACK-PHASE incluido en baseline no visual.
+- [x] HTML de referencia identificado por ruta real y SHA256 tras build; retorno seguro documentado sin afirmar que una referencia fallida es estable.
 - [ ] Plan, ADR y seis precisiones aceptados con fuente, responsable y fecha.
-- [ ] Disposición explícita de riesgos/condiciones aplicables al tooling y vía de navegador permitida para 1A.
-- [ ] Revisiones de especificación y calidad emitidas, hallazgos bloqueantes resueltos y checks afectados repetidos.
-- [ ] Autorización de implementación y alcance del siguiente encargo resueltos; permisos de publicación/integración/despliegue separados.
+- [x] Disposición explícita de riesgos/condiciones aplicables al tooling y vía de navegador permitida para 1A.
+- [x] Revisiones de especificación y calidad emitidas, hallazgos bloqueantes resueltos y checks afectados repetidos.
+- [x] Autorización de implementación y alcance del siguiente encargo resueltos; permisos de publicación/integración/despliegue separados.
+
+Evidencia de las casillas marcadas (08/11/2026, HEAD `1d038215a603e935368ccde8f258a77242ba5fd3`):
+
+- Baseline: rebaseline aceptado (B0). Suite completa 212/212 a 220 ms y a 300 ms, un archivo por vez; `check_docs.py`, 79 tests del checker y `contract_gate` OK.
+- Identidades: `check_docs.py` confirma 212 IDs de 16 archivos; nombres de prueba idénticos tras los deltas.
+- HTML de referencia: `prototypes/frontend-v5/preview.html` (generado, no versionado), 1.086.162 bytes, SHA256 `29e80f24c70e342b18b2f3f4023a4cf55e7e2dbb782292a5d57be5314c713c37`; `check_portable.mjs` PASS. Retorno: reconstruir desde ese commit con `python3 scripts/build_preview.py`; recargar reinicia la sesión.
+- Riesgos y navegador: B2 con disposición del dueño; vía Chromium verificada (B3).
+- Revisiones: revisión del paquete y re-auditoría independiente con hallazgos resueltos; ver commits `340424b`, `077b986`, `81544e1`, `1d03821`.
+- Autorización: cerrar G0 y parar.
+
+Sin marcar: el inicio de ejecución (se verifica cuando haya encargo de v6) y la aceptación global del plan/ADR, que requiere la firma del dueño.
 
 ## Campos para el informe de ejecución futuro
 
