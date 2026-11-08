@@ -1,6 +1,6 @@
 # Fase 0: paquete de inicio y decisión G0
 
-**Estado al 08/11/2026: fase 0 en ejecución (0.1–0.3 hechas, ver [EXECUTION-0](phase-0/EXECUTION-0.md)); G0 pendiente / STOP.** Este paquete permite encargar la fase 0 sin crear `prototypes/frontend-v6/`, instalar dependencias, modificar v5 ni conectar backend. Publicarlo en el PR #2 no aprueba el plan ni las seis precisiones.
+**Estado al 08/11/2026: fase 0 en ejecución (0.1–0.3 hechas, ver [EXECUTION-0](phase-0/EXECUTION-0.md)); G0 pendiente / STOP.** Este paquete permite encargar la fase 0 sin crear `prototypes/frontend-v6/`, instalar dependencias, modificar v5 ni conectar backend. Publicarlo en el PR #2 no aprueba el plan ni el ADR; las precisiones D1–D9 fueron aceptadas por el dueño el 08/11/2026 y la firma global sigue pendiente.
 
 ## Objetivo y entradas fijadas
 

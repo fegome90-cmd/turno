@@ -1,6 +1,6 @@
 # Registro inicial de G0
 
-**Resultado actual: STOP, listo para firma. Falta solo la aceptación global del plan/ADR por el dueño; no se crea v6.**
+**Resultado actual: STOP, listo para firma. Revisiones de 0.4 emitidas y checks repetidos sobre el HEAD final; falta la revisión del dueño del diff de `baseline-files.json` y su firma global del plan/ADR. No se crea v6.**
 
 Actualización 08/11/2026: la auditoría con el router de diseño añadió D7–D9 ([ACCEPTANCE](ACCEPTANCE.md)): producto general con «Lista» como término neutro, fase de identidad visual después de la migración y movimiento idéntico a v5. La firma pendiente cubre también estas decisiones. Fecha del registro: 08/11/2026. Este es un registro de preparación documental, no un reporte READY del checker ni una aceptación humana.
 
@@ -23,7 +23,7 @@ Actualización 08/11/2026: la auditoría con el router de diseño añadió D7–
 
 | Comprobación | Resultado y procedencia | Límite |
 |---|---|---|
-| Copia documental contra corte remoto | 102/102 blobs coincidentes en la preparación de este paquete | Integridad de lectura; no ejecución de producto ni prueba de Git local |
+| Copia documental contra corte remoto | 102/102 blobs coincidentes en la preparación de este paquete (histórico, no reproducible con el manifiesto actual de 83 blobs) | Integridad de lectura; no ejecución de producto ni prueba de Git local |
 | Producto/tests/assets v5 | Referencia de 83 blobs; checker documental contrasta manifiesto | No se editan para preparar fase 0 |
 | Validación documental de este paquete | PASS documental fresco en la preparación (histórico; recuentos actuales en EXECUTION-0): 5 JSON, 18 Markdown y 101 enlaces locales; checker 79/79; inventario y ejemplo STOP válidos | Cuatro comandos de FASE_0; no ejecutan producto ni aprueban G0 |
 | Inventario | 212 IDs de 16 archivos, todos planned; canon intacto | Fuente inventariada, no paridad React |
@@ -34,7 +34,8 @@ Actualización 08/11/2026: la auditoría con el router de diseño añadió D7–
 | Auditoría fixture histórica | FAIL total: 10 moderadas dev; 0 runtime | Nueva auditoría NOT RUN; no es lock de producto ni vulnerabilidad de aplicación demostrada |
 | Navegador (Chromium) | PASS de la re-auditoría del 08/11/2026 sobre `340424b`, Chromium 153.0.8010.12 vía Playwright de este entorno; detalle en B3 abajo | Solo Chromium; no es G7A/G7B ni producto v6 |
 | Ejecución de fase 0 (0.1–0.3) | 0.1 PASS, 0.2 PASS (212/212, HTML `29e80f24…` reproducido), 0.3 con 4 inconsistencias documentales, corregidas en `08ec7e4`; ver [EXECUTION-0](EXECUTION-0.md) | Revisión de especificación de 0.4: ver fila siguiente |
-| Revisión de especificación (0.4) | Primera pasada sobre `08ec7e4`: no conforme (2 BLOCK, 7 WARN). Segunda pasada sobre `71bcd3d`: **conforme con observaciones**; residuos de redacción corregidos después. Informe: [SPEC-REVIEW-0](SPEC-REVIEW-0.md) | Revisor Sonnet independiente; revisión de calidad pendiente |
+| Revisión de especificación (0.4) | Primera pasada sobre `08ec7e4`: no conforme (2 BLOCK, 7 WARN). Segunda pasada sobre `71bcd3d`: **conforme con observaciones**; residuos de redacción corregidos después. Informe: [SPEC-REVIEW-0](SPEC-REVIEW-0.md) | Revisor Sonnet independiente |
+| Revisión de calidad (0.4) | Sobre `d6964d0`: **conforme con observaciones** (0 BLOCK, 5 WARN, 4 SUGGEST). Suite 212/212, huella y validaciones reproducidas. Informe: [QUALITY-REVIEW-0](QUALITY-REVIEW-0.md) | Otra instancia Sonnet, independiente de la anterior. Límite aceptado: los documentos exceptuados no fijan su contenido |
 | Visual/dispositivo/AT, Firefox, WebKit | NOT RUN | Sin dispositivos reales, lectores de pantalla ni otros motores |
 | React/paridad/host | NOT RUN | No existe v6 ni integración |
 | Plan/precisiones/riesgo/rebaseline | Pendientes de las decisiones aplicables | Documentos publicados no equivalen a aceptación |
@@ -44,7 +45,7 @@ Actualización 08/11/2026: la auditoría con el router de diseño añadió D7–
 | Bloqueo | Acción necesaria | Responsable | Estado |
 |---|---|---|---|
 | B0 · Referencia no reproducida | Repetir suite completa sin alterar tests y diagnosticar discrepancia; si corresponde, proponer rebaseline concreto | Ejecutor + revisor; usuario decide rebaseline | Resuelto: rebaseline aceptado por el dueño el 08/11/2026, dicho en la conversación de Claude Code (pregunta «Rebaseline», respuesta «Aceptado (Recommended)»), sin enlace; aceptó sin revisar línea a línea el diff de `baseline-files.json`, que sigue disponible para su revisión humana (referencia `0f534df` + `approvedDeltas`). En `1d03821`: 212/212 a 220 ms y a 300 ms, 566 aserciones y nombres de prueba idénticos a `81544e1` |
-| B1 · Contrato no aceptado | Revisar ADR y D1–D9, registrar decisión y evidencia exacta | Usuario; orquestador registra | D1–D6 aceptadas el 08/11/2026; plan/ADR pendientes de firma |
+| B1 · Contrato no aceptado | Revisar ADR y D1–D9, registrar decisión y evidencia exacta | Usuario; orquestador registra | D1–D9 aceptadas el 08/11/2026; plan/ADR pendientes de firma |
 | B2 · Riesgo tooling | Resolver hallazgos si se reutiliza el conjunto; aceptación contextual no cambia FAIL/STOP. Repetir auditorías total/runtime al fijar lock de producto | Ejecutor/revisor proponen; usuario acepta | Disposición del dueño (08/11/2026, conversación de Claude Code, respuesta «Esperar parche upstream (Recommended)», sin enlace): esperar el parche upstream, sin overrides forzados; repetir `npm audit` total y runtime al crear el lock de v6 en 1A. Hasta entonces la auditoría del fixture sigue FAIL |
 | B3 · Navegador sin vía demostrada | Identificar vía permitida para pruebas 1A y conservar pendientes nativos/manuales posteriores | Orquestador + ejecutor | Vía Chromium/Playwright de este entorno verificada, solo Chromium. Firefox, WebKit, dispositivos y AT: NOT RUN |
 | B4 · Encargo de producto no resuelto | Resolver checkout Git/rama/entorno reales y autorización de implementación; publicación de producto requiere alcance propio | Orquestador + usuario cuando haga falta | Alcance actual: cerrar G0 y parar. Crear `frontend-v6` requiere una nueva autorización |
@@ -76,7 +77,7 @@ Solo marcar cada punto después de reunir evidencia real en este registro o un i
 - [x] HTML de referencia identificado por ruta real y SHA256 tras build; retorno seguro documentado sin afirmar que una referencia fallida es estable.
 - [ ] Plan, ADR y precisiones D1–D9 aceptados con fuente, responsable y fecha (D1–D9 sí; plan/ADR pendientes de firma).
 - [x] Disposición explícita de riesgos/condiciones aplicables al tooling y vía de navegador permitida para 1A.
-- [ ] Revisiones de especificación y calidad emitidas, hallazgos bloqueantes resueltos y checks afectados repetidos.
+- [x] Revisiones de especificación y calidad emitidas, hallazgos bloqueantes resueltos y checks afectados repetidos.
 - [x] (Resuelto como NO autorizada: alcance = cerrar G0 y parar; v6 requiere autorización nueva) Autorización de implementación y alcance del siguiente encargo resueltos; permisos de publicación/integración/despliegue separados.
 
 Evidencia de las casillas marcadas (08/11/2026, HEAD `1d038215a603e935368ccde8f258a77242ba5fd3`):
@@ -85,10 +86,10 @@ Evidencia de las casillas marcadas (08/11/2026, HEAD `1d038215a603e935368ccde8f2
 - Identidades: `check_docs.py` confirma 212 IDs de 16 archivos; nombres de prueba idénticos tras los deltas.
 - HTML de referencia: `prototypes/frontend-v5/preview.html` (generado, no versionado), 1.086.162 bytes, SHA256 `29e80f24c70e342b18b2f3f4023a4cf55e7e2dbb782292a5d57be5314c713c37`; `check_portable.mjs` PASS. Retorno: reconstruir desde ese commit con `python3 scripts/build_preview.py`; recargar reinicia la sesión.
 - Riesgos y navegador: B2 con disposición del dueño; vía Chromium verificada (B3).
-- Revisiones de 0.4: pendientes. La revisión de especificación sobre `08ec7e4` dio «no conforme» (2 bloqueantes, corregidos en el commit siguiente); falta repetirla sobre lo corregido y la revisión de calidad. Las revisiones anteriores (`340424b`…`1d03821`) son del paquete previo a D7–D9.
+- Revisiones de 0.4: emitidas. Especificación: [SPEC-REVIEW-0](SPEC-REVIEW-0.md), conforme con observaciones sobre `71bcd3d`. Calidad: [QUALITY-REVIEW-0](QUALITY-REVIEW-0.md), conforme con observaciones sobre `d6964d0`. Observaciones de ambas corregidas en el commit siguiente; checks repetidos en [EXECUTION-0](EXECUTION-0.md#repetición-sobre-el-head-final).
 - Autorización: cerrar G0 y parar.
 
-Sin marcar: la verificación de HEAD sobre el commit que se firme, las revisiones de 0.4 y la aceptación global del plan/ADR, que requiere la firma del dueño.
+Sin marcar: la verificación de HEAD sobre el commit que se firme (se repite si cambia después de esta revisión) y la aceptación global del plan/ADR, que requiere la firma del dueño.
 
 ## Campos para el informe de ejecución futuro
 

@@ -20,7 +20,7 @@ Delta de v5 desde la referencia (`git diff --stat 0f534df..HEAD -- prototypes/fr
 - 3 documentos admitidos como solo-documentación: README.md, docs/MIGRACION_REACT.md, docs/MOTION_V6.md.
 - Ningún cambio en `src/`, assets ni scripts de v5.
 
-Validaciones documentales (`python3 -I`, desde la raíz), todas con código de salida 0:
+Validaciones documentales sobre `0712b4c` (`python3 -I`, desde la raíz), todas con código de salida 0:
 
 1. `docs/migration-v6/scripts/check_docs.py`: PASS, `errors: []` (7 JSON, 25 Markdown, 112 enlaces locales, 212 requisitos, 16 archivos fuente, 6 controles).
 2. `-m unittest discover -s docs/migration-v6/agent-contracts/tests`: 79 pruebas, OK.
@@ -57,6 +57,8 @@ for f in tests/*.test.mjs; do node --max-old-space-size=700 --test --test-concur
 | visibility | 5 | 0 |
 | **Total** | **212** | **0** |
 
+Requisito: `prototypes/frontend-v5/node_modules` (linkedom 0.18.15, `npm ci --ignore-scripts`); no se versiona y sin él `check_portable.mjs` falla con `ERR_MODULE_NOT_FOUND`.
+
 Build y comprobación portable:
 
 - `python3 scripts/build_preview.py`: código 0, «Built preview.html: 1086162 bytes».
@@ -81,3 +83,15 @@ Inconsistencias (decisiones ya tomadas por el dueño que no llegaron a todos los
 4. FASE_0.md:71 dice «las seis decisiones D1–D6».
 
 No se resolvieron decisiones en esta tarea. Corrección posterior del orquestador: las cuatro se incorporaron a PLAN.md (sección 2, puntos 5 y 7–9, y fase posterior de identidad), ADR-001 y FASE_0, sin decidir nada nuevo.
+
+## Repetición sobre el HEAD final
+
+Tras las revisiones de especificación y calidad, el orquestador repitió las comprobaciones sobre el árbol del commit que contiene esta sección (padre `d6964d0`; solo cambian documentos y el checker):
+
+- `check_docs.py`: PASS, `errors: []` (28 Markdown, 132 enlaces). Incluye la comprobación nueva de archivos de v5 fuera del manifiesto.
+- 79 pruebas del checker: OK. `contract_gate` con y sin brief/report: código 0.
+- Delta de v5 desde `0f534df`: 10 archivos, +164/−41, igual que en 0.1.
+- Suite completa, archivo por archivo: 212 pass, 0 fail.
+- `build_preview.py` y `check_portable.mjs`: PASS. SHA256 de `preview.html`: `29e80f24c70e342b18b2f3f4023a4cf55e7e2dbb782292a5d57be5314c713c37`, idéntica.
+
+Si el dueño firma un commit posterior, se repite esta lista sobre ese commit.

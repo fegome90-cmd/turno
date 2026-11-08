@@ -128,6 +128,17 @@ def check():
         sha = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
         if rel not in DOC_ONLY_EXCEPTIONS and sha != blob['sha'] and not (rel in deltas and sha == deltas[rel]['sha']):
             errors.append(f'Original product/test/asset changed: {rel}')
+    # Q-05: a new file in v5 (outside the manifest) must not pass silently. Generated or local
+    # artefacts that v5's .gitignore excludes are ignored.
+    v5 = ROOT / 'prototypes' / 'frontend-v5'
+    listed = {b['path'] for b in blobs}
+    ignored_parts = {'node_modules', '__pycache__', '.DS_Store'}
+    for path in sorted(v5.rglob('*')):
+        if not path.is_file() or ignored_parts & set(path.parts) or path.name == 'preview.html' or path.suffix == '.log':
+            continue
+        rel = path.relative_to(ROOT).as_posix()
+        if rel not in listed:
+            errors.append(f'File in v5 outside the baseline manifest: {rel}')
     if len(matrix) != 212 or len({r['requirementId'] for r in matrix}) != 212:
         errors.append('Expected exactly 212 distinct requirement IDs.')
     identities = {(r['sourceFile'], r['sourceTest']) for r in matrix}
