@@ -56,3 +56,53 @@ test('popstate to a task state restores that task without pushing during its ren
  assert.equal(a.window.document.title,'Revisar insumos · Turno');
  assert.equal(a.pushes(),before);
 });
+const home={view:'home',selected:null,archiveId:null};
+const fill=(a,s,value,extra={})=>{const el=a.q(s);el.value=value;const ev=new a.window.Event('input',{bubbles:true});Object.assign(ev,extra);el.dispatchEvent(ev);};
+test('Back with the More options menu or a dialog open closes it and keeps the view and history aligned',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ await a.click('[data-action="more"]');assert.equal(a.q('#more-options').hasAttribute('hidden'),false);
+ const before=a.pushes();a.pop(home);await pause(5);
+ assert.equal(a.q('#more-options').hasAttribute('hidden'),true);
+ assert.equal(a.q('#title').value,'Tarea 1');
+ assert.equal(a.pushes(),before+1);assert.equal(a.window.history.state.selected.id,'task-1');
+ await a.click('[data-action="rename-bed:bed-1"]');assert.ok(a.q('#modal').open);
+ a.pop(home);await pause(5);
+ assert.equal(a.q('#modal').open,false);assert.equal(a.q('#title').value,'Tarea 1');
+ assert.equal(a.pushes(),before+2);assert.equal(a.window.history.state.selected.id,'task-1');
+});
+test('Back while a completion save is pending keeps the view and restores the history entry',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ const check=a.q('[data-check="task-2"]');check.checked=true;check.dispatchEvent(new a.window.Event('change',{bubbles:true}));await pause(5);
+ const before=a.pushes();a.pop(home);await pause(5);
+ assert.equal(a.q('.greeting'),null);assert.equal(a.q('#title').value,'Tarea 1');
+ assert.equal(a.pushes(),before+1);assert.equal(a.window.history.state.selected.id,'task-1');
+ await pause(500);assert.equal(a.q('[data-check="task-2"]').checked,true);
+});
+test('Back with unsaved changes: Volver keeps one entry, Descartar goes back once and applies the target',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ fill(a,'#body','Sin guardar');
+ const start=a.pushes();
+ a.pop(home);await pause(5);
+ assert.ok(a.q('#modal').open);assert.equal(a.pushes(),start+1);
+ await a.click('#modal [data-action="dismiss"]');
+ assert.equal(a.q('#body').value,'Sin guardar');assert.equal(a.pushes(),start+1);
+ assert.equal(a.window.history.state.selected.id,'task-1');
+ a.pop(home);await pause(5);assert.equal(a.pushes(),start+2);
+ const backs=a.calls.filter(([k])=>k==='back').length;
+ await a.click('#modal [data-action="discard-navigation"]');
+ assert.equal(a.calls.filter(([k])=>k==='back').length,backs+1);
+ a.pop(home);await pause(5);
+ assert.ok(a.q('.greeting'));assert.equal(a.pushes(),start+2);
+});
+test('IME composition: Enter while composing neither saves nor is cancelled, and line breaks are normalised at compositionend',async()=>{
+ const a=await setup();await a.click('[data-action="open-shift"]');
+ fill(a,'#title','Tarea 1 editada');
+ const enter=new a.window.Event('keydown',{bubbles:true,cancelable:true});enter.key='Enter';enter.isComposing=true;enter.keyCode=229;
+ a.q('#title').dispatchEvent(enter);await pause(400);
+ assert.equal(enter.defaultPrevented,false);
+ assert.doesNotMatch(a.q('#save-feedback').textContent,/Guardado en esta demostración/);
+ fill(a,'#title','かな\n',{isComposing:true});
+ assert.equal(a.q('#title').value,'かな\n');
+ a.q('#title').dispatchEvent(new a.window.Event('compositionend',{bubbles:true}));
+ assert.equal(a.q('#title').value,'かな ');
+});

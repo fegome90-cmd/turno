@@ -304,9 +304,14 @@ async function create(event){event.preventDefault();if(busy)return;const f=event
 document.documentElement.dataset.inputModality='keyboard';
 document.addEventListener('scroll',e=>{if(e.target.classList?.contains('nav-scroll'))syncScrollCue();},true);
 window.addEventListener('resize',syncScrollCue);
-window.addEventListener('popstate',e=>{const s=e.state;if(!s)return;const apply=()=>{restoring=true;try{archiveId=s.archiveId||null;if(s.selected&&data[s.selected.kind==='note'?'notes':'tasks'].some(x=>x.id===s.selected.id))select(s.selected.kind,s.selected.id);else{view=s.view;selected=draft=null;render();}}finally{restoring=false;}};if(dirty){window.history.pushState(routeState(),'');requestNavigation(()=>{window.history.back();});}else apply();});
+window.addEventListener('popstate',e=>{const s=e.state;if(!s)return;const stay=()=>window.history.pushState(routeState(),'');
+ // Back while saving cannot navigate: put the current entry back so history matches the view.
+ if(busy){stay();return;}
+ // Back first closes an open overlay (dialog, drawer or More options menu) instead of changing the view under it.
+ if($('#modal').open||moreOpen){restoring=true;try{pendingNavigation=null;moreOpen=false;closeModal();render();}finally{restoring=false;}stay();return;}
+ const apply=()=>{restoring=true;try{archiveId=s.archiveId||null;if(s.selected&&data[s.selected.kind==='note'?'notes':'tasks'].some(x=>x.id===s.selected.id))select(s.selected.kind,s.selected.id);else{view=s.view;selected=draft=null;render();}}finally{restoring=false;}};if(dirty){window.history.pushState(routeState(),'');requestNavigation(()=>{window.history.back();});}else apply();});
 document.addEventListener('pointerdown',()=>{inputModality='pointer';document.documentElement.dataset.inputModality='pointer';},true);
-document.addEventListener('keydown',e=>{if(e.target.id==='title'&&e.key==='Enter'){e.preventDefault();if(dirty&&!busy&&!readonly()){const f=$('#editor-form');if(f?.requestSubmit)f.requestSubmit();else f?.dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));}}inputModality='keyboard';document.documentElement.dataset.inputModality='keyboard';motion.cancelAll();},true);
+document.addEventListener('keydown',e=>{if(e.target.id==='title'&&e.key==='Enter'&&!e.isComposing&&e.keyCode!==229){e.preventDefault();if(dirty&&!busy&&!readonly()){const f=$('#editor-form');if(f?.requestSubmit)f.requestSubmit();else f?.dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));}}inputModality='keyboard';document.documentElement.dataset.inputModality='keyboard';motion.cancelAll();},true);
 document.addEventListener('click',e=>{
  if(moreOpen&&!e.target.closest('.nav-footer'))closeMore();
  const summary=e.target.closest('.property > summary');
@@ -321,8 +326,10 @@ document.addEventListener('toggle',e=>{
  details.hasAttribute('open')?expandedProperties.add(key):expandedProperties.delete(key);
 },true);
 document.addEventListener('submit',e=>{if(e.target.id==='editor-form'){e.preventDefault();save();}if(e.target.id==='create-form')create(e);if(e.target.id==='rename-bed-form')renameBed(e);});
-document.addEventListener('input',e=>{const t=e.target;if(['new-title','bed-name'].includes(t.id)){t.removeAttribute('aria-invalid');const hint=$('#'+(t.id==='new-title'?'create-error':'rename-bed-error'));if(hint)hint.textContent='';return;}if(t.id==='search'){query=t.value;const pos=t.selectionStart;render();$('#search')?.focus();try{$('#search')?.setSelectionRange(pos,pos);}catch{}return;}if(t.id==='title'&&/\n/.test(t.value))t.value=t.value.replace(/\r?\n/g,' ');
+document.addEventListener('input',e=>{const t=e.target;if(['new-title','bed-name'].includes(t.id)){t.removeAttribute('aria-invalid');const hint=$('#'+(t.id==='new-title'?'create-error':'rename-bed-error'));if(hint)hint.textContent='';return;}if(t.id==='search'){query=t.value;const pos=t.selectionStart;render();$('#search')?.focus();try{$('#search')?.setSelectionRange(pos,pos);}catch{}return;}if(t.id==='title'&&!e.isComposing&&/\n/.test(t.value))t.value=t.value.replace(/\r?\n/g,' ');
 if(!draft||readonly()||busy)return;if(['title','body','reason','priority'].includes(t.id)){draft[t.id]=t.value;updateDirty();}if(t.dataset.field){rawTemporal[t.dataset.field]=t.value;updateDirty();}});
+// An IME may commit a line break when composition ends; normalise it only then.
+document.addEventListener('compositionend',e=>{const t=e.target;if(t.id!=='title'||!/\n/.test(t.value))return;t.value=t.value.replace(/\r?\n/g,' ');if(draft&&!readonly()&&!busy){draft.title=t.value;updateDirty();}});
 document.addEventListener('change',e=>{
  const t=e.target;
  if(t.id==='theme-preference'){theme.setPreference(t.value);return;}
