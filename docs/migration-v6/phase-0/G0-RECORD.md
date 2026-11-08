@@ -33,6 +33,7 @@ Actualización 08/11/2026: la auditoría con el router de diseño añadió D7–
 | Build/check portable v5 históricos | PASS Node/LinkeDOM, PREFLIGHT | Build nuevo NOT RUN; no offline/visual real |
 | Auditoría fixture histórica | FAIL total: 10 moderadas dev; 0 runtime | Nueva auditoría NOT RUN; no es lock de producto ni vulnerabilidad de aplicación demostrada |
 | Navegador (Chromium) | PASS de la re-auditoría del 08/11/2026 sobre `340424b`, Chromium 153.0.8010.12 vía Playwright de este entorno; detalle en B3 abajo | Solo Chromium; no es G7A/G7B ni producto v6 |
+| Ejecución de fase 0 (0.1–0.3) | 0.1 PASS, 0.2 PASS (212/212, HTML `29e80f24…` reproducido), 0.3 con 4 inconsistencias documentales; ver [EXECUTION-0](EXECUTION-0.md) | Las inconsistencias son decisiones D7–D9 no incorporadas al plan/ADR; se corrigen antes de 0.4 |
 | Visual/dispositivo/AT, Firefox, WebKit | NOT RUN | Sin dispositivos reales, lectores de pantalla ni otros motores |
 | React/paridad/host | NOT RUN | No existe v6 ni integración |
 | Plan/precisiones/riesgo/rebaseline | Pendientes de las decisiones aplicables | Documentos publicados no equivalen a aceptación |
