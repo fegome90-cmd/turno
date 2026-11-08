@@ -28,7 +28,7 @@ async function setup({width=1440,dark=false,name}={}){
  Object.defineProperty(window.HTMLOptionElement.prototype,'selected',{configurable:true,get(){return this.hasAttribute('selected');},set(value){if(value)for(const other of this.parentElement?.querySelectorAll('option')||[])if(other!==this)other.removeAttribute('selected');this.toggleAttribute('selected',Boolean(value));}});
  if(name){const meta=window.document.createElement('meta');meta.name='turno-preview-name';meta.content=name;window.document.head.append(meta);}
  globalThis.window=window;globalThis.document=window.document;
- await import(`../src/app.mjs?complete=${++run}`);await wait(250);
+ await import(`../src/app.mjs?complete=${++run}`);await waitForAppReady(window.document);
  const q=selector=>window.document.querySelector(selector);
  const event=(node,type,extras={})=>{const e=new window.Event(type,{bubbles:true,cancelable:true});Object.assign(e,extras);node.dispatchEvent(e);return e;};
  const click=async selector=>{assert.ok(q(selector),selector);q(selector).focus();event(q(selector),'click');await wait(2);};
@@ -163,3 +163,6 @@ test('dark mode survives failed save, retry, archive confirmation and read-only 
  assert.equal(a.window.document.documentElement.dataset.theme,'dark');assert.equal(a.q('#editor-completed').disabled,true);
  assert.equal(a.q('#body').hasAttribute('readonly'),true);assert.equal(a.q('#body').value,'Guardar en oscuro');
 });
+
+// The app loads through the preview adapter (220 ms); wait until it has rendered instead of a fixed 250 ms.
+async function waitForAppReady(document,{timeout=3000}={}){const end=Date.now()+timeout;while(!document.querySelector('#app .shell, #app main')){if(Date.now()>end)throw new Error('app did not finish loading');await new Promise(r=>setTimeout(r,10));}}

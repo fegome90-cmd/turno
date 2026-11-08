@@ -19,7 +19,7 @@ async function setup(width=1440){
  window.HTMLElement.prototype.showModal=function(){this.open=true;this.setAttribute('open','');};
  window.HTMLElement.prototype.close=function(){this.open=false;this.removeAttribute('open');};
  globalThis.window=window;globalThis.document=window.document;
- await import(`../src/app.mjs?audit=${++run}`);await pause(250);
+ await import(`../src/app.mjs?audit=${++run}`);await waitForAppReady(window.document);
  const q=s=>window.document.querySelector(s);
  const click=async s=>{assert.ok(q(s),s);q(s).focus();q(s).dispatchEvent(new window.Event('click',{bubbles:true}));await pause(2);};
  const fill=(s,value)=>{const input=q(s);if(input.tagName==='SELECT'){for(const option of input.options)option.selected=option.value===value;}else input.value=value;input.dispatchEvent(new window.Event('input',{bubbles:true}));};
@@ -136,3 +136,6 @@ test('synthetic starting task and all four stable greeting subtitles stay in Spa
  await a.click('[data-action="open-shift"]');await a.click('[data-action="home"]');
  assert.equal(a.q('.greeting p').textContent,subtitle);assert.match(a.q('.greeting h1').textContent,/Hola, Demo\./);
 });
+
+// The app loads through the preview adapter (220 ms); wait until it has rendered instead of a fixed 250 ms.
+async function waitForAppReady(document,{timeout=3000}={}){const end=Date.now()+timeout;while(!document.querySelector('#app .shell, #app main')){if(Date.now()>end)throw new Error('app did not finish loading');await new Promise(r=>setTimeout(r,10));}}

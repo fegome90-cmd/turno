@@ -13,7 +13,7 @@ async function setup(width=1440){
  window.HTMLElement.prototype.showModal=function(){this.open=true;this.setAttribute('open','');};
  window.HTMLElement.prototype.close=function(){this.open=false;this.removeAttribute('open');};
  globalThis.window=window;globalThis.document=window.document;
- await import(`../src/app.mjs?skills=${++run}`);await pause(250);
+ await import(`../src/app.mjs?skills=${++run}`);await waitForAppReady(window.document);
  const q=s=>window.document.querySelector(s);
  const click=async s=>{assert.ok(q(s),s);q(s).focus();q(s).dispatchEvent(new window.Event('click',{bubbles:true}));await pause(2);};
  const fill=(s,value)=>{q(s).value=value;q(s).dispatchEvent(new window.Event('input',{bubbles:true}));};
@@ -228,7 +228,7 @@ test('every completion checkbox sits in a 44px label hit area and one change com
  const a=await setup();await a.click('[data-action="open-shift"]');
  for(const check of a.window.document.querySelectorAll('[data-check]'))assert.equal(check.parentElement.matches('label.check-target'),true);
  const check=a.q('[data-check="task-1"]');check.checked=true;check.dispatchEvent(new a.window.Event('change',{bubbles:true}));
- await new Promise(r=>setTimeout(r,500));
+ await waitFor(()=>{const el=a.q('[data-check="task-1"]');return el.checked&&!el.disabled;});
  assert.equal(a.q('[data-check="task-1"]').checked,true);
  assert.match(a.q('#property-content-activity').textContent,/Versión local 2/);
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
@@ -252,7 +252,7 @@ test('Enter in the title saves a dirty draft through the form submit path and in
  a.fill('#title','Título con Enter');
  const enter=new a.window.Event('keydown',{bubbles:true,cancelable:true});enter.key='Enter';a.q('#title').dispatchEvent(enter);
  assert.equal(enter.defaultPrevented,true);
- await new Promise(r=>setTimeout(r,500));
+ await waitFor(()=>/Guardado/.test(a.q('#save-feedback').textContent));
  assert.match(a.q('#save-feedback').textContent,/Guardado/);
  assert.equal(a.q('#title').value,'Título con Enter');
 });
@@ -292,3 +292,10 @@ test('sidebar shift actions stack in one column so no label wraps in the 212px s
  assert.match(css,/\.nav-actions\{display:grid;grid-template-columns:minmax\(0,1fr\)/);
  assert.doesNotMatch(css,/\.nav-actions\{[^}]*repeat\(2/);
 });
+
+// Wait for the app to finish an adapter round trip instead of a fixed sleep: completing or saving
+// costs two 220 ms adapter waits (save + reload), so a fixed 500 ms left ~60 ms of margin.
+async function waitFor(condition,{timeout=3000,interval=20}={}){const end=Date.now()+timeout;for(;;){if(condition())return;if(Date.now()>end)throw new Error('waitFor timed out: '+condition);await new Promise(r=>setTimeout(r,interval));}}
+
+// The app loads through the preview adapter (220 ms); wait until it has rendered instead of a fixed 250 ms.
+async function waitForAppReady(document,{timeout=3000}={}){const end=Date.now()+timeout;while(!document.querySelector('#app .shell, #app main')){if(Date.now()>end)throw new Error('app did not finish loading');await new Promise(r=>setTimeout(r,10));}}

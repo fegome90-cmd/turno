@@ -10,7 +10,7 @@ async function setup(width=1440){
  window.HTMLElement.prototype.showModal=function(){this.open=true;this.setAttribute('open','');};
  window.HTMLElement.prototype.close=function(){this.open=false;this.removeAttribute('open');};
  globalThis.window=window;globalThis.document=window.document;
- await import(`../src/app.mjs?test=${++run}`);await sleep(250);
+ await import(`../src/app.mjs?test=${++run}`);await waitForAppReady(window.document);
  const q=s=>window.document.querySelector(s),click=async s=>{assert.ok(q(s),s);q(s).dispatchEvent(new window.Event('click',{bubbles:true}));await sleep(2);};
  const fill=(s,value)=>{const e=q(s);assert.ok(e,s);e.value=value;e.dispatchEvent(new window.Event('input',{bubbles:true}));};
  const submit=async()=>{q('#editor-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));await sleep(500);};
@@ -151,10 +151,10 @@ test('home summary reports the open shift and its pending count, and the greetin
 });
 test('home summary uses singular pending copy and the start action when no shift is open',async()=>{
  const a=await setup();await a.click('[data-action="open-shift"]');
- for(const id of ['task-1','task-2','task-3']){const input=a.q(`[data-check="${id}"]`);input.checked=true;input.dispatchEvent(new a.window.Event('change',{bubbles:true}));await new Promise(r=>setTimeout(r,500));}
+ for(const id of ['task-1','task-2','task-3']){const input=a.q(`[data-check="${id}"]`);input.checked=true;input.dispatchEvent(new a.window.Event('change',{bubbles:true}));await waitFor(()=>{const el=a.q(`[data-check="${id}"]`);return el.checked&&!el.disabled;});}
  await a.click('[data-action="home"]');
  assert.equal(a.q('main .home-summary p').textContent,'Turno de día · 1 pendiente');
- await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await new Promise(r=>setTimeout(r,500));
+ await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await waitFor(()=>!a.q('#modal').open);
  assert.equal(a.q('main .home-summary p').textContent,'No hay un turno abierto.');
  assert.equal(a.q('main .home-summary button').textContent,'Iniciar turno');
 });
@@ -164,3 +164,10 @@ test('new field validation does not discard previously unread stacked feedback',
  const card=a.q('.toast-item');a.fill('#date','31/02/2026');await a.submit();
  assert.equal(a.q('.toast-item'),card);assert.match(a.q('#field-error-date').textContent,/fecha/);
 });
+
+// Wait for the app to finish an adapter round trip instead of a fixed sleep: completing or saving
+// costs two 220 ms adapter waits (save + reload), so a fixed 500 ms left ~60 ms of margin.
+async function waitFor(condition,{timeout=3000,interval=20}={}){const end=Date.now()+timeout;for(;;){if(condition())return;if(Date.now()>end)throw new Error('waitFor timed out: '+condition);await new Promise(r=>setTimeout(r,interval));}}
+
+// The app loads through the preview adapter (220 ms); wait until it has rendered instead of a fixed 250 ms.
+async function waitForAppReady(document,{timeout=3000}={}){const end=Date.now()+timeout;while(!document.querySelector('#app .shell, #app main')){if(Date.now()>end)throw new Error('app did not finish loading');await new Promise(r=>setTimeout(r,10));}}

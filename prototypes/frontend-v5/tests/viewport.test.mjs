@@ -15,7 +15,7 @@ async function setup(width=900){
  window.HTMLElement.prototype.close=function(){this.open=false;this.removeAttribute('open');};
  Object.defineProperty(window.HTMLOptionElement.prototype,'selected',{configurable:true,get(){return this.hasAttribute('selected');},set(v){if(v)for(const o of this.parentElement?.querySelectorAll('option')||[])if(o!==this)o.removeAttribute('selected');this.toggleAttribute('selected',Boolean(v));}});
  globalThis.window=window;globalThis.document=window.document;
- await import(`../src/app.mjs?viewport=${++run}`);await wait(250);
+ await import(`../src/app.mjs?viewport=${++run}`);await waitForAppReady(window.document);
  const q=s=>window.document.querySelector(s),event=(node,type)=>node.dispatchEvent(new window.Event(type,{bubbles:true,cancelable:true}));
  const click=async s=>{assert.ok(q(s),s);q(s).focus();event(q(s),'click');await wait(2);};
  const fill=(s,v)=>{q(s).value=v;event(q(s),'input');};
@@ -91,3 +91,6 @@ test('temporal-only dirty transition preserves body, form, scroll and current sa
  assert.equal(a.q('#body'),body);assert.equal(a.q('#editor-form'),form);assert.equal(body.scrollTop,47);assert.equal(a.q('#date').value,'31/02/2026');
  assert.equal(a.q('[type="submit"]').disabled,false);assert.match(a.q('#save-feedback').textContent,/Cambios sin guardar/);
 });
+
+// The app loads through the preview adapter (220 ms); wait until it has rendered instead of a fixed 250 ms.
+async function waitForAppReady(document,{timeout=3000}={}){const end=Date.now()+timeout;while(!document.querySelector('#app .shell, #app main')){if(Date.now()>end)throw new Error('app did not finish loading');await new Promise(r=>setTimeout(r,10));}}

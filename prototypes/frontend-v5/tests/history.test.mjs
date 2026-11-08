@@ -18,7 +18,7 @@ async function setup(){
  window.HTMLElement.prototype.showModal=function(){this.open=true;this.setAttribute('open','');};
  window.HTMLElement.prototype.close=function(){this.open=false;this.removeAttribute('open');};
  globalThis.window=window;globalThis.document=window.document;
- await import(`../src/app.mjs?history=${++run}`);await pause(250);
+ await import(`../src/app.mjs?history=${++run}`);await waitForAppReady(window.document);
  const q=s=>window.document.querySelector(s);
  const click=async s=>{assert.ok(q(s),s);q(s).dispatchEvent(new window.Event('click',{bubbles:true}));await pause(2);};
  const pop=state=>{const event=new window.Event('popstate');event.state=state;window.dispatchEvent(event);};
@@ -122,3 +122,6 @@ test('IME composition: Enter while composing neither saves nor is cancelled, and
  a.q('#title').dispatchEvent(new a.window.Event('compositionend',{bubbles:true}));
  assert.equal(a.q('#title').value,'かな ');
 });
+
+// The app loads through the preview adapter (220 ms); wait until it has rendered instead of a fixed 250 ms.
+async function waitForAppReady(document,{timeout=3000}={}){const end=Date.now()+timeout;while(!document.querySelector('#app .shell, #app main')){if(Date.now()>end)throw new Error('app did not finish loading');await new Promise(r=>setTimeout(r,10));}}
