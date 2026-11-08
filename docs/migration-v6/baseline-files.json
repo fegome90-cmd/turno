@@ -1,0 +1,338 @@
+{
+  "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
+  "sourceTreeSha": "3003fe5b2b5dd7d7620564a1ec1e75df510ca06a",
+  "blobs": [
+    {
+      "path": "README.md",
+      "sha": "63bfb756d6bce4351a1e23a01cb18c901b151acf"
+    },
+    {
+      "path": "prototypes/frontend-v5/.gitignore",
+      "sha": "e7dc3ca39231301a0b3e049c096901f0abd2824a"
+    },
+    {
+      "path": "prototypes/frontend-v5/README.md",
+      "sha": "6ff5d3e647a1ffa9c22af42f31e69533d36fec91"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/flor-negro-512.png",
+      "sha": "97f12866c4737213d73241e8da8bade94e97ac40"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/fonts/SourceSans3-Bold.woff2",
+      "sha": "24e997292756d5adb3790992dd9b1ef6c5a14ce7"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/fonts/SourceSans3-Regular.woff2",
+      "sha": "47c936f4686bb3fe1c08fbaeee6f43d4fac3a73e"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/fonts/SourceSans3-Semibold.woff2",
+      "sha": "f39c23ccabd00b3672dd80d76e912bb511f007cf"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/fonts/SourceSerifPro-It.woff2",
+      "sha": "111709b62f7e7bd6bd3c93b59004faed2d69eeaa"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/fonts/SourceSerifPro-Regular.woff2",
+      "sha": "65e565928fd7da58b78cc52aaaf1f2dd2b7fbddb"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/archive.svg",
+      "sha": "4c5ae8e33b565fa5edc5ea5fba50a860c4b9abcf"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/arrow-left.svg",
+      "sha": "b40bff851c85eff44f678eb7984fc6070d7ea721"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/bell.svg",
+      "sha": "0345ca35bc8cead87cf05857545e24de031e7779"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/calendar-days.svg",
+      "sha": "78c5420d4c5020d7db7f223495a88ea21fd2562d"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/calendar.svg",
+      "sha": "4679497031a9540a311f6223da003ce26f638e24"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/check.svg",
+      "sha": "5abe1527434e7b251bde0661f99af96178976d8c"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/chevron-down.svg",
+      "sha": "e70d30b88399a721cd5d20d0d26756608cf8c42b"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/chevron-left.svg",
+      "sha": "056d5abc06e44940302c8b2a1912a382ea26b36d"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/chevron-right.svg",
+      "sha": "db62a0c20181edd6173722b2a483e0b85e30f240"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/circle-check.svg",
+      "sha": "14e45c58c9ece47f2204e89d19d8463f485325a0"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/clock.svg",
+      "sha": "b6ae2834e60fc09547007a89067994e8b5ea55b5"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/ellipsis.svg",
+      "sha": "68456c39be516d1d14aee329ca3b0056ba84d3c5"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/file-pen-line.svg",
+      "sha": "7e79f35cb3ed0ce172843dab8793120f86cade6e"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/house.svg",
+      "sha": "10e4097e290fdb2f1f919b264bf4e3095348de7c"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/list-checks.svg",
+      "sha": "602734bab9f0c9938f0e99c209ac6e7bec695810"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/list.svg",
+      "sha": "0d88fb189cde6db143ee290aa12c255d7344f13c"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/notebook-pen.svg",
+      "sha": "b90c54bf82fd3a0c3992c3597230c2599bd33be6"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/panel-left.svg",
+      "sha": "60642c396f98cf4ed79689d86b1dc0377e190aa5"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/panel-right.svg",
+      "sha": "53ba1e6120eb638530de38ca5b696741dfcaa6ad"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/pencil.svg",
+      "sha": "7384498e8679ff3c60effccb5723ed1672544e27"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/play.svg",
+      "sha": "199743ed2e546fdcef48f9ebbe4030e8f75c59c1"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/plus.svg",
+      "sha": "41f92bb93eb6626368d71c9884127bbcf7d3ccdf"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/power.svg",
+      "sha": "bacd9d5337b68211662eef2b22733dc7b99d663e"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/priority-high.svg",
+      "sha": "0a070ed795e4ecc9a468d2e879b2a5ad7be1471c"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/rotate-ccw-clock.svg",
+      "sha": "67152e4fbda9c61602d11985f3f1fa74136f00d7"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/save.svg",
+      "sha": "07af0708302018606f9619adb2d4d6ec2175db57"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/search.svg",
+      "sha": "03e442a5440cff92c219fe3a3c1f2b0788d30701"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/settings.svg",
+      "sha": "4c6263af909841a3911f41a385021778eacba736"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/square-check.svg",
+      "sha": "92e3ad37ae7280d182da05c13ceef0c54b992636"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/square.svg",
+      "sha": "7862733557b3a069a22721196e0bd6c5c92b9339"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/timer.svg",
+      "sha": "77bade6e355ef5c20893f0e9b718af4e108b6026"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/trash.svg",
+      "sha": "e8cb0edf34a96758d0cdffb42f1c1ecbc163cbd5"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/user.svg",
+      "sha": "8e61592bbf912f26d2e6583dffd9b1e8ebec0193"
+    },
+    {
+      "path": "prototypes/frontend-v5/assets/icons/x.svg",
+      "sha": "e31794349d3eecea1b3ae8e974b68bb8f4becda7"
+    },
+    {
+      "path": "prototypes/frontend-v5/docs/DESIGN_V7.md",
+      "sha": "477d90545af47fd7a1fc7186686399f0ff116e17"
+    },
+    {
+      "path": "prototypes/frontend-v5/docs/MIGRACION_REACT.md",
+      "sha": "00928c159ea99136a09f81c2e3adde905f73425b"
+    },
+    {
+      "path": "prototypes/frontend-v5/docs/MOTION_V6.md",
+      "sha": "54bb6e0a021cae16ed9741c7045f1f55ba0fa1dd"
+    },
+    {
+      "path": "prototypes/frontend-v5/docs/VIEWPORT.md",
+      "sha": "4a61a5cd302227e47ea5a627375ea678196f3e1b"
+    },
+    {
+      "path": "prototypes/frontend-v5/index.html",
+      "sha": "a0845309ac4420b6c4f77549e5787baee3c7e4dc"
+    },
+    {
+      "path": "prototypes/frontend-v5/licenses/EmilKowalski-skills-MIT.txt",
+      "sha": "57b46f1fd11dc62351ea548104a88aa3f659c11b"
+    },
+    {
+      "path": "prototypes/frontend-v5/licenses/JakubKrehel-skills-MIT.txt",
+      "sha": "95497be06d6410aab7b1b040435aba7f4d836678"
+    },
+    {
+      "path": "prototypes/frontend-v5/licenses/Lucide-LICENSE.txt",
+      "sha": "718bb3f0e44153809972abed31839375804bf652"
+    },
+    {
+      "path": "prototypes/frontend-v5/licenses/SourceSans3-OFL.txt",
+      "sha": "22c601b82f29fc6bb801445098c9f23ffdca4f94"
+    },
+    {
+      "path": "prototypes/frontend-v5/licenses/SourceSerifPro-OFL.txt",
+      "sha": "4a3086a356cf585b67a7908c74e5a7b181d20d00"
+    },
+    {
+      "path": "prototypes/frontend-v5/package-lock.json",
+      "sha": "7990c74782e6cdbd44506ae65785ccb895feb252"
+    },
+    {
+      "path": "prototypes/frontend-v5/package.json",
+      "sha": "85e0e6d1eb585976e19320ddc45a1d230a6e471b"
+    },
+    {
+      "path": "prototypes/frontend-v5/scripts/build_preview.py",
+      "sha": "9ec0b97b8f3dbdbe61a37a11ba0ef6b040c79101"
+    },
+    {
+      "path": "prototypes/frontend-v5/scripts/check_portable.mjs",
+      "sha": "53f507824a671bd055f04aab88fc652561ccb9bd"
+    },
+    {
+      "path": "prototypes/frontend-v5/src/app.mjs",
+      "sha": "f943f875803c85ac797dec985120e080ed3a3161"
+    },
+    {
+      "path": "prototypes/frontend-v5/src/draft-state.mjs",
+      "sha": "6113944d0cde12a2294adeb464f164e77ce5466b"
+    },
+    {
+      "path": "prototypes/frontend-v5/src/format.mjs",
+      "sha": "a52abc123eea19413c32f1c84048cfed80701abf"
+    },
+    {
+      "path": "prototypes/frontend-v5/src/home-subtitle.mjs",
+      "sha": "496add2565d65dbad0d6f4dbc7833bfd2df1f458"
+    },
+    {
+      "path": "prototypes/frontend-v5/src/motion.mjs",
+      "sha": "ac3f9f8609c7baab055946eab5a1f669ebe5c223"
+    },
+    {
+      "path": "prototypes/frontend-v5/src/preview-adapter.mjs",
+      "sha": "c53e610e1642eefb307ffda6a23a4f9016d6c614"
+    },
+    {
+      "path": "prototypes/frontend-v5/src/styles.css",
+      "sha": "02a79571b1dfb8bf32d5c40b36d87161a3eac7bf"
+    },
+    {
+      "path": "prototypes/frontend-v5/src/theme.mjs",
+      "sha": "0d94632342947d40587748d81ce11f46a01844eb"
+    },
+    {
+      "path": "prototypes/frontend-v5/src/toasts.mjs",
+      "sha": "fafa35b2fa1c040a5430428989ce30001716938a"
+    },
+    {
+      "path": "prototypes/frontend-v5/src/validation.mjs",
+      "sha": "cc99753dbc4b9a672982f43cbeea25f4c422a051"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/design-audit.test.mjs",
+      "sha": "031e4743b7c6cf52505e335135f155abbb6827f6"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/design-complete.test.mjs",
+      "sha": "6cf8196f33e22fdc46288fb4e5abda565f2d102e"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/draft.test.mjs",
+      "sha": "a20de16042587b1d854ee1caab5565be53eb265a"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/emil-skills.test.mjs",
+      "sha": "cc993594c94f0c64ab44c506e3b37a0d23feed53"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/history.test.mjs",
+      "sha": "22bf21a5de30e5a5c9642f4dad79d01076ef88fe"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/home-subtitle.test.mjs",
+      "sha": "ff7d212817c95fc0702c785b4980c10a605a07c8"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/interface-skills.test.mjs",
+      "sha": "132a5b6a986c52c5a087602fa8cd8935ca63b68b"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/motion.test.mjs",
+      "sha": "97e8960f238f99fc9242ee58e5999e49dd0189b9"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/polish.test.mjs",
+      "sha": "d7938802905ec729f1a2366716991b6e27dd1c5b"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/preview.test.mjs",
+      "sha": "4de69b042299a30e4ef3f58517e1c3f8b78d3c9b"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/toasts.test.mjs",
+      "sha": "be9f076d98a141d998e350fdef58088b01ab428d"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/tokens.test.mjs",
+      "sha": "a5c10565a172dd5099fa283bf7266205fc77cf66"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/ui.test.mjs",
+      "sha": "64cef6e6b0d0e4e34e25886be58de1f701ede1d0"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/validation.test.mjs",
+      "sha": "4d54b30a98c7dfebd4aaf3cf18673b5ba6f08094"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/viewport.test.mjs",
+      "sha": "5955275a40e764d0cf0bc357d6390e3529822dd9"
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/visibility.test.mjs",
+      "sha": "09a2a8453c76b0294e6721861165b537f0a439d3"
+    }
+  ]
+}

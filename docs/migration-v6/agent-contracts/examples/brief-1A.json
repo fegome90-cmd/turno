@@ -1,0 +1,100 @@
+{
+  "taskId": "1A",
+  "mode": "prepare",
+  "baseSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
+  "headSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
+  "executionAuthorized": false,
+  "acceptanceEvidence": null,
+  "environment": "Sandbox de preparación, snapshot sin Git. No es rama de implementación.",
+  "cwd": "PENDIENTE: checkout Git autorizado, después prototypes/frontend-v6",
+  "planFile": "docs/migration-v6/PLAN.md",
+  "taskTextRequired": "Adjuntar texto íntegro Fase 1A y contratos/interfaces relevantes antes de despachar. Este ejemplo no es ejecutable.",
+  "allowedPaths": [
+    "prototypes/frontend-v6/**"
+  ],
+  "requirements": [
+    "DESIGN-AUDIT-09",
+    "DESIGN-AUDIT-11",
+    "DESIGN-COMPLETE-01",
+    "DESIGN-COMPLETE-08",
+    "DESIGN-COMPLETE-09",
+    "DESIGN-COMPLETE-11",
+    "HOME-SUBTITLE-01",
+    "HOME-SUBTITLE-02",
+    "HOME-SUBTITLE-03",
+    "TOKENS-01",
+    "TOKENS-02",
+    "UI-01",
+    "UI-14",
+    "UI-40",
+    "UI-41",
+    "VIEWPORT-07"
+  ],
+  "additionalRequirements": [
+    "EXTRA-STRICTMODE-HOME",
+    "EXTRA-THEME-NO-STORAGE",
+    "EXTRA-OFFLINE-FIRST-PAINT"
+  ],
+  "gates": [
+    {
+      "id": "typecheck",
+      "kind": "nonvisual",
+      "command": "npm run typecheck",
+      "required": true
+    },
+    {
+      "id": "lint",
+      "kind": "nonvisual",
+      "command": "npm run lint",
+      "required": true
+    },
+    {
+      "id": "unit",
+      "kind": "nonvisual",
+      "command": "npm run test:unit",
+      "required": true
+    },
+    {
+      "id": "component",
+      "kind": "nonvisual",
+      "command": "npm run test:component",
+      "required": true
+    },
+    {
+      "id": "build",
+      "kind": "nonvisual",
+      "command": "npm run build",
+      "required": true
+    },
+    {
+      "id": "portable",
+      "kind": "browser",
+      "command": "npm run check:portable",
+      "required": true
+    },
+    {
+      "id": "bundle",
+      "kind": "nonvisual",
+      "command": "npm run measure:bundle",
+      "required": true
+    },
+    {
+      "id": "offline-theme",
+      "kind": "browser",
+      "command": "npm run test:e2e -- offline-theme.spec.ts",
+      "required": true
+    },
+    {
+      "id": "first-paint",
+      "kind": "visual",
+      "command": "Inspección documentada de filmstrip y fuentes/temas sobre el artefacto final",
+      "required": true
+    }
+  ],
+  "requiredReviews": [
+    "spec",
+    "quality"
+  ],
+  "visualBoundary": "No browser, visual, AT/device or host PASS from DOM/static checks.",
+  "handoffStatus": "STOP: falta autorización G0 y rama real; navegador bloqueado en este entorno."
+}

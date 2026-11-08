@@ -1,5 +1,7 @@
 # Plan de migración a React · v6
 
+> **Propuesta inicial histórica.** El [plan auditado, la matriz de 212 requisitos y el estado de preparación](../../../docs/migration-v6/README.md) amplían y precisan este documento. Leerlos antes de implementar. G0 sigue pendiente; esta actualización solo publica documentación.
+
 Estado: **propuesto**. No hay código de la v6 todavía. Base: rama `frontend/fix-fullscreen-reflow-v8` en `7141568`.
 
 ## Objetivo
