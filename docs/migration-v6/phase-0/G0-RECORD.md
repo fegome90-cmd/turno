@@ -1,6 +1,8 @@
 # Registro inicial de G0
 
-**Resultado actual: STOP, listo para firma. Falta solo la aceptación global del plan/ADR por el dueño; no se crea v6.** Fecha del registro: 08/11/2026. Este es un registro de preparación documental, no un reporte READY del checker ni una aceptación humana.
+**Resultado actual: STOP, listo para firma. Falta solo la aceptación global del plan/ADR por el dueño; no se crea v6.**
+
+Actualización 08/11/2026: la auditoría con el router de diseño añadió D7–D9 ([ACCEPTANCE](ACCEPTANCE.md)): producto general con «Lista» como término neutro, fase de identidad visual después de la migración y movimiento idéntico a v5. La firma pendiente cubre también estas decisiones. Fecha del registro: 08/11/2026. Este es un registro de preparación documental, no un reporte READY del checker ni una aceptación humana.
 
 ## Referencias y participantes
 

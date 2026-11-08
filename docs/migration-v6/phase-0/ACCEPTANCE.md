@@ -21,6 +21,16 @@ Los 212 comportamientos de la [matriz canónica](../parity-map.json) siguen `pla
 
 No confundir «Chromium mínimo» con autorización para omitir otros checks finales requeridos por el plan. Los resultados se separan; un requisito bloqueado no se convierte en PASS.
 
+## Decisiones adicionales del dueño (08/11/2026)
+
+Surgidas de la auditoría con el router de diseño (árbol v0.4). Cambian el plan y requieren revisión de los apartados afectados antes de la firma.
+
+| ID | Decisión | Consecuencia |
+|---|---|---|
+| D7 · Producto y vocabulario | Turno es un gestor de tareas general; enfermería es un caso de uso. Los grupos de tareas se llaman «Lista» en la v6 ([glosario](../GLOSARIO.md)). Vocabulario congelado y pendiente de validación de dominio | Única excepción de texto a la paridad; la v5 no cambia |
+| D8 · Identidad visual | Dirección de arte, paleta y tipografía **aplican**, en una fase de identidad **después** de la migración con paridad. La v6 copia primero la v5 | Las fases 1A–7B siguen sin rediseño; la fase de identidad es un encargo posterior con su propio criterio de cierre |
+| D9 · Movimiento | La v6 copia el movimiento de la v5: hover 180 ms y botón principal sin escala al pulsar. El plan se corrigió en consecuencia | Sin animaciones nuevas en la migración |
+
 ## Riesgos y condiciones que no se aceptan implícitamente
 
 - Baseline: último completo registrado 210 PASS y 2 FAIL; dos focalizados PASS no sustituyen suite completa y un completo verde aislado no demuestra estabilidad. Resolver discrepancia o acordar rebaseline concreto, preservando resultados originales.

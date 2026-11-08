@@ -2,6 +2,10 @@
 
 Demostración aislada de la interfaz de Turno. No es una release ni el plugin oficial; no está conectada al backend y no se ha desplegado.
 
+## Propósito del producto
+
+Turno es un gestor de tareas para trabajos organizados por turnos o jornadas. Agrupa las tareas en listas, les da hora y estimación, permite notas rápidas y, al cerrar la jornada, la archiva sin perder lo pendiente. Sirve para cualquier trabajo por turnos; enfermería, donde cada lista puede ser una cama, es un caso de uso, no el diseño. (Aprobado por el dueño el 08/11/2026.)
+
 ## Alcance
 
 - Inicio, turnos, grupos de tareas editables, notas, Agenda y archivo.
