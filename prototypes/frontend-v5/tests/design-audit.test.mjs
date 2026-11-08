@@ -23,7 +23,7 @@ async function setup(width=1440){
  const q=s=>window.document.querySelector(s);
  const click=async s=>{assert.ok(q(s),s);q(s).focus();q(s).dispatchEvent(new window.Event('click',{bubbles:true}));await pause(2);};
  const fill=(s,value)=>{const input=q(s);if(input.tagName==='SELECT'){for(const option of input.options)option.selected=option.value===value;}else input.value=value;input.dispatchEvent(new window.Event('input',{bubbles:true}));};
- const submit=async()=>{q('#editor-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));await pause(500);};
+ const submit=async()=>{q('#editor-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));await waitForIdle(window.document);};
  return {q,click,fill,submit,window};
 }
 const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
@@ -104,7 +104,7 @@ test('compact mobile navigation retains direct controls, identity and simulated 
  assert.ok(a.q('[data-action="close-shift"]'));assert.ok(a.q('#title'));
 });
 test('archive preserves high-priority text and disables both completion paths',async()=>{
- const a=await setup();await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await pause(500);
+ const a=await setup();await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await waitForIdle(a.window.document);
  await a.click('[data-action="archive"]');await a.click('[data-action="archive-shift:demo-shift-1"]');await a.click('[data-action="bed:bed-2"]');
  assert.equal(a.q('[data-check="task-4"]').disabled,true);assert.equal(a.q('#editor-completed').disabled,true);
  assert.equal(a.q('#task-tree [data-action="task:task-4"] .priority-badge').textContent,'Prioridad Alta');
@@ -139,3 +139,19 @@ test('synthetic starting task and all four stable greeting subtitles stay in Spa
 
 // The app loads through the preview adapter (220 ms); wait until it has rendered instead of a fixed 250 ms.
 async function waitForAppReady(document,{timeout=3000}={}){const end=Date.now()+timeout;while(!document.querySelector('#app .shell')){if(Date.now()>end)throw new Error('app did not finish loading: '+(document.querySelector('#app main')?.textContent||'no render'));await new Promise(r=>setTimeout(r,10));}}
+
+// Wait for the app to finish an adapter round trip instead of a fixed sleep: completing or saving
+// costs two 220 ms adapter waits (save + reload), so a fixed 500 ms left ~60 ms of margin.
+async function waitFor(condition,{timeout=3000,interval=20}={}){const end=Date.now()+timeout;for(;;){if(condition())return;if(Date.now()>end)throw new Error('waitFor timed out: '+condition);await new Promise(r=>setTimeout(r,interval));}}
+
+// No adapter round trip is still pending: the controls the app disables while it waits (Save not
+// reading "Guardando…", Close and archive, Create, Save name, checkboxes outside the archive) are
+// enabled again or gone. Used instead of fixed sleeps after save, complete, create, rename or close.
+function appIdle(document){
+ const save=document.querySelector('#editor-form button[type="submit"]');
+ if(save?.textContent.includes('Guardando'))return false;
+ for(const selector of ['#modal [data-action="confirm-close"]','#create-form [type="submit"]','#rename-bed-form [type="submit"]'])if(document.querySelector(selector)?.disabled)return false;
+ if(!document.querySelector('.archive-notice')&&[...document.querySelectorAll('[data-check]')].some(check=>check.disabled))return false;
+ return true;
+}
+function waitForIdle(document){return waitFor(()=>appIdle(document));}

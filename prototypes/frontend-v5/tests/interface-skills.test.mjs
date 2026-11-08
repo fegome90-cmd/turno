@@ -17,7 +17,7 @@ async function setup(width=1440){
  const q=s=>window.document.querySelector(s);
  const click=async s=>{assert.ok(q(s),s);q(s).focus();q(s).dispatchEvent(new window.Event('click',{bubbles:true}));await pause(2);};
  const fill=(s,value)=>{q(s).value=value;q(s).dispatchEvent(new window.Event('input',{bubbles:true}));};
- const submit=async(id='editor-form')=>{q('#'+id).dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));await pause(500);};
+ const submit=async(id='editor-form')=>{q('#'+id).dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));await waitForIdle(window.document);};
  return {q,click,fill,submit,window,pause};
 }
 test('closed temporal validation identifies and opens the first invalid field',async()=>{
@@ -55,22 +55,22 @@ test('checkbox completion restores its focus identity on success and failure',as
  for(const fail of [false,true]){
   if(fail){await a.click('[data-action="more"]');await a.click('#more-options [data-action="demo"]');await a.click('[data-action="simulate-error"]');}
   const check=a.q('[data-check="task-1"]');check.focus();check.checked=!check.checked;
-  check.dispatchEvent(new a.window.Event('change',{bubbles:true}));await pause(500);
+  check.dispatchEvent(new a.window.Event('change',{bubbles:true}));await waitForIdle(a.window.document);
   assert.equal(a.window.document.activeElement,a.q('[data-check="task-1"]'));
  }
 });
 test('completing the last focused pending checkbox has a safe fallback',async()=>{
  const a=await setup();await a.click('[data-action="open-shift"]');await a.click('[data-action="filter-pending"]');
  const check=a.q('[data-check="task-1"]');check.focus();check.checked=true;
- check.dispatchEvent(new a.window.Event('change',{bubbles:true}));await pause(500);
+ check.dispatchEvent(new a.window.Event('change',{bubbles:true}));await waitForIdle(a.window.document);
  assert.equal(a.q('[data-check="task-1"]'),null);
  assert.equal(a.window.document.activeElement,a.q('#main'));
 });
 test('close shift failure can be retried in the same dialog',async()=>{
  const a=await setup();await a.click('[data-action="more"]');await a.click('#more-options [data-action="demo"]');await a.click('[data-action="simulate-error"]');
- await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await pause(500);
+ await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await waitFor(()=>a.q('#close-error')?.textContent);
  assert.ok(a.q('#modal').open);assert.equal(a.q('[data-action="confirm-close"]').disabled,false);
- await a.click('[data-action="confirm-close"]');await pause(500);assert.equal(a.q('#modal').open,false);
+ await a.click('[data-action="confirm-close"]');await waitForIdle(a.window.document);assert.equal(a.q('#modal').open,false);
 });
 test('simulated conflict offers retry without reloading or dropping the draft',async()=>{
  const a=await setup();await a.click('[data-action="open-shift"]');a.fill('#body','Conservar');
@@ -126,7 +126,7 @@ test('checkbox completion does not steal focus from a newer input',async()=>{
  const a=await setup();await a.click('[data-action="open-shift"]');
  const check=a.q('[data-check="task-1"]');check.focus();check.checked=true;
  check.dispatchEvent(new a.window.Event('change',{bubbles:true}));
- a.q('#search').focus();await pause(500);
+ a.q('#search').focus();await waitForIdle(a.window.document);
  assert.equal(a.window.document.activeElement,a.q('#search'));
 });
 
@@ -299,3 +299,15 @@ async function waitFor(condition,{timeout=3000,interval=20}={}){const end=Date.n
 
 // The app loads through the preview adapter (220 ms); wait until it has rendered instead of a fixed 250 ms.
 async function waitForAppReady(document,{timeout=3000}={}){const end=Date.now()+timeout;while(!document.querySelector('#app .shell')){if(Date.now()>end)throw new Error('app did not finish loading: '+(document.querySelector('#app main')?.textContent||'no render'));await new Promise(r=>setTimeout(r,10));}}
+
+// No adapter round trip is still pending: the controls the app disables while it waits (Save not
+// reading "Guardando…", Close and archive, Create, Save name, checkboxes outside the archive) are
+// enabled again or gone. Used instead of fixed sleeps after save, complete, create, rename or close.
+function appIdle(document){
+ const save=document.querySelector('#editor-form button[type="submit"]');
+ if(save?.textContent.includes('Guardando'))return false;
+ for(const selector of ['#modal [data-action="confirm-close"]','#create-form [type="submit"]','#rename-bed-form [type="submit"]'])if(document.querySelector(selector)?.disabled)return false;
+ if(!document.querySelector('.archive-notice')&&[...document.querySelectorAll('[data-check]')].some(check=>check.disabled))return false;
+ return true;
+}
+function waitForIdle(document){return waitFor(()=>appIdle(document));}

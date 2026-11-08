@@ -88,7 +88,7 @@ test('Back while a completion save is pending keeps the view and the Forward ent
  await a.userBack();
  assert.equal(a.q('.greeting'),null);assert.equal(a.q('#title').value,'Tarea 1');
  assert.equal(a.nav.index,1);assert.equal(a.nav.length,3);assert.equal(a.pushes(),pushes);
- await pause(500);assert.equal(a.q('[data-check="task-2"]').checked,true);
+ await waitForIdle(a.window.document);assert.equal(a.q('[data-check="task-2"]').checked,true);
  await a.userForward();assert.equal(a.q('#title').value,'Revisar insumos');
 });
 test('unsaved changes: Volver stays put, Descartar repeats the original Back once, no entries are added or lost',async()=>{
@@ -125,3 +125,19 @@ test('IME composition: Enter while composing neither saves nor is cancelled, and
 
 // The app loads through the preview adapter (220 ms); wait until it has rendered instead of a fixed 250 ms.
 async function waitForAppReady(document,{timeout=3000}={}){const end=Date.now()+timeout;while(!document.querySelector('#app .shell')){if(Date.now()>end)throw new Error('app did not finish loading: '+(document.querySelector('#app main')?.textContent||'no render'));await new Promise(r=>setTimeout(r,10));}}
+
+// Wait for the app to finish an adapter round trip instead of a fixed sleep: completing or saving
+// costs two 220 ms adapter waits (save + reload), so a fixed 500 ms left ~60 ms of margin.
+async function waitFor(condition,{timeout=3000,interval=20}={}){const end=Date.now()+timeout;for(;;){if(condition())return;if(Date.now()>end)throw new Error('waitFor timed out: '+condition);await new Promise(r=>setTimeout(r,interval));}}
+
+// No adapter round trip is still pending: the controls the app disables while it waits (Save not
+// reading "Guardando…", Close and archive, Create, Save name, checkboxes outside the archive) are
+// enabled again or gone. Used instead of fixed sleeps after save, complete, create, rename or close.
+function appIdle(document){
+ const save=document.querySelector('#editor-form button[type="submit"]');
+ if(save?.textContent.includes('Guardando'))return false;
+ for(const selector of ['#modal [data-action="confirm-close"]','#create-form [type="submit"]','#rename-bed-form [type="submit"]'])if(document.querySelector(selector)?.disabled)return false;
+ if(!document.querySelector('.archive-notice')&&[...document.querySelectorAll('[data-check]')].some(check=>check.disabled))return false;
+ return true;
+}
+function waitForIdle(document){return waitFor(()=>appIdle(document));}

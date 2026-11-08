@@ -156,9 +156,9 @@ test('dark mode survives failed save, retry, archive confirmation and read-only 
  const a=await setup({dark:true});await a.click('[data-action="open-shift"]');a.fill('#body','Guardar en oscuro');
  await a.click('[data-action="more"]');await a.click('#more-options [data-action="demo"]');await a.click('[data-action="simulate-error"]');
  assert.equal(a.window.document.activeElement,a.q('[data-action="more"]'));
- a.event(a.q('#editor-form'),'submit');await wait(500);assert.match(a.q('#save-error').textContent,/Fallo simulado/);assert.equal(a.q('#body').value,'Guardar en oscuro');
- a.event(a.q('#editor-form'),'submit');await wait(500);assert.match(a.q('#save-feedback').textContent,/Guardado/);
- await a.click('.toolbar [data-action="close-shift"]');assert.equal(a.q('#modal').open,true);await a.click('[data-action="confirm-close"]');await wait(500);
+ a.event(a.q('#editor-form'),'submit');await waitForIdle(a.window.document);assert.match(a.q('#save-error').textContent,/Fallo simulado/);assert.equal(a.q('#body').value,'Guardar en oscuro');
+ a.event(a.q('#editor-form'),'submit');await waitForIdle(a.window.document);assert.match(a.q('#save-feedback').textContent,/Guardado/);
+ await a.click('.toolbar [data-action="close-shift"]');assert.equal(a.q('#modal').open,true);await a.click('[data-action="confirm-close"]');await waitForIdle(a.window.document);
  await a.click('[data-action="archive"]');await a.click('[data-action="archive-shift:demo-shift-1"]');
  assert.equal(a.window.document.documentElement.dataset.theme,'dark');assert.equal(a.q('#editor-completed').disabled,true);
  assert.equal(a.q('#body').hasAttribute('readonly'),true);assert.equal(a.q('#body').value,'Guardar en oscuro');
@@ -166,3 +166,19 @@ test('dark mode survives failed save, retry, archive confirmation and read-only 
 
 // The app loads through the preview adapter (220 ms); wait until it has rendered instead of a fixed 250 ms.
 async function waitForAppReady(document,{timeout=3000}={}){const end=Date.now()+timeout;while(!document.querySelector('#app .shell')){if(Date.now()>end)throw new Error('app did not finish loading: '+(document.querySelector('#app main')?.textContent||'no render'));await new Promise(r=>setTimeout(r,10));}}
+
+// Wait for the app to finish an adapter round trip instead of a fixed sleep: completing or saving
+// costs two 220 ms adapter waits (save + reload), so a fixed 500 ms left ~60 ms of margin.
+async function waitFor(condition,{timeout=3000,interval=20}={}){const end=Date.now()+timeout;for(;;){if(condition())return;if(Date.now()>end)throw new Error('waitFor timed out: '+condition);await new Promise(r=>setTimeout(r,interval));}}
+
+// No adapter round trip is still pending: the controls the app disables while it waits (Save not
+// reading "Guardando…", Close and archive, Create, Save name, checkboxes outside the archive) are
+// enabled again or gone. Used instead of fixed sleeps after save, complete, create, rename or close.
+function appIdle(document){
+ const save=document.querySelector('#editor-form button[type="submit"]');
+ if(save?.textContent.includes('Guardando'))return false;
+ for(const selector of ['#modal [data-action="confirm-close"]','#create-form [type="submit"]','#rename-bed-form [type="submit"]'])if(document.querySelector(selector)?.disabled)return false;
+ if(!document.querySelector('.archive-notice')&&[...document.querySelectorAll('[data-check]')].some(check=>check.disabled))return false;
+ return true;
+}
+function waitForIdle(document){return waitFor(()=>appIdle(document));}
