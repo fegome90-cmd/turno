@@ -155,7 +155,9 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 **Objetivo:** una referencia reproducible y una correspondencia de cada comportamiento con su prueba, sin reabrir decisiones resueltas.
 
-**Archivos:** crear `docs/ADR-001.md`, `docs/ACCEPTANCE.md`, `docs/HOST-BOUNDARY.md`, `docs/parity-map.json`; leer v5 sin editar. La matriz del anexo B es el inventario inicial.
+**Preparación para iniciar:** [FASE_0.md](FASE_0.md) concreta entradas, roles, tareas/tests/gates y bloqueos. Los [borradores ADR](phase-0/ADR-001.md), [aceptación](phase-0/ACCEPTANCE.md), [frontera](phase-0/HOST-BOUNDARY.md) y [registro G0 STOP](phase-0/G0-RECORD.md) no ejecutan esta fase ni expresan aprobación.
+
+**Archivos de ejecución futura:** adoptar `docs/ADR-001.md`, `docs/ACCEPTANCE.md`, `docs/HOST-BOUNDARY.md`, `docs/parity-map.json` bajo la futura raíz `prototypes/frontend-v6/`, solo tras autorizar ese alcance; leer v5 sin editar. La matriz canónica de `docs/migration-v6/parity-map.json` no se sustituye; el anexo B es el inventario inicial.
 
 **Interfaces:** [`parity-map.json`](parity-map.json) contiene `{sourceSha, sourceFile, sourceTest, requirementId, targetTests: string[], targetCases: string[], targetBehavior, status, rationale, evidence: string[]}`. Estados permitidos: `planned`, `verified`, `replaced-by-behavior`, `blocked`; no borrar pruebas silenciosamente ni usar `verified` sin evidencia.
 

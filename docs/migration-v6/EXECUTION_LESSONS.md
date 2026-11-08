@@ -39,9 +39,9 @@ Antes de medir el candidato, documentar fixture, número de muestras y criterio 
 
 ### EXTRA-OFFLINE-ARTIFACT · fases 1A y 7A
 
-Origen: coherencia de versiones/artefactos en Slack offline. Registrar el hash del HTML final. En contexto de navegador limpio, abrir por `file://` sin red y recargar: app operativa, fuentes/iconos incluidos y **cero solicitudes a orígenes externos**. Contrastar tema/saludo y una edición/guardado de demo en la sesión nueva; recargar reinicia datos y tema de sesión como en v5.
+Origen: coherencia de versiones/artefactos en Slack offline. Registrar el hash del HTML final. En contexto de navegador limpio, abrir por `file://` sin red y recargar: app operativa, fuentes/iconos incluidos y **cero solicitudes a orígenes externos**. **En G1A se prueba solo el shell disponible:** apertura/recarga, tema y fuentes/iconos, sin exigir edición/guardado todavía no implementados. **En G7A se completa tema/saludo, edición/guardado de demo y reinicio de datos** en sesión nueva; recargar reinicia datos y tema de sesión como en v5. No marcar completos en G1A los flujos pendientes de G7A.
 
-Por HTTP, mantener disponible el servidor local que entrega el documento y bloquear dependencias externas: la app servida sigue operando en memoria. Esto no promete recarga si el servidor HTTP está inaccesible; sin Service Worker ni persistencia no existe ese contrato. Separar ambos escenarios en el reporte.
+Por HTTP, mantener disponible el servidor local que entrega el documento y bloquear dependencias externas: el shell de G1A, y los flujos completos de G7A cuando existan, siguen operando en memoria. Esto no promete recarga si el servidor HTTP está inaccesible; sin Service Worker ni persistencia no existe ese contrato. Separar ambos escenarios en el reporte.
 
 Probar el artefacto exacto que se entrega, no un dev server ni un navegador con recursos ya calentados. No añadir Service Worker, caché persistente ni flags para satisfacer esta prueba. El chequeo estático ayuda pero no la cierra. Gates G1A/G7A, navegador separado de build.
 

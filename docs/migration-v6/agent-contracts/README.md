@@ -2,6 +2,10 @@
 
 Preparación de encargos, sin ejecución de Turno React ni aprobación de G0. Son plantillas del proyecto y un checker local, no permisos de publicación ni un sistema de aislamiento.
 
+## Fase 0 documental
+
+El [runbook de inicio](../FASE_0.md) y el [registro G0 STOP](../phase-0/G0-RECORD.md) preparan el contrato sin fingir ejecución. La revisión documental se registra aparte: no emitir READY con RED funcional inventado ni atribuir aceptación humana a este checker. El canon mantiene sus 212 filas planned.
+
 ## Uso
 
 1. Leer el [contrato común](prompts/00-contract.md) y elegir [implementador](prompts/10-implementer.md), [revisor](prompts/20-reviewer.md) u [orquestador](prompts/30-orchestrator.md).
