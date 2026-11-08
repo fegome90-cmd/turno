@@ -10,7 +10,7 @@
 
 **Corte React 08/11/2026:** leer [investigación y gates](REACT_RESEARCH.md). Conjunto propuesto para revalidar en 1A: React/React DOM 19.3.1, Base UI 1.9.0, Vite 8.3.6, plugin-react 6.2.1 y TypeScript 6.0.3 con typescript-eslint; ya ensayado solo en el fixture de PREFLIGHT. No está instalado en producto. Compiler Babel 1.0.0 es opcional y posterior; el port Oxc experimental no forma parte de la base. No se añade servidor/RSC ni persistencia.
 
-**Spec:** `prototypes/frontend-v5/docs/MIGRACION_REACT.md` en [HEAD 0f534df](https://github.com/fegome90-cmd/turno/blob/0f534df9bd5b012b4ec21c202a055e1e913bcab5/prototypes/frontend-v5/docs/MIGRACION_REACT.md), contrastado con `turno-v6-plan-standalone.html` de referencia y con el código vigente. Las precisiones de este documento se proponen para aceptación; no se atribuyen a decisiones ya aprobadas.
+**Spec:** `prototypes/frontend-v5/docs/MIGRACION_REACT.md` en [HEAD 0f534df](https://github.com/fegome90-cmd/turno/blob/0f534df9bd5b012b4ec21c202a055e1e913bcab5/prototypes/frontend-v5/docs/MIGRACION_REACT.md), contrastado con `turno-v6-plan-standalone.html` de referencia y con el código vigente. Las precisiones D1–D9 de la sección 2 fueron aceptadas por el dueño el 08/11/2026 ([ACCEPTANCE](phase-0/ACCEPTANCE.md)); la aceptación global del plan sigue pendiente de firma.
 
 **Estado de esta entrega documental:** el plan y su preparación se incorporan al PR #2; no se crea frontend-v6 ni se instala tooling en el producto. La instalación y los ensayos anteriores fueron de un fixture aislado, resumidos en PREFLIGHT.md. No se hace merge ni despliegue. La ejecución del producto queda tras resolver G0 y aceptar las decisiones pendientes. El backend se desarrolla por separado: su disponibilidad no se presume ni bloquea la demo aislada.
 
@@ -77,7 +77,7 @@ Las [lecciones de casos estudiados](EXECUTION_LESSONS.md) forman parte obligator
 
 Dependencias: `0 → 1A → 1B → 2A → 2B → 3A → 4A → 4B → 5A → 6A → 7A → 7B`. 4B depende de los editores/guardas de 4A; no ejecutarlas en paralelo como si fueran independientes..
 
-**Regla D7 para la matriz.** Las filas cuyo test fuente aserta textos «cama/Cama» (UI-31 a 36, UI-39, INTERFACE-SKILLS-11 y 24, PREVIEW-09, 12, 16 y 17) se portan con «lista/Lista» según el [glosario](GLOSARIO.md); su `rationale` lo indica. «Cama»/`Bed` en este plan nombra el concepto interno y sus IDs, que no cambian. Oráculo: en 2A (semillas y errores del adaptador), 4A (editor y metadatos) y 4B (diálogos de crear y renombrar) ningún texto visible contiene «cama»; búsqueda en DOM y en los textos del adaptador.
+**Regla D7 para la matriz.** Las filas cuyo test fuente aserta textos «cama/Cama» (UI-31 a 36, UI-39, INTERFACE-SKILLS-11 y 24, PREVIEW-09, 12, 16 y 17) se portan con «lista/Lista» según el [glosario](GLOSARIO.md); su `rationale` lo indica. «Cama»/`Bed` en este plan nombra el concepto interno y sus IDs, que no cambian. Oráculo: en 2A (semillas y errores del adaptador), 4A (editor y metadatos) y 4B (diálogos de crear y renombrar) ningún texto fijo de la interfaz ni semilla o error del adaptador contiene «cama» (los nombres que pone la persona usuaria quedan libres); búsqueda en el código de componentes y en los textos del adaptador.
 
 ### Preparación temprana y cierre integrado
 

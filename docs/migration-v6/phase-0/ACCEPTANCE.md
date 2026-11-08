@@ -27,7 +27,7 @@ Surgidas de la auditoría con el router de diseño (árbol v0.4). Cambian el pla
 
 | ID | Decisión | Consecuencia | Oráculo y gate |
 |---|---|---|---|
-| D7 · Producto y vocabulario | Turno es un gestor de tareas general; enfermería es un caso de uso. Los grupos de tareas se llaman «Lista» en la v6 ([glosario](../GLOSARIO.md)). Vocabulario congelado y pendiente de validación de dominio | Única excepción de texto a la paridad; la v5 no cambia | G2A/G4A/G4B: ningún texto visible ni del adaptador contiene «cama»; filas D7 de la matriz con textos «lista» |
+| D7 · Producto y vocabulario | Turno es un gestor de tareas general; enfermería es un caso de uso. Los grupos de tareas se llaman «Lista» en la v6 ([glosario](../GLOSARIO.md)). Vocabulario congelado y pendiente de validación de dominio | Única excepción de texto a la paridad; la v5 no cambia | G2A/G4A/G4B: ningún texto fijo de la interfaz ni semilla o error del adaptador contiene «cama»; los nombres que pone la persona usuaria quedan libres; filas D7 de la matriz con textos «lista» |
 | D8 · Identidad visual | Dirección de arte, paleta y tipografía **aplican**, en una fase de identidad **después** de la migración con paridad. La v6 copia primero la v5 | Las fases 1A–7B siguen sin rediseño; la fase de identidad es un encargo posterior con su propio criterio de cierre | G7A: tokens y fuentes iguales a v5; la fase de identidad define su propio gate |
 | D9 · Movimiento | La v6 copia el movimiento de la v5: hover 180 ms y botón principal sin escala al pulsar. El plan se corrigió en consecuencia | Sin animaciones nuevas en la migración | G6A: `motionPolicy` con los valores de v5 y sin escala al pulsar |
 
@@ -40,7 +40,7 @@ Surgidas de la auditoría con el router de diseño (árbol v0.4). Cambian el pla
 
 ## Cómo registrar aceptación efectiva
 
-Por cada D1–D9, registrar decisión explícita, referencia exacta del plan/ADR, fecha, quién decidió y cita o enlace verificable a su aceptación. Una aceptación conjunta puede cubrir las seis si el usuario conoce ese alcance; si cambia una propuesta, registrar el delta y volver a revisar solo lo afectado. Mantener riesgo/rebaseline como decisiones separadas y concretas.
+Por cada D1–D9, registrar decisión explícita, referencia exacta del plan/ADR, fecha, quién decidió y cita o enlace verificable a su aceptación. Una aceptación conjunta puede cubrir las nueve si el usuario conoce ese alcance; si cambia una propuesta, registrar el delta y volver a revisar solo lo afectado. Mantener riesgo/rebaseline como decisiones separadas y concretas.
 
 Registro actual de aceptación: **D1–D9 aceptadas**, decisión del dueño en esta sesión, 08/11/2026 (preguntas de G0 respondidas en la conversación de Claude Code). La aceptación global del plan y del ADR sigue pendiente de la firma del dueño. La lista operativa y los responsables de bloqueo están en [G0-RECORD](G0-RECORD.md).
 
