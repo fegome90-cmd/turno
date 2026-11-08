@@ -12,7 +12,7 @@ DOCS = Path(__file__).resolve().parents[1]
 ROOT = DOCS.parents[1]
 SOURCE_SHA = '0f534df9bd5b012b4ec21c202a055e1e913bcab5'
 SOURCE_TREE = '3003fe5b2b5dd7d7620564a1ec1e75df510ca06a'
-DOC_ONLY_EXCEPTIONS = {'README.md', 'prototypes/frontend-v5/docs/MIGRACION_REACT.md'}
+DOC_ONLY_EXCEPTIONS = {'README.md', 'prototypes/frontend-v5/docs/MIGRACION_REACT.md', 'prototypes/frontend-v5/README.md', 'prototypes/frontend-v5/docs/MOTION_V6.md'}
 APPROVED_DELTA_FIELDS = {'path', 'baselineSha', 'sha', 'commit', 'reason', 'approval'}
 
 TASK_ORDER = ('0', '1A', '1B', '2A', '2B', '3A', '4A', '4B', '5A', '6A', '7A', '7B')

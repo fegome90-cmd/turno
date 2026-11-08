@@ -31,7 +31,7 @@ Sonner se revisó como referencia, con [licencia MIT](https://github.com/emilkow
 - Mientras hay un modal o drawer, la pila se suspende (`visibility:hidden`, `inert`, `aria-hidden`) y sus transiciones quedan desactivadas. Un mensaje generado entonces difiere su anuncio hasta cerrar el modal. Los errores del propio modal permanecen inline. No se intenta superar el top layer con z-index.
 - La entrada y salida tienen 300 ms para puntero. La salida queda inert de inmediato y se retira al terminar su plazo; repetir el mensaje durante la salida cancela la retirada y retoma la misma tarjeta. FLIP conserva la posición pintada al reubicar vecinos y cancela frames obsoletos. No depende de un `transitionend` que podría no llegar.
 - Teclado, reduced-motion y ausencia de rAF usan estados instantáneos. Activar movimiento reducido o pulsar una tecla asienta la pila y elimina salidas pendientes. Si `@starting-style` no está soportado, la entrada es instantánea y el contenido sigue disponible.
-- Pantallas y diálogos siguen en 300 ms, drawers en 340 ms. No se acelera el inicio ni se cambia su identidad/estabilidad. Los cambios de campo y filtros no reciben animación adicional.
+- En esta revisión v6, pantallas y diálogos quedaban en 300 ms y drawers en 340 ms. Desde la integración del PR #1 el código usa 150 ms (pantallas, solo opacidad), 240 ms (diálogos) y 260 ms (drawer); ver `src/motion.mjs`. No se acelera el inicio ni se cambia su identidad/estabilidad. Los cambios de campo y filtros no reciben animación adicional.
 
 ## Verificación y límites
 

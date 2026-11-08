@@ -28,7 +28,7 @@ El editor conserva su límite legible de 76ch y se centra en el espacio disponib
 
 La nueva pila conserva cada aviso hasta cerrarlo, agrupa repetidos, permite cierres individuales y mantiene los errores disponibles. Alt+T lleva a los avisos; Escape cierra el aviso enfocado. Se inspira en el modo expandido de Sonner, con implementación propia para la demo vanilla y sin instalar React.
 
-Entrada/salida de avisos a 300 ms para puntero, instantánea para teclado o movimiento reducido. Las pantallas/diálogos siguen en 300 ms y el drawer en 340 ms. No se afirma fluidez sin QA visual.
+Entrada/salida de avisos a 300 ms para puntero, instantánea para teclado o movimiento reducido. Desde la integración del PR #1, las pantallas usan 150 ms (solo opacidad), los diálogos 240 ms y el drawer 260 ms; con movimiento reducido queda un fundido de opacidad de hasta 150 ms. No se afirma fluidez sin QA visual.
 
 [Decisiones, skills consultadas, licencias y límites](docs/MOTION_V6.md).
 
