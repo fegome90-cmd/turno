@@ -97,7 +97,7 @@ Compatibilidades observadas:
 
 `npm audit` registró 10 moderadas, sin altas ni críticas. `npm audit --omit=dev` registró cero. Los avisos proceden de minimatch 10.2.6 en la cadena de lint/parser, [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249), por posible denegación de servicio con patrones de glob no confiables. No se observan en runtime.
 
-La corrección 11.0.5 queda fuera del rango de sus consumidores. El ensayo de downgrade ESLint 9.39.5 + parser 8.36.0 + TypeScript 5.8.3 conservó 7 moderadas y se rechazó. No se aplicó `audit fix --force`, override de major ni `legacy-peer-deps`. La auditoría total sigue FAIL; resolver o aceptar explícitamente este riesgo antes de uso no acotado del tooling.
+La corrección 11.0.5 queda fuera del rango de sus consumidores. El ensayo de downgrade ESLint 9.39.5 + parser 8.36.0 + TypeScript 5.8.3 conservó 7 moderadas y se rechazó. No se aplicó `audit fix --force`, override de major ni `legacy-peer-deps`. La auditoría total sigue FAIL; resolver este riesgo antes de uso no acotado del tooling; registrar una aceptación humana no cambia FAIL/STOP de los gates de producto.
 
 ## Límites de navegador y aceptación
 
@@ -113,3 +113,7 @@ Continúan sin demostrar: `file://` y offline real, foco e historial nativos, co
 - Se publican únicamente plan, matriz, resumen y contratos/checker con sus tests y ejemplos. No se publican el fixture completo, datos privados, conversaciones, archivos generados, capturas ni logs brutos. Los hashes anteriores identifican los originales archivados; no son hashes de los documentos editados en este PR.
 
 No se concede una licencia nueva al proyecto o a la marca mediante esta documentación. Las atribuciones de recursos de terceros permanecen en [licenses](../../prototypes/frontend-v5/licenses/).
+
+## Auditoría estructurada y aceptación de riesgo
+
+Registrar o aceptar un riesgo del fixture puede resolver una decisión de preparación, pero no aprueba G0 ni convierte la auditoría de producto en PASS. El [contrato del checker](agent-contracts/prompts/00-contract.md) exige auditorías total/runtime frescas sobre manifest/lock/SHA/árbol del producto. En este MVP cualquier vulnerabilidad conserva FAIL/STOP, incluso con aceptación documentada; no hay excepción automática para iniciar/cerrar 1A, fases siguientes o cierre final. Resolver y auditar otra vez, o proponer por separado una política revisada. Infraestructura fallida es BLOCKED, nunca cero advisories. G0 sigue STOP.

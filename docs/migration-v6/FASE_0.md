@@ -69,7 +69,7 @@ Se aplica el método Superpowers al alcance solicitado: diseño y decisiones ant
 **Dueño:** ejecutor prepara; usuario decide; orquestador registra. **Produce:** ADR, ACCEPTANCE y HOST-BOUNDARY revisados, y disposición de riesgos. **Test/oráculo:** cada precisión tiene decisión, evidencia de aceptación y alcance; lo pendiente sigue marcado pendiente.
 
 - [ ] Revisar las seis decisiones D1–D6 de ACCEPTANCE, sin reabrir stack, carpeta aislada o contrato sin persistencia ya fijados.
-- [ ] Separar producto vanilla, fixture y propuesta. Las 10 moderadas dev del fixture siguen FAIL histórico; resolverlas o registrar aceptación explícita del riesgo antes de reutilizar tooling en el alcance afectado. Cero runtime no aprueba la auditoría total ni demuestra seguridad de aplicación.
+- [ ] Separar producto vanilla, fixture y propuesta. Las 10 moderadas dev del fixture siguen FAIL histórico; resolverlas antes de reutilizar tooling en el alcance afectado; registrar aceptación contextual conserva FAIL/STOP en los gates de producto. Cero runtime no aprueba la auditoría total ni demuestra seguridad de aplicación.
 - [ ] Identificar una vía de navegador permitida y su alcance antes de 1A. El bloqueo histórico no se declara resuelto por tener Playwright instalado ni se elude por otra ruta.
 - [ ] Documentar fronteras por lectura; si no se inspeccionó backend/host, dejar contrato real NOT RUN. Su disponibilidad no bloquea la demo aislada.
 
@@ -97,7 +97,7 @@ python3 docs/migration-v6/agent-contracts/contract_gate.py --baseline docs/migra
 python3 docs/migration-v6/agent-contracts/contract_gate.py --baseline docs/migration-v6/parity-map.json --matrix docs/migration-v6/parity-map.json --brief docs/migration-v6/agent-contracts/examples/brief-1A.json --report docs/migration-v6/agent-contracts/examples/report-1A-stop.json
 ```
 
-**Esperado:** código 0 en los cuatro comandos, sin errores documentales; 44 tests del checker pasan; inventario y STOP estructuralmente válidos. El último valida un ejemplo 1A STOP, no ejecuta la fase 0. Si falla un comando, registrar FAIL/BLOCKED y no sustituirlo por el resultado de otro.
+**Esperado:** código 0 en los cuatro comandos, sin errores documentales; la suite del checker pasa; inventario y STOP estructuralmente válidos. El último valida un ejemplo 1A STOP, no ejecuta la fase 0. Si falla un comando, registrar FAIL/BLOCKED y no sustituirlo por el resultado de otro.
 
 `contract_gate.py` no aprueba G0. Un reporte `READY` de ejecución requiere RED funcional y evidencia de aceptación, incompatibles con simular que esta preparación implementó comportamiento. No introducir RED ficticio ni marcar requisitos `verified`; la revisión documental y este registro humano permanecen separados. Para encargos futuros usar los [contratos existentes](agent-contracts/README.md), con autorización y árbol reales.
 
@@ -108,3 +108,7 @@ G1A prueba únicamente el shell disponible: apertura/recarga, fuentes/iconos, te
 ## Resultado de preparar este paquete
 
 Se contrastaron los 102 blobs del corte remoto con la copia de lectura. Se añaden borradores y runbook, sin cambiar producto, IDs ni resultados históricos. No se repitieron suite/build/auditoría del producto ni se ejecutó navegador. El [registro inicial](phase-0/G0-RECORD.md) conserva los bloqueos reales y los pasos aún no ejecutados.
+
+## Auditoría estructurada y aceptación de riesgo
+
+Registrar o aceptar un riesgo del fixture puede resolver una decisión de preparación, pero no aprueba G0 ni convierte la auditoría de producto en PASS. El [contrato del checker](agent-contracts/prompts/00-contract.md) exige auditorías total/runtime frescas sobre manifest/lock/SHA/árbol del producto. En este MVP cualquier vulnerabilidad conserva FAIL/STOP, incluso con aceptación documentada; no hay excepción automática para iniciar/cerrar 1A, fases siguientes o cierre final. Resolver y auditar otra vez, o proponer por separado una política revisada. Infraestructura fallida es BLOCKED, nunca cero advisories. G0 sigue STOP.

@@ -124,6 +124,34 @@
       "artifact": null,
       "artifactSha256": null,
       "testCases": []
+    },
+    {
+      "id": "audit-total",
+      "kind": "nonvisual",
+      "command": "npm audit --include=dev --json",
+      "required": true,
+      "status": "NOT RUN",
+      "sha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
+      "treeDigest": null,
+      "exitCode": null,
+      "artifact": null,
+      "artifactSha256": null,
+      "testCases": [],
+      "reason": "No existe producto v6, manifest/lock ni autorización G0."
+    },
+    {
+      "id": "audit-runtime",
+      "kind": "nonvisual",
+      "command": "npm audit --omit=dev --json",
+      "required": true,
+      "status": "NOT RUN",
+      "sha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
+      "treeDigest": null,
+      "exitCode": null,
+      "artifact": null,
+      "artifactSha256": null,
+      "testCases": [],
+      "reason": "No existe producto v6, manifest/lock ni autorización G0."
     }
   ],
   "reviews": [],

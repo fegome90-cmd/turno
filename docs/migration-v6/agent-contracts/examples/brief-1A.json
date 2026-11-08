@@ -13,22 +13,13 @@
     "prototypes/frontend-v6/**"
   ],
   "requirements": [
-    "DESIGN-AUDIT-09",
-    "DESIGN-AUDIT-11",
     "DESIGN-COMPLETE-01",
-    "DESIGN-COMPLETE-08",
-    "DESIGN-COMPLETE-09",
-    "DESIGN-COMPLETE-11",
+    "DESIGN-COMPLETE-02",
     "HOME-SUBTITLE-01",
     "HOME-SUBTITLE-02",
     "HOME-SUBTITLE-03",
     "TOKENS-01",
-    "TOKENS-02",
-    "UI-01",
-    "UI-14",
-    "UI-40",
-    "UI-41",
-    "VIEWPORT-07"
+    "UI-01"
   ],
   "additionalRequirements": [
     "EXTRA-STRICTMODE-HOME",
@@ -91,6 +82,18 @@
       "kind": "visual",
       "command": "Inspección documentada de filmstrip y fuentes/temas sobre el artefacto final",
       "required": true
+    },
+    {
+      "id": "audit-total",
+      "kind": "nonvisual",
+      "command": "npm audit --include=dev --json",
+      "required": true
+    },
+    {
+      "id": "audit-runtime",
+      "kind": "nonvisual",
+      "command": "npm audit --omit=dev --json",
+      "required": true
     }
   ],
   "requiredReviews": [
@@ -100,5 +103,48 @@
   "visualBoundary": "No browser, visual, AT/device or host PASS from DOM/static checks.",
   "handoffStatus": "STOP: falta autorización G0 y rama real; navegador bloqueado en este entorno.",
   "riskMapFile": "docs/migration-v6/migration-risks.json",
-  "migrationControlScope": "1A: shell startup/theme/bundle only. Full product flows measured in 7A. Offline file cold/reload with new demo/session theme; HTTP document server remains available."
+  "migrationControlScope": "1A: shell startup/theme/bundle only. Full product flows measured in 7A. Offline file cold/reload with new demo/session theme; HTTP document server remains available.",
+  "deferredRequirements": [
+    {
+      "requirementId": "DESIGN-AUDIT-09",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "DESIGN-AUDIT-11",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "DESIGN-COMPLETE-08",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "DESIGN-COMPLETE-09",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "DESIGN-COMPLETE-11",
+      "closureTask": "6A"
+    },
+    {
+      "requirementId": "TOKENS-02",
+      "closureTask": "3A"
+    },
+    {
+      "requirementId": "UI-14",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "UI-40",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "UI-41",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "VIEWPORT-07",
+      "closureTask": "4A"
+    }
+  ],
+  "requirementScope": "requirements contiene solo identidades que pueden cerrarse en 1A. deferredRequirements conserva obligaciones de integración futuras, todas planned; un harness del shell no las cierra."
 }

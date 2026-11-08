@@ -15,7 +15,21 @@
     "targetCases": [
       "DESIGN-AUDIT-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -34,7 +48,19 @@
     "targetCases": [
       "DESIGN-AUDIT-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -54,7 +80,20 @@
     "targetCases": [
       "DESIGN-AUDIT-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -74,7 +113,20 @@
     "targetCases": [
       "DESIGN-AUDIT-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -94,7 +146,20 @@
     "targetCases": [
       "DESIGN-AUDIT-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -114,18 +179,33 @@
     "targetCases": [
       "DESIGN-AUDIT-06 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/design-audit.test.mjs",
     "sourceTest": "compact mobile navigation retains direct controls, identity and simulated Escape focus restoration",
     "requirementId": "DESIGN-AUDIT-07",
-    "task": "3A",
+    "task": "4B",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
-      "tests/e2e/overlays.spec.ts"
+      "tests/e2e/overlays.spec.ts",
+      "tests/component/domain-dialogs.test.tsx",
+      "tests/e2e/shift-lifecycle.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "compact mobile navigation retains direct controls, identity and simulated Escape focus restoration",
@@ -133,7 +213,21 @@
     "targetCases": [
       "DESIGN-AUDIT-07 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La observación completa incluye cierre/archivo, renombrar cama o controles de solo lectura creados en 4B; 3A/4A solo preparan parte del flujo."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -151,18 +245,35 @@
     "targetCases": [
       "DESIGN-AUDIT-08 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/design-audit.test.mjs",
     "sourceTest": "typography, border affordances, shared editor edge and hover guards are explicit contracts",
     "requirementId": "DESIGN-AUDIT-09",
-    "task": "1A",
+    "task": "4A",
     "targetTests": [
       "tests/component/theme-home.test.tsx",
-      "tests/e2e/accessibility.spec.ts",
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar resultado visual/accesible del contrato fuente: typography, border affordances, shared editor edge and hover guards are explicit contracts",
@@ -170,7 +281,23 @@
     "targetCases": [
       "DESIGN-AUDIT-09 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Home/tokens se ensayan en 1A, pero la identidad completa exige store, navegación, editor y Tiempo/Agenda reales montados juntos.",
+    "finalTargetTests": [
+      "tests/e2e/accessibility.spec.ts"
+    ]
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -183,7 +310,6 @@
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
       "tests/e2e/editor.spec.ts",
-      "tests/e2e/accessibility.spec.ts",
       "tests/e2e/responsive.spec.ts"
     ],
     "status": "planned",
@@ -192,17 +318,37 @@
     "targetCases": [
       "DESIGN-AUDIT-10 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado.",
+    "finalTargetTests": [
+      "tests/e2e/accessibility.spec.ts"
+    ]
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/design-audit.test.mjs",
     "sourceTest": "synthetic starting task and all four stable greeting subtitles stay in Spanish",
     "requirementId": "DESIGN-AUDIT-11",
-    "task": "1A",
+    "task": "4A",
     "targetTests": [
       "tests/unit/home-subtitle.test.ts",
-      "tests/component/theme-home.test.tsx"
+      "tests/component/theme-home.test.tsx",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "synthetic starting task and all four stable greeting subtitles stay in Spanish",
@@ -210,7 +356,20 @@
     "targetCases": [
       "DESIGN-AUDIT-11 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Home/tokens se ensayan en 1A, pero la identidad completa exige store, navegación, editor y Tiempo/Agenda reales montados juntos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -219,8 +378,7 @@
     "requirementId": "DESIGN-COMPLETE-01",
     "task": "1A",
     "targetTests": [
-      "tests/component/theme-home.test.tsx",
-      "tests/e2e/accessibility.spec.ts"
+      "tests/component/theme-home.test.tsx"
     ],
     "status": "planned",
     "targetBehavior": "theme defaults to system, tracks changes and explicit choices survive system changes",
@@ -228,19 +386,24 @@
     "targetCases": [
       "DESIGN-COMPLETE-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/design-complete.test.mjs",
     "sourceTest": "no matchMedia still gives a usable explicit dark mode",
     "requirementId": "DESIGN-COMPLETE-02",
-    "task": "4A",
+    "task": "1A",
     "targetTests": [
-      "tests/component/editor.test.tsx",
-      "tests/component/time-panel.test.tsx",
-      "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/component/theme-home.test.tsx"
     ],
     "status": "planned",
     "targetBehavior": "no matchMedia still gives a usable explicit dark mode",
@@ -248,7 +411,15 @@
     "targetCases": [
       "DESIGN-COMPLETE-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "El fallback sin matchMedia pertenece al proveedor de tema y se comprueba desde el shell, sin depender del editor."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -267,7 +438,19 @@
     "targetCases": [
       "DESIGN-COMPLETE-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -286,7 +469,19 @@
     "targetCases": [
       "DESIGN-COMPLETE-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -305,7 +500,19 @@
     "targetCases": [
       "DESIGN-COMPLETE-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -323,18 +530,35 @@
     "targetCases": [
       "DESIGN-COMPLETE-06 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/design-complete.test.mjs",
     "sourceTest": "mobile dropdown Escape does not close the navigation drawer, demo returns to disclosure trigger",
     "requirementId": "DESIGN-COMPLETE-07",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
-      "tests/e2e/overlays.spec.ts"
+      "tests/e2e/overlays.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "mobile dropdown Escape does not close the navigation drawer, demo returns to disclosure trigger",
@@ -342,17 +566,34 @@
     "targetCases": [
       "DESIGN-COMPLETE-07 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/design-complete.test.mjs",
     "sourceTest": "custom preview profile greets by name while public fixtures remain generic",
     "requirementId": "DESIGN-COMPLETE-08",
-    "task": "1A",
+    "task": "4A",
     "targetTests": [
       "tests/unit/home-subtitle.test.ts",
-      "tests/component/theme-home.test.tsx"
+      "tests/component/theme-home.test.tsx",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "custom preview profile greets by name while public fixtures remain generic",
@@ -360,18 +601,34 @@
     "targetCases": [
       "DESIGN-COMPLETE-08 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Home/tokens se ensayan en 1A, pero la identidad completa exige store, navegación, editor y Tiempo/Agenda reales montados juntos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/design-complete.test.mjs",
     "sourceTest": "actual light and dark tokens meet declared text, field-border, filter and focus contrast contracts",
     "requirementId": "DESIGN-COMPLETE-09",
-    "task": "1A",
+    "task": "4A",
     "targetTests": [
       "tests/component/theme-home.test.tsx",
-      "tests/e2e/accessibility.spec.ts",
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar resultado visual/accesible del contrato fuente: actual light and dark tokens meet declared text, field-border, filter and focus contrast contracts",
@@ -379,7 +636,23 @@
     "targetCases": [
       "DESIGN-COMPLETE-09 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Home/tokens se ensayan en 1A, pero la identidad completa exige store, navegación, editor y Tiempo/Agenda reales montados juntos.",
+    "finalTargetTests": [
+      "tests/e2e/accessibility.spec.ts"
+    ]
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -392,7 +665,6 @@
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
       "tests/e2e/editor.spec.ts",
-      "tests/e2e/accessibility.spec.ts",
       "tests/e2e/responsive.spec.ts"
     ],
     "status": "planned",
@@ -401,18 +673,35 @@
     "targetCases": [
       "DESIGN-COMPLETE-10 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado.",
+    "finalTargetTests": [
+      "tests/e2e/accessibility.spec.ts"
+    ]
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/design-complete.test.mjs",
     "sourceTest": "complete CSS parses with no repeated selector in the same conditional context",
     "requirementId": "DESIGN-COMPLETE-11",
-    "task": "1A",
+    "task": "6A",
     "targetTests": [
       "tests/component/theme-home.test.tsx",
-      "tests/e2e/accessibility.spec.ts",
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar resultado visual/accesible del contrato fuente: complete CSS parses with no repeated selector in the same conditional context",
@@ -420,19 +709,40 @@
     "targetCases": [
       "DESIGN-COMPLETE-11 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El parseo y las reglas de CSS completo se repiten con todos los módulos, incluido movimiento de 6A; el shell no representa el CSS final.",
+    "finalTargetTests": [
+      "tests/e2e/accessibility.spec.ts"
+    ]
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/design-complete.test.mjs",
     "sourceTest": "dark mode survives failed save, retry, archive confirmation and read-only task controls",
     "requirementId": "DESIGN-COMPLETE-12",
-    "task": "4A",
+    "task": "4B",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/component/domain-dialogs.test.tsx",
+      "tests/e2e/shift-lifecycle.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "dark mode survives failed save, retry, archive confirmation and read-only task controls",
@@ -440,7 +750,21 @@
     "targetCases": [
       "DESIGN-COMPLETE-12 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La observación completa incluye cierre/archivo, renombrar cama o controles de solo lectura creados en 4B; 3A/4A solo preparan parte del flujo."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -460,7 +784,15 @@
     "targetCases": [
       "DRAFT-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -480,7 +812,15 @@
     "targetCases": [
       "DRAFT-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -500,7 +840,15 @@
     "targetCases": [
       "DRAFT-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -520,7 +868,20 @@
     "targetCases": [
       "EMIL-SKILLS-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -540,7 +901,20 @@
     "targetCases": [
       "EMIL-SKILLS-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -560,7 +934,20 @@
     "targetCases": [
       "EMIL-SKILLS-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -580,7 +967,20 @@
     "targetCases": [
       "EMIL-SKILLS-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -600,7 +1000,20 @@
     "targetCases": [
       "EMIL-SKILLS-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -618,7 +1031,21 @@
     "targetCases": [
       "EMIL-SKILLS-06 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -638,7 +1065,15 @@
     "targetCases": [
       "EMIL-SKILLS-07 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -656,19 +1091,35 @@
     "targetCases": [
       "EMIL-SKILLS-08 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/emil-skills.test.mjs",
     "sourceTest": "plausible long multilingual labels remain literal and retain identity",
     "requirementId": "EMIL-SKILLS-09",
-    "task": "4A",
+    "task": "4B",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/component/domain-dialogs.test.tsx",
+      "tests/e2e/shift-lifecycle.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "plausible long multilingual labels remain literal and retain identity",
@@ -676,7 +1127,21 @@
     "targetCases": [
       "EMIL-SKILLS-09 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La observación completa incluye cierre/archivo, renombrar cama o controles de solo lectura creados en 4B; 3A/4A solo preparan parte del flujo."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -696,7 +1161,20 @@
     "targetCases": [
       "EMIL-SKILLS-10 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -714,7 +1192,23 @@
     "targetCases": [
       "EMIL-SKILLS-11 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -732,7 +1226,23 @@
     "targetCases": [
       "EMIL-SKILLS-12 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -751,18 +1261,34 @@
     "targetCases": [
       "EMIL-SKILLS-13 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/emil-skills.test.mjs",
     "sourceTest": "touch changes target controls and coarse pointers without suppressing text selection globally",
     "requirementId": "EMIL-SKILLS-14",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
-      "tests/e2e/overlays.spec.ts"
+      "tests/e2e/overlays.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "touch changes target controls and coarse pointers without suppressing text selection globally",
@@ -770,19 +1296,33 @@
     "targetCases": [
       "EMIL-SKILLS-14 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/emil-skills.test.mjs",
     "sourceTest": "long labels reserve trailing controls rather than truncating their identity",
     "requirementId": "EMIL-SKILLS-15",
-    "task": "3A",
+    "task": "4B",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
       "tests/e2e/overlays.spec.ts",
-      "tests/e2e/accessibility.spec.ts"
+      "tests/component/domain-dialogs.test.tsx",
+      "tests/e2e/shift-lifecycle.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar resultado visual/accesible del contrato fuente: long labels reserve trailing controls rather than truncating their identity",
@@ -790,7 +1330,24 @@
     "targetCases": [
       "EMIL-SKILLS-15 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La observación completa incluye cierre/archivo, renombrar cama o controles de solo lectura creados en 4B; 3A/4A solo preparan parte del flujo.",
+    "finalTargetTests": [
+      "tests/e2e/accessibility.spec.ts"
+    ]
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -810,17 +1367,34 @@
     "targetCases": [
       "EMIL-SKILLS-16 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/history.test.mjs",
     "sourceTest": "initial load replaces the first history entry and never pushes",
     "requirementId": "HISTORY-01",
-    "task": "2B",
+    "task": "4A",
     "targetTests": [
       "tests/unit/history-controller.test.ts",
-      "tests/e2e/history.spec.ts"
+      "tests/e2e/history.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "initial load replaces the first history entry and never pushes",
@@ -828,17 +1402,34 @@
     "targetCases": [
       "HISTORY-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El controlador se prueba en 2B con harness; el requisito fuente se cierra con App, editor, navegación y guardas de borrador integrados en 4A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/history.test.mjs",
     "sourceTest": "opening a task pushes one entry and re-rendering does not duplicate it",
     "requirementId": "HISTORY-02",
-    "task": "2B",
+    "task": "4A",
     "targetTests": [
       "tests/unit/history-controller.test.ts",
-      "tests/e2e/history.spec.ts"
+      "tests/e2e/history.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "opening a task pushes one entry and re-rendering does not duplicate it",
@@ -846,17 +1437,34 @@
     "targetCases": [
       "HISTORY-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El controlador se prueba en 2B con harness; el requisito fuente se cierra con App, editor, navegación y guardas de borrador integrados en 4A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/history.test.mjs",
     "sourceTest": "document title names the open task and Home",
     "requirementId": "HISTORY-03",
-    "task": "2B",
+    "task": "4A",
     "targetTests": [
       "tests/unit/history-controller.test.ts",
-      "tests/e2e/history.spec.ts"
+      "tests/e2e/history.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "document title names the open task and Home",
@@ -864,17 +1472,34 @@
     "targetCases": [
       "HISTORY-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El controlador se prueba en 2B con harness; el requisito fuente se cierra con App, editor, navegación y guardas de borrador integrados en 4A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/history.test.mjs",
     "sourceTest": "popstate to the Home state returns to Home without pushing another entry",
     "requirementId": "HISTORY-04",
-    "task": "2B",
+    "task": "4A",
     "targetTests": [
       "tests/unit/history-controller.test.ts",
-      "tests/e2e/history.spec.ts"
+      "tests/e2e/history.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "popstate to the Home state returns to Home without pushing another entry",
@@ -882,17 +1507,34 @@
     "targetCases": [
       "HISTORY-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El controlador se prueba en 2B con harness; el requisito fuente se cierra con App, editor, navegación y guardas de borrador integrados en 4A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/history.test.mjs",
     "sourceTest": "popstate to a task state restores that task without pushing during its render",
     "requirementId": "HISTORY-05",
-    "task": "2B",
+    "task": "4A",
     "targetTests": [
       "tests/unit/history-controller.test.ts",
-      "tests/e2e/history.spec.ts"
+      "tests/e2e/history.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "popstate to a task state restores that task without pushing during its render",
@@ -900,17 +1542,32 @@
     "targetCases": [
       "HISTORY-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El controlador se prueba en 2B con harness; el requisito fuente se cierra con App, editor, navegación y guardas de borrador integrados en 4A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/history.test.mjs",
     "sourceTest": "Back with the More options menu or a dialog open closes it and keeps every Forward entry",
     "requirementId": "HISTORY-06",
-    "task": "2B",
+    "task": "4B",
     "targetTests": [
       "tests/unit/history-controller.test.ts",
-      "tests/e2e/history.spec.ts"
+      "tests/e2e/history.spec.ts",
+      "tests/component/domain-dialogs.test.tsx",
+      "tests/e2e/shift-lifecycle.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Back with the More options menu or a dialog open closes it and keeps every Forward entry",
@@ -918,17 +1575,35 @@
     "targetCases": [
       "HISTORY-06 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Además del controlador y editor requiere el diálogo real de renombrar cama, creado en 4B."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/history.test.mjs",
     "sourceTest": "Back while a completion save is pending keeps the view and the Forward entries",
     "requirementId": "HISTORY-07",
-    "task": "2B",
+    "task": "4A",
     "targetTests": [
       "tests/unit/history-controller.test.ts",
-      "tests/e2e/history.spec.ts"
+      "tests/e2e/history.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Back while a completion save is pending keeps the view and the Forward entries",
@@ -936,17 +1611,34 @@
     "targetCases": [
       "HISTORY-07 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El controlador se prueba en 2B con harness; el requisito fuente se cierra con App, editor, navegación y guardas de borrador integrados en 4A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/history.test.mjs",
     "sourceTest": "unsaved changes: Volver stays put, Descartar repeats the original Back once, no entries are added or lost",
     "requirementId": "HISTORY-08",
-    "task": "2B",
+    "task": "4A",
     "targetTests": [
       "tests/unit/history-controller.test.ts",
-      "tests/e2e/history.spec.ts"
+      "tests/e2e/history.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "unsaved changes: Volver stays put, Descartar repeats the original Back once, no entries are added or lost",
@@ -954,17 +1646,34 @@
     "targetCases": [
       "HISTORY-08 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El controlador se prueba en 2B con harness; el requisito fuente se cierra con App, editor, navegación y guardas de borrador integrados en 4A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/history.test.mjs",
     "sourceTest": "unsaved changes on Forward: Descartar repeats the Forward move, not a Back",
     "requirementId": "HISTORY-09",
-    "task": "2B",
+    "task": "4A",
     "targetTests": [
       "tests/unit/history-controller.test.ts",
-      "tests/e2e/history.spec.ts"
+      "tests/e2e/history.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "unsaved changes on Forward: Descartar repeats the Forward move, not a Back",
@@ -972,7 +1681,20 @@
     "targetCases": [
       "HISTORY-09 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El controlador se prueba en 2B con harness; el requisito fuente se cierra con App, editor, navegación y guardas de borrador integrados en 4A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -992,7 +1714,20 @@
     "targetCases": [
       "HISTORY-10 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1001,8 +1736,7 @@
     "requirementId": "HOME-SUBTITLE-01",
     "task": "1A",
     "targetTests": [
-      "tests/unit/home-subtitle.test.ts",
-      "tests/component/theme-home.test.tsx"
+      "tests/unit/home-subtitle.test.ts"
     ],
     "status": "planned",
     "targetBehavior": "home subtitle catalogue has four independent short messages without name interpolation",
@@ -1010,7 +1744,15 @@
     "targetCases": [
       "HOME-SUBTITLE-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1019,8 +1761,7 @@
     "requirementId": "HOME-SUBTITLE-02",
     "task": "1A",
     "targetTests": [
-      "tests/unit/home-subtitle.test.ts",
-      "tests/component/theme-home.test.tsx"
+      "tests/unit/home-subtitle.test.ts"
     ],
     "status": "planned",
     "targetBehavior": "injected random deterministically reaches each subtitle and is sampled only once",
@@ -1028,7 +1769,15 @@
     "targetCases": [
       "HOME-SUBTITLE-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1037,8 +1786,7 @@
     "requirementId": "HOME-SUBTITLE-03",
     "task": "1A",
     "targetTests": [
-      "tests/unit/home-subtitle.test.ts",
-      "tests/component/theme-home.test.tsx"
+      "tests/unit/home-subtitle.test.ts"
     ],
     "status": "planned",
     "targetBehavior": "out-of-range or invalid random samples cannot produce an undefined subtitle",
@@ -1046,19 +1794,30 @@
     "targetCases": [
       "HOME-SUBTITLE-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/interface-skills.test.mjs",
     "sourceTest": "closed temporal validation identifies and opens the first invalid field",
     "requirementId": "INTERFACE-SKILLS-01",
-    "task": "4A",
+    "task": "5A",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/unit/notification-store.test.ts",
+      "tests/component/notifications.test.tsx",
+      "tests/e2e/notifications.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "closed temporal validation identifies and opens the first invalid field",
@@ -1066,7 +1825,22 @@
     "targetCases": [
       "INTERFACE-SKILLS-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El flujo de edición/layout/diálogo se repite con NotificationStack real: suspensión, ausencia de anuncio duplicado o error anunciado no se acreditan antes de 5A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1086,7 +1860,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1106,7 +1893,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1126,7 +1926,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1146,7 +1959,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1164,7 +1990,21 @@
     "targetCases": [
       "INTERFACE-SKILLS-06 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1184,7 +2024,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-07 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1204,7 +2057,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-08 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1224,19 +2090,35 @@
     "targetCases": [
       "INTERFACE-SKILLS-09 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/interface-skills.test.mjs",
     "sourceTest": "mobile input, wrapping and overlay CSS constraints are explicit",
     "requirementId": "INTERFACE-SKILLS-10",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
       "tests/e2e/overlays.spec.ts",
-      "tests/e2e/accessibility.spec.ts"
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar resultado visual/accesible del contrato fuente: mobile input, wrapping and overlay CSS constraints are explicit",
@@ -1244,7 +2126,23 @@
     "targetCases": [
       "INTERFACE-SKILLS-10 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos.",
+    "finalTargetTests": [
+      "tests/e2e/accessibility.spec.ts"
+    ]
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1262,7 +2160,21 @@
     "targetCases": [
       "INTERFACE-SKILLS-11 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1280,7 +2192,21 @@
     "targetCases": [
       "INTERFACE-SKILLS-12 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1298,7 +2224,21 @@
     "targetCases": [
       "INTERFACE-SKILLS-13 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1318,7 +2258,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-14 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1336,7 +2289,24 @@
     "targetCases": [
       "INTERFACE-SKILLS-15 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "7A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A",
+      "7A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1355,7 +2325,19 @@
     "targetCases": [
       "INTERFACE-SKILLS-16 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1374,7 +2356,19 @@
     "targetCases": [
       "INTERFACE-SKILLS-17 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1393,7 +2387,19 @@
     "targetCases": [
       "INTERFACE-SKILLS-18 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1412,7 +2418,19 @@
     "targetCases": [
       "INTERFACE-SKILLS-19 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1430,7 +2448,23 @@
     "targetCases": [
       "INTERFACE-SKILLS-20 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1448,18 +2482,38 @@
     "targetCases": [
       "INTERFACE-SKILLS-21 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/interface-skills.test.mjs",
     "sourceTest": "Motivo and Prioridad are named by visible wrapping labels with no fixed widths",
     "requirementId": "INTERFACE-SKILLS-22",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
-      "tests/e2e/overlays.spec.ts"
+      "tests/e2e/overlays.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Motivo and Prioridad are named by visible wrapping labels with no fixed widths",
@@ -1467,18 +2521,35 @@
     "targetCases": [
       "INTERFACE-SKILLS-22 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/interface-skills.test.mjs",
     "sourceTest": "title is a wrapping textarea: Enter adds no line and pasted newlines become spaces",
     "requirementId": "INTERFACE-SKILLS-23",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
-      "tests/e2e/overlays.spec.ts"
+      "tests/e2e/overlays.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "title is a wrapping textarea: Enter adds no line and pasted newlines become spaces",
@@ -1486,7 +2557,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-23 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1504,7 +2588,21 @@
     "targetCases": [
       "INTERFACE-SKILLS-24 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1524,7 +2622,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-25 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1544,7 +2655,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-26 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1562,7 +2686,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-27 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1575,7 +2712,6 @@
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
       "tests/e2e/editor.spec.ts",
-      "tests/e2e/accessibility.spec.ts",
       "tests/e2e/responsive.spec.ts"
     ],
     "status": "planned",
@@ -1584,7 +2720,23 @@
     "targetCases": [
       "INTERFACE-SKILLS-28 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado.",
+    "finalTargetTests": [
+      "tests/e2e/accessibility.spec.ts"
+    ]
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1604,7 +2756,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-29 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1624,7 +2789,20 @@
     "targetCases": [
       "INTERFACE-SKILLS-30 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1642,7 +2820,24 @@
     "targetCases": [
       "INTERFACE-SKILLS-31 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "7A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A",
+      "7A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1661,7 +2856,19 @@
     "targetCases": [
       "INTERFACE-SKILLS-32 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1680,7 +2887,19 @@
     "targetCases": [
       "INTERFACE-SKILLS-33 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1698,7 +2917,23 @@
     "targetCases": [
       "MOTION-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1716,7 +2951,23 @@
     "targetCases": [
       "MOTION-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1734,7 +2985,23 @@
     "targetCases": [
       "MOTION-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1752,7 +3019,23 @@
     "targetCases": [
       "MOTION-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1770,7 +3053,23 @@
     "targetCases": [
       "MOTION-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1788,19 +3087,37 @@
     "targetCases": [
       "MOTION-06 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/polish.test.mjs",
     "sourceTest": "disclosure opens native state immediately and reveals only its content",
     "requirementId": "POLISH-01",
-    "task": "4A",
+    "task": "6A",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "disclosure opens native state immediately and reveals only its content",
@@ -1808,19 +3125,37 @@
     "targetCases": [
       "POLISH-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La funcionalidad de disclosure/tabs se prueba en 4A; tiempos, cancelación, continuidad y movimiento real se cierran tras implementar motion-policy/CSS en 6A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/polish.test.mjs",
     "sourceTest": "disclosure close is instant, inert and restores focus outside hidden controls",
     "requirementId": "POLISH-02",
-    "task": "4A",
+    "task": "6A",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "disclosure close is instant, inert and restores focus outside hidden controls",
@@ -1828,19 +3163,37 @@
     "targetCases": [
       "POLISH-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La funcionalidad de disclosure/tabs se prueba en 4A; tiempos, cancelación, continuidad y movimiento real se cierran tras implementar motion-policy/CSS en 6A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/polish.test.mjs",
     "sourceTest": "repeated disclosure reversals and cancellation never write visibility or inline styles",
     "requirementId": "POLISH-03",
-    "task": "4A",
+    "task": "6A",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "repeated disclosure reversals and cancellation never write visibility or inline styles",
@@ -1848,7 +3201,23 @@
     "targetCases": [
       "POLISH-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La funcionalidad de disclosure/tabs se prueba en 4A; tiempos, cancelación, continuidad y movimiento real se cierran tras implementar motion-policy/CSS en 6A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1866,19 +3235,37 @@
     "targetCases": [
       "POLISH-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/polish.test.mjs",
     "sourceTest": "changing reduced preference cancels disclosure without rolling back intent",
     "requirementId": "POLISH-05",
-    "task": "4A",
+    "task": "6A",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "changing reduced preference cancels disclosure without rolling back intent",
@@ -1886,7 +3273,23 @@
     "targetCases": [
       "POLISH-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La funcionalidad de disclosure/tabs se prueba en 4A; tiempos, cancelación, continuidad y movimiento real se cierran tras implementar motion-policy/CSS en 6A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1904,19 +3307,37 @@
     "targetCases": [
       "POLISH-06 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/polish.test.mjs",
     "sourceTest": "tab marker uses only transform for 150 ms and skips keyboard or unchanged position",
     "requirementId": "POLISH-07",
-    "task": "4A",
+    "task": "6A",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "tab marker uses only transform for 150 ms and skips keyboard or unchanged position",
@@ -1924,7 +3345,23 @@
     "targetCases": [
       "POLISH-07 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La funcionalidad de disclosure/tabs se prueba en 4A; tiempos, cancelación, continuidad y movimiento real se cierran tras implementar motion-policy/CSS en 6A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1944,7 +3381,15 @@
     "targetCases": [
       "POLISH-08 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1964,7 +3409,15 @@
     "targetCases": [
       "POLISH-09 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -1984,7 +3437,15 @@
     "targetCases": [
       "POLISH-10 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2004,19 +3465,29 @@
     "targetCases": [
       "POLISH-11 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/polish.test.mjs",
     "sourceTest": "external native close cancels outstanding reveal and returns focus without delaying state",
     "requirementId": "POLISH-12",
-    "task": "4A",
+    "task": "6A",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "external native close cancels outstanding reveal and returns focus without delaying state",
@@ -2024,7 +3495,23 @@
     "targetCases": [
       "POLISH-12 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La funcionalidad de disclosure/tabs se prueba en 4A; tiempos, cancelación, continuidad y movimiento real se cierran tras implementar motion-policy/CSS en 6A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2042,7 +3529,23 @@
     "targetCases": [
       "POLISH-13 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2062,7 +3565,15 @@
     "targetCases": [
       "PREVIEW-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2082,7 +3593,15 @@
     "targetCases": [
       "PREVIEW-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2102,7 +3621,15 @@
     "targetCases": [
       "PREVIEW-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2122,7 +3649,15 @@
     "targetCases": [
       "PREVIEW-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2142,7 +3677,15 @@
     "targetCases": [
       "PREVIEW-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2162,7 +3705,15 @@
     "targetCases": [
       "PREVIEW-06 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2182,7 +3733,15 @@
     "targetCases": [
       "PREVIEW-07 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2202,7 +3761,15 @@
     "targetCases": [
       "PREVIEW-08 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2222,7 +3789,15 @@
     "targetCases": [
       "PREVIEW-09 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2242,7 +3817,15 @@
     "targetCases": [
       "PREVIEW-10 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2262,7 +3845,15 @@
     "targetCases": [
       "PREVIEW-11 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2282,7 +3873,15 @@
     "targetCases": [
       "PREVIEW-12 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2302,7 +3901,15 @@
     "targetCases": [
       "PREVIEW-13 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2322,7 +3929,15 @@
     "targetCases": [
       "PREVIEW-14 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2342,7 +3957,15 @@
     "targetCases": [
       "PREVIEW-15 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2362,7 +3985,15 @@
     "targetCases": [
       "PREVIEW-16 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2382,7 +4013,15 @@
     "targetCases": [
       "PREVIEW-17 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2402,7 +4041,15 @@
     "targetCases": [
       "PREVIEW-18 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2422,7 +4069,15 @@
     "targetCases": [
       "PREVIEW-19 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2442,7 +4097,15 @@
     "targetCases": [
       "PREVIEW-20 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2460,7 +4123,22 @@
     "targetCases": [
       "TOASTS-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2478,7 +4156,22 @@
     "targetCases": [
       "TOASTS-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2496,17 +4189,34 @@
     "targetCases": [
       "TOASTS-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "notify never steals focus and messages persist beyond the animation window",
     "requirementId": "TOASTS-04",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
-      "tests/e2e/notifications.spec.ts"
+      "tests/e2e/notifications.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "notify never steals focus and messages persist beyond the animation window",
@@ -2514,7 +4224,23 @@
     "targetCases": [
       "TOASTS-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2532,7 +4258,22 @@
     "targetCases": [
       "TOASTS-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2550,17 +4291,34 @@
     "targetCases": [
       "TOASTS-06 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "pointer dismissal becomes inert immediately and removes after the 300ms exit",
     "requirementId": "TOASTS-07",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
-      "tests/e2e/notifications.spec.ts"
+      "tests/e2e/notifications.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "pointer dismissal becomes inert immediately and removes after the 300ms exit",
@@ -2568,17 +4326,35 @@
     "targetCases": [
       "TOASTS-07 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "repeat during exit reverses on the same card and cancels stale removal",
     "requirementId": "TOASTS-08",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
-      "tests/e2e/notifications.spec.ts"
+      "tests/e2e/notifications.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "repeat during exit reverses on the same card and cancels stale removal",
@@ -2586,18 +4362,35 @@
     "targetCases": [
       "TOASTS-08 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "keyboard and initial reduced motion dismiss synchronously",
     "requirementId": "TOASTS-09",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
       "tests/e2e/notifications.spec.ts",
-      "tests/e2e/motion.spec.ts"
+      "tests/e2e/motion.spec.ts",
+      "tests/unit/motion-policy.test.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar política de movimiento/interrupción observable: keyboard and initial reduced motion dismiss synchronously",
@@ -2605,18 +4398,35 @@
     "targetCases": [
       "TOASTS-09 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "keyboard interruption removes pending exits and cancels pending FLIP frames",
     "requirementId": "TOASTS-10",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
       "tests/e2e/notifications.spec.ts",
-      "tests/e2e/motion.spec.ts"
+      "tests/e2e/motion.spec.ts",
+      "tests/unit/motion-policy.test.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar política de movimiento/interrupción observable: keyboard interruption removes pending exits and cancels pending FLIP frames",
@@ -2624,18 +4434,35 @@
     "targetCases": [
       "TOASTS-10 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "enabling reduced motion settles every pending exit immediately",
     "requirementId": "TOASTS-11",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
       "tests/e2e/notifications.spec.ts",
-      "tests/e2e/motion.spec.ts"
+      "tests/e2e/motion.spec.ts",
+      "tests/unit/motion-policy.test.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar política de movimiento/interrupción observable: enabling reduced motion settles every pending exit immediately",
@@ -2643,18 +4470,35 @@
     "targetCases": [
       "TOASTS-11 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "FLIP captures painted position before layout mutation and cancels old frames",
     "requirementId": "TOASTS-12",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
       "tests/e2e/notifications.spec.ts",
-      "tests/e2e/motion.spec.ts"
+      "tests/e2e/motion.spec.ts",
+      "tests/unit/motion-policy.test.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar política de movimiento/interrupción observable: FLIP captures painted position before layout mutation and cancels old frames",
@@ -2662,7 +4506,23 @@
     "targetCases": [
       "TOASTS-12 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2680,7 +4540,22 @@
     "targetCases": [
       "TOASTS-13 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2698,17 +4573,34 @@
     "targetCases": [
       "TOASTS-14 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "clear and modal interruptions cannot revive a removed toast",
     "requirementId": "TOASTS-15",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
-      "tests/e2e/notifications.spec.ts"
+      "tests/e2e/notifications.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "clear and modal interruptions cannot revive a removed toast",
@@ -2716,7 +4608,23 @@
     "targetCases": [
       "TOASTS-15 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2734,7 +4642,22 @@
     "targetCases": [
       "TOASTS-16 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2752,18 +4675,34 @@
     "targetCases": [
       "TOASTS-17 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "CSS gates transform and opacity motion, preserves screen durations and readable controls",
     "requirementId": "TOASTS-18",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
       "tests/e2e/notifications.spec.ts",
-      "tests/e2e/motion.spec.ts"
+      "tests/e2e/motion.spec.ts",
+      "tests/unit/motion-policy.test.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar política de movimiento/interrupción observable: CSS gates transform and opacity motion, preserves screen durations and readable controls",
@@ -2771,18 +4710,35 @@
     "targetCases": [
       "TOASTS-18 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "first duplicate height change retargets neighbouring cards through FLIP",
     "requirementId": "TOASTS-19",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
       "tests/e2e/notifications.spec.ts",
-      "tests/e2e/motion.spec.ts"
+      "tests/e2e/motion.spec.ts",
+      "tests/unit/motion-policy.test.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar política de movimiento/interrupción observable: first duplicate height change retargets neighbouring cards through FLIP",
@@ -2790,18 +4746,35 @@
     "targetCases": [
       "TOASTS-19 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "modal suspension disables entry transitions without toggling list display",
     "requirementId": "TOASTS-20",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
       "tests/e2e/notifications.spec.ts",
-      "tests/e2e/motion.spec.ts"
+      "tests/e2e/motion.spec.ts",
+      "tests/unit/motion-policy.test.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar política de movimiento/interrupción observable: modal suspension disables entry transitions without toggling list display",
@@ -2809,18 +4782,35 @@
     "targetCases": [
       "TOASTS-20 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/toasts.test.mjs",
     "sourceTest": "bottom scroll adjustment is measured as part of the FLIP mutation",
     "requirementId": "TOASTS-21",
-    "task": "5A",
+    "task": "6A",
     "targetTests": [
       "tests/component/notifications.test.tsx",
       "tests/e2e/notifications.spec.ts",
-      "tests/e2e/motion.spec.ts"
+      "tests/e2e/motion.spec.ts",
+      "tests/unit/motion-policy.test.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar política de movimiento/interrupción observable: bottom scroll adjustment is measured as part of the FLIP mutation",
@@ -2828,7 +4818,23 @@
     "targetCases": [
       "TOASTS-21 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La pila se migra en 5A; las garantías que incluyen entradas/salidas, interrupciones y movimiento se revalidan y cierran en 6A con la política final integrada."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2846,7 +4852,22 @@
     "targetCases": [
       "TOASTS-22 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2855,9 +4876,7 @@
     "requirementId": "TOKENS-01",
     "task": "1A",
     "targetTests": [
-      "tests/component/theme-home.test.tsx",
-      "tests/e2e/accessibility.spec.ts",
-      "tests/e2e/responsive.spec.ts"
+      "tests/component/theme-home.test.tsx"
     ],
     "status": "planned",
     "targetBehavior": "Preservar resultado visual/accesible del contrato fuente: the shared solid and on-solid tokens are defined on :root for light and dark themes",
@@ -2865,18 +4884,27 @@
     "targetCases": [
       "TOKENS-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/tokens.test.mjs",
     "sourceTest": "the brand label keeps its visually hidden text rule",
     "requirementId": "TOKENS-02",
-    "task": "1A",
+    "task": "3A",
     "targetTests": [
       "tests/component/theme-home.test.tsx",
-      "tests/e2e/accessibility.spec.ts",
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/component/navigation.test.tsx",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar resultado visual/accesible del contrato fuente: the brand label keeps its visually hidden text rule",
@@ -2884,7 +4912,22 @@
     "targetCases": [
       "TOKENS-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La etiqueta de marca visualmente oculta se verifica en Navigation real, creada en 3A, no solo en tokens.",
+    "finalTargetTests": [
+      "tests/e2e/accessibility.spec.ts"
+    ]
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2893,8 +4936,8 @@
     "requirementId": "UI-01",
     "task": "1A",
     "targetTests": [
-      "tests/unit/home-subtitle.test.ts",
-      "tests/component/theme-home.test.tsx"
+      "tests/component/theme-home.test.tsx",
+      "tests/e2e/offline-theme.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "home has greeting, one state summary action and no date input",
@@ -2902,7 +4945,15 @@
     "targetCases": [
       "UI-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2922,7 +4973,20 @@
     "targetCases": [
       "UI-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2942,7 +5006,20 @@
     "targetCases": [
       "UI-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2962,7 +5039,20 @@
     "targetCases": [
       "UI-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -2982,7 +5072,20 @@
     "targetCases": [
       "UI-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3002,7 +5105,20 @@
     "targetCases": [
       "UI-06 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3022,7 +5138,20 @@
     "targetCases": [
       "UI-07 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3042,7 +5171,20 @@
     "targetCases": [
       "UI-08 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3060,7 +5202,21 @@
     "targetCases": [
       "UI-09 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3078,7 +5234,21 @@
     "targetCases": [
       "UI-10 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3098,7 +5268,20 @@
     "targetCases": [
       "UI-11 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3117,7 +5300,19 @@
     "targetCases": [
       "UI-12 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3137,17 +5332,34 @@
     "targetCases": [
       "UI-13 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "Home greeting node survives opening and closing Time",
     "requirementId": "UI-14",
-    "task": "1A",
+    "task": "4A",
     "targetTests": [
       "tests/unit/home-subtitle.test.ts",
-      "tests/component/theme-home.test.tsx"
+      "tests/component/theme-home.test.tsx",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Home greeting node survives opening and closing Time",
@@ -3155,18 +5367,35 @@
     "targetCases": [
       "UI-14 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Home/tokens se ensayan en 1A, pero la identidad completa exige store, navegación, editor y Tiempo/Agenda reales montados juntos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "filter preserves current editor and navigation scroll position",
     "requirementId": "UI-15",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
-      "tests/e2e/overlays.spec.ts"
+      "tests/e2e/overlays.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "filter preserves current editor and navigation scroll position",
@@ -3174,7 +5403,20 @@
     "targetCases": [
       "UI-15 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3192,7 +5434,23 @@
     "targetCases": [
       "UI-16 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3212,7 +5470,20 @@
     "targetCases": [
       "UI-17 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3231,18 +5502,34 @@
     "targetCases": [
       "UI-18 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "cancelling draft navigation restores sidebar checkbox state",
     "requirementId": "UI-19",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
-      "tests/e2e/overlays.spec.ts"
+      "tests/e2e/overlays.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "cancelling draft navigation restores sidebar checkbox state",
@@ -3250,7 +5537,20 @@
     "targetCases": [
       "UI-19 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3270,7 +5570,20 @@
     "targetCases": [
       "UI-20 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3290,19 +5603,34 @@
     "targetCases": [
       "UI-21 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "tabs have distinct related panels and roving keyboard wraps without animating content",
     "requirementId": "UI-22",
-    "task": "4A",
+    "task": "6A",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "tabs have distinct related panels and roving keyboard wraps without animating content",
@@ -3310,7 +5638,23 @@
     "targetCases": [
       "UI-22 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Tabs/disclosure funcionales se prueban en 4A; la condición sin animación de contenido o de toggle externo se cierra con movimiento final en 6A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3328,17 +5672,35 @@
     "targetCases": [
       "UI-23 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "native disclosure toggle synchronizes open state and inert without animation",
     "requirementId": "UI-24",
-    "task": "4A",
+    "task": "6A",
     "targetTests": [
       "tests/component/time-panel.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/unit/motion-policy.test.ts",
+      "tests/e2e/motion.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Collapsible expone estado expandido/control asociado una vez, abre inmediatamente y al cerrar elimina tabulación/interacción de contenido oculto; devuelve foco a trigger visible sin perder raw draft.",
@@ -3346,18 +5708,38 @@
     "targetCases": [
       "UI-24 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Tabs/disclosure funcionales se prueban en 4A; la condición sin animación de contenido o de toggle externo se cierra con movimiento final en 6A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "Agenda includes undated tasks regardless of navigation filter and shows selected completed state",
     "requirementId": "UI-25",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
-      "tests/e2e/overlays.spec.ts"
+      "tests/e2e/overlays.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Agenda includes undated tasks regardless of navigation filter and shows selected completed state",
@@ -3365,7 +5747,20 @@
     "targetCases": [
       "UI-25 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3383,19 +5778,37 @@
     "targetCases": [
       "UI-26 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "validation is associated with the invalid field without duplicate live alert",
     "requirementId": "UI-27",
-    "task": "4A",
+    "task": "5A",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/unit/notification-store.test.ts",
+      "tests/component/notifications.test.tsx",
+      "tests/e2e/notifications.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "validation is associated with the invalid field without duplicate live alert",
@@ -3403,19 +5816,37 @@
     "targetCases": [
       "UI-27 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El flujo de edición/layout/diálogo se repite con NotificationStack real: suspensión, ausencia de anuncio duplicado o error anunciado no se acreditan antes de 5A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "rapid repeated checkbox change commits once without an artificial conflict",
     "requirementId": "UI-28",
-    "task": "4A",
+    "task": "5A",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/unit/notification-store.test.ts",
+      "tests/component/notifications.test.tsx",
+      "tests/e2e/notifications.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "rapid repeated checkbox change commits once without an artificial conflict",
@@ -3423,19 +5854,36 @@
     "targetCases": [
       "UI-28 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El flujo de edición/layout/diálogo se repite con NotificationStack real: suspensión, ausencia de anuncio duplicado o error anunciado no se acreditan antes de 5A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "empty shift Agenda offers a useful no-date hint without making tasks or a calendar",
     "requirementId": "UI-29",
-    "task": "4A",
+    "task": "4B",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/component/domain-dialogs.test.tsx",
+      "tests/e2e/shift-lifecycle.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "empty shift Agenda offers a useful no-date hint without making tasks or a calendar",
@@ -3443,7 +5891,21 @@
     "targetCases": [
       "UI-29 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El escenario fuente cierra y abre turno mediante diálogo y formulario antes de observar Agenda vacía; se cierra en 4B con ese ciclo real, no con un fixture que omita las acciones."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3461,7 +5923,22 @@
     "targetCases": [
       "UI-30 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3479,7 +5956,21 @@
     "targetCases": [
       "UI-31 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3497,7 +5988,21 @@
     "targetCases": [
       "UI-32 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3515,7 +6020,21 @@
     "targetCases": [
       "UI-33 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3533,7 +6052,21 @@
     "targetCases": [
       "UI-34 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3551,17 +6084,34 @@
     "targetCases": [
       "UI-35 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "rename noop does not consume a pending simulated failure or announce a change",
     "requirementId": "UI-36",
-    "task": "4B",
+    "task": "5A",
     "targetTests": [
       "tests/component/domain-dialogs.test.tsx",
-      "tests/e2e/shift-lifecycle.spec.ts"
+      "tests/e2e/shift-lifecycle.spec.ts",
+      "tests/unit/notification-store.test.ts",
+      "tests/component/notifications.test.tsx",
+      "tests/e2e/notifications.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "rename noop does not consume a pending simulated failure or announce a change",
@@ -3569,7 +6119,22 @@
     "targetCases": [
       "UI-36 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El flujo de edición/layout/diálogo se repite con NotificationStack real: suspensión, ausencia de anuncio duplicado o error anunciado no se acreditan antes de 5A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3587,7 +6152,21 @@
     "targetCases": [
       "UI-37 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3605,7 +6184,21 @@
     "targetCases": [
       "UI-38 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3623,17 +6216,35 @@
     "targetCases": [
       "UI-39 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4B",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "only Home subtitle varies per load; name and subtitle remain stable through Time and navigation",
     "requirementId": "UI-40",
-    "task": "1A",
+    "task": "4A",
     "targetTests": [
       "tests/unit/home-subtitle.test.ts",
-      "tests/component/theme-home.test.tsx"
+      "tests/component/theme-home.test.tsx",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "only Home subtitle varies per load; name and subtitle remain stable through Time and navigation",
@@ -3641,17 +6252,34 @@
     "targetCases": [
       "UI-40 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Home/tokens se ensayan en 1A, pero la identidad completa exige store, navegación, editor y Tiempo/Agenda reales montados juntos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "home summary reports the open shift and its pending count, and the greeting stays stable through Time and navigation",
     "requirementId": "UI-41",
-    "task": "1A",
+    "task": "4A",
     "targetTests": [
       "tests/unit/home-subtitle.test.ts",
-      "tests/component/theme-home.test.tsx"
+      "tests/component/theme-home.test.tsx",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "home summary reports the open shift and its pending count, and the greeting stays stable through Time and navigation",
@@ -3659,19 +6287,34 @@
     "targetCases": [
       "UI-41 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Home/tokens se ensayan en 1A, pero la identidad completa exige store, navegación, editor y Tiempo/Agenda reales montados juntos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/ui.test.mjs",
     "sourceTest": "home summary uses singular pending copy and the start action when no shift is open",
     "requirementId": "UI-42",
-    "task": "4A",
+    "task": "4B",
     "targetTests": [
       "tests/component/editor.test.tsx",
       "tests/component/time-panel.test.tsx",
       "tests/component/agenda.test.tsx",
-      "tests/e2e/editor.spec.ts"
+      "tests/e2e/editor.spec.ts",
+      "tests/component/domain-dialogs.test.tsx",
+      "tests/e2e/shift-lifecycle.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "home summary uses singular pending copy and the start action when no shift is open",
@@ -3679,7 +6322,21 @@
     "targetCases": [
       "UI-42 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "4A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La observación completa incluye cierre/archivo, renombrar cama o controles de solo lectura creados en 4B; 3A/4A solo preparan parte del flujo."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3697,7 +6354,22 @@
     "targetCases": [
       "UI-43 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3717,7 +6389,15 @@
     "targetCases": [
       "VALIDATION-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3737,16 +6417,27 @@
     "targetCases": [
       "VALIDATION-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "2A",
+    "integrationTasks": [
+      "2A"
+    ],
+    "closureEvidenceKinds": [
+      "nonvisual"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/viewport.test.mjs",
     "sourceTest": "fluid shell, centered editor and archive share bounded declared sizing",
     "requirementId": "VIEWPORT-01",
-    "task": "3A",
+    "task": "4B",
     "targetTests": [
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/component/domain-dialogs.test.tsx",
+      "tests/e2e/shift-lifecycle.spec.ts",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "fluid shell, centered editor and archive share bounded declared sizing",
@@ -3754,16 +6445,34 @@
     "targetCases": [
       "VIEWPORT-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La observación completa incluye cierre/archivo, renombrar cama o controles de solo lectura creados en 4B; 3A/4A solo preparan parte del flujo."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/viewport.test.mjs",
     "sourceTest": "Time fullscreen docking preserves raw errors, focus, scroll and body through cycles",
     "requirementId": "VIEWPORT-02",
-    "task": "3A",
+    "task": "5A",
     "targetTests": [
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/unit/notification-store.test.ts",
+      "tests/component/notifications.test.tsx",
+      "tests/e2e/notifications.spec.ts",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Time fullscreen docking preserves raw errors, focus, scroll and body through cycles",
@@ -3771,16 +6480,35 @@
     "targetCases": [
       "VIEWPORT-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El flujo de edición/layout/diálogo se repite con NotificationStack real: suspensión, ausencia de anuncio duplicado o error anunciado no se acreditan antes de 5A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/viewport.test.mjs",
     "sourceTest": "navigation restores content, scroll and focus at 699 to 700",
     "requirementId": "VIEWPORT-03",
-    "task": "3A",
+    "task": "5A",
     "targetTests": [
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/unit/notification-store.test.ts",
+      "tests/component/notifications.test.tsx",
+      "tests/e2e/notifications.spec.ts",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "navigation restores content, scroll and focus at 699 to 700",
@@ -3788,16 +6516,36 @@
     "targetCases": [
       "VIEWPORT-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El flujo de edición/layout/diálogo se repite con NotificationStack real: suspensión, ausencia de anuncio duplicado o error anunciado no se acreditan antes de 5A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/viewport.test.mjs",
     "sourceTest": "Agenda docks at 1000 but remains in drawer at 999",
     "requirementId": "VIEWPORT-04",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Agenda docks at 1000 but remains in drawer at 999",
@@ -3805,16 +6553,34 @@
     "targetCases": [
       "VIEWPORT-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/viewport.test.mjs",
     "sourceTest": "narrowing moves focus from hidden inline columns to their visible buttons",
     "requirementId": "VIEWPORT-05",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "narrowing moves focus from hidden inline columns to their visible buttons",
@@ -3822,16 +6588,33 @@
     "targetCases": [
       "VIEWPORT-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/viewport.test.mjs",
     "sourceTest": "confirmation and unsaved draft survive resize and fullscreen events",
     "requirementId": "VIEWPORT-06",
-    "task": "3A",
+    "task": "5A",
     "targetTests": [
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/unit/notification-store.test.ts",
+      "tests/component/notifications.test.tsx",
+      "tests/e2e/notifications.spec.ts",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "confirmation and unsaved draft survive resize and fullscreen events",
@@ -3839,17 +6622,38 @@
     "targetCases": [
       "VIEWPORT-06 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El flujo de edición/layout/diálogo se repite con NotificationStack real: suspensión, ausencia de anuncio duplicado o error anunciado no se acreditan antes de 5A."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/viewport.test.mjs",
     "sourceTest": "Home keeps Time overlay and greeting identity on wide screens",
     "requirementId": "VIEWPORT-07",
-    "task": "1A",
+    "task": "4A",
     "targetTests": [
       "tests/unit/home-subtitle.test.ts",
-      "tests/component/theme-home.test.tsx"
+      "tests/component/theme-home.test.tsx",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts",
+      "tests/e2e/responsive.spec.ts",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Home keeps Time overlay and greeting identity on wide screens",
@@ -3857,16 +6661,34 @@
     "targetCases": [
       "VIEWPORT-07 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "1A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Home/tokens se ensayan en 1A, pero la identidad completa exige store, navegación, editor y Tiempo/Agenda reales montados juntos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/viewport.test.mjs",
     "sourceTest": "explicit hidden inspector keeps preference and its open mobile drawer",
     "requirementId": "VIEWPORT-08",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "explicit hidden inspector keeps preference and its open mobile drawer",
@@ -3874,16 +6696,34 @@
     "targetCases": [
       "VIEWPORT-08 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/viewport.test.mjs",
     "sourceTest": "docking preserves theme, filters, selected task and expanded property",
     "requirementId": "VIEWPORT-09",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "docking preserves theme, filters, selected task and expanded property",
@@ -3891,16 +6731,34 @@
     "targetCases": [
       "VIEWPORT-09 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/viewport.test.mjs",
     "sourceTest": "same-band pixel and fullscreen events do not remount controls",
     "requirementId": "VIEWPORT-10",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
-      "tests/e2e/responsive.spec.ts"
+      "tests/e2e/responsive.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Conservar foco, selección/caret, undo, composición IME, raw draft y scroll durante actualizaciones que no cambian selección; una sola instancia interactiva del control.",
@@ -3908,7 +6766,20 @@
     "targetCases": [
       "VIEWPORT-10 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3918,7 +6789,9 @@
     "task": "6A",
     "targetTests": [
       "tests/unit/motion-policy.test.ts",
-      "tests/e2e/motion.spec.ts"
+      "tests/e2e/motion.spec.ts",
+      "tests/e2e/responsive.spec.ts",
+      "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "Preservar política de movimiento/interrupción observable: temporal-only dirty transition preserves body, form, scroll and current save state",
@@ -3926,7 +6799,23 @@
     "targetCases": [
       "VIEWPORT-11 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "6A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A",
+      "6A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3945,7 +6834,19 @@
     "targetCases": [
       "VISIBILITY-01 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3964,7 +6865,19 @@
     "targetCases": [
       "VISIBILITY-02 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "El contrato genérico de hover primario se verifica sobre el botón primario real de Home disponible en 3A; no exige el contexto Guardar de la fixture estática fuente. La revisión comprueba contraste calculado sobre ese control real; Guardar se revalida al integrar editor y al cierre final."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -3983,7 +6896,19 @@
     "targetCases": [
       "VISIBILITY-03 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
@@ -4001,18 +6926,37 @@
     "targetCases": [
       "VISIBILITY-04 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "5A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A",
+      "4B",
+      "5A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
     "sourceFile": "prototypes/frontend-v5/tests/visibility.test.mjs",
     "sourceTest": "selected tabs do not take the hover background while unselected tabs still do",
     "requirementId": "VISIBILITY-05",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
-      "tests/e2e/overlays.spec.ts"
+      "tests/e2e/overlays.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "selected tabs do not take the hover background while unselected tabs still do",
@@ -4020,6 +6964,19 @@
     "targetCases": [
       "VISIBILITY-05 (caso de prueba por crear)"
     ],
-    "evidence": []
+    "evidence": [],
+    "preparationTask": "3A",
+    "integrationTasks": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "3A",
+      "4A"
+    ],
+    "closureEvidenceKinds": [
+      "browser"
+    ],
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   }
 ]

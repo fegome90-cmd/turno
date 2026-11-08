@@ -15,6 +15,8 @@ Estado al 08/11/2026: **documentación y preparación, sin implementación de pr
 
 ## Qué cambió documentalmente
 
+- Se separan ensayo temprano y cierre integrado para las 212 identidades: Home/Tiempo/Agenda, historial, archivo, avisos y movimiento se cierran cuando están presentes sus componentes reales. NumberField se prueba en 1B y se repite integrado en 4A.
+- Se añaden gates de auditoría total/runtime y tests de rechazo de cierres prematuros o evidencia de clase incorrecta; la aceptación de riesgo no promociona FAIL a PASS en este MVP.
 - Se prepara el inicio operativo de fase 0, con decisiones pendientes y responsables por rol; no se declara G0 aprobado ni se repiten pruebas de producto.
 - Se incorpora investigación React actual con fuentes oficiales y aplicación a gates existentes. Se distingue producto vanilla, fixture ensayado y recomendación pendiente; Compiler es opcional y el port Oxc experimental queda fuera de la base.
 - Se incorpora el plan auditado y la preparación posterior, con sus fallos y límites, sin presentar la ejecución histórica verde como resultado final.

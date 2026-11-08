@@ -24,7 +24,7 @@ No confundir «Chromium mínimo» con autorización para omitir otros checks fin
 ## Riesgos y condiciones que no se aceptan implícitamente
 
 - Baseline: último completo registrado 210 PASS y 2 FAIL; dos focalizados PASS no sustituyen suite completa y un completo verde aislado no demuestra estabilidad. Resolver discrepancia o acordar rebaseline concreto, preservando resultados originales.
-- Tooling: auditoría histórica del fixture FAIL por 10 moderadas dev, 0 altas/críticas y 0 runtime. No se ha repetido auditoría ni demostrado vulnerabilidad de aplicación. Resolver o aceptar explícitamente riesgo/alcance antes del uso afectado; sin `audit fix --force` ni override de major como atajo.
+- Tooling: auditoría histórica del fixture FAIL por 10 moderadas dev, 0 altas/críticas y 0 runtime. No se ha repetido auditoría ni demostrado vulnerabilidad de aplicación. Resolver antes del uso afectado; una aceptación contextual de riesgo/alcance no levanta FAIL/STOP de auditorías de producto; sin `audit fix --force` ni override de major como atajo.
 - Navegador: vía histórica BLOCKED. Identificar una vía permitida y los escenarios que puede probar antes de 1A; instalación o descubrimiento de motores no acreditan ejecución.
 - Aceptar decisiones no concede permiso para push/PR de producto, merge, despliegue, credenciales, cambios de seguridad o integración. La publicación documental existente no cubre esas acciones.
 
@@ -33,3 +33,7 @@ No confundir «Chromium mínimo» con autorización para omitir otros checks fin
 Por cada D1–D6, registrar decisión explícita, referencia exacta del plan/ADR, fecha, quién decidió y cita o enlace verificable a su aceptación. Una aceptación conjunta puede cubrir las seis si el usuario conoce ese alcance; si cambia una propuesta, registrar el delta y volver a revisar solo lo afectado. Mantener riesgo/rebaseline como decisiones separadas y concretas.
 
 Registro actual de aceptación: **ninguno**. La lista operativa y los responsables de bloqueo están en [G0-RECORD](G0-RECORD.md).
+
+## Auditoría estructurada y aceptación de riesgo
+
+Registrar o aceptar un riesgo del fixture puede resolver una decisión de preparación, pero no aprueba G0 ni convierte la auditoría de producto en PASS. El [contrato del checker](../agent-contracts/prompts/00-contract.md) exige auditorías total/runtime frescas sobre manifest/lock/SHA/árbol del producto. En este MVP cualquier vulnerabilidad conserva FAIL/STOP, incluso con aceptación documentada; no hay excepción automática para iniciar/cerrar 1A, fases siguientes o cierre final. Resolver y auditar otra vez, o proponer por separado una política revisada. Infraestructura fallida es BLOCKED, nunca cero advisories. G0 sigue STOP.
