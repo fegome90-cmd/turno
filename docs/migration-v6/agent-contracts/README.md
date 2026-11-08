@@ -9,6 +9,8 @@ Preparación de encargos, sin ejecución de Turno React ni aprobación de G0. So
 3. Conservar los 212 IDs canónicos de la [matriz](../parity-map.json), incluso al trabajar un subconjunto. La cifra representa comportamientos fuente, no una exigencia de 212 tests React idénticos.
 4. Registrar SHA, huella del árbol, cwd, fecha, versiones, casos ejecutados y artefactos. Una edición posterior exige repetir la evidencia afectada. Separar implementación, revisión de especificación y revisión de calidad.
 
+La [investigación React vigente](../REACT_RESEARCH.md) agrega criterios técnicos a los gates existentes: al preparar un encargo autorizado, trasladar los aplicables al brief, comandos/casos y revisión. No crea nuevos IDs fuente/EXTRA ni modifica el checker; sus 44 tests no comprueban automáticamente versiones, advisories, transformación Compiler o ejecución offline.
+
 ## Comprobar las plantillas
 
 Desde la raíz del repositorio:

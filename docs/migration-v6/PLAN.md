@@ -8,6 +8,8 @@
 
 **Tech Stack:** React 19, TypeScript, Vite, `@base-ui/react`, zustand, clsx, Sonner, lucide-react, vite-plugin-singlefile, Vitest, Testing Library y Playwright. Versiones exactas y compatibilidad se fijan en la fase 1; no se asumen instaladas. Tema de sesión mediante proveedor propio; `motion/react` solo tras justificar una necesidad que CSS y Base UI no cubran.
 
+**Corte React 08/11/2026:** leer [investigación y gates](REACT_RESEARCH.md). Conjunto propuesto para revalidar en 1A: React/React DOM 19.3.1, Base UI 1.9.0, Vite 8.3.6, plugin-react 6.2.1 y TypeScript 6.0.3 con typescript-eslint; ya ensayado solo en el fixture de PREFLIGHT. No está instalado en producto. Compiler Babel 1.0.0 es opcional y posterior; el port Oxc experimental no forma parte de la base. No se añade servidor/RSC ni persistencia.
+
 **Spec:** `prototypes/frontend-v5/docs/MIGRACION_REACT.md` en [HEAD 0f534df](https://github.com/fegome90-cmd/turno/blob/0f534df9bd5b012b4ec21c202a055e1e913bcab5/prototypes/frontend-v5/docs/MIGRACION_REACT.md), contrastado con `turno-v6-plan-standalone.html` de referencia y con el código vigente. Las precisiones de este documento se proponen para aceptación; no se atribuyen a decisiones ya aprobadas.
 
 **Estado de esta entrega documental:** el plan y su preparación se incorporan al PR #2; no se crea frontend-v6 ni se instala tooling en el producto. La instalación y los ensayos anteriores fueron de un fixture aislado, resumidos en PREFLIGHT.md. No se hace merge ni despliegue. La ejecución del producto queda tras resolver G0 y aceptar las decisiones pendientes. El backend se desarrolla por separado: su disponibilidad no se presume ni bloquea la demo aislada.
@@ -141,7 +143,7 @@ Todos corren desde `prototypes/frontend-v6`. `vitest.config.ts` separa proyectos
 
 `tsconfig.json` incluye src, tests y configs con `strict: true`, `noEmit: true`, JSX React, bundler resolution y librerías DOM/ES pertinentes; no excluir tests para ocultar errores de tipos. Vite singlefile entrega `dist/preview.html`: usar `preview.html` como entrada Rollup o renombrar salida explícitamente en build y comprobar el nombre en test, no asumir que index.html se renombra solo. Playwright webServer ejecuta el build/preview configurado a4176 y usa reuseExistingServer=false para no probar un proceso ajeno.
 
-Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugin-react, vite-plugin-singlefile, Vitest, jsdom, @testing-library/react, @testing-library/user-event, @testing-library/jest-dom, @playwright/test, @axe-core/playwright, ESLint, @eslint/js, typescript-eslint, eslint-plugin-react-hooks, @types/react, @types/react-dom y @types/node. Crear `eslint.config.mjs` con reglas recomendadas TypeScript/React Hooks y sin ignorar errores de hooks. Verificar compatibilidad oficial de todas las versiones y engines antes de fijarlas; React19 y Base UIv1.9.0 son referencias comprobadas, no resultado de instalación conjunta. Fijar también Node probado en `.node-version` y `engines`, sin rebajar el mínimo20.19 documentado; si Vite requiere más, explicitarlo en ADR/README.
+Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugin-react, vite-plugin-singlefile, Vitest, jsdom, @testing-library/react, @testing-library/user-event, @testing-library/jest-dom, @playwright/test, @axe-core/playwright, ESLint, @eslint/js, typescript-eslint, eslint-plugin-react-hooks, @types/react, @types/react-dom y @types/node. Crear `eslint.config.mjs` con reglas recomendadas TypeScript/React Hooks y sin ignorar errores de hooks. Verificar compatibilidad oficial de todas las versiones y engines antes de fijarlas y contrastar [el corte actual](REACT_RESEARCH.md). React 19.3.1 y Base UI 1.9.0 se instalaron conjuntamente solo en el fixture de PREFLIGHT, no en producto; su paridad no se presume. TypeScript 7.0.2 queda fuera del soporte publicado de typescript-eslint; mantener la recomendación 6.0.3 hasta revisar el conjunto. Fijar también Node probado en `.node-version` y `engines`: el fixture configuró el rango de engines >=24.15.0 <25 por jsdom y demás herramientas; la versión ejecutada fue 24.22.1; el mínimo de Vite/plugin no acredita todo el conjunto. Vite transpila, no comprueba tipos. Compiler no se activa en el bootstrap.
 
 `check-parity` falla si falta una de las212 filas, hay ID duplicado, no existe destino/testcase por requirementId, falta evidencia del SHA final, una fila sigue planned/blocked al cierre o una sustitución no tiene justificación/revisión. La estructura inicial es planned; no puede pasar antes de implementar y reunir evidencia. `check-portable` busca referencias externas/imports no embebidos y ejecuta smoke en navegador sin red; una mera regex no acredita ejecución.
 
@@ -157,6 +159,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 **Interfaces:** [`parity-map.json`](parity-map.json) contiene `{sourceSha, sourceFile, sourceTest, requirementId, targetTests: string[], targetCases: string[], targetBehavior, status, rationale, evidence: string[]}`. Estados permitidos: `planned`, `verified`, `replaced-by-behavior`, `blocked`; no borrar pruebas silenciosamente ni usar `verified` sin evidencia.
 
+- [ ] Releer [REACT_RESEARCH.md](REACT_RESEARCH.md) y PREFLIGHT; registrar producto instalado, fixture ensayado y propuesta por separado, sin cerrar G0 por una investigación.
 - [ ] Confirmar HEAD remoto, árbol y estado de otras ramas antes de comenzar. Si cambió, enumerar delta y rebaselinar requisitos afectados.
 - [ ] Verificar hashes y repetir `node --test --test-concurrency=1 tests/*.test.mjs`, `python scripts/build_preview.py`, `node scripts/check_portable.mjs` en v5 aislada.
 - [ ] Registrar 16 suites fuente, cada test y resultado real; una regex de CSS se mapea a una observación visual/accesible equivalente, no se porta literalmente a JSX.
@@ -177,6 +180,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 **Interfaces:** `ThemeProvider({children})` expone `useTheme(): {preference: 'system'|'light'|'dark'; effective: 'light'|'dark'; setPreference(value): void}`. `chooseHomeSubtitle(random?: () => number): string` conserva exactamente `¿Qué haremos hoy?`, `¿Por dónde empezamos?`, `¿Qué tienes en mente?` y `¿En qué te ayudo hoy?`. `Home({preferredName, subtitle, summary, onOpenShift})` no vuelve a sortear.
 
 - [ ] Escribir `tests/unit/home-subtitle.test.ts` y `tests/component/theme-home.test.tsx`. Aserciones: las cuatro frases exactas; random NaN/fuera de rango nunca devuelve undefined; `Hola, Demo.` o `Hola.` sin nombre; cambiar tema no cambia saludo/subtítulo; no llamadas a `localStorage.setItem`, `sessionStorage.setItem` ni red.
+- [ ] Fijar versiones/Node/lock compatibles y registrar instalación limpia, peers/engines y árbol real de dependencias/config/plugins RSC; aplicar los avisos oficiales vigentes. Repetir auditoría total y runtime por separado: las 10 moderadas dev históricas no quedan resueltas por React 19.3.1. Detener ante riesgo pendiente sin resolución/aceptación. No forzar peers ni ocultar tipos.
 - [ ] Preparar solo el runner y un componente mínimo que deje el test RED por ausencia de comportamiento. Registrar la salida.
 - [ ] Implementar proveedor de sesión, bootstrap de tema antes del primer paint y tokens/copias de assets. React StrictMode habilitado en desarrollo; no ocultar sus efectos dobles.
 - [ ] `npm run test:unit -- home-subtitle` y `npm run test:component -- theme-home`: PASS. Sin matchMedia debe funcionar el tema explícito. Cambio de SO solo afecta preferencia `system`.
@@ -187,6 +191,8 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 **Gate G1A:** ejecución offline real, identidad y fuentes preservadas, tema sin persistencia y sin parpadeo observado. Si no hay navegador, el build puede pasar, el gate de navegador queda BLOCKED. Dependencias fijadas por lockfile y APIs/versiones oficiales comprobadas; no instalar «latest» a ciegas.
 
 ### Fase 1B · Probar composición de primitivas antes de migrar
+
+**Actualización React/Base UI:** aplicar [G1B de la investigación](REACT_RESEARCH.md): APIs públicas de la versión fijada, portales/stacking/tema y foco reales; el filtrado Menu preview de Base UI 1.9.0 no es base funcional. Un peer resuelto no acredita estos controles.
 
 **Controles incorporados:** `EXTRA-LIFECYCLE-ASYNC` y `EXTRA-NATIVE-EDIT`: 20 ciclos con cleanup, efectos no duplicados, portales/tema abiertos con tokens/contraste y foco correctos. Un root principal; Context no cruza roots independientes. Gates `component` no visual y `chromium` navegador, con alcance específico del mapa.
 
@@ -316,6 +322,8 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 ### Fase 6A · Movimiento y detalles visuales
 
+**Actualización React:** ViewTransition/addTransitionType y Fragment refs son estables en 19.3, pero opcionales. CSS/Base UI primero; evaluar solo por mejora concreta con paridad, reduced motion explícito, interrupciones y fallback. Compiler Babel estable, si se justifica, requiere un cambio aislado posterior a paridad con/sin Compiler y verificación de transformación; `compiler: true` de plugin-react usa Oxc experimental y queda fuera de la base. No atribuir benchmarks upstream a Turno. Véase [investigación](REACT_RESEARCH.md).
+
 **Objetivo:** preservar carácter y respuesta inmediata sin bloquear estado, foco ni accesibilidad.
 
 **Archivos:** crear `src/appearance/motion-policy.ts`, `src/styles/motion.css`; tests `tests/unit/motion-policy.test.ts`, `tests/e2e/motion.spec.ts`.
@@ -332,6 +340,8 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 **Gate G6:** sin animaciones perdidas por defecto, sin movimiento innecesario nuevo, sin estado sujeto a frames y sin afirmar fluidez no medida. Excepciones necesitan decisión explícita.
 
 ### Fase 7A · Verificación agregada y auditoría de rama
+
+**Actualización seguridad/toolchain:** repetir contra el lock/SHA final el inventario RSC/config, advisories oficiales, auditoría total/runtime y checks separados de tipos, lint, tests, build y HTML portable por hash. Cero advisories runtime no equivale a auditoría total ni a ausencia de XSS. No reutilizar evidencia del fixture. Las versiones upstream no cierran G7B ni H. Véase [investigación](REACT_RESEARCH.md).
 
 **Controles incorporados:** `EXTRA-PERFORMANCE-FLOWS`, `EXTRA-OFFLINE-ARTIFACT` y `EXTRA-ROLLBACK-PHASE`: comparación production por flujos existentes con criterio fijado antes del candidato, artefacto exacto sin dependencias externas y reapertura en sandbox de la referencia anterior. Gates `chromium` y `portable` navegador. El cierre final incluye todos los EXTRA canónicos con la clase de evidencia exigida; una unit verde no cierra navegador.
 

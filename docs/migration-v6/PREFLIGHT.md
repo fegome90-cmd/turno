@@ -4,6 +4,10 @@ Fecha de observaciones: 08/11/2026. Referencia: `0f534df9bd5b012b4ec21c202a055e1
 
 Se preparó un fixture aislado de herramientas y contratos. **No se implementó Turno React. G0 continúa pendiente.** Los resultados siguientes son observaciones de esa preparación, no una ejecución nueva de producto ni resultados del commit documental.
 
+## Investigación posterior, sin reinstalación
+
+La [investigación React del 08/11/2026](REACT_RESEARCH.md) contrasta las versiones del fixture con fuentes oficiales actuales y propone controles para G0, G1A, G1B, G6 y G7. No cambia los resultados históricos siguientes, no repite auditorías ni acredita una actualización instalada. El árbol de producto inspeccionado sigue vanilla con LinkeDOM dev; el lock del fixture está fuera de este repositorio. La ausencia de RSC en v5 no se atribuye automáticamente a un futuro v6 o al backend. **G0 sigue pendiente / no aprobado y conserva los FAIL y BLOCKED registrados.**
+
 ## Resultado por clase de evidencia
 
 | Comprobación | Resultado registrado | Alcance |

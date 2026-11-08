@@ -7,4 +7,5 @@ Los prototipos de interfaz se mantienen separados del backend. Su presencia no i
 ## Documentación del frontend
 
 - [Migración propuesta a React y Base UI: plan auditado, matriz de paridad, preparación y bloqueos](docs/migration-v6/README.md).
+- [Investigación React al 08/11/2026 y decisiones condicionadas de versiones, seguridad y portabilidad](docs/migration-v6/REACT_RESEARCH.md).
 - La implementación actual sigue en `prototypes/frontend-v5/`; no hay código de producto v6.

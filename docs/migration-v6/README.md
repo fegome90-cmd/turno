@@ -9,10 +9,12 @@ Estado al 08/11/2026: **documentación y preparación, sin implementación de pr
 3. [Matriz de paridad](parity-map.json): **212 requisitos fuente de 16 archivos**, todos `planned`, con IDs estables y destinos propuestos bajo `prototypes/frontend-v6/`. No acredita 212 tests React ejecutados.
 4. [Contratos de tareas y validación](agent-contracts/README.md): contexto mínimo, roles, ejemplos STOP y checker de estructura/integridad. No garantizan obediencia ni veracidad de evidencias.
 5. [Lecciones incorporadas a la ejecución](EXECUTION_LESSONS.md) y [mapa operativo](migration-risks.json): controles adicionales obligatorios por fase, con oráculos y evidencia, sin alterar los 212 requisitos fuente.
-6. [Casos reales de migración y riesgos derivados](CASOS_REALES.md): fuentes de Slack, Preply, Heap, HackerRank, Trello, GitHub y Base UI. No atribuyen incidentes ajenos al prototipo.
+6. [React al 08/11/2026](REACT_RESEARCH.md): versiones propuestas frente al fixture, novedades estables, avisos RSC de octubre, límites del Compiler/toolchain y controles de G0–G7. No instala ni actualiza producto.
+7. [Casos reales de migración y riesgos derivados](CASOS_REALES.md): fuentes de Slack, Preply, Heap, HackerRank, Trello, GitHub y Base UI. No atribuyen incidentes ajenos al prototipo.
 
 ## Qué cambió documentalmente
 
+- Se incorpora investigación React actual con fuentes oficiales y aplicación a gates existentes. Se distingue producto vanilla, fixture ensayado y recomendación pendiente; Compiler es opcional y el port Oxc experimental queda fuera de la base.
 - Se incorpora el plan auditado y la preparación posterior, con sus fallos y límites, sin presentar la ejecución histórica verde como resultado final.
 - Se mantienen separados pruebas DOM/estáticas, navegador, visual, tecnologías de asistencia/dispositivos y host.
 - Se precisan tema de sesión, umbrales de navegación a 700 px y Tiempo a 1000 px, paridad de avisos y conservación de selección/undo/IME. Son propuestas para aceptar, no cambios de producto ya realizados.

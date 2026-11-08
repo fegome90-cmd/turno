@@ -8,6 +8,7 @@ Este bloque viaja completo con cada rol y con un brief de tarea ya resuelto. Un 
 - Entorno/cwd comprobado, repositorio, rama aislada, SHA base completo y SHA actual. V5 de referencia: `0f534df9bd5b012b4ec21c202a055e1e913bcab5`.
 - Plan auditado, spec fuente y matriz de 212 IDs. El plan auditado contiene precisiones propuestas: cita la aceptación efectiva o detente ante una decisión pendiente; no atribuyas una aprobación inexistente.
 - Mapa canónico `docs/migration-v6/migration-risks.json` y método `EXECUTION_LESSONS.md`: incorpora los controles `EXTRA-*` aplicables a la fase, con escenario, oráculo y gate/clase de evidencia. Son parte obligatoria del método; no sustituyen ni modifican las 212 identidades fuente.
+- Investigación `docs/migration-v6/REACT_RESEARCH.md` del 08/11/2026: trasladar los controles aplicables de versiones/toolchain, inventario RSC/seguridad y portabilidad al brief y sus evidencias. Distinguir instalado, ensayado y propuesto. No activar Compiler/Oxc ni adoptar latest como efecto lateral. Estos criterios requieren revisión técnica: el checker actual no los ejecuta ni demuestra.
 - Autorización real de la acción. `executionAuthorized` y un campo JSON no la crean: son índices hacia la instrucción humana original. Modo actual: **preparar**, sin migrar.
 - Comandos con cwd, gates obligatorios por clase de evidencia, precondiciones, artefactos esperados y responsable de revisión.
 
