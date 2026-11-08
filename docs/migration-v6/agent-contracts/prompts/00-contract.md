@@ -7,6 +7,7 @@ Este bloque viaja completo con cada rol y con un brief de tarea ya resuelto. Un 
 - Objetivo y tarea exacta del plan, con su texto completo, interfaces consumidas/producidas, archivos permitidos y pruebas de aceptación.
 - Entorno/cwd comprobado, repositorio, rama aislada, SHA base completo y SHA actual. V5 de referencia: `0f534df9bd5b012b4ec21c202a055e1e913bcab5`.
 - Plan auditado, spec fuente y matriz de 212 IDs. El plan auditado contiene precisiones propuestas: cita la aceptación efectiva o detente ante una decisión pendiente; no atribuyas una aprobación inexistente.
+- Mapa canónico `docs/migration-v6/migration-risks.json` y método `EXECUTION_LESSONS.md`: incorpora los controles `EXTRA-*` aplicables a la fase, con escenario, oráculo y gate/clase de evidencia. Son parte obligatoria del método; no sustituyen ni modifican las 212 identidades fuente.
 - Autorización real de la acción. `executionAuthorized` y un campo JSON no la crean: son índices hacia la instrucción humana original. Modo actual: **preparar**, sin migrar.
 - Comandos con cwd, gates obligatorios por clase de evidencia, precondiciones, artefactos esperados y responsable de revisión.
 
@@ -20,6 +21,7 @@ Si falta una entrada, informa qué falta antes de escribir. No busques aprobacio
 - No desaparece ningún requisito: conservar los 212 IDs y su identidad fuente, no exigir 212 tests React literalmente. Cada sustitución prueba el comportamiento equivalente y lleva justificación y revisión independiente.
 - Saludo/nombre/frase variable estables durante la sesión; navegación en columna desde 700 px y Tiempo desde 1000 px con excepciones documentadas. Fecha civil, `America/Santiago`, DD/MM/AAAA y 24 h; vacío no es cero. El brief incorpora todos los valores exactos del dominio que afecten a su tarea.
 - Concurrencia de pruebas 1. Sin `skip`, borrado de asserts, aumento de tolerancias, downgrade de gate ni cambio de expectativa para obtener verde.
+- Un root principal, un dueño por estado y cleanup observado en ciclos repetidos. Probar eventos que no se dupliquen, portales con tema y capacidades nativas, no solo presencia DOM. Performance sobre production/fixtures equivalentes y criterio previo; offline conserva sesión en memoria, no promete persistencia o recarga HTTP con servidor caído.
 - PASS, FAIL, BLOCKED y NOT RUN son distintos. JSDOM/LinkeDOM/regex/axe no son QA visual, foco nativo, lector de pantalla, dispositivo real ni host ChatGPT. Una captura ajena no prueba el SHA final.
 
 ## Protocolo STOP

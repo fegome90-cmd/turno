@@ -67,6 +67,9 @@ Alternativas consideradas: migración en la carpeta v5 (descartada por pérdida 
 
 ## 3. Secuencia y reglas de ejecución
 
+Las [lecciones de casos estudiados](EXECUTION_LESSONS.md) forman parte obligatoria de la planificación y ejecución. El [mapa operativo](migration-risks.json) asigna IDs `EXTRA-*` a fases, escenarios, oráculos y clase de evidencia. Complementa la matriz de 212 identidades sin modificarlas ni presentar riesgos React nuevos como pruebas fuente v5. El brief de cada tarea incorpora los controles que le corresponden; no basta enlazar los artículos. No crean otra fase ni una aprobación por artículo: se verifican en los gates existentes.
+
+
 Dependencias: `0 → 1A → 1B → 2A → 2B → 3A → 4A/4B → 5A → 6A → 7A/7B`.
 
 Después de 2A, tokens/primitivas y pruebas de dominio pueden prepararse en paralelo en archivos disjuntos. No paralelizar cambios simultáneos de store, historial y overlays. Tras cada tarea: revisión de especificación y luego calidad por un revisor independiente; resolver primero bloqueantes y repetir las pruebas afectadas. Al final, revisar toda la rama. Investigar sistemáticamente los fallos inesperados y verificar el estado final antes de cualquier afirmación de cierre.
@@ -146,6 +149,8 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 ### Fase 0 · Fijar contrato y autorización de ejecución
 
+**Control incorporado:** `EXTRA-ROLLBACK-PHASE`: identificar referencia/candidato, SHA/hash de artefactos y vuelta segura en sandbox; no llamar estable a la referencia con discrepancias pendientes. En el brief, gate `baseline` no visual.
+
 **Objetivo:** una referencia reproducible y una correspondencia de cada comportamiento con su prueba, sin reabrir decisiones resueltas.
 
 **Archivos:** crear `docs/ADR-001.md`, `docs/ACCEPTANCE.md`, `docs/HOST-BOUNDARY.md`, `docs/parity-map.json`; leer v5 sin editar. La matriz del anexo B es el inventario inicial.
@@ -163,6 +168,8 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 ### Fase 1A · Bootstrap, tokens, tema y HTML autónomo
 
+**Controles incorporados:** `EXTRA-PERFORMANCE-FLOWS` (solo shell: arranque/tema/bundle en esta fase, criterio previo y 20 muestras) y `EXTRA-OFFLINE-ARTIFACT` (hash final, file frío/recarga sin red; HTTP con servidor del documento disponible, sesión nueva sin persistencia). Evidencia de navegador en `offline-theme` y `portable`; no cerrar desde regex/jsdom. Ver método y mapa.
+
 **Objetivo:** una pantalla Inicio mínima, accesible y offline que preserve identidad y tema de sesión.
 
 **Archivos:** crear `package.json`, lockfile, `index.html`, `vite.config.ts`, `tsconfig*.json`, `vitest.config.ts`, `playwright.config.ts`, `eslint.config.mjs`, `.node-version`, `src/main.tsx`, `src/app/AppProviders.tsx`, `src/components/Home.tsx`, `src/appearance/theme-provider.tsx`, `src/styles/{tokens,global}.css`, `src/domain/home-subtitle.ts`, assets/licencias y scripts portables.
@@ -174,12 +181,14 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 - [ ] Implementar proveedor de sesión, bootstrap de tema antes del primer paint y tokens/copias de assets. React StrictMode habilitado en desarrollo; no ocultar sus efectos dobles.
 - [ ] `npm run test:unit -- home-subtitle` y `npm run test:component -- theme-home`: PASS. Sin matchMedia debe funcionar el tema explícito. Cambio de SO solo afecta preferencia `system`.
 - [ ] Implementar build singlefile y scripts de portabilidad/medición. Vite por sí solo no basta. `npm run build && npm run check:portable && npm run measure:bundle`: HTML sin imports/links/red necesarios, fuentes e iconos locales incluidos.
-- [ ] `npm run test:e2e -- offline-theme.spec.ts`: abrir `dist/preview.html` por file y por HTTP, bloquear red, probar recarga, ambos temas y sistema. Captura de primer paint mediante filmstrip: sin destello claro al iniciar en oscuro. Reportar bytes brutos y gzip del HTML/JS; propuesta de alerta de presupuesto: 2× bytes brutos de v5, no un PASS de rendimiento automático.
+- [ ] `npm run test:e2e -- offline-theme.spec.ts`: abrir el hash final de `dist/preview.html` por file en contexto limpio, bloquear red y recargar; datos/tema vuelven a la sesión inicial. Por HTTP mantener el servidor del documento disponible y bloquear solo orígenes externos; no prometer recarga con servidor inaccesible. Probar ambos temas y sistema. Captura de primer paint mediante filmstrip: sin destello claro al iniciar en oscuro. Reportar bytes brutos y gzip del HTML/JS; propuesta de alerta de presupuesto: 2× bytes brutos de v5, no un PASS de rendimiento automático.
 - [ ] Revisar y commit local `feat(v6): add offline shell and session theme`.
 
 **Gate G1A:** ejecución offline real, identidad y fuentes preservadas, tema sin persistencia y sin parpadeo observado. Si no hay navegador, el build puede pasar, el gate de navegador queda BLOCKED. Dependencias fijadas por lockfile y APIs/versiones oficiales comprobadas; no instalar «latest» a ciegas.
 
 ### Fase 1B · Probar composición de primitivas antes de migrar
+
+**Controles incorporados:** `EXTRA-LIFECYCLE-ASYNC` y `EXTRA-NATIVE-EDIT`: 20 ciclos con cleanup, efectos no duplicados, portales/tema abiertos con tokens/contraste y foco correctos. Un root principal; Context no cruza roots independientes. Gates `component` no visual y `chromium` navegador, con alcance específico del mapa.
 
 **Objetivo:** descartar pronto incompatibilidades de Base UI/Sonner con foco, capas, historial y borrador.
 
@@ -196,6 +205,8 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 **Gate G1B:** ningún incumplimiento fundamental oculto. Si Sonner no cumple, usar API pública/custom renderer para cerrar brecha o detener y proponer alternativa acotada. No degradar la pila v5 ni sustituirla sin decisión. Prueba local de iframe sirve para aislamiento y portales; no certifica CSP ni host ChatGPT.
 
 ### Fase 2A · Portar dominio y estado de sesión
+
+**Controles incorporados:** `EXTRA-LIFECYCLE-ASYNC` y `EXTRA-STATE-AUTHORITY`: un dueño por estado, una operación por acción, respuesta tardía inocua y snapshot/borrador conservados tras fallo/conflicto; contadores de suscripciones vuelven a baseline tras desmontaje. Gate `unit` no visual.
 
 **Objetivo:** paridad de datos, validación y operaciones simuladas sin acoplar UI a backend.
 
@@ -214,6 +225,8 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 ### Fase 2B · Historial y navegación protegida
 
+**Control incorporado:** `EXTRA-LIFECYCLE-ASYNC`: start/dispose repetidos y StrictMode no duplican listener ni entrada; respuesta antigua no navega ni roba estado de selección nueva. Gates `unit` no visual y `chromium` navegador; historia/foco reales no se cierran desde la pila simulada.
+
 **Objetivo:** Atrás/Adelante correctos con overlays, busy y cambios sin guardar.
 
 **Archivos:** crear `src/navigation/{history-controller,use-history}.ts`, `tests/unit/history-controller.test.ts`, `tests/e2e/history.spec.ts`.
@@ -229,6 +242,8 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 **Gate G2B:** no pérdida de Forward, no doble navegación ni título desfasado. El historial en sandbox del host queda fuera de la afirmación de este gate.
 
 ### Fase 3A · Layout, navegación y overlays responsivos
+
+**Control incorporado:** `EXTRA-NATIVE-EDIT`: una instancia interactiva, caret/selección/undo/raw al cruzar umbrales; checkbox no activa fila, outside-click conserva destino y Escape/Back consumen solo la capa superior sin doble handler. Gate `chromium` navegador.
 
 **Objetivo:** preservar las tres áreas, la lectura y los controles sin pérdida al cambiar ancho/altura/pantalla completa.
 
@@ -247,6 +262,8 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 **Gate G3:** controles visibles y accionables, no scroll lateral inesperado ni pérdida de edición en ciclos. Fullscreen API denegada/ausente es fallback seguro y se informa como escenario distinto de fullscreen real.
 
 ### Fase 4A · Editor, notas y validación
+
+**Controles incorporados:** `EXTRA-STATE-AUTHORITY` y `EXTRA-NATIVE-EDIT`: promesas controladas y fallo/conflicto no sustituyen draft; Enter durante composición no guarda; selección/copia/undo, teclas y foco nativos sobreviven resize/overlay. Gates `component` no visual y `chromium` navegador; IME real se cierra en 7B.
 
 **Objetivo:** edición segura de tareas/notas con errores precisos y comportamiento de teclado intacto.
 
@@ -316,13 +333,15 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 ### Fase 7A · Verificación agregada y auditoría de rama
 
+**Controles incorporados:** `EXTRA-PERFORMANCE-FLOWS`, `EXTRA-OFFLINE-ARTIFACT` y `EXTRA-ROLLBACK-PHASE`: comparación production por flujos existentes con criterio fijado antes del candidato, artefacto exacto sin dependencias externas y reapertura en sandbox de la referencia anterior. Gates `chromium` y `portable` navegador. El cierre final incluye todos los EXTRA canónicos con la clase de evidencia exigida; una unit verde no cierra navegador.
+
 **Objetivo:** evidencia reproducible de paridad y límites de la v6 candidata.
 
-**Archivos:** completar `scripts/check-parity.mjs`, `docs/parity-map.json`, `docs/QA-REPORT.md`, `tests/e2e/{accessibility,offline-theme,responsive,overlays,history,editor,shift-lifecycle,notifications,motion,smoke}.spec.ts` y README. Mantener artefactos pesados fuera de Git salvo política explícita.
+**Archivos:** completar `scripts/check-parity.mjs`, `docs/parity-map.json`, `docs/QA-REPORT.md`, `tests/e2e/{accessibility,offline-theme,responsive,overlays,history,editor,shift-lifecycle,notifications,motion,smoke,performance,rollback}.spec.ts` y README. Mantener artefactos pesados fuera de Git salvo política explícita.
 
 - [ ] `npm ci --ignore-scripts` desde checkout limpio y lockfile. Verificar si las dependencias necesitan pasos oficiales de instalación; no ejecutar scripts desconocidos solo para desbloquear.
 - [ ] Ejecutar `npm run typecheck`, `npm run lint`, `npm run test:unit`, `npm run test:component`, `npm run build`, `npm run check:portable`, `npm run measure:bundle`, `npm run test:e2e`, `npm run check:parity`; todos PASS, sin skip/todo no justificado ni consola con errores. Configurar esos scripts en fase1, no inventarlos al cierre.
-- [ ] Chromium real: temas claro/oscuro/sistema, forced-colors claro/oscuro, widths/umbrales G3, altura baja, WCAG1.4.12, reduced motion, historial, IME emulado, fullscreen/resize, foco, red bloqueada por file/HTTP y fallback APIs ausentes. Axe complementa, no sustituye revisión.
+- [ ] Chromium real: temas claro/oscuro/sistema, forced-colors claro/oscuro, widths/umbrales G3, altura baja, WCAG1.4.12, reduced motion, historial, IME emulado, fullscreen/resize, foco, file frío/recarga sin red, HTTP con servidor del documento disponible pero sin orígenes externos, y fallback APIs ausentes. Axe complementa, no sustituye revisión.
 - [ ] Firefox/WebKit: smoke de cargar/editar/guardar simulado, diálogo, historial, tema, portabilidad. Ejecutar `npm run test:smoke:engines`. Si el motor no está disponible, registrar BLOCKED por motor sin atribuirle Chromium.
 - [ ] Medir contraste calculado ≥4.5:1 para texto normal; ≥3:1 controles/foco y texto grande cuando corresponda; inspeccionar foco visible y orden de lectura, nombres accesibles, áreas44 px y 200% zoom real, sin confundir deviceScaleFactor con zoom.
 - [ ] Revisar baseline v5 y v6 lado a lado con mismos datos/viewport/tema; aprobación visual independiente registrada por pantalla y cambio, no aceptación masiva de screenshots nuevos.
@@ -332,6 +351,8 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 **Gate G7A:** todos los criterios automatizables trazados y comprobados; ninguna regresión bloqueante/alta abierta. Informe distingue probado, fallado, bloqueado y no ejecutado. Si faltan comprobaciones requeridas, candidata pendiente, no «lista».
 
 ### Fase 7B · Validación manual y entrega con alcance exacto
+
+**Control incorporado:** `EXTRA-NATIVE-EDIT` exige evidencia `manual-ime` de composición real; no se hereda de eventos/CDP ni de un artículo. Táctil y lector de pantalla siguen sus gates manuales propios.
 
 **Objetivo:** probar lo que automatización no demuestra y entregar un prototipo sin prometer integración.
 

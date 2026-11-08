@@ -14,6 +14,7 @@ STATUSES = {'PASS', 'FAIL', 'BLOCKED', 'NOT RUN'}
 KINDS = {'nonvisual', 'browser', 'visual', 'manual-at', 'host'}
 FINAL_GATES = {**dict.fromkeys(['typecheck','lint','unit','component','build','bundle','parity'],'nonvisual'), **dict.fromkeys(['portable','chromium','firefox','webkit'],'browser'), 'visual':'visual', **dict.fromkeys(['manual-touch','manual-screenreader','manual-ime'],'manual-at')}
 SOURCE_FIELDS = ('requirementId', 'sourceSha', 'sourceFile', 'sourceTest')
+MIGRATION_CONTROL_IDS = {'EXTRA-LIFECYCLE-ASYNC', 'EXTRA-STATE-AUTHORITY', 'EXTRA-NATIVE-EDIT', 'EXTRA-PERFORMANCE-FLOWS', 'EXTRA-OFFLINE-ARTIFACT', 'EXTRA-ROLLBACK-PHASE'}
 
 def relative(path):
     return isinstance(path, str) and bool(path) and '\\' not in path and not PurePosixPath(path).is_absolute() and not any(x in ('.', '..') for x in path.split('/'))
@@ -62,7 +63,32 @@ def artifact_errors(root, record):
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
     return [] if digest == record.get('artifactSha256') else ['Evidence artifact SHA256 mismatch.']
 
-def validate(brief, report, matrix, baseline, root, observed_sha=None, observed_changes=None, observed_tree=None):
+def check_migration_risks(brief, report, risks):
+    """Bind additional controls to their existing phase gate and evidence class."""
+    if report.get('decision') not in {'READY_FOR_REVIEW', 'APPROVE_PHASE', 'APPROVE_FINAL'}:
+        return []
+    errors = []
+    final = report.get('stage') == 'final'
+    assigned = set(brief.get('additionalRequirements', []))
+    expected = {g['id']: g for g in brief.get('gates', [])}
+    actual = {g.get('id'): g for g in report.get('gates', [])}
+    for risk in risks:
+        required = risk['final'] if final else risk['tasks'].get(brief.get('taskId'), [])
+        if not required:
+            continue
+        rid = risk['id']
+        if rid not in assigned:
+            errors.append(f'Required migration control omitted from brief: {rid}')
+        for evidence in required:
+            gid, kind = evidence['gate'], evidence['kind']
+            spec, gate = expected.get(gid, {}), actual.get(gid, {})
+            if spec.get('required') is not True or spec.get('kind') != kind:
+                errors.append(f'Migration control gate missing or wrong class: {rid} {gid}')
+            if gate.get('kind') != kind or gate.get('status') != 'PASS' or rid not in gate.get('testCases', []):
+                errors.append(f'Migration control lacks passing evidence in its required gate: {rid} {gid}')
+    return errors
+
+def validate(brief, report, matrix, baseline, root, observed_sha=None, observed_changes=None, observed_tree=None, risks=None):
     errors = check_inventory(matrix, baseline)
     decision = report.get('decision')
     ready = decision in {'READY_FOR_REVIEW', 'APPROVE_PHASE', 'APPROVE_FINAL'}
@@ -166,6 +192,7 @@ def validate(brief, report, matrix, baseline, root, observed_sha=None, observed_
             executed = {c for gate in relevant for c in gate.get('testCases', [])}
             if not set(cases).issubset(executed):
                 errors.append(f'Target cases not present in execution results: {rid}')
+    errors += check_migration_risks(brief, report, risks or [])
     return errors
 
 def read(path):
@@ -204,7 +231,10 @@ def main():
                     data = os.readlink(path).encode() if path.is_symlink() else (path.read_bytes() if path.is_file() else b'<absent>')
                     digest.update(name.encode()+b'\0'+hashlib.sha256(data).digest())
                 tree = digest.hexdigest()
-            errors = validate(brief, report, matrix, baseline, args.root, observed_sha=sha, observed_changes=changes, observed_tree=tree)
+            risks = read(Path(__file__).resolve().parents[1] / 'migration-risks.json')
+            if len(risks) != len(MIGRATION_CONTROL_IDS) or {r['id'] for r in risks} != MIGRATION_CONTROL_IDS:
+                raise ValueError('Canonical migration control map is incomplete or changed.')
+            errors = validate(brief, report, matrix, baseline, args.root, observed_sha=sha, observed_changes=changes, observed_tree=tree, risks=risks)
             if report.get('decision') != 'STOP' and not args.git_root:
                 errors.append('No --git-root: fresh HEAD and scope are not independently observed.')
             purpose = 'metadata and artifact integrity only; inspect actual logs, behavior and independent reviews'

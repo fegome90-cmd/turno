@@ -33,7 +33,9 @@
   "additionalRequirements": [
     "EXTRA-STRICTMODE-HOME",
     "EXTRA-THEME-NO-STORAGE",
-    "EXTRA-OFFLINE-FIRST-PAINT"
+    "EXTRA-OFFLINE-FIRST-PAINT",
+    "EXTRA-PERFORMANCE-FLOWS",
+    "EXTRA-OFFLINE-ARTIFACT"
   ],
   "gates": [
     {
@@ -96,5 +98,7 @@
     "quality"
   ],
   "visualBoundary": "No browser, visual, AT/device or host PASS from DOM/static checks.",
-  "handoffStatus": "STOP: falta autorización G0 y rama real; navegador bloqueado en este entorno."
+  "handoffStatus": "STOP: falta autorización G0 y rama real; navegador bloqueado en este entorno.",
+  "riskMapFile": "docs/migration-v6/migration-risks.json",
+  "migrationControlScope": "1A: shell startup/theme/bundle only. Full product flows measured in 7A. Offline file cold/reload with new demo/session theme; HTTP document server remains available."
 }

@@ -8,6 +8,8 @@ Estado al 08/11/2026: **documentación y preparación, sin implementación de pr
 2. [Plan auditado](PLAN.md): fases, interfaces, riesgos, criterios y decisiones que requieren aceptación. Amplía la [propuesta inicial](../../prototypes/frontend-v5/docs/MIGRACION_REACT.md), conservada como antecedente.
 3. [Matriz de paridad](parity-map.json): **212 requisitos fuente de 16 archivos**, todos `planned`, con IDs estables y destinos propuestos bajo `prototypes/frontend-v6/`. No acredita 212 tests React ejecutados.
 4. [Contratos de tareas y validación](agent-contracts/README.md): contexto mínimo, roles, ejemplos STOP y checker de estructura/integridad. No garantizan obediencia ni veracidad de evidencias.
+5. [Lecciones incorporadas a la ejecución](EXECUTION_LESSONS.md) y [mapa operativo](migration-risks.json): controles adicionales obligatorios por fase, con oráculos y evidencia, sin alterar los 212 requisitos fuente.
+6. [Casos reales de migración y riesgos derivados](CASOS_REALES.md): fuentes de Slack, Preply, Heap, HackerRank, Trello, GitHub y Base UI. No atribuyen incidentes ajenos al prototipo.
 
 ## Qué cambió documentalmente
 

@@ -75,4 +75,20 @@ class ContractTests(unittest.TestCase):
  def test_stop_can_report_failure_without_claim(self):
   self.report['decision']='STOP';self.report['gates'][0]['status']='BLOCKED';self.report['gates'][0]['exitCode']=None;self.report['blocker']='Runner unavailable';self.report['tdd']={};self.matrix[0]['status']='planned';self.assertEqual(self.errors(),[])
  def test_prepare_cannot_claim_ready(self):self.brief['mode']='prepare';self.assertTrue(self.errors())
+ def migration_risks(self, browser=False):
+  evidence=dict(gate='chromium' if browser else 'unit',kind='browser' if browser else 'nonvisual')
+  return [dict(id='EXTRA-LIFECYCLE-ASYNC',tasks={'2A':[evidence]},final=[evidence])]
+ def errors_with_risks(self, risks):
+  return validate(self.brief,self.report,self.matrix,self.baseline,self.root,observed_sha=SHA,observed_tree=TREE,risks=risks)
+ def test_required_migration_risk_cannot_be_omitted(self):
+  self.assertTrue(any('omitted from brief' in e for e in self.errors_with_risks(self.migration_risks())))
+ def test_browser_migration_risk_cannot_use_unit_evidence(self):
+  self.brief['additionalRequirements']=['EXTRA-LIFECYCLE-ASYNC'];self.report['gates'][0]['testCases'].append('EXTRA-LIFECYCLE-ASYNC')
+  self.assertTrue(any('wrong class' in e for e in self.errors_with_risks(self.migration_risks(browser=True))))
+ def test_final_cannot_omit_migration_risks(self):
+  self.complete_final()
+  self.assertTrue(any('omitted from brief' in e for e in self.errors_with_risks(self.migration_risks())))
+ def test_migration_risk_positive_with_matching_gate(self):
+  self.brief['additionalRequirements']=['EXTRA-LIFECYCLE-ASYNC'];self.report['gates'][0]['testCases'].append('EXTRA-LIFECYCLE-ASYNC')
+  self.assertEqual(self.errors_with_risks(self.migration_risks()),[])
 if __name__=='__main__': unittest.main(verbosity=2)

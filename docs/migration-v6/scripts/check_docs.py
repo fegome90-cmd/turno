@@ -54,6 +54,28 @@ def check():
         if not row.get('targetTests') or not row.get('targetCases') or not row.get('targetBehavior'):
             errors.append(f'Missing planned target: {row["requirementId"]}')
     plan = (DOCS / 'PLAN.md').read_text()
+    risks = parsed[DOCS / 'migration-risks.json']
+    sys.path.insert(0, str(DOCS / 'agent-contracts'))
+    from contract_gate import MIGRATION_CONTROL_IDS, KINDS
+    risk_ids = {r['id'] for r in risks}
+    if len(risks) != len(MIGRATION_CONTROL_IDS) or risk_ids != MIGRATION_CONTROL_IDS:
+        errors.append('Canonical migration control map is incomplete or duplicated.')
+    lessons = (DOCS / 'EXECUTION_LESSONS.md').read_text()
+    cases = (DOCS / 'CASOS_REALES.md').read_text()
+    for risk in risks:
+        if risk['id'] not in plan or risk['id'] not in lessons:
+            errors.append(f'Migration control is not integrated in plan/method: {risk["id"]}')
+        if risk.get('status') != 'planned' or not risk.get('targetTests') or not risk.get('oracle'):
+            errors.append(f'Invalid planned migration control: {risk["id"]}')
+        if not risk.get('sources') or any(url not in cases for url in risk['sources']):
+            errors.append(f'Migration control source absent from studied cases: {risk["id"]}')
+        entries = risk.get('final', []) + [e for task in risk.get('tasks', {}).values() for e in task]
+        if not entries or any(not e.get('gate') or e.get('kind') not in KINDS for e in entries):
+            errors.append(f'Migration control evidence class missing: {risk["id"]}')
+    brief = parsed[DOCS / 'agent-contracts/examples/brief-1A.json']
+    expected_extras = {r['id'] for r in risks if '1A' in r['tasks']}
+    if not expected_extras.issubset(set(brief.get('additionalRequirements', []))):
+        errors.append('Example 1A omits required migration controls.')
     plan_ids = re.findall(r'\*\*([A-Z]+(?:-[A-Z]+)*-\d+) · tarea', plan)
     if len(plan_ids) != 212 or set(plan_ids) != {r['requirementId'] for r in matrix}:
         errors.append('Plan annex and JSON requirement IDs differ.')
@@ -61,6 +83,8 @@ def check():
     links = 0
     for path in markdown:
         text = path.read_text()
+        if any(line.startswith("+") for line in text.splitlines()):
+            errors.append(f"Unrendered patch marker in {path.relative_to(ROOT)}")
         for target in re.findall(r'\[[^\]\n]*\]\(([^)\s]+)\)', text):
             parsed_url = urlparse(target)
             if parsed_url.scheme or target.startswith('#'):
@@ -80,7 +104,7 @@ if __name__ == '__main__':
         errors, json_count, md_count, links = check()
         print(json.dumps({'status': 'FAIL' if errors else 'PASS', 'jsonFiles': json_count,
                           'markdownFiles': md_count, 'localLinks': links, 'requirements': 212,
-                          'sourceTestFiles': 16, 'scope': 'documentation/source inventory only',
+                          'sourceTestFiles': 16, 'migrationControls': 6, 'scope': 'documentation/source inventory only',
                           'errors': errors}, ensure_ascii=False, indent=2))
         sys.exit(1 if errors else 0)
     except (OSError, ValueError, KeyError, TypeError, SyntaxError) as exc:

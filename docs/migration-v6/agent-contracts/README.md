@@ -19,9 +19,9 @@ python3 docs/migration-v6/agent-contracts/contract_gate.py --baseline docs/migra
 python3 docs/migration-v6/agent-contracts/contract_gate.py --baseline docs/migration-v6/parity-map.json --matrix docs/migration-v6/parity-map.json --brief docs/migration-v6/agent-contracts/examples/brief-1A.json --report docs/migration-v6/agent-contracts/examples/report-1A-stop.json
 ```
 
-Los 40 tests incluyen omisiones, IDs duplicados, gates incompletos, evidencia obsoleta, cambios fuera de alcance y cierre final sin gates requeridos. La comprobación de inventario no certifica paridad. El ejemplo STOP puede devolver código 0 porque describe correctamente un bloqueo; **no significa permiso para continuar**.
+Los 44 tests incluyen omisiones, IDs duplicados, gates incompletos, evidencia obsoleta, cambios fuera de alcance y cierre final sin gates requeridos. La comprobación de inventario no certifica paridad. El ejemplo STOP puede devolver código 0 porque describe correctamente un bloqueo; **no significa permiso para continuar**.
 
-Al evaluar una ejecución futura, añadir `--root` con la raíz real de tests y artefactos y `--git-root` con el checkout observado. Baseline canónico y checker deben quedar fuera del alcance editable del implementador. El validador no ejecuta comandos de reportes ni modifica el repositorio. Códigos: 0 estructura válida, 1 contrato incumplido, 2 entrada/entorno bloqueado.
+Al evaluar una ejecución futura, añadir `--root` con la raíz real de tests y artefactos y `--git-root` con el checkout observado. Baseline canónico y checker deben quedar fuera del alcance editable del implementador. El CLI carga el mapa canónico adyacente migration-risks.json y exige los EXTRA aplicables a la fase, y todos al cierre final, en su gate/clase de evidencia. Los tests incluyen omisión de EXTRA, navegador acreditado con unit y cierre final sin riesgos. El validador no ejecuta comandos de reportes ni modifica el repositorio. Códigos: 0 estructura válida, 1 contrato incumplido, 2 entrada/entorno bloqueado.
 
 ## Límites
 
