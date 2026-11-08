@@ -1,6 +1,6 @@
 # Registro inicial de G0
 
-**Resultado actual: STOP, listo para firma. Revisiones de 0.4 emitidas y checks repetidos sobre el HEAD final; falta la revisión del dueño del diff de `baseline-files.json` y su firma global del plan/ADR. No se crea v6.**
+**Resultado actual: G0 APROBADO.** Plan, ADR y D1–D9 aceptados (firma del dueño, 08/11/2026, en la conversación de Claude Code (pregunta «Firma G0», respuesta «Firmo»), sobre el commit `8d2737cb66b9d64f6eb8f447a9ad7ac695d3e084`; sin enlace). El dueño dio por revisado el cambio del manifiesto (`approvedDeltas`). Implementar la v6 (fase 1A) **no** está autorizado: requiere una orden nueva y una auditoría de dependencias limpia del lock de producto.
 
 Actualización 08/11/2026: la auditoría con el router de diseño añadió D7–D9 ([ACCEPTANCE](ACCEPTANCE.md)): producto general con «Lista» como término neutro, fase de identidad visual después de la migración y movimiento idéntico a v5. La firma pendiente cubre también estas decisiones. Fecha del registro: 08/11/2026. Este es un registro de preparación documental, no un reporte READY del checker ni una aceptación humana.
 
@@ -71,11 +71,11 @@ Backend/host no son un bloqueo de la demo. Registrar su NOT RUN sin convertirlo 
 
 Solo marcar cada punto después de reunir evidencia real en este registro o un informe enlazado:
 
-- [ ] (Verificado en 0.1 sobre `0712b4c`; se repite sobre el HEAD que firme el dueño) HEAD/base/rama/entorno y delta verificados al iniciar la ejecución, sin cambios ajenos ni v5 alterada.
+- [x] (Verificado sobre el commit firmado `8d2737c`, ver EXECUTION-0 «Repetición sobre el HEAD final») HEAD/base/rama/entorno y delta verificados al iniciar la ejecución, sin cambios ajenos ni v5 alterada.
 - [x] Baseline resuelto: suite completa, build y checker con comandos/códigos/artefactos y discrepancia histórica diagnosticada, o rebaseline concreto aceptado con historial conservado. Un verde nuevo aislado no basta.
 - [x] 212 identidades fuente intactas y mapeadas; EXTRA-ROLLBACK-PHASE incluido en baseline no visual.
 - [x] HTML de referencia identificado por ruta real y SHA256 tras build; retorno seguro documentado sin afirmar que una referencia fallida es estable.
-- [ ] Plan, ADR y precisiones D1–D9 aceptados con fuente, responsable y fecha (D1–D9 sí; plan/ADR pendientes de firma).
+- [x] Plan, ADR y precisiones D1–D9 aceptados con fuente, responsable y fecha (firma del dueño, 08/11/2026, en la conversación de Claude Code (pregunta «Firma G0», respuesta «Firmo»), sobre el commit `8d2737cb66b9d64f6eb8f447a9ad7ac695d3e084`; sin enlace).
 - [x] Disposición explícita de riesgos/condiciones aplicables al tooling y vía de navegador permitida para 1A.
 - [x] Revisiones de especificación y calidad emitidas, hallazgos bloqueantes resueltos y checks afectados repetidos.
 - [x] (Resuelto como NO autorizada: alcance = cerrar G0 y parar; v6 requiere autorización nueva) Autorización de implementación y alcance del siguiente encargo resueltos; permisos de publicación/integración/despliegue separados.
@@ -89,7 +89,7 @@ Evidencia de las casillas marcadas (08/11/2026, HEAD `1d038215a603e935368ccde8f2
 - Revisiones de 0.4: emitidas. Especificación: [SPEC-REVIEW-0](SPEC-REVIEW-0.md), conforme con observaciones sobre `71bcd3d`. Calidad: [QUALITY-REVIEW-0](QUALITY-REVIEW-0.md), conforme con observaciones sobre `d6964d0`. Observaciones de ambas corregidas en el commit siguiente; checks repetidos en [EXECUTION-0](EXECUTION-0.md#repetición-sobre-el-head-final).
 - Autorización: cerrar G0 y parar.
 
-Sin marcar: la verificación de HEAD sobre el commit que se firme (se repite si cambia después de esta revisión) y la aceptación global del plan/ADR, que requiere la firma del dueño.
+Todas las casillas marcadas tras la firma del dueño. Cualquier cambio posterior de producto, inventario o contrato reabre lo afectado.
 
 ## Campos para el informe de ejecución futuro
 

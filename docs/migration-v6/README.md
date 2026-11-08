@@ -1,6 +1,6 @@
 # Migración propuesta de Turno a React y Base UI
 
-Estado al 08/11/2026: **documentación y preparación, sin implementación de producto v6**. Publicar este paquete en el PR #2 no aprueba G0 ni las precisiones pendientes del plan. V5 conserva su código, pruebas y assets. No se integra backend, no se hace merge ni se despliega.
+Estado al 08/11/2026: **G0 aprobado; fase 0 cerrada; sin implementación de producto v6** (la fase 1A requiere una orden nueva). Publicar este paquete en el PR #2 no aprueba G0 ni las precisiones pendientes del plan. V5 conserva su código, pruebas y assets. No se integra backend, no se hace merge ni se despliega.
 
 ## Leer en este orden
 

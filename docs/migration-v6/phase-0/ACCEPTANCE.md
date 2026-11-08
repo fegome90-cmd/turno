@@ -1,6 +1,6 @@
 # Criterios y decisiones de aceptación para fase 0
 
-**Estado: D1–D9 aceptadas por el dueño el 08/11/2026; G0 STOP hasta la firma del plan/ADR.** Este archivo prepara decisiones, no prueba producto ni expresa aprobación del usuario. Fuente: [PLAN, sección 2](../PLAN.md). Responsable de decidir: usuario / dueño de producto. El orquestador registra decisión y evidencia; los revisores verifican alcance y trazabilidad.
+**Estado: D1–D9 aceptadas por el dueño el 08/11/2026; plan y ADR firmados; G0 aprobado.** Este archivo prepara decisiones, no prueba producto ni expresa aprobación del usuario. Fuente: [PLAN, sección 2](../PLAN.md). Responsable de decidir: usuario / dueño de producto. El orquestador registra decisión y evidencia; los revisores verifican alcance y trazabilidad.
 
 ## Contrato que se conserva
 
@@ -42,7 +42,7 @@ Surgidas de la auditoría con el router de diseño (árbol v0.4). Cambian el pla
 
 Por cada D1–D9, registrar decisión explícita, referencia exacta del plan/ADR, fecha, quién decidió y cita o enlace verificable a su aceptación. Una aceptación conjunta puede cubrir las nueve si el usuario conoce ese alcance; si cambia una propuesta, registrar el delta y volver a revisar solo lo afectado. Mantener riesgo/rebaseline como decisiones separadas y concretas.
 
-Registro actual de aceptación: **D1–D9 aceptadas**, decisión del dueño en esta sesión, 08/11/2026 (preguntas de G0 respondidas en la conversación de Claude Code). La aceptación global del plan y del ADR sigue pendiente de la firma del dueño. La lista operativa y los responsables de bloqueo están en [G0-RECORD](G0-RECORD.md).
+Registro actual de aceptación: **D1–D9 aceptadas**, decisión del dueño en esta sesión, 08/11/2026 (preguntas de G0 respondidas en la conversación de Claude Code). Plan y ADR firmados: firma del dueño, 08/11/2026, en la conversación de Claude Code (pregunta «Firma G0», respuesta «Firmo»), sobre el commit `8d2737cb66b9d64f6eb8f447a9ad7ac695d3e084`; sin enlace. La lista operativa y los responsables de bloqueo están en [G0-RECORD](G0-RECORD.md).
 
 ## Auditoría estructurada y aceptación de riesgo
 

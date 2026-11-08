@@ -1,6 +1,6 @@
 # Fase 0: paquete de inicio y decisión G0
 
-**Estado al 08/11/2026: fase 0 en ejecución (0.1–0.3 hechas, ver [EXECUTION-0](phase-0/EXECUTION-0.md)); G0 pendiente / STOP.** Este paquete permite encargar la fase 0 sin crear `prototypes/frontend-v6/`, instalar dependencias, modificar v5 ni conectar backend. Publicarlo en el PR #2 no aprueba el plan ni el ADR; las precisiones D1–D9 fueron aceptadas por el dueño el 08/11/2026 y la firma global sigue pendiente.
+**Estado al 08/11/2026: fase 0 cerrada; G0 aprobado por el dueño ([G0-RECORD](phase-0/G0-RECORD.md)). La fase 1A requiere una orden nueva.** Este paquete permite encargar la fase 0 sin crear `prototypes/frontend-v6/`, instalar dependencias, modificar v5 ni conectar backend. Publicarlo en el PR #2 no aprueba el plan ni el ADR; las precisiones D1–D9 fueron aceptadas por el dueño el 08/11/2026 y la firma global sigue pendiente.
 
 ## Objetivo y entradas fijadas
 
@@ -48,9 +48,9 @@ Se aplica el método Superpowers al alcance solicitado: diseño y decisiones ant
 
 **Dueño:** orquestador + ejecutor. **Produce:** sección de referencias y hashes de G0-RECORD. **Test/oráculo:** HEAD/base/árbol observados, delta enumerado y todos los blobs de producto/tests/assets coinciden con el manifiesto; inventario mantiene 212 identidades de 16 archivos.
 
-- [ ] Releer entradas, permisos y estado remoto; resolver checkout Git real, rama de ejecución autorizada y archivos propios. Una copia sin `.git` sirve para lectura/checks documentales, no para inventar `git rev-parse HEAD`.
-- [ ] Comparar manifiesto y ejecutar los cuatro comandos documentales del apartado siguiente; guardar comandos, versiones, códigos y salida completa.
-- [ ] Registrar SHA fuente y huella del árbol candidato. El candidato sigue siendo documental mientras no exista v6.
+- [x] Releer entradas, permisos y estado remoto; resolver checkout Git real, rama de ejecución autorizada y archivos propios. Una copia sin `.git` sirve para lectura/checks documentales, no para inventar `git rev-parse HEAD`.
+- [x] Comparar manifiesto y ejecutar los cuatro comandos documentales del apartado siguiente; guardar comandos, versiones, códigos y salida completa.
+- [x] Registrar SHA fuente y huella del árbol candidato. El candidato sigue siendo documental mientras no exista v6.
 
 **Gate de tarea:** integridad e inventario PASS o STOP con paths/delta precisos. Es parte de `baseline` no visual, no G0 aprobado.
 
@@ -58,10 +58,10 @@ Se aplica el método Superpowers al alcance solicitado: diseño y decisiones ant
 
 **Dueño:** ejecutor; revisor contrasta el resultado. **Produce:** informe de suite completa y build, hash del HTML de referencia y procedimiento de reapertura en sandbox. **Test/oráculo:** suite completa y discrepancia histórica resuelta mediante diagnóstico sustentado o decisión explícita de rebaseline que conserve el historial. Un completo nuevo verde aislado tampoco demuestra estabilidad ni cierra por sí solo los dos fallos registrados. Nunca reemplazar el último completo fallido por dos tests focalizados.
 
-- [ ] Materializar v5 en una copia aislada; registrar Node/npm/Python, lock y método de instalación permitido. No actualizar dependencias ni tocar fuente de la referencia para esta reproducción.
-- [ ] Desde `prototypes/frontend-v5/` de esa copia, ejecutar cada comando por separado y conservar su código de salida, aunque falle la suite: `node --test --test-concurrency=1 tests/*.test.mjs`, `python3 scripts/build_preview.py`, `node scripts/check_portable.mjs`.
-- [ ] Si la suite falla, preservar salida completa y contrastar los dos casos históricos de PREFLIGHT con hipótesis/ensayo controlado. Si corregir exige cambiar v5, detener y proponer un encargo separado; no arreglarla en esta fase documental.
-- [ ] Tras build exitoso, registrar ruta real y SHA256 del HTML emitido. Conservar referencia y candidato separados. Documentar cómo reabrir la referencia y que recargar reinicia la sesión. La reapertura real de navegador del rollback final pertenece a G7A; no atribuirla al hash.
+- [x] Materializar v5 en una copia aislada; registrar Node/npm/Python, lock y método de instalación permitido. No actualizar dependencias ni tocar fuente de la referencia para esta reproducción.
+- [x] Desde `prototypes/frontend-v5/` de esa copia, ejecutar cada comando por separado y conservar su código de salida, aunque falle la suite: `node --test --test-concurrency=1 tests/*.test.mjs`, `python3 scripts/build_preview.py`, `node scripts/check_portable.mjs`.
+- [x] Si la suite falla, preservar salida completa y contrastar los dos casos históricos de PREFLIGHT con hipótesis/ensayo controlado. Si corregir exige cambiar v5, detener y proponer un encargo separado; no arreglarla en esta fase documental.
+- [x] Tras build exitoso, registrar ruta real y SHA256 del HTML emitido. Conservar referencia y candidato separados. Documentar cómo reabrir la referencia y que recargar reinicia la sesión. La reapertura real de navegador del rollback final pertenece a G7A; no atribuirla al hash.
 
 **Gate de tarea:** referencia reproducible o decisión de rebaseline documentada y aceptada. Hoy permanece FAIL histórico / nueva reproducción NOT RUN. Build/LinkeDOM no certifican offline, visual ni foco nativo.
 
@@ -69,10 +69,10 @@ Se aplica el método Superpowers al alcance solicitado: diseño y decisiones ant
 
 **Dueño:** ejecutor prepara; usuario decide; orquestador registra. **Produce:** ADR, ACCEPTANCE y HOST-BOUNDARY revisados, y disposición de riesgos. **Test/oráculo:** cada precisión tiene decisión, evidencia de aceptación y alcance; lo pendiente sigue marcado pendiente.
 
-- [ ] Revisar las decisiones D1–D9 de ACCEPTANCE (D7–D9 añadidas el 08/11/2026), sin reabrir stack, carpeta aislada o contrato sin persistencia ya fijados.
-- [ ] Separar producto vanilla, fixture y propuesta. Las 10 moderadas dev del fixture siguen FAIL histórico; resolverlas antes de reutilizar tooling en el alcance afectado; registrar aceptación contextual conserva FAIL/STOP en los gates de producto. Cero runtime no aprueba la auditoría total ni demuestra seguridad de aplicación.
-- [ ] Identificar una vía de navegador permitida y su alcance antes de 1A. El bloqueo histórico no se declara resuelto por tener Playwright instalado ni se elude por otra ruta.
-- [ ] Documentar fronteras por lectura; si no se inspeccionó backend/host, dejar contrato real NOT RUN. Su disponibilidad no bloquea la demo aislada.
+- [x] Revisar las decisiones D1–D9 de ACCEPTANCE (D7–D9 añadidas el 08/11/2026), sin reabrir stack, carpeta aislada o contrato sin persistencia ya fijados.
+- [x] Separar producto vanilla, fixture y propuesta. Las 10 moderadas dev del fixture siguen FAIL histórico; resolverlas antes de reutilizar tooling en el alcance afectado; registrar aceptación contextual conserva FAIL/STOP en los gates de producto. Cero runtime no aprueba la auditoría total ni demuestra seguridad de aplicación.
+- [x] Identificar una vía de navegador permitida y su alcance antes de 1A. El bloqueo histórico no se declara resuelto por tener Playwright instalado ni se elude por otra ruta.
+- [x] Documentar fronteras por lectura; si no se inspeccionó backend/host, dejar contrato real NOT RUN. Su disponibilidad no bloquea la demo aislada.
 
 **Gate de tarea:** contrato sin decisiones abiertas que afecten 1A y condiciones verificables, o STOP del paso dependiente. Aceptar este paquete documental no acepta un riesgo ni cambia permisos de publicación, integración o despliegue.
 
@@ -80,10 +80,10 @@ Se aplica el método Superpowers al alcance solicitado: diseño y decisiones ant
 
 **Dueño:** revisores y orquestador; usuario acepta plan/decisiones. **Produce:** dictámenes de especificación y calidad, G0-RECORD con fuentes y autorización de siguiente paso.
 
-- [ ] Revisor de especificación contrasta plan/ADR/aceptación, 212 identidades y control EXTRA; registra hallazgos con archivo y criterio.
-- [ ] Tras resolver bloqueantes, revisor de calidad comprueba diff, resultados, hashes y límites. Una edición posterior obliga a repetir checks/revisión afectados.
-- [ ] Orquestador reúne el registro completo y pregunta solo las decisiones humanas aún no resueltas, con consecuencias concretas. Registra cita o enlace verificable de aceptación, nunca un ejemplo como permiso.
-- [ ] Evaluar G0 contra la lista de G0-RECORD. Si falta evidencia, hay FAIL/BLOCKED requerido o no existe aceptación, mantener STOP; no comenzar 1A.
+- [x] Revisor de especificación contrasta plan/ADR/aceptación, 212 identidades y control EXTRA; registra hallazgos con archivo y criterio.
+- [x] Tras resolver bloqueantes, revisor de calidad comprueba diff, resultados, hashes y límites. Una edición posterior obliga a repetir checks/revisión afectados.
+- [x] Orquestador reúne el registro completo y pregunta solo las decisiones humanas aún no resueltas, con consecuencias concretas. Registra cita o enlace verificable de aceptación, nunca un ejemplo como permiso.
+- [x] Evaluar G0 contra la lista de G0-RECORD. Si falta evidencia, hay FAIL/BLOCKED requerido o no existe aceptación, mantener STOP; no comenzar 1A.
 
 **Gate G0:** referencia resuelta, inventario íntegro, contrato aceptado y condiciones/autorización de ejecución explícitas. Los gates de tarea de este documento descomponen G0; no crean nuevas aprobaciones ni rebajan las existentes.
 
