@@ -8,7 +8,14 @@ Actualización 08/11/2026: la auditoría con el router de diseño añadió D7–
 
 - Fuente documental inspeccionada: `70167c2a3bfa2f2e4059c41fa6d0b84138eb38e6`, árbol `d47528eaeef1f6158585fb795f2f78089aec5fa9`; PR #2 borrador.
 - Fuente de comportamiento: `0f534df9bd5b012b4ec21c202a055e1e913bcab5`; último código `7141568f9fc765a2a2555a689a4df76dc9bfa44f`.
-- Dueños de ejecución/revisión: por asignar antes de iniciar; reparto y obligaciones en [FASE_0](../FASE_0.md).
+- Inicio de la fase 0: ordenado por el dueño el 08/11/2026 («Fase 0 ya»). Alcance: solo documentos, en la rama `frontend/fix-fullscreen-reflow-v8` (PR #2); no se crea v6.
+- Roles de ejecución (sesión de Claude Code `session_018Vz8fXicQ8eriij1KjAcZi`):
+  - Orquestador: Claude (sesión principal). Asigna, custodia el canon y la evidencia, aplica STOP y pregunta al dueño solo decisiones humanas.
+  - Ejecutor de 0.1–0.3: subagente Claude Haiku, sin autoría del plan.
+  - Revisor de especificación: subagente Claude Sonnet, independiente del ejecutor.
+  - Revisor de calidad: otra instancia de subagente Claude Sonnet, distinta de la anterior, después de la revisión de especificación.
+  - Dueño de producto: el usuario; firma plan, ADR y D1–D9.
+- Entrada adicional: [auditoría con el router de diseño](../design-audit/README.md).
 - D1–D6: aceptadas (decisión del dueño en esta sesión, 08/11/2026 (preguntas de G0 respondidas en la conversación de Claude Code)); detalle en [ACCEPTANCE](ACCEPTANCE.md). Plan/ADR: pendientes de firma. Autorización: cerrar G0 y parar; implementar v6 **no** autorizado.
 - SHA/huella de candidato de producto, lock de producto y HTML v6: no existen. No sustituirlos por valores del fixture ni del commit documental.
 
