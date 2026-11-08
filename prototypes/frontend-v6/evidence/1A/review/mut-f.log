@@ -1,0 +1,39 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism
+
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-mutants/f
+
+ ❯ |component| tests/component/theme-home.test.tsx (12 tests | 1 failed) 119ms
+     × TOKENS-01 · --solid y --on-solid en :root y en dark, copiados de v5 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > TOKENS-01 · tokens solid y on-solid > TOKENS-01 · --solid y --on-solid en :root y en dark, copiados de v5
+AssertionError: expected ':root{--canvas:#fff;--sidebar:#f7f7f7…' to match /:root\[data-theme=dark\]\{[^}]*--soli…/
+
+- Expected:
+/:root\[data-theme=dark\]\{[^}]*--solid:#f2f3f0[^}]*--on-solid:#171817/
+
++ Received:
+":root{--canvas:#fff;--sidebar:#f7f7f7;--selected:#eaeaea;--hover:#f2f2f2;--ink:#111;--secondary:#595959;--border:#ddd;--control:#808080;--font-ui:'Source Sans 3',system-ui,sans-serif;--font-writing:'Source Serif Pro',Georgia,serif;--left:256px;--right:280px;--radius-control:6px;--radius-panel:10px;--line-soft:#e7e7e7;--surface-subtle:#f7f7f7;--motion-feedback:180ms;--motion-disclosure:220ms;--motion-tabs:180ms;--ease-out:cubic-bezier(0.22,1,0.36,1);--field:#fafafa;--type-caption:.8125rem;--type-small:.875rem;--type-body:1rem;--type-section:1.25rem;--type-title:2.125rem;--type-writing:1.1875rem;--space-1:4px;--space-3:12px;--target:44px;--solid:#111;--on-solid:#fff;--solid-hover:#333;--solid-pressed:#3a3a3a;--selected-hover:#222;--pressed:#dedede;--disabled:#777;--disabled-surface:#ececec;--error:#8a241e;--error-border:#b45b54;--dialog-border:#bdbdbd;--shadow:#0000000d;--backdrop:#0005;color-scheme:light}
+:root[data-theme=dark]{--canvas:#171817;--sidebar:#202120;--field:#202120;--surface-subtle:#202120;--selected:#353735;--hover:#2b2d2b;--pressed:#414541;--ink:#f2f3f0;--secondary:#bbc0ba;--border:#454a44;--line-soft:#3a3e38;--control:#858e82;--solid:#f2f3f1;--on-solid:#171817;--solid-hover:#d9ddd7;--solid-pressed:#c5ccc1;--selected-hover:#d9ddd7;--disabled:#a0a69c;--disabled-surface:#30332e;--error:#ffb4ab;--error-border:#d98d84;--dialog-border:#858e82;--shadow:#0006;--backdrop:#0009;color-scheme:dark}
+"
+
+ ❯ tests/component/theme-home.test.tsx:163:17
+    161|     const css = fs.readFileSync(path.resolve('src/styles/tokens.css'),…
+    162|     expect(css).toMatch(/:root\{[^}]*--solid:#111[^}]*--on-solid:#fff/…
+    163|     expect(css).toMatch(/:root\[data-theme=dark\]\{[^}]*--solid:#f2f3f…
+       |                 ^
+    164|   });
+    165| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  23:36:45
+   Duration  859ms (transform 75ms, setup 121ms, import 68ms, tests 119ms, environment 430ms)
+

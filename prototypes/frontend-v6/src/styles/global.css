@@ -1,0 +1,19 @@
+@font-face{font-family:'Source Sans 3';src:url('../assets/fonts/SourceSans3-Bold.woff2') format('woff2');font-style:normal;font-weight:700;font-display:swap}
+@font-face{font-family:'Source Sans 3';src:url('../assets/fonts/SourceSans3-Regular.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:'Source Sans 3';src:url('../assets/fonts/SourceSans3-Semibold.woff2') format('woff2');font-style:normal;font-weight:600;font-display:swap}
+@font-face{font-family:'Source Serif Pro';src:url('../assets/fonts/SourceSerifPro-Regular.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:'Source Serif Pro';src:url('../assets/fonts/SourceSerifPro-It.woff2') format('woff2');font-style:italic;font-weight:400;font-display:swap}
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{background:var(--canvas)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-ui);font-size:var(--type-body);line-height:1.5;font-synthesis:none}
+button{cursor:pointer;background:transparent;border:1px solid transparent;border-radius:var(--radius-control);min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 12px;transition:background-color var(--motion-feedback) var(--ease-out)}
+button.primary{background:var(--solid);color:var(--on-solid);padding-inline:20px}
+button.primary:disabled{background:var(--disabled-surface);color:var(--disabled)}
+.icon{display:inline-block;width:20px;height:20px;flex:none;background-color:currentColor;-webkit-mask:center/contain no-repeat;mask:center/contain no-repeat}
+.home{flex:1;display:flex;align-items:center;justify-content:center;padding:32px 40px 112px;container-type:inline-size}
+.greeting{text-align:center;width:100%}
+.greeting h1{font-family:var(--font-writing);font-size:clamp(3rem,10.5cqw,9.0625rem);font-weight:400;line-height:1.08;letter-spacing:-.035em;margin:0;overflow-wrap:break-word}
+.greeting p{font-size:clamp(1.25rem,2.8cqw,2.125rem);color:var(--secondary);margin:32px 0 0}
+.home-summary{display:flex;flex-direction:column;align-items:center;gap:24px;margin-top:32px}
+.home-summary p{margin:0}

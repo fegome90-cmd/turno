@@ -1,0 +1,25 @@
+Gates de fase 1A · frontend-v6 · 08/11/2026 (cwd prototypes/frontend-v6)
+Artefacto: dist/preview.html SHA256 074ca0a017326a8377ffbb0eb186ae4b97adc07fb3ce8ed276243fdb80515cc4 (1095561 bytes)
+Node v24.22.1, npm 11.19.1, Chromium Google Chrome for Testing 153.0.8010.12 
+
+GATE / COMANDO                         CODIGO ARTEFACTO (SHA256)
+npm install --ignore-scripts           0      npm-install.log e9c46a946c4d3271
+npm audit --include=dev --json         0      audit-total.audit.json 0 vulns 65eda4bd178b375e
+npm audit --omit=dev --json            0      audit-runtime.audit.json 0 vulns 65eda4bd178b375e
+npm run test:unit (RED, paso 3)        1      red-unit.log 3/3 fallan por aserción 38d9af2cd433f330
+npm run test:component (RED, paso 3)   1      red-component.log 12/12 fallan por aserción/consulta e7b3a2294bdcf35f
+npm run test:unit (GREEN final)        0      final-unit.log 3/3 44240e1fdf29d126
+npm run test:component (GREEN final)   0      final-component.log 12/12 a1dd3e9a4c97fc34
+npm run typecheck                      0      typecheck.log da70ef7787d8a61f
+npm run lint                           0      lint.log (oxlint --deny-warnings) 478f9c8b04f56f44
+npm run build                          0      build.log dist/preview.html 261947153b4470e1
+npm run check:portable                 0      portable.json status PASS 8ad0861ed5d57b44
+npm run measure:bundle                 0      bundle.json informativo, sin aviso 1a62116b036f28e6
+playwright offline-theme (run 1)       0      e2e-offline-theme-run1.log 5/5 1024d9ec9293251f
+playwright offline-theme (run 2)       0      e2e-offline-theme-run2.log 5/5 9da93274c2c167a5
+playwright offline-theme (run 3)       0      e2e-offline-theme-run3.log 5/5 1772673c41aef4fd
+node scripts/perf-shell.mjs            0      perf-shell.json informativo 609c84373697488f
+first-paint-repeat (10, about:blank)   0      first-paint-repeat.json 8/10 sin frame claro; NO ACEPTADO 5280576a787293dc
+first-paint-repeat (20, previo oscuro) 0      first-paint-prev-dark.json 20/20 c786e182f5d44de2
+
+Decisión: STOP en EXTRA-OFFLINE-FIRST-PAINT (discrepancia documentada en LOG.md). Resto de gates con código 0.

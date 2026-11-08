@@ -1,0 +1,1 @@
+{"plugins":["typescript","react","import"],"categories":{"correctness":"error"},"rules":{"react/rules-of-hooks":"error","react/exhaustive-deps":"error","typescript/no-explicit-any":"error"}}

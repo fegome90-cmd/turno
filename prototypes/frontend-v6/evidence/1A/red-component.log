@@ -1,0 +1,263 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism
+
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+ ❯ |component| tests/component/theme-home.test.tsx (12 tests | 12 failed) 92ms
+     × DESIGN-COMPLETE-01 · la preferencia por defecto es system y sigue el sistema oscuro 21ms
+     × DESIGN-COMPLETE-01 · con preferencia system, un cambio del sistema actualiza el tema 3ms
+     × DESIGN-COMPLETE-01 · una elección explícita sobrevive a cambios del sistema 3ms
+     × DESIGN-COMPLETE-01 · un valor inválido se rechaza sin cambiar la preferencia 2ms
+     × DESIGN-COMPLETE-01 · volver a system vuelve a seguir al sistema actual 2ms
+     × DESIGN-COMPLETE-02 · el efectivo es light y un dark explícito funciona 2ms
+     × TOKENS-01 · --solid y --on-solid en :root y en dark, copiados de v5 1ms
+     × UI-01 · saludo con nombre, una sola acción de resumen y ningún input 49ms
+     × UI-01 · sin nombre el saludo es Hola. 3ms
+     × HOME-SUBTITLE-02 · el subtítulo recibido se muestra y cambiar tema no lo cambia 1ms
+     × EXTRA-STRICTMODE-HOME · bajo StrictMode el subtítulo se sortea una sola vez y se mantiene 1ms
+     × EXTRA-THEME-NO-STORAGE · cambiar tema no llama a setItem ni a fetch 2ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 12 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > DESIGN-COMPLETE-01 · preferencia de tema de sesión > DESIGN-COMPLETE-01 · la preferencia por defecto es system y sigue el sistema oscuro
+AssertionError: expected 'light' to be 'dark' // Object.is equality
+
+Expected: "dark"
+Received: "light"
+
+ ❯ tests/component/theme-home.test.tsx:85:29
+     83|     const api = mountTheme();
+     84|     expect(api().preference).toBe('system');
+     85|     expect(api().effective).toBe('dark');
+       |                             ^
+     86|     expect(html().dataset.theme).toBe('dark');
+     87|     expect(html().dataset.themePreference).toBe('system');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/12]⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > DESIGN-COMPLETE-01 · preferencia de tema de sesión > DESIGN-COMPLETE-01 · con preferencia system, un cambio del sistema actualiza el tema
+AssertionError: expected undefined to be 'light' // Object.is equality
+
+- Expected:
+"light"
+
++ Received:
+undefined
+
+ ❯ tests/component/theme-home.test.tsx:95:34
+     93|     act(() => system.setSystemDark(false));
+     94|     expect(api().effective).toBe('light');
+     95|     expect(html().dataset.theme).toBe('light');
+       |                                  ^
+     96|   });
+     97|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/12]⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > DESIGN-COMPLETE-01 · preferencia de tema de sesión > DESIGN-COMPLETE-01 · una elección explícita sobrevive a cambios del sistema
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/component/theme-home.test.tsx:105:22
+    103|       accepted = api().setPreference('dark');
+    104|     });
+    105|     expect(accepted).toBe(true);
+       |                      ^
+    106|     act(() => system.setSystemDark(false));
+    107|     expect(api().preference).toBe('dark');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/12]⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > DESIGN-COMPLETE-01 · preferencia de tema de sesión > DESIGN-COMPLETE-01 · un valor inválido se rechaza sin cambiar la preferencia
+AssertionError: expected 'system' to be 'dark' // Object.is equality
+
+Expected: "dark"
+Received: "system"
+
+ ❯ tests/component/theme-home.test.tsx:123:30
+    121|     });
+    122|     expect(accepted).toBe(false);
+    123|     expect(api().preference).toBe('dark');
+       |                              ^
+    124|     expect(html().dataset.theme).toBe('dark');
+    125|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/12]⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > DESIGN-COMPLETE-01 · preferencia de tema de sesión > DESIGN-COMPLETE-01 · volver a system vuelve a seguir al sistema actual
+AssertionError: expected undefined to be 'dark' // Object.is equality
+
+- Expected:
+"dark"
+
++ Received:
+undefined
+
+ ❯ tests/component/theme-home.test.tsx:138:34
+    136|     });
+    137|     expect(api().preference).toBe('system');
+    138|     expect(html().dataset.theme).toBe('dark');
+       |                                  ^
+    139|     act(() => system.setSystemDark(false));
+    140|     expect(html().dataset.theme).toBe('light');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/12]⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > DESIGN-COMPLETE-02 · sin matchMedia > DESIGN-COMPLETE-02 · el efectivo es light y un dark explícito funciona
+AssertionError: expected undefined to be 'light' // Object.is equality
+
+- Expected:
+"light"
+
++ Received:
+undefined
+
+ ❯ tests/component/theme-home.test.tsx:149:34
+    147|     const api = mountTheme();
+    148|     expect(api().effective).toBe('light');
+    149|     expect(html().dataset.theme).toBe('light');
+       |                                  ^
+    150|     act(() => {
+    151|       api().setPreference('dark');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/12]⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > TOKENS-01 · tokens solid y on-solid > TOKENS-01 · --solid y --on-solid en :root y en dark, copiados de v5
+AssertionError: expected '' to match /:root\{[^}]*--solid:#111[^}]*--on-sol…/
+
+- Expected:
+/:root\{[^}]*--solid:#111[^}]*--on-solid:#fff/
+
++ Received:
+""
+
+ ❯ tests/component/theme-home.test.tsx:162:17
+    160|     // Vitest runs from the project root; jsdom's import.meta.url is n…
+    161|     const css = fs.readFileSync(path.resolve('src/styles/tokens.css'),…
+    162|     expect(css).toMatch(/:root\{[^}]*--solid:#111[^}]*--on-solid:#fff/…
+       |                 ^
+    163|     expect(css).toMatch(/:root\[data-theme=dark\]\{[^}]*--solid:#f2f3f…
+    164|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/12]⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > UI-01 · Inicio > UI-01 · saludo con nombre, una sola acción de resumen y ningún input
+TestingLibraryElementError: Unable to find an accessible element with the role "heading"
+
+Here are the accessible roles:
+
+  main:
+
+  Name "":
+  [36m<main />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main />[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/theme-home.test.tsx:175:19
+    173|       <Home preferredName="Demo" subtitle="¿Qué haremos hoy?" summary=…
+    174|     );
+    175|     expect(screen.getByRole('heading', {level: 1})).toHaveTextContent(…
+       |                   ^
+    176|     const main = container.querySelector('main') as HTMLElement;
+    177|     const buttons = main.querySelectorAll('button');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/12]⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > UI-01 · Inicio > UI-01 · sin nombre el saludo es Hola.
+TestingLibraryElementError: Unable to find an accessible element with the role "heading"
+
+Here are the accessible roles:
+
+  main:
+
+  Name "":
+  [36m<main />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main />[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/theme-home.test.tsx:186:19
+    184|   it('UI-01 · sin nombre el saludo es Hola.', () => {
+    185|     render(<Home preferredName="" subtitle="¿Qué haremos hoy?" summary…
+    186|     expect(screen.getByRole('heading', {level: 1})).toHaveTextContent(…
+       |                   ^
+    187|   });
+    188|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/12]⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > UI-01 · Inicio > HOME-SUBTITLE-02 · el subtítulo recibido se muestra y cambiar tema no lo cambia
+AssertionError: expected [] to include ''
+ ❯ tests/component/theme-home.test.tsx:192:28
+    190|     const system = installMatchMedia(false);
+    191|     const session = createSession({random: () => 0.6, preferredName: '…
+    192|     expect(HOME_SUBTITLES).toContain(session.homeSubtitle);
+       |                            ^
+    193|     const probe = captureTheme();
+    194|     render(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/12]⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > EXTRA-STRICTMODE-HOME · sorteo una vez por sesión > EXTRA-STRICTMODE-HOME · bajo StrictMode el subtítulo se sortea una sola vez y se mantiene
+AssertionError: expected [] to include ''
+ ❯ tests/component/theme-home.test.tsx:216:28
+    214|     const random = vi.fn(() => 0.9);
+    215|     const session = createSession({random, preferredName: 'Demo'});
+    216|     expect(HOME_SUBTITLES).toContain(session.homeSubtitle);
+       |                            ^
+    217|     const summary = {message: 'No hay un turno abierto.', actionLabel:…
+    218|     const tree = (node: ReactNode) => (
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/12]⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > EXTRA-THEME-NO-STORAGE · cero storage y cero red al cambiar tema > EXTRA-THEME-NO-STORAGE · cambiar tema no llama a setItem ni a fetch
+AssertionError: expected undefined to be 'dark' // Object.is equality
+
+- Expected:
+"dark"
+
++ Received:
+undefined
+
+ ❯ tests/component/theme-home.test.tsx:243:34
+    241|     });
+    242|     // Positive check first: the change under test must really have ha…
+    243|     expect(html().dataset.theme).toBe('dark');
+       |                                  ^
+    244|     act(() => system.setSystemDark(true));
+    245|     act(() => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/12]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  12 failed (12)
+   Start at  23:20:36
+   Duration  1.01s (transform 83ms, setup 149ms, import 69ms, tests 92ms, environment 513ms)
+

@@ -1,0 +1,37 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism
+
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-mutants/g
+
+ ❯ |component| tests/component/theme-home.test.tsx (12 tests | 1 failed) 104ms
+     × UI-01 · saludo con nombre, una sola acción de resumen y ningún input 46ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > UI-01 · Inicio > UI-01 · saludo con nombre, una sola acción de resumen y ningún input
+AssertionError: expected <input aria-label="x"></input> to have a length of +0 but got 1
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/component/theme-home.test.tsx:181:49
+    179|     fireEvent.click(buttons[0]);
+    180|     expect(onOpenShift).toHaveBeenCalledTimes(1);
+    181|     expect(container.querySelectorAll('input')).toHaveLength(0);
+       |                                                 ^
+    182|   });
+    183|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  23:36:46
+   Duration  866ms (transform 71ms, setup 96ms, import 64ms, tests 104ms, environment 487ms)
+

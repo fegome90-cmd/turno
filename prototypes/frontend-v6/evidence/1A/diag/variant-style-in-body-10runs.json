@@ -1,0 +1,247 @@
+{
+  "artifact": "dist/preview.html",
+  "summary": {
+    "runs": 10,
+    "noLightFrameAfterCommit": 10,
+    "strictFirstAfterCommitIsAppCanvas": 8,
+    "lastIsAppCanvas": 10
+  },
+  "runs": [
+    {
+      "run": 1,
+      "preCommitFrames": 1,
+      "afterCommit": [
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ]
+      ],
+      "noLightFrameAfterCommit": true,
+      "strictFirstAfterCommitIsAppCanvas": true,
+      "lastIsAppCanvas": true
+    },
+    {
+      "run": 2,
+      "preCommitFrames": 1,
+      "afterCommit": [
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ]
+      ],
+      "noLightFrameAfterCommit": true,
+      "strictFirstAfterCommitIsAppCanvas": true,
+      "lastIsAppCanvas": true
+    },
+    {
+      "run": 3,
+      "preCommitFrames": 0,
+      "afterCommit": [
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ]
+      ],
+      "noLightFrameAfterCommit": true,
+      "strictFirstAfterCommitIsAppCanvas": true,
+      "lastIsAppCanvas": true
+    },
+    {
+      "run": 4,
+      "preCommitFrames": 0,
+      "afterCommit": [
+        [
+          18,
+          18,
+          18
+        ],
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ]
+      ],
+      "noLightFrameAfterCommit": true,
+      "strictFirstAfterCommitIsAppCanvas": false,
+      "lastIsAppCanvas": true
+    },
+    {
+      "run": 5,
+      "preCommitFrames": 1,
+      "afterCommit": [
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ]
+      ],
+      "noLightFrameAfterCommit": true,
+      "strictFirstAfterCommitIsAppCanvas": true,
+      "lastIsAppCanvas": true
+    },
+    {
+      "run": 6,
+      "preCommitFrames": 1,
+      "afterCommit": [
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ]
+      ],
+      "noLightFrameAfterCommit": true,
+      "strictFirstAfterCommitIsAppCanvas": true,
+      "lastIsAppCanvas": true
+    },
+    {
+      "run": 7,
+      "preCommitFrames": 1,
+      "afterCommit": [
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ]
+      ],
+      "noLightFrameAfterCommit": true,
+      "strictFirstAfterCommitIsAppCanvas": true,
+      "lastIsAppCanvas": true
+    },
+    {
+      "run": 8,
+      "preCommitFrames": 0,
+      "afterCommit": [
+        [
+          18,
+          18,
+          18
+        ],
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ]
+      ],
+      "noLightFrameAfterCommit": true,
+      "strictFirstAfterCommitIsAppCanvas": false,
+      "lastIsAppCanvas": true
+    },
+    {
+      "run": 9,
+      "preCommitFrames": 1,
+      "afterCommit": [
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ]
+      ],
+      "noLightFrameAfterCommit": true,
+      "strictFirstAfterCommitIsAppCanvas": true,
+      "lastIsAppCanvas": true
+    },
+    {
+      "run": 10,
+      "preCommitFrames": 1,
+      "afterCommit": [
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ],
+        [
+          23,
+          24,
+          23
+        ]
+      ],
+      "noLightFrameAfterCommit": true,
+      "strictFirstAfterCommitIsAppCanvas": true,
+      "lastIsAppCanvas": true
+    }
+  ],
+  "note": "Evidencia repetida sin umbral propio. Cada corrida se conserva, aprobada o no."
+}
