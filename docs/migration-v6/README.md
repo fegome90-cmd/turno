@@ -11,7 +11,8 @@ Estado al 08/11/2026: **documentación y preparación, sin implementación de pr
 5. [Contratos de tareas y validación](agent-contracts/README.md): contexto mínimo, roles, ejemplos STOP y checker de estructura/integridad. No garantizan obediencia ni veracidad de evidencias.
 6. [Lecciones incorporadas a la ejecución](EXECUTION_LESSONS.md) y [mapa operativo](migration-risks.json): controles adicionales obligatorios por fase, con oráculos y evidencia, sin alterar los 212 requisitos fuente.
 7. [React al 08/11/2026](REACT_RESEARCH.md): versiones propuestas frente al fixture, novedades estables, avisos RSC de octubre, límites del Compiler/toolchain y controles de G0–G7. No instala ni actualiza producto.
-8. [Casos reales de migración y riesgos derivados](CASOS_REALES.md): fuentes de Slack, Preply, Heap, HackerRank, Trello, GitHub y Base UI. No atribuyen incidentes ajenos al prototipo.
+8. [Glosario](GLOSARIO.md) y [auditoría con el router de diseño](design-audit/README.md): producto general, vocabulario y decisiones D7–D9.
+9. [Casos reales de migración y riesgos derivados](CASOS_REALES.md): fuentes de Slack, Preply, Heap, HackerRank, Trello, GitHub y Base UI. No atribuyen incidentes ajenos al prototipo.
 
 ## Qué cambió documentalmente
 

@@ -2156,7 +2156,7 @@
     ],
     "status": "planned",
     "targetBehavior": "renaming an empty group name identifies the field and permits correction",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "INTERFACE-SKILLS-11 (caso de prueba por crear)"
     ],
@@ -2583,8 +2583,8 @@
       "tests/e2e/shift-lifecycle.spec.ts"
     ],
     "status": "planned",
-    "targetBehavior": "renamed copy: beds are cama, task notes and quick-note bodies have specific labels, shift entry names the current shift",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "targetBehavior": "renamed copy: task groups are «lista» (D7; v5 said «cama»), task notes and quick-note bodies have specific labels, shift entry names the current shift",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "INTERFACE-SKILLS-24 (caso de prueba por crear)"
     ],
@@ -3785,7 +3785,7 @@
     ],
     "status": "planned",
     "targetBehavior": "cannot create a task without an open shift or cross-link a bed",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "PREVIEW-09 (caso de prueba por crear)"
     ],
@@ -3869,7 +3869,7 @@
     ],
     "status": "planned",
     "targetBehavior": "new bed and task are linked to active shift",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "PREVIEW-12 (caso de prueba por crear)"
     ],
@@ -3981,7 +3981,7 @@
     ],
     "status": "planned",
     "targetBehavior": "renameBed changes only the label and preserves IDs, shift and all task relations",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "PREVIEW-16 (caso de prueba por crear)"
     ],
@@ -4009,7 +4009,7 @@
     ],
     "status": "planned",
     "targetBehavior": "duplicate group names do not merge stable identities or task membership",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "PREVIEW-17 (caso de prueba por crear)"
     ],
@@ -4151,8 +4151,8 @@
       "tests/e2e/notifications.spec.ts"
     ],
     "status": "planned",
-    "targetBehavior": "Conservar foco, selección/caret, undo, composición IME, raw draft y scroll durante actualizaciones que no cambian selección; una sola instancia interactiva del control.",
-    "rationale": "La identidad DOM es un medio para preservar experiencia, no licencia para perder caret/undo aunque el valor se restaure desde store. Verificar también navegador real.",
+    "targetBehavior": "duplicates reuse the same notification, show the repeat count «2» and make the repeated announcement distinct (v5: «… Repetido 2 veces.»)",
+    "rationale": "Paridad con la pila de avisos de v5 (D4): si Sonner no agrupa ni anuncia la repetición, el adaptador lo completa; una brecha sin resolver bloquea 5A. La reutilización del nodo DOM puede sustituirse por la identidad estable del aviso si el resultado observable es el mismo.",
     "targetCases": [
       "TOASTS-02 (caso de prueba por crear)"
     ],
@@ -5952,7 +5952,7 @@
     ],
     "status": "planned",
     "targetBehavior": "rename group is keyboard-labelled, prefills its name and updates navigation, metadata and Agenda",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "UI-31 (caso de prueba por crear)"
     ],
@@ -5984,7 +5984,7 @@
     ],
     "status": "planned",
     "targetBehavior": "cancelling rename leaves group and task selection unchanged",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "UI-32 (caso de prueba por crear)"
     ],
@@ -6016,7 +6016,7 @@
     ],
     "status": "planned",
     "targetBehavior": "invalid rename keeps entered value and error in the open modal",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "UI-33 (caso de prueba por crear)"
     ],
@@ -6048,7 +6048,7 @@
     ],
     "status": "planned",
     "targetBehavior": "rename failure preserves name draft and repeated submit is blocked while pending",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "UI-34 (caso de prueba por crear)"
     ],
@@ -6080,7 +6080,7 @@
     ],
     "status": "planned",
     "targetBehavior": "renaming a group respects dirty task cancellation and explicit discard",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "UI-35 (caso de prueba por crear)"
     ],
@@ -6115,7 +6115,7 @@
     ],
     "status": "planned",
     "targetBehavior": "rename noop does not consume a pending simulated failure or announce a change",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "UI-36 (caso de prueba por crear)"
     ],
@@ -6212,7 +6212,7 @@
     ],
     "status": "planned",
     "targetBehavior": "successful save-and-continue opens rename after saving the task draft",
-    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6.",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.",
     "targetCases": [
       "UI-39 (caso de prueba por crear)"
     ],
@@ -6786,36 +6786,35 @@
     "sourceFile": "prototypes/frontend-v5/tests/viewport.test.mjs",
     "sourceTest": "temporal-only dirty transition preserves body, form, scroll and current save state",
     "requirementId": "VIEWPORT-11",
-    "task": "6A",
+    "task": "4A",
     "targetTests": [
-      "tests/unit/motion-policy.test.ts",
-      "tests/e2e/motion.spec.ts",
       "tests/e2e/responsive.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/component/time-panel.test.tsx",
+      "tests/component/agenda.test.tsx",
+      "tests/e2e/editor.spec.ts",
       "tests/e2e/overlays.spec.ts"
     ],
     "status": "planned",
-    "targetBehavior": "Preservar política de movimiento/interrupción observable: temporal-only dirty transition preserves body, form, scroll and current save state",
-    "rationale": "Permitir CSS y APIs públicas de Base UI/Sonner en lugar de WAAPI/FLIP manual. Comprobar estado actual, continuidad visual, cancelación, duración, modalidad y reduced-motion; no exigir mismo algoritmo.",
+    "targetBehavior": "temporal-only dirty transition preserves body, form, scroll and current save state",
+    "rationale": "Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Reasignada de 6A a la familia de VIEWPORT-10 (4A): trata de conservar borrador, formulario, scroll y estado de guardado, no de movimiento.",
     "targetCases": [
       "VIEWPORT-11 (caso de prueba por crear)"
     ],
     "evidence": [],
-    "preparationTask": "6A",
+    "preparationTask": "3A",
     "integrationTasks": [
       "1A",
       "1B",
       "2A",
       "2B",
       "3A",
-      "4A",
-      "4B",
-      "5A",
-      "6A"
+      "4A"
     ],
     "closureEvidenceKinds": [
       "browser"
     ],
-    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
+    "integrationRationale": "Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",

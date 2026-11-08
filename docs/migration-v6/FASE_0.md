@@ -1,6 +1,6 @@
 # Fase 0: paquete de inicio y decisión G0
 
-**Estado al 08/11/2026: documentación preparada; fase 0 de ejecución NOT RUN; G0 pendiente / STOP.** Este paquete permite encargar la fase 0 sin crear `prototypes/frontend-v6/`, instalar dependencias, modificar v5 ni conectar backend. Publicarlo en el PR #2 no aprueba el plan ni las seis precisiones.
+**Estado al 08/11/2026: fase 0 en ejecución (0.1–0.3 hechas, ver [EXECUTION-0](phase-0/EXECUTION-0.md)); G0 pendiente / STOP.** Este paquete permite encargar la fase 0 sin crear `prototypes/frontend-v6/`, instalar dependencias, modificar v5 ni conectar backend. Publicarlo en el PR #2 no aprueba el plan ni las seis precisiones.
 
 ## Objetivo y entradas fijadas
 
@@ -20,7 +20,8 @@ El corte remoto anterior es una entrada histórica, no el HEAD futuro ni el SHA 
 ## Archivos y responsabilidades
 
 - [ADR-001](phase-0/ADR-001.md): diseño propuesto, alternativas descartadas y estado de decisión.
-- [ACCEPTANCE](phase-0/ACCEPTANCE.md): seis precisiones con oráculo y responsable de aceptación.
+- [ACCEPTANCE](phase-0/ACCEPTANCE.md): precisiones D1–D9 con oráculo y responsable de aceptación.
+- [GLOSARIO](GLOSARIO.md) y [auditoría con el router de diseño](design-audit/README.md): entradas añadidas el 08/11/2026.
 - [HOST-BOUNDARY](phase-0/HOST-BOUNDARY.md): frontera de demo, host y backend, sin inventar un contrato externo.
 - [G0-RECORD](phase-0/G0-RECORD.md): registro inicial STOP, evidencia histórica frente a nueva y campos de cierre.
 - `parity-map.json`, `baseline-files.json` y `migration-risks.json` permanecen canónicos en esta carpeta, sin cambios de IDs, estados ni evidencia por preparar documentos.

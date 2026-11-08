@@ -56,7 +56,7 @@ El HTML adjunto y el MD coinciden en ocho fases y stack. El HTML es un resumen d
 
 React 19, TypeScript, Vite, Base UI, nueva carpeta, separación de v5, no router de URL, datos de demo y fases pequeñas. Identidad visual del PR #2 con las correcciones integradas de PR #1. No rediseñar ni cambiar textos como efecto de adoptar una librería. Excepción aceptada (D7): los grupos de tareas pasan de «Cama» a «Lista» en la v6 ([glosario](GLOSARIO.md)); es el único cambio de texto. La revisión de identidad visual (D8) ocurre después de la migración, no durante.
 
-### Precisiones recomendadas para aceptar con este plan
+### Precisiones aceptadas por el dueño (D1–D9, 08/11/2026)
 
 1. **Tema:** proveedor de sesión propio basado en `theme.mjs`, con `data-theme` y `data-theme-preference`. next-themes guarda preferencias por defecto; no usarlo así. Si se quiere next-themes, demostrar antes que no escribe almacenamiento y conserva exactamente el contrato. No abrir un proyecto de persistencia.
 2. **Más opciones:** Popover/disclosure no modal, no Menu cuando contiene el selector de tema. Debe permitir Tab fuera, cerrar por click externo/Escape y conservar el destino del click; sin trampa de foco ni `role=menu` impropio.
@@ -76,6 +76,8 @@ Las [lecciones de casos estudiados](EXECUTION_LESSONS.md) forman parte obligator
 
 
 Dependencias: `0 → 1A → 1B → 2A → 2B → 3A → 4A → 4B → 5A → 6A → 7A → 7B`. 4B depende de los editores/guardas de 4A; no ejecutarlas en paralelo como si fueran independientes..
+
+**Regla D7 para la matriz.** Las filas cuyo test fuente aserta textos «cama/Cama» (UI-31 a 36, UI-39, INTERFACE-SKILLS-11 y 24, PREVIEW-09, 12, 16 y 17) se portan con «lista/Lista» según el [glosario](GLOSARIO.md); su `rationale` lo indica. «Cama»/`Bed` en este plan nombra el concepto interno y sus IDs, que no cambian. Oráculo: en 2A (semillas y errores del adaptador), 4A (editor y metadatos) y 4B (diálogos de crear y renombrar) ningún texto visible contiene «cama»; búsqueda en DOM y en los textos del adaptador.
 
 ### Preparación temprana y cierre integrado
 
@@ -178,7 +180,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 - [ ] Confirmar HEAD remoto, árbol y estado de otras ramas antes de comenzar. Si cambió, enumerar delta y rebaselinar requisitos afectados.
 - [ ] Verificar hashes y repetir `node --test --test-concurrency=1 tests/*.test.mjs`, `python scripts/build_preview.py`, `node scripts/check_portable.mjs` en v5 aislada.
 - [ ] Registrar 16 suites fuente, cada test y resultado real; una regex de CSS se mapea a una observación visual/accesible equivalente, no se porta literalmente a JSX.
-- [ ] Acordar las seis precisiones de la sección 2 y confirmar qué se entiende por final: prototipo v6 autónomo, no widget integrado.
+- [ ] Registrar las precisiones D1–D9 de la sección 2 (aceptadas el 08/11/2026) y confirmar qué se entiende por final: prototipo v6 autónomo, no widget integrado.
 - [ ] Documentar por lectura el límite con backend: nombres/versiones reales aún por contrastar, sin fijar un contrato de escritura inexistente ni modificar el otro trabajo.
 - [ ] Revisión de diseño y del plan; commit local de los documentos solo cuando exista rama autorizada para ejecución.
 
@@ -238,7 +240,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 - [ ] Portar tests de preview/validation/draft y fechas de polish, conservando valores esperados. Agregar RED de sesión duplicada y respuestas tardías para store.
 - [ ] Ejecutar `npm run test:unit -- format validation draft preview store`: falla por las funciones faltantes, no por un entorno roto.
-- [ ] Portar lógica sin cambiar semántica; snapshots desacoplados; errores no mutan datos; versión conflictiva no pisa el borrador; renombrar cama no cambia IDs ni pertenencia; nota sin turno/cama.
+- [ ] Portar lógica sin cambiar semántica; snapshots desacoplados; errores no mutan datos; versión conflictiva no pisa el borrador; renombrar cama (concepto interno `Bed`; texto visible «lista», D7) no cambia IDs ni pertenencia; nota sin turno/cama.
 - [ ] Añadir casos exactos: `29/02/2028` válido, `29/02/2027` inválido, `31/02/2026` conservado como raw; `23:59` válido/`24:00` inválido; minutos `''`, `'0'`, `'1440'` válidos y `'-1'`, `'1.5'`, `'1441'` inválidos. Límites UTC/Santiago, fin de mes/año/bisiesto y fecha de DST, sin sumar 24 h para «mañana».
 - [ ] Verificar títulos 1/300/301, cuerpo 10.000/10.001, texto HTML literal, cama de otro turno, cierre repetido, turno nuevo vacío, archivo inmutable y estado compartido no accidental entre dos instancias.
 - [ ] GREEN de suite completa de unidad + `npm run typecheck`. Revisar y commit `feat(v6): port preview domain and isolated store`.
@@ -313,7 +315,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 **Interfaces:** acciones del store delegan a TurnoPort; modal de cierre lee el conteo confirmado actual y muestra «Cerrar y archivar». No aceptar un cierre real del backend mediante esta confirmación de demo.
 
-- [ ] RED: crear tarea/cama/nota/turno, título vacío corregible, nombres duplicados con IDs distintos, renombrar dirty con Volver/Descartar/Guardar y continuar, fallo conserva texto, submit repetido no duplica.
+- [ ] RED: crear tarea/lista (`Bed`)/nota/turno, título vacío corregible, nombres duplicados con IDs distintos, renombrar dirty con Volver/Descartar/Guardar y continuar, fallo conserva texto, submit repetido no duplica.
 - [ ] Implementar Dialog/AlertDialog con nombre, descripción y retorno de foco. Confirmación de cierre conserva pendientes; no dice que se cancelaron avisos. Archivo deshabilita ambas vías de completar y renombrar.
 - [ ] Probar conflicto y reintento sin salir del diálogo; primer inválido visible incluso si Tiempo estaba cerrado; plural/singular correcto; cerrar y abrir turno deja cero camas/tareas nuevas, notas globales conservadas.
 - [ ] Repetir también HISTORY-06 (Back cierra rename preservando Forward), DESIGN-COMPLETE-12 (oscuro/fallo/reintento/archivo readonly), EMIL-SKILLS-09 (rename largo literal) y UI-42 (singular y sin turno), UI-29 (cerrar/abrir/crear turno y Agenda vacía) sobre integración real.
@@ -346,7 +348,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 **Archivos:** crear `src/appearance/motion-policy.ts`, `src/styles/motion.css`; tests `tests/unit/motion-policy.test.ts`, `tests/e2e/motion.spec.ts`.
 
-**Interfaces:** `motionPolicy({modality, reducedMotion, kind})` devuelve duración y propiedades permitidas; una fuente de valores para estilos/controladores. Copiar valores actuales: pantalla150, diálogo240, drawer260, disclosure220, pestañas150, feedback180, toast300 ms; hover 180 ms (`--motion-feedback`), igual que v5. Curva drawer `cubic-bezier(0.32,0.72,0,1)`; curvas restantes de `motion.mjs`.
+**Interfaces:** `motionPolicy({modality, reducedMotion, kind})` devuelve duración y propiedades permitidas; una fuente de valores para estilos/controladores. Copiar valores actuales: pantalla150, diálogo240, drawer260, disclosure220, pestañas150 (el token CSS `--motion-tabs:180ms` de v5 no se usa y no se copia), feedback180, toast300 ms; hover 180 ms (`--motion-feedback`), igual que v5. Curva drawer `cubic-bezier(0.32,0.72,0,1)`; curvas restantes de `motion.mjs`.
 
 - [ ] RED: pasar de puntero a teclado durante apertura de pantalla/Drawer o movimiento de Tabs cancela también la animación en curso; teclado no inicia transiciones de apertura/desplazamiento, reduced motion elimina transform/filter, pantalla solo opacidad, duración máxima300; no `transition:all`.
 - [ ] Implementar CSS/data attributes Base UI; estado y foco cambian inmediatamente, nunca esperan animationend. Priorizar opacity/transform sin reflow por frame. No añadir motion/react salvo brecha concreta documentada y medida.
@@ -913,6 +915,8 @@ Fuentes versionadas:
   Destino: `tests/component/domain-dialogs.test.tsx`, `tests/e2e/shift-lifecycle.spec.ts`.
   Preparación: 4B; integración: 1A, 1B, 2A, 2B, 3A, 4A, 4B; evidencia de cierre: browser.
   Dependencia: La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado.
+  Resultado de v6: renamed copy: task groups are «lista» (D7; v5 said «cama»), task notes and quick-note bodies have specific labels, shift entry names the current shift
+  Equivalencia propuesta: Preservar el comportamiento; cambiar únicamente selectors de implementación por roles, nombres accesibles o identificadores propios. Pendiente de revisar y ejecutar en v6. D7 (08/11/2026): los textos visibles «cama/Cama» se portan como «lista/Lista» según GLOSARIO.md; el concepto interno `Bed`/`bedId` y los IDs no cambian. El test v6 aserta los textos nuevos.
 - **INTERFACE-SKILLS-25 · tarea 4A · planned**
   Fuente: high priority is named in the task row and agenda while normal priority is not
   Destino: `tests/component/editor.test.tsx`, `tests/component/time-panel.test.tsx`, `tests/component/agenda.test.tsx`, `tests/e2e/editor.spec.ts`.
@@ -1194,8 +1198,8 @@ Fuentes versionadas:
   Destino: `tests/component/notifications.test.tsx`, `tests/e2e/notifications.spec.ts`.
   Preparación: 5A; integración: 1A, 1B, 2A, 2B, 3A, 4A, 4B, 5A; evidencia de cierre: browser.
   Dependencia: La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado.
-  Resultado de v6: Conservar foco, selección/caret, undo, composición IME, raw draft y scroll durante actualizaciones que no cambian selección; una sola instancia interactiva del control.
-  Equivalencia propuesta: La identidad DOM es un medio para preservar experiencia, no licencia para perder caret/undo aunque el valor se restaure desde store. Verificar también navegador real.
+  Resultado de v6: duplicates reuse the same notification, show the repeat count «2» and make the repeated announcement distinct (v5: «… Repetido 2 veces.»)
+  Equivalencia propuesta: Paridad con la pila de avisos de v5 (D4): si Sonner no agrupa ni anuncia la repetición, el adaptador lo completa; una brecha sin resolver bloquea 5A. La reutilización del nodo DOM puede sustituirse por la identidad estable del aviso si el resultado observable es el mismo.
 - **TOASTS-03 · tarea 5A · planned**
   Fuente: untrusted message text is not HTML
   Destino: `tests/component/notifications.test.tsx`, `tests/e2e/notifications.spec.ts`.
@@ -1622,13 +1626,11 @@ Fuentes versionadas:
   Dependencia: Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos.
   Resultado de v6: Conservar foco, selección/caret, undo, composición IME, raw draft y scroll durante actualizaciones que no cambian selección; una sola instancia interactiva del control.
   Equivalencia propuesta: La identidad DOM es un medio para preservar experiencia, no licencia para perder caret/undo aunque el valor se restaure desde store. Verificar también navegador real.
-- **VIEWPORT-11 · tarea 6A · planned**
+- **VIEWPORT-11 · tarea 4A · planned**
   Fuente: temporal-only dirty transition preserves body, form, scroll and current save state
-  Destino: `tests/unit/motion-policy.test.ts`, `tests/e2e/motion.spec.ts`, `tests/e2e/responsive.spec.ts`, `tests/e2e/overlays.spec.ts`.
-  Preparación: 6A; integración: 1A, 1B, 2A, 2B, 3A, 4A, 4B, 5A, 6A; evidencia de cierre: browser.
-  Dependencia: La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado.
-  Resultado de v6: Preservar política de movimiento/interrupción observable: temporal-only dirty transition preserves body, form, scroll and current save state
-  Equivalencia propuesta: Permitir CSS y APIs públicas de Base UI/Sonner en lugar de WAAPI/FLIP manual. Comprobar estado actual, continuidad visual, cancelación, duración, modalidad y reduced-motion; no exigir mismo algoritmo.
+  Destino: `tests/e2e/responsive.spec.ts`, `tests/component/editor.test.tsx`, `tests/component/time-panel.test.tsx`, `tests/component/agenda.test.tsx`, `tests/e2e/editor.spec.ts`, `tests/e2e/overlays.spec.ts`.
+  Preparación: 3A; integración: 1A, 1B, 2A, 2B, 3A, 4A; evidencia de cierre: browser.
+  Dependencia: Layout/primitivas se ensayan en 3A; la observación íntegra incluye editor, campos, tabs o Agenda reales de 4A, no slots ni fixtures sustitutivos.
 
 ## visibility.test.mjs (5)
 

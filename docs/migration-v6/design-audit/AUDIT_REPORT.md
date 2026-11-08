@@ -43,6 +43,8 @@ Registro final: revisión 118, 33 nodos aprobados (3 previos y 30 de esta pasada
 
 Texto completo en `PENDING_OWNER.md`.
 
+> Resuelto después por decisiones del dueño (D7–D9, segunda ronda): producto definido, glosario congelado y plan corregido a paridad de movimiento.
+
 1. Producto (E05__P01): propuesto "Parcialmente"; falta problema, personas y resultado por escrito. Hoja bloqueada a propósito en el árbol (P03).
 2. Contexto (E05__C01): propuesto "Incompleto"; sin glosario ni validación del dominio. Hoja bloqueada a propósito (C03).
 3. Cobertura de skills, hoja de bloqueo (E05__GOV00_2): propuesta redactada como BLOQUEADO, sin confirmar.

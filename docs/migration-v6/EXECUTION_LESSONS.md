@@ -27,7 +27,7 @@ La revisión verifica la tabla de ownership frente al código, no solo su existe
 
 Origen: recuperación de capacidades nativas en GitHub y cambios de montaje de Preply. Con texto largo/literal y borrador inválido, cruzar 699↔700 y 999↔1000, abrir/cerrar overlays y cambiar tema: debe existir **una sola instancia interactiva de cada campo**. Caret/selección, raw, errores y undo se conservan si la acción no cambia selección. Verificar copiar/pegar, Tab/Escape, Atrás/Adelante y destino visible del foco al cerrar.
 
-En 1B probar tema claro/oscuro/sistema con Dialog/Popover/avisos abiertos, también en portales a body: tokens computados, contraste y foco válidos. Context del mismo árbol cruza portales, no roots independientes. Un root principal evita introducir esa frontera. Evidencia de navegador para edición/foco/undo y composición de tema. Composición por eventos no cierra IME real; el recorrido de composición con candidatos y posterior Enter se registra manualmente en G7B. No se exige un algoritmo DOM concreto si el comportamiento es equivalente. Gates G3/G4A/G7B.
+En 1B probar tema claro/oscuro/sistema con Dialog/Popover/avisos abiertos, también en portales a body: tokens computados, contraste y foco válidos. Context del mismo árbol cruza portales, no roots independientes. Un root principal evita introducir esa frontera. Evidencia de navegador para edición/foco/undo y composición de tema. Composición por eventos no cierra IME real; el recorrido de composición con candidatos y posterior Enter se registra manualmente en G7B. No se exige un algoritmo DOM concreto si el comportamiento es equivalente. Gates G1B/G3/G4A/G7B.
 
 ### EXTRA-PERFORMANCE-FLOWS · fases 1A y 7A
 
