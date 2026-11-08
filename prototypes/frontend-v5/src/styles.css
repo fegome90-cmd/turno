@@ -206,7 +206,7 @@ dialog:not(.drawer){max-height:calc(100dvh - 32px - env(safe-area-inset-top, 0px
 .toast-card[data-closing]{opacity:0;transform:translateY(12px);pointer-events:none}
 .notification[data-suspended] .toast-region{visibility:hidden}
 .notification[data-suspended] .toast-item,.notification[data-suspended] .toast-card{transition:none;transform:none;opacity:1}
-.nav-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-1)}
+.nav-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-1)}
 .nav-actions .nav-item{flex-wrap:wrap;line-height:1.4;margin:0;font-size:var(--type-small);gap:6px;padding-inline:8px}
 .nav-actions .nav-item .icon{width:16px;height:16px}
 .nav-actions .nav-item span{min-width:0;overflow-wrap:break-word}

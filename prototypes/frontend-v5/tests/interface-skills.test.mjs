@@ -287,3 +287,8 @@ test('narrow toolbar keeps Cerrar turno as an icon button with its accessible na
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
  assert.match(css,/@media \(max-width:399px\)\{\.close-shift-button\{min-width:44px;padding:10px\}\.close-shift-button span\{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset\(50%\)/);
 });
+test('sidebar shift actions stack in one column so no label wraps in the 212px sidebar',async()=>{
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/\.nav-actions\{display:grid;grid-template-columns:minmax\(0,1fr\)/);
+ assert.doesNotMatch(css,/\.nav-actions\{[^}]*repeat\(2/);
+});

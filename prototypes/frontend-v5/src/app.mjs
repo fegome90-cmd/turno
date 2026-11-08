@@ -163,10 +163,10 @@ function render({preserveCenter=false}={}){
  syncTitle();
  if(!restoring)pushRoute();
 }
-let restoring=false;
+let restoring=false,routeIdx=0,returning=false;
 const routeState=()=>({view,selected,archiveId});
 function syncTitle(){const part=view==='home'?'Inicio':view==='archive'?'Turnos anteriores':draft?draft.title:view==='notes'?'Notas rápidas':(shift()?.label||'Turno');document.title=`${part} · Turno`;}
-function pushRoute(){const s=routeState(),cur=window.history?.state;if(!window.history?.pushState)return;if(cur&&cur.view===s.view&&cur.archiveId===s.archiveId&&cur.selected?.id===s.selected?.id)return;window.history.pushState(s,'');}
+function pushRoute(){const s=routeState(),cur=window.history?.state;if(!window.history?.pushState)return;if(cur&&cur.view===s.view&&cur.archiveId===s.archiveId&&cur.selected?.id===s.selected?.id)return;window.history.pushState({...s,idx:++routeIdx},'');}
 function syncScrollCue(){for(const el of document.querySelectorAll('.nav-scroll'))el.classList.toggle('has-more',el.scrollTop+el.clientHeight<el.scrollHeight-1);}
 
 function updateDirty(){
@@ -304,12 +304,19 @@ async function create(event){event.preventDefault();if(busy)return;const f=event
 document.documentElement.dataset.inputModality='keyboard';
 document.addEventListener('scroll',e=>{if(e.target.classList?.contains('nav-scroll'))syncScrollCue();},true);
 window.addEventListener('resize',syncScrollCue);
-window.addEventListener('popstate',e=>{const s=e.state;if(!s)return;const stay=()=>window.history.pushState(routeState(),'');
- // Back while saving cannot navigate: put the current entry back so history matches the view.
+window.addEventListener('popstate',e=>{const s=e.state;if(!s)return;
+ // The popstate of a return trip we started ourselves: the view never changed, only re-sync the index.
+ if(returning){returning=false;routeIdx=s.idx??routeIdx;return;}
+ const delta=routeIdx-(s.idx??routeIdx);
+ // Undo the browser move (Back or Forward) without touching the rest of the stack, so Forward entries survive.
+ const stay=()=>{if(delta&&window.history.go){returning=true;window.history.go(delta);}else window.history.pushState({...routeState(),idx:++routeIdx},'');};
+ // Back while saving cannot navigate.
  if(busy){stay();return;}
  // Back first closes an open overlay (dialog, drawer or More options menu) instead of changing the view under it.
  if($('#modal').open||moreOpen){restoring=true;try{pendingNavigation=null;moreOpen=false;closeModal();render();}finally{restoring=false;}stay();return;}
- const apply=()=>{restoring=true;try{archiveId=s.archiveId||null;if(s.selected&&data[s.selected.kind==='note'?'notes':'tasks'].some(x=>x.id===s.selected.id))select(s.selected.kind,s.selected.id);else{view=s.view;selected=draft=null;render();}}finally{restoring=false;}};if(dirty){window.history.pushState(routeState(),'');requestNavigation(()=>{window.history.back();});}else apply();});
+ const apply=()=>{routeIdx=s.idx??routeIdx;restoring=true;try{archiveId=s.archiveId||null;if(s.selected&&data[s.selected.kind==='note'?'notes':'tasks'].some(x=>x.id===s.selected.id))select(s.selected.kind,s.selected.id);else{view=s.view;selected=draft=null;render();}}finally{restoring=false;}};
+ // Unsaved changes: stay on this entry and ask; after discard or save, repeat the original move once.
+ if(dirty){stay();requestNavigation(()=>{if(delta&&window.history.go)window.history.go(-delta);else window.history.back();});}else apply();});
 document.addEventListener('pointerdown',()=>{inputModality='pointer';document.documentElement.dataset.inputModality='pointer';},true);
 document.addEventListener('keydown',e=>{if(e.target.id==='title'&&e.key==='Enter'&&!e.isComposing&&e.keyCode!==229){e.preventDefault();if(dirty&&!busy&&!readonly()){const f=$('#editor-form');if(f?.requestSubmit)f.requestSubmit();else f?.dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));}}inputModality='keyboard';document.documentElement.dataset.inputModality='keyboard';motion.cancelAll();},true);
 document.addEventListener('click',e=>{
@@ -410,5 +417,5 @@ function reconcileViewport(){
 window.addEventListener('resize',reconcileViewport);
 document.addEventListener('fullscreenchange',reconcileViewport);
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
-async function init(){try{data=await adapter.load();restoring=true;try{render();}finally{restoring=false;}window.history?.replaceState?.(routeState(),'');}catch(e){$('#app').innerHTML=`<main><h1>No se pudo cargar</h1><p>${esc(e.message)}</p></main>`;}}
+async function init(){try{data=await adapter.load();restoring=true;try{render();}finally{restoring=false;}window.history?.replaceState?.({...routeState(),idx:routeIdx=0},'');}catch(e){$('#app').innerHTML=`<main><h1>No se pudo cargar</h1><p>${esc(e.message)}</p></main>`;}}
 init();
