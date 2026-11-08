@@ -339,50 +339,50 @@
     {
       "path": "prototypes/frontend-v5/tests/design-audit.test.mjs",
       "baselineSha": "031e4743b7c6cf52505e335135f155abbb6827f6",
-      "sha": "c4e4bd96fc320d39499dafd8168f6c213128ca96",
-      "commit": "077b9863b31b157f07f3a2d4719d6e5d13079e2f",
-      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga).",
-      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+      "sha": "d1dffc633e832adc7d82ed63f1ef0fd9ba9bcbb7",
+      "commit": "ee34b7608f777311317a1c19dea222120fc5277c",
+      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga). Ajuste posterior (corrección de B0 a 300 ms): las esperas fijas de 500 ms tras viajes al adaptador (guardar, completar, crear, renombrar, cerrar) esperan de forma acotada a que los controles que la app deshabilita mientras espera vuelvan a estar disponibles (waitForIdle), o a otra retroalimentación cuando ese estado es lo asertado; las pruebas negativas conservan su espera fija. Sin cambios en nombres, aserciones ni expectativas.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión. Ajuste posterior pedido en la tarea de corrección de B0 a 300 ms (08/11/2026); su diff queda pendiente de revisión en el PR #2."
     },
     {
       "path": "prototypes/frontend-v5/tests/design-complete.test.mjs",
       "baselineSha": "6cf8196f33e22fdc46288fb4e5abda565f2d102e",
-      "sha": "8d72050061826e8bbd640ccfecfe4c6ece45ca98",
-      "commit": "077b9863b31b157f07f3a2d4719d6e5d13079e2f",
-      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga).",
-      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+      "sha": "5f66c61447a14d18b727677d622460ddba913f61",
+      "commit": "ee34b7608f777311317a1c19dea222120fc5277c",
+      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga). Ajuste posterior (corrección de B0 a 300 ms): las esperas fijas de 500 ms tras viajes al adaptador (guardar, completar, crear, renombrar, cerrar) esperan de forma acotada a que los controles que la app deshabilita mientras espera vuelvan a estar disponibles (waitForIdle), o a otra retroalimentación cuando ese estado es lo asertado; las pruebas negativas conservan su espera fija. Sin cambios en nombres, aserciones ni expectativas.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión. Ajuste posterior pedido en la tarea de corrección de B0 a 300 ms (08/11/2026); su diff queda pendiente de revisión en el PR #2."
     },
     {
       "path": "prototypes/frontend-v5/tests/emil-skills.test.mjs",
       "baselineSha": "cc993594c94f0c64ab44c506e3b37a0d23feed53",
-      "sha": "de916a5e3685e8bcebeb01c302505806cf1c4455",
-      "commit": "077b9863b31b157f07f3a2d4719d6e5d13079e2f",
-      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga).",
-      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+      "sha": "b8ebe787ad645bebfff900fec42ea7966bf950ad",
+      "commit": "ee34b7608f777311317a1c19dea222120fc5277c",
+      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga). Ajuste posterior (corrección de B0 a 300 ms): las esperas fijas de 500 ms tras viajes al adaptador (guardar, completar, crear, renombrar, cerrar) esperan de forma acotada a que los controles que la app deshabilita mientras espera vuelvan a estar disponibles (waitForIdle), o a otra retroalimentación cuando ese estado es lo asertado; las pruebas negativas conservan su espera fija. Sin cambios en nombres, aserciones ni expectativas.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión. Ajuste posterior pedido en la tarea de corrección de B0 a 300 ms (08/11/2026); su diff queda pendiente de revisión en el PR #2."
     },
     {
       "path": "prototypes/frontend-v5/tests/history.test.mjs",
       "baselineSha": "22bf21a5de30e5a5c9642f4dad79d01076ef88fe",
-      "sha": "8f4c12a7e2fefd27df966903cd81e603c71f1d59",
-      "commit": "077b9863b31b157f07f3a2d4719d6e5d13079e2f",
-      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga).",
-      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+      "sha": "8e57dc0586ba3e5b140ae30259bda61f4997bc49",
+      "commit": "ee34b7608f777311317a1c19dea222120fc5277c",
+      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga). Ajuste posterior (corrección de B0 a 300 ms): las esperas fijas de 500 ms tras viajes al adaptador (guardar, completar, crear, renombrar, cerrar) esperan de forma acotada a que los controles que la app deshabilita mientras espera vuelvan a estar disponibles (waitForIdle), o a otra retroalimentación cuando ese estado es lo asertado; las pruebas negativas conservan su espera fija. Sin cambios en nombres, aserciones ni expectativas.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión. Ajuste posterior pedido en la tarea de corrección de B0 a 300 ms (08/11/2026); su diff queda pendiente de revisión en el PR #2."
     },
     {
       "path": "prototypes/frontend-v5/tests/interface-skills.test.mjs",
       "baselineSha": "132a5b6a986c52c5a087602fa8cd8935ca63b68b",
-      "sha": "35fb61a34cf134de5f3ae387296d62b197c6bcba",
-      "commit": "077b9863b31b157f07f3a2d4719d6e5d13079e2f",
-      "reason": "Los dos casos de B0 (casilla de 44 px y Enter guarda) esperan el fin observable del guardado en vez de 500 ms fijos; setup() espera el render en vez de 250 ms fijos. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga).",
-      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+      "sha": "bc1c8dd80f011420835edfe530f66f6d9ca47143",
+      "commit": "ee34b7608f777311317a1c19dea222120fc5277c",
+      "reason": "Los dos casos de B0 (casilla de 44 px y Enter guarda) esperan el fin observable del guardado en vez de 500 ms fijos; setup() espera el render en vez de 250 ms fijos. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga). Ajuste posterior (corrección de B0 a 300 ms): las esperas fijas de 500 ms tras viajes al adaptador (guardar, completar, crear, renombrar, cerrar) esperan de forma acotada a que los controles que la app deshabilita mientras espera vuelvan a estar disponibles (waitForIdle), o a otra retroalimentación cuando ese estado es lo asertado; las pruebas negativas conservan su espera fija. Sin cambios en nombres, aserciones ni expectativas.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión. Ajuste posterior pedido en la tarea de corrección de B0 a 300 ms (08/11/2026); su diff queda pendiente de revisión en el PR #2."
     },
     {
       "path": "prototypes/frontend-v5/tests/ui.test.mjs",
       "baselineSha": "64cef6e6b0d0e4e34e25886be58de1f701ede1d0",
-      "sha": "38a4210b10cace9f1857a9cbb9ff563595685782",
-      "commit": "077b9863b31b157f07f3a2d4719d6e5d13079e2f",
-      "reason": "El caso de B0 (resumen en singular) espera que cada casilla termine su guardado y que el diálogo de cierre se cierre, en vez de 500 ms fijos; setup() espera el render. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga).",
-      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+      "sha": "a9adf9a5b2d7b2941f57cfb8086f44620d30e011",
+      "commit": "ee34b7608f777311317a1c19dea222120fc5277c",
+      "reason": "El caso de B0 (resumen en singular) espera que cada casilla termine su guardado y que el diálogo de cierre se cierre, en vez de 500 ms fijos; setup() espera el render. Ajuste posterior: la espera inicial solo acepta #app .shell (fallo rápido si la app muestra su error de carga). Ajuste posterior (corrección de B0 a 300 ms): las esperas fijas de 500 ms tras viajes al adaptador (guardar, completar, crear, renombrar, cerrar) esperan de forma acotada a que los controles que la app deshabilita mientras espera vuelvan a estar disponibles (waitForIdle), o a otra retroalimentación cuando ese estado es lo asertado; las pruebas negativas conservan su espera fija. Sin cambios en nombres, aserciones ni expectativas.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión. Ajuste posterior pedido en la tarea de corrección de B0 a 300 ms (08/11/2026); su diff queda pendiente de revisión en el PR #2."
     },
     {
       "path": "prototypes/frontend-v5/tests/viewport.test.mjs",
