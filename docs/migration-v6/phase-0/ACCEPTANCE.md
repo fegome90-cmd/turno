@@ -25,7 +25,7 @@ No confundir «Chromium mínimo» con autorización para omitir otros checks fin
 
 - Baseline: último completo registrado 210 PASS y 2 FAIL; dos focalizados PASS no sustituyen suite completa y un completo verde aislado no demuestra estabilidad. Resolver discrepancia o acordar rebaseline concreto, preservando resultados originales.
 - Tooling: auditoría histórica del fixture FAIL por 10 moderadas dev, 0 altas/críticas y 0 runtime. No se ha repetido auditoría ni demostrado vulnerabilidad de aplicación. Resolver antes del uso afectado; una aceptación contextual de riesgo/alcance no levanta FAIL/STOP de auditorías de producto; sin `audit fix --force` ni override de major como atajo.
-- Navegador: vía histórica BLOCKED. Identificar una vía permitida y los escenarios que puede probar antes de 1A; instalación o descubrimiento de motores no acreditan ejecución.
+- Navegador: vía histórica BLOCKED; desde el 08/11/2026 hay una vía Chromium/Playwright verificada en este entorno (ver [G0-RECORD](G0-RECORD.md), B3). Firefox, WebKit, dispositivos y AT siguen sin vía; instalación o descubrimiento de motores no acreditan ejecución.
 - Aceptar decisiones no concede permiso para push/PR de producto, merge, despliegue, credenciales, cambios de seguridad o integración. La publicación documental existente no cubre esas acciones.
 
 ## Cómo registrar aceptación efectiva

@@ -5,7 +5,7 @@ Estado al 08/11/2026: **documentación y preparación, sin implementación de pr
 ## Leer en este orden
 
 1. [Paquete para iniciar fase 0](FASE_0.md): runbook, roles, tareas/tests/gates y borradores de ADR, aceptación, frontera host y registro G0 STOP. No ejecuta la fase ni crea v6.
-2. [Preparación y bloqueos](PREFLIGHT.md): último recorrido completo v5 **210/212**, auditoría con **10 moderadas dev** y navegador **BLOCKED**.
+2. [Preparación y bloqueos](PREFLIGHT.md): último recorrido completo v5 **210/212**, auditoría con **10 moderadas dev** y navegador **BLOCKED** en la preparación. Después: B0 corregido como delta aprobado de pruebas (3 corridas 212/212) y vía Chromium verificada; detalle en [G0-RECORD](phase-0/G0-RECORD.md).
 3. [Plan auditado](PLAN.md): fases, interfaces, riesgos, criterios y decisiones que requieren aceptación. Amplía la [propuesta inicial](../../prototypes/frontend-v5/docs/MIGRACION_REACT.md), conservada como antecedente.
 4. [Matriz de paridad](parity-map.json): **212 requisitos fuente de 16 archivos**, todos `planned`, con IDs estables y destinos propuestos bajo `prototypes/frontend-v6/`. No acredita 212 tests React ejecutados.
 5. [Contratos de tareas y validación](agent-contracts/README.md): contexto mínimo, roles, ejemplos STOP y checker de estructura/integridad. No garantizan obediencia ni veracidad de evidencias.
@@ -26,7 +26,7 @@ Estado al 08/11/2026: **documentación y preparación, sin implementación de pr
 
 ## Sobre los SHA citados
 
-Los SHA que aparecen en el texto (cortes inspeccionados, referencia `0f534df`, último código `7141568`) describen el momento de cada observación y quedan desactualizados con cada commit nuevo. La referencia canónica de v5 es [baseline-files.json](baseline-files.json): blobs de referencia más `approvedDeltas`, comprobados por `check_docs.py`. Antes de ejecutar, leer el HEAD real del PR.
+Los SHA que aparecen en el texto (cortes inspeccionados, referencia `0f534df`, último código `7141568`) describen el momento de cada observación y quedan desactualizados con cada commit nuevo. La referencia canónica de v5 es [baseline-files.json](baseline-files.json): blobs de referencia más `approvedDeltas`, comprobados por `check_docs.py`. Un cambio en `approvedDeltas` requiere revisión humana de su diff: es la aprobación real. Antes de ejecutar, leer el HEAD real del PR.
 
 ## Validación de este paquete
 

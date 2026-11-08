@@ -105,6 +105,19 @@ def check():
             errors.append(f'Duplicate approved delta: {rel}')
         else:
             deltas[rel] = delta
+    # When a Git checkout is available, tie each delta to a real commit in this history that holds
+    # exactly that blob. This pins provenance; it does not replace the human review of the diff to
+    # baseline-files.json, which is the actual approval.
+    if deltas and (ROOT / '.git').exists():
+        import subprocess
+        def git(*args):
+            return subprocess.run(['git', '-C', str(ROOT), *args], capture_output=True, text=True)
+        for rel, delta in deltas.items():
+            commit = delta['commit']
+            if git('merge-base', '--is-ancestor', commit, 'HEAD').returncode != 0:
+                errors.append(f'Approved delta commit is not in this history: {rel} {commit}')
+            elif git('rev-parse', f'{commit}:{rel}').stdout.strip() != delta['sha']:
+                errors.append(f'Approved delta blob differs from its commit: {rel}')
     for blob in blobs:
         rel = blob['path']
         path = (ROOT / rel).resolve()

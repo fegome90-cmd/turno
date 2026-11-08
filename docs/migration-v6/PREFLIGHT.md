@@ -29,8 +29,8 @@ La [investigación React del 08/11/2026](REACT_RESEARCH.md) contrasta las versio
 | Playwright | PASS solo descubrimiento de 3 casos | Ningún motor ejecutado |
 | Auditoría de dependencias runtime | PASS de advisories, 0 | No equivale a auditoría completa |
 | Auditoría total del fixture | **FAIL, 10 moderadas dev**, 0 altas/críticas | Riesgo pendiente |
-| Contratos | PASS estructural, 40 tests en esta preparación (la versión publicada del checker tiene 79; ver [G0-RECORD](phase-0/G0-RECORD.md)) | Detector de metadatos; no garantía de comportamiento |
-| Navegador, visual, dispositivo/AT real | **BLOCKED / no demostrado** | Sin QA visual ni navegador offline |
+| Contratos | PASS estructural, 79 tests del checker publicado (observado 08/11/2026) | Detector de metadatos; no garantía de comportamiento |
+| Navegador, visual, dispositivo/AT real | **BLOCKED / no demostrado** en esta preparación; después, Chromium verificado ([G0-RECORD, B3](phase-0/G0-RECORD.md)) | Dispositivo, AT, Firefox y WebKit siguen sin demostrar |
 | Paridad React y host/backend | **NOT RUN** | No hay producto v6 ni integración |
 
 Los estados PASS, FAIL, BLOCKED y NOT RUN se conservan por separado. Ni un build, ni una cifra de tests, ni ausencia de conflictos de merge aprueban los demás gates.
@@ -58,9 +58,10 @@ Encargo separado aprobado por el dueño de producto. Commit `536c511cc73f4367436
 
 - **Mecanismo.** Completar una tarea o guardar cuesta dos esperas del adaptador (guardar y recargar, 220 ms cada una): 440 ms o más frente a una pausa fija de 500 ms. En el resumen en singular, si la primera casilla sigue `busy` cuando llega la segunda, la app descarta ese cambio; eso produce exactamente «2 pendientes». `setup()` esperaba además 250 ms fijos una carga de 220 ms.
 - **Corrección.** Los casos de B0 y el de Enter guarda esperan el fin observable del guardado (casilla habilitada y marcada, aviso de guardado, diálogo cerrado). `setup()` de 7 archivos espera a que la app haya renderizado.
-- **Evidencia controlada.** Con el adaptador a 300 ms y la misma espera inicial en ambas versiones: pruebas anteriores 0/3, corregidas 3/3. A 220 ms reales: suite completa 212/212. Con CPU saturada (4 procesos), los dos casos anteriores pasaron 6/6: la carga de CPU sola no reproduce el fallo.
+- **Evidencia controlada (cifras del autor; la re-auditoría repitió solo las 3 corridas completas 212/212).** Con el adaptador a 300 ms y la misma espera inicial en ambas versiones: pruebas anteriores 0/3, corregidas 3/3. A 220 ms reales: suite completa 212/212. Con CPU saturada (4 procesos), los dos casos anteriores pasaron 6/6: la carga de CPU sola no reproduce el fallo.
 - **Riesgo residual medido.** Con el adaptador a 300 ms fallan 75/212 pruebas por otras esperas fijas. No se cambiaron aquí; queda como tarea aparte.
-- **Manifiesto.** Los 7 blobs nuevos constan en `approvedDeltas` de [baseline-files.json](baseline-files.json) con blob de origen, blob nuevo, commit, motivo y aprobación; `check_docs.py` solo admite deltas en `tests/*.test.mjs` de v5 que partan del blob de referencia.
+- **Ajuste `077b986`.** La espera inicial solo acepta `#app .shell`, para fallar rápido si la app muestra su error de carga.
+- **Manifiesto.** Los 7 blobs nuevos constan en `approvedDeltas` de [baseline-files.json](baseline-files.json) con blob de origen, blob nuevo, commit, motivo y aprobación; `check_docs.py` solo admite deltas en `tests/*.test.mjs` de v5 que partan del blob de referencia y, con Git disponible, cuyo `commit` sea ancestro de HEAD y contenga exactamente ese blob. **La aprobación real es la revisión humana del diff de `baseline-files.json`**: el checker fija procedencia e integridad, no el significado del cambio; quien edita el JSON y hace un commit podría autoaprobarse.
 
 ## Herramientas comprobadas en el fixture
 
