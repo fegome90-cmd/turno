@@ -127,6 +127,17 @@ test('successful save-and-continue opens rename after saving the task draft',asy
  await a.click('[data-action="task:task-1"]');assert.equal(a.q('#body').value,'Save before rename');
 });
 
+test('only Home subtitle varies per load; name and subtitle remain stable through Time and navigation',async()=>{
+ const originalRandom=Math.random;let samples=0,a;
+ try{Math.random=()=>{samples++;return .99;};a=await setup();}finally{Math.random=originalRandom;}
+ const initial=a.q('.greeting p').textContent;
+ assert.equal(initial,'¿En qué te ayudo hoy?');assert.equal(a.q('.greeting h1').textContent,'Hola, Demo.');assert.equal(samples,1);
+ await a.click('[data-action="toggle-inspector"]');await a.click('#modal [data-action="close-inspector"]');
+ assert.equal(a.q('.greeting p').textContent,initial);
+ await a.click('[data-action="open-shift"]');await a.click('[data-action="home"]');
+ assert.equal(a.q('.greeting p').textContent,initial);assert.equal(a.q('.greeting h1').textContent,'Hola, Demo.');
+ assert.equal(a.q('.greeting p').getAttribute('aria-live'),null);
+});
 test('home summary reports the open shift and its pending count, and the greeting stays stable through Time and navigation',async()=>{
  const a=await setup();
  const summary=()=>a.q('main .home-summary p').textContent;

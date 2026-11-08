@@ -283,3 +283,7 @@ test('every rendered icon resolves against index.html to a file on disk, and the
  assert.doesNotMatch(css,/assets\/icons/);
  assert.doesNotMatch(css,/--icon/);
 });
+test('narrow toolbar keeps Cerrar turno as an icon button with its accessible name',async()=>{
+ const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
+ assert.match(css,/@media \(max-width:399px\)\{\.close-shift-button\{min-width:44px;padding:10px\}\.close-shift-button span\{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset\(50%\)/);
+});

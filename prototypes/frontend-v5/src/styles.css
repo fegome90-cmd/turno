@@ -321,3 +321,4 @@ input[type=checkbox]:not(:disabled):active{outline:2px solid var(--ink);outline-
  input[type=checkbox]{appearance:auto;background:none}
  input[type=checkbox]:checked:after{display:none}
 }
+@media (max-width:399px){.close-shift-button{min-width:44px;padding:10px}.close-shift-button span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}
