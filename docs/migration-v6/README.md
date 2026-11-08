@@ -24,6 +24,10 @@ Estado al 08/11/2026: **documentación y preparación, sin implementación de pr
 - Se precisan tema de sesión, umbrales de navegación a 700 px y Tiempo a 1000 px, paridad de avisos y conservación de selección/undo/IME. Son propuestas para aceptar, no cambios de producto ya realizados.
 - Se conserva la atribución de los recursos de terceros en las [licencias de v5](../../prototypes/frontend-v5/licenses/). Las licencias MIT allí incluidas corresponden a las fuentes citadas, no conceden una licencia general al código ni a la marca Turno.
 
+## Sobre los SHA citados
+
+Los SHA que aparecen en el texto (cortes inspeccionados, referencia `0f534df`, último código `7141568`) describen el momento de cada observación y quedan desactualizados con cada commit nuevo. La referencia canónica de v5 es [baseline-files.json](baseline-files.json): blobs de referencia más `approvedDeltas`, comprobados por `check_docs.py`. Antes de ejecutar, leer el HEAD real del PR.
+
 ## Validación de este paquete
 
 Desde la raíz del repositorio, con Python 3.12 o superior:

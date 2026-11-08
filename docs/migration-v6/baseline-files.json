@@ -334,5 +334,63 @@
       "path": "prototypes/frontend-v5/tests/visibility.test.mjs",
       "sha": "09a2a8453c76b0294e6721861165b537f0a439d3"
     }
+  ],
+  "approvedDeltas": [
+    {
+      "path": "prototypes/frontend-v5/tests/design-audit.test.mjs",
+      "baselineSha": "031e4743b7c6cf52505e335135f155abbb6827f6",
+      "sha": "46343586cf6141746b6521bba17c527db9f0ee7f",
+      "commit": "536c511cc73f4367436ab8277ef669403f11c255",
+      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/design-complete.test.mjs",
+      "baselineSha": "6cf8196f33e22fdc46288fb4e5abda565f2d102e",
+      "sha": "586f4e492aa5f8c0d936f6d767ecc38d056fc4de",
+      "commit": "536c511cc73f4367436ab8277ef669403f11c255",
+      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/emil-skills.test.mjs",
+      "baselineSha": "cc993594c94f0c64ab44c506e3b37a0d23feed53",
+      "sha": "643b8e153ba022454fbe7ab7fd669734ec2b0757",
+      "commit": "536c511cc73f4367436ab8277ef669403f11c255",
+      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/history.test.mjs",
+      "baselineSha": "22bf21a5de30e5a5c9642f4dad79d01076ef88fe",
+      "sha": "d2915caed3ce4262a84fc171a26f6bd98e8ab637",
+      "commit": "536c511cc73f4367436ab8277ef669403f11c255",
+      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/interface-skills.test.mjs",
+      "baselineSha": "132a5b6a986c52c5a087602fa8cd8935ca63b68b",
+      "sha": "f875869a8e15ea2767c58e53ee0c02d82b87393d",
+      "commit": "536c511cc73f4367436ab8277ef669403f11c255",
+      "reason": "Los dos casos de B0 (casilla de 44 px y Enter guarda) esperan el fin observable del guardado en vez de 500 ms fijos; setup() espera el render en vez de 250 ms fijos.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/ui.test.mjs",
+      "baselineSha": "64cef6e6b0d0e4e34e25886be58de1f701ede1d0",
+      "sha": "e6b5b18c8e97dc753199f3020549fdeb624ee9be",
+      "commit": "536c511cc73f4367436ab8277ef669403f11c255",
+      "reason": "El caso de B0 (resumen en singular) espera que cada casilla termine su guardado y que el diálogo de cierre se cierre, en vez de 500 ms fijos; setup() espera el render.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+    },
+    {
+      "path": "prototypes/frontend-v5/tests/viewport.test.mjs",
+      "baselineSha": "5955275a40e764d0cf0bc357d6390e3529822dd9",
+      "sha": "b4790fd024dd7c211ca702bea50778ab5aa61d4d",
+      "commit": "536c511cc73f4367436ab8277ef669403f11c255",
+      "reason": "setup() espera a que la app termine de cargar (220 ms de adaptador) en vez de 250 ms fijos. Sin cambios en nombres ni expectativas.",
+      "approval": "Dueño de producto, 08/11/2026: instrucción «haz los fixes y re audita» sobre el hallazgo W1/B0 de la revisión."
+    }
   ]
 }

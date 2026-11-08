@@ -13,6 +13,7 @@ ROOT = DOCS.parents[1]
 SOURCE_SHA = '0f534df9bd5b012b4ec21c202a055e1e913bcab5'
 SOURCE_TREE = '3003fe5b2b5dd7d7620564a1ec1e75df510ca06a'
 DOC_ONLY_EXCEPTIONS = {'README.md', 'prototypes/frontend-v5/docs/MIGRACION_REACT.md'}
+APPROVED_DELTA_FIELDS = {'path', 'baselineSha', 'sha', 'commit', 'reason', 'approval'}
 
 TASK_ORDER = ('0', '1A', '1B', '2A', '2B', '3A', '4A', '4B', '5A', '6A', '7A', '7B')
 TEST_CREATION_TASKS = {
@@ -87,6 +88,23 @@ def check():
     blobs = manifest['blobs']
     if len(blobs) != 83 or len({x['path'] for x in blobs}) != 83:
         errors.append('Baseline must contain 83 distinct blob paths.')
+    # Approved deltas: test-harness-only changes accepted by the owner (for example a fixed sleep
+    # replaced by a wait on the same observable condition). Product code and assets never qualify,
+    # and the requirement identities (test names) must stay the same; that is checked below.
+    baseline_sha = {x['path']: x['sha'] for x in blobs}
+    deltas = {}
+    for delta in manifest.get('approvedDeltas', []):
+        rel = delta.get('path', '')
+        if set(delta) != APPROVED_DELTA_FIELDS or not all(isinstance(delta[k], str) and delta[k].strip() for k in APPROVED_DELTA_FIELDS):
+            errors.append(f'Approved delta needs exactly {sorted(APPROVED_DELTA_FIELDS)}: {rel}')
+        elif not (rel.startswith('prototypes/frontend-v5/tests/') and rel.endswith('.test.mjs')):
+            errors.append(f'Approved delta outside v5 test files: {rel}')
+        elif baseline_sha.get(rel) != delta['baselineSha']:
+            errors.append(f'Approved delta does not start from the baseline blob: {rel}')
+        elif rel in deltas:
+            errors.append(f'Duplicate approved delta: {rel}')
+        else:
+            deltas[rel] = delta
     for blob in blobs:
         rel = blob['path']
         path = (ROOT / rel).resolve()
@@ -95,7 +113,7 @@ def check():
             continue
         data = path.read_bytes()
         sha = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
-        if rel not in DOC_ONLY_EXCEPTIONS and sha != blob['sha']:
+        if rel not in DOC_ONLY_EXCEPTIONS and sha != blob['sha'] and not (rel in deltas and sha == deltas[rel]['sha']):
             errors.append(f'Original product/test/asset changed: {rel}')
     if len(matrix) != 212 or len({r['requirementId'] for r in matrix}) != 212:
         errors.append('Expected exactly 212 distinct requirement IDs.')

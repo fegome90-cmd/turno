@@ -29,7 +29,7 @@ La [investigación React del 08/11/2026](REACT_RESEARCH.md) contrasta las versio
 | Playwright | PASS solo descubrimiento de 3 casos | Ningún motor ejecutado |
 | Auditoría de dependencias runtime | PASS de advisories, 0 | No equivale a auditoría completa |
 | Auditoría total del fixture | **FAIL, 10 moderadas dev**, 0 altas/críticas | Riesgo pendiente |
-| Contratos | PASS estructural, 40 tests | Detector de metadatos; no garantía de comportamiento |
+| Contratos | PASS estructural, 40 tests en esta preparación (la versión publicada del checker tiene 79; ver [G0-RECORD](phase-0/G0-RECORD.md)) | Detector de metadatos; no garantía de comportamiento |
 | Navegador, visual, dispositivo/AT real | **BLOCKED / no demostrado** | Sin QA visual ni navegador offline |
 | Paridad React y host/backend | **NOT RUN** | No hay producto v6 ni integración |
 
@@ -51,6 +51,16 @@ El último recorrido completo registrado falló en:
 2. [ui.test.mjs:152–156](../../prototypes/frontend-v5/tests/ui.test.mjs#L152-L156), `home summary uses singular pending copy and the start action when no shift is open`. Esperaba `Turno de día · 1 pendiente`, observó `Turno de día · 2 pendientes`.
 
 Ambos pasaron al repetirlos focalizados sin editar fuente. Dos esperas del adaptador de 220 ms frente a una pausa fija del test de 500 ms sugieren sensibilidad al scheduler, pero **no se demostró causalidad ni un arreglo**. No se modifican tests, timeouts ni expectativas para obtener verde. Resolver la discrepancia o acordar un rebaseline explícito antes de certificar G0. Las pruebas nuevas deben esperar condiciones observables con límites acotados.
+
+### Diagnóstico y corrección posterior (08/11/2026)
+
+Encargo separado aprobado por el dueño de producto. Commit `536c511cc73f4367436ab8277ef669403f11c255`, solo archivos de prueba de v5; nombres de prueba y expectativas sin cambios.
+
+- **Mecanismo.** Completar una tarea o guardar cuesta dos esperas del adaptador (guardar y recargar, 220 ms cada una): 440 ms o más frente a una pausa fija de 500 ms. En el resumen en singular, si la primera casilla sigue `busy` cuando llega la segunda, la app descarta ese cambio; eso produce exactamente «2 pendientes». `setup()` esperaba además 250 ms fijos una carga de 220 ms.
+- **Corrección.** Los casos de B0 y el de Enter guarda esperan el fin observable del guardado (casilla habilitada y marcada, aviso de guardado, diálogo cerrado). `setup()` de 7 archivos espera a que la app haya renderizado.
+- **Evidencia controlada.** Con el adaptador a 300 ms y la misma espera inicial en ambas versiones: pruebas anteriores 0/3, corregidas 3/3. A 220 ms reales: suite completa 212/212. Con CPU saturada (4 procesos), los dos casos anteriores pasaron 6/6: la carga de CPU sola no reproduce el fallo.
+- **Riesgo residual medido.** Con el adaptador a 300 ms fallan 75/212 pruebas por otras esperas fijas. No se cambiaron aquí; queda como tarea aparte.
+- **Manifiesto.** Los 7 blobs nuevos constan en `approvedDeltas` de [baseline-files.json](baseline-files.json) con blob de origen, blob nuevo, commit, motivo y aprobación; `check_docs.py` solo admite deltas en `tests/*.test.mjs` de v5 que partan del blob de referencia.
 
 ## Herramientas comprobadas en el fixture
 
