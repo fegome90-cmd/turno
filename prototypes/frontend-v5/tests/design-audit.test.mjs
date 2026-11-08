@@ -57,7 +57,7 @@ test('high priority is text plus a decorative icon in both tree and Agenda',asyn
  const a=await setup();await a.click('[data-action="open-shift"]');await a.click('[data-action="bed:bed-2"]');
  const row=a.q('#task-tree [data-action="task:task-4"]');
  assert.equal(row.querySelector('.priority-badge').textContent,'Prioridad Alta');
- assert.equal(row.querySelector('.priority-badge img').getAttribute('aria-hidden'),'true');
+ assert.equal(row.querySelector('.priority-badge .icon').getAttribute('aria-hidden'),'true');
  assert.equal(a.q('#task-tree [data-action="task:task-1"] .priority-badge'),null);
  await a.click('[data-action="tab-agenda"]');
  assert.equal(a.q('.agenda [data-action="task:task-4"] .priority-badge').textContent,'Prioridad Alta');

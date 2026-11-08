@@ -43,7 +43,7 @@ await click('[data-action="close-inspector"]');fill('#body','Borrador de prueba 
 await click('[data-action="toggle-inspector"]');assert.equal(q('#modal #date').getAttribute('aria-invalid'),'true');
 fill('#date','07/11/2026');assert.equal(q('#date').hasAttribute('aria-invalid'),false);
 await click('[data-action="close-inspector"]');await submit();assert.match(q('#save-feedback').textContent,/Guardado/);
-await click('[data-action="demo"]');await click('[data-action="simulate-conflict"]');
+await click('[data-action="more"]');await click('#more-options [data-action="demo"]');await click('[data-action="simulate-conflict"]');
 await click('[data-action="close-shift"]');await click('[data-action="confirm-close"]');await pause(500);
 assert.match(q('#close-error').textContent,/Cerrar y archivar/);
 assert.doesNotMatch(q('#close-error').textContent,/guardar|borrador/i);

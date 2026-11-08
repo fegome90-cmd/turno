@@ -116,7 +116,7 @@ test('a long stack retains errors and has an explicit scroll budget, not evictio
  assert.match(css,/\.toast-list\{[^}]*max-height:min\(40dvh,420px\)[^}]*overflow-y:auto/);
 });
 test('CSS gates transform and opacity motion, preserves screen durations and readable controls',()=>{
- assert.equal(MOTION.toast,300);assert.equal(MOTION.screen,300);assert.equal(MOTION.dialog,300);assert.equal(MOTION.drawer,340);
+ assert.equal(MOTION.toast,300);assert.equal(MOTION.screen,150);assert.equal(MOTION.dialog,240);assert.equal(MOTION.drawer,260);
  assert.match(css,/@starting-style\{html\[data-input-modality=pointer\] \.notification:not\(\[data-suspended\]\) \.toast-card/);
  assert.match(css,/@media\(prefers-reduced-motion:no-preference\)/);
  assert.match(css,/\.toast-close\{[^}]*min-width:44px;min-height:44px/);

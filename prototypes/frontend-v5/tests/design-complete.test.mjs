@@ -147,8 +147,9 @@ test('complete CSS parses with no repeated selector in the same conditional cont
    if(rule.cssRules)visit(rule.cssRules,context+'|'+(rule.conditionText||rule.cssText.split('{')[0]));}
  }
  visit(sheet.cssRules);assert.ok(count>250);
- assert.match(css,/:root\[data-theme=dark\] \.nav-item.selected \.icon,:root\[data-theme=dark\] \.primary \.icon\{filter:none\}/);
- assert.match(css,/\.nav-item.selected \.icon,\.primary \.icon\{filter:invert\(1\)\}/);
+ assert.match(css,/\.icon\{[^}]*background-color:currentColor/);
+ assert.match(css,/\.nav-item\.selected\{background:var\(--solid\);color:var\(--on-solid\)\}/);
+ assert.match(css,/button\.primary\{background:var\(--solid\);color:var\(--on-solid\)/);
  assert.match(css,/dialog\{[^}]*background:var\(--canvas\)/);
 });
 test('dark mode survives failed save, retry, archive confirmation and read-only task controls',async()=>{

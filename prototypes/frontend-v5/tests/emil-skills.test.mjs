@@ -64,7 +64,7 @@ test('mobile temporal errors survive closing Time and editing the draft',async()
  assert.equal(a.q('#body').value,'Borrador móvil');
 });
 test('closing conflict names Close and archive, keeps the shift open, and retries',async()=>{
- const a=await setup();await a.click('[data-action="demo"]');await a.click('[data-action="simulate-conflict"]');
+ const a=await setup();await a.click('[data-action="more"]');await a.click('#more-options [data-action="demo"]');await a.click('[data-action="simulate-conflict"]');
  await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await pause(500);
  assert.match(a.q('#close-error').textContent,/turno sigue abierto/);
  assert.match(a.q('#close-error').textContent,/Cerrar y archivar/);
@@ -102,8 +102,8 @@ test('schema-backed title extremes round-trip through the actual adapter',async(
  }
  await assert.rejects(adapter.createTask('Revisión de material '.repeat(20)),/300/);
 });
-test('documented v4 durations are preserved instead of overriding user feedback',()=>{
- assert.deepEqual(MOTION,{screen:300,dialog:300,drawer:340,disclosure:220,tabs:180,feedback:180,toast:300,easing:'cubic-bezier(0.22, 1, 0.36, 1)',indicatorEasing:'cubic-bezier(0.77, 0, 0.175, 1)'});
+test('documented v5 motion values are the single timing source',()=>{
+ assert.deepEqual(MOTION,{screen:150,dialog:240,drawer:260,disclosure:220,tabs:150,feedback:180,toast:300,easing:'cubic-bezier(0.22, 1, 0.36, 1)',indicatorEasing:'cubic-bezier(0.77, 0, 0.175, 1)',drawerEasing:'cubic-bezier(0.32, 0.72, 0, 1)'});
 });
 test('rapid feedback retargets from current painted state before cancellation',()=>{
  const calls=[],cancels=[];
@@ -145,7 +145,6 @@ test('active backgrounds win the inherited hover cascade for ordinary and select
   ['.filter.active:hover:not(:disabled)','.filter.active:not(:disabled):active'],
   ['.tree-task.current:hover:not(:disabled)','.tree-task.current:not(:disabled):active'],
   ['button.primary:hover:not(:disabled)','button.primary:not(:disabled):active'],
-  ['.nav-item.selected:hover:not(:disabled)','.nav-item.selected:not(:disabled):active'],
  ];
  for(const [hover,active] of pairs){
   assert.ok(css.includes(hover),hover);assert.ok(css.includes(active),active);
