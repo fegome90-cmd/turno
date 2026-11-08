@@ -8,7 +8,7 @@
 
 **Tech Stack:** React 19, TypeScript, Vite, `@base-ui/react`, zustand, clsx, Sonner, lucide-react, vite-plugin-singlefile, Vitest, Testing Library y Playwright. Versiones exactas y compatibilidad se fijan en la fase 1; no se asumen instaladas. Tema de sesión mediante proveedor propio; `motion/react` solo tras justificar una necesidad que CSS y Base UI no cubran.
 
-**Corte React 08/11/2026:** leer [investigación y gates](REACT_RESEARCH.md). Conjunto propuesto para revalidar en 1A: React/React DOM 19.3.1, Base UI 1.9.0, Vite 8.3.6, plugin-react 6.2.1 y TypeScript 6.0.3 con typescript-eslint; ya ensayado solo en el fixture de PREFLIGHT. No está instalado en producto. Compiler Babel 1.0.0 es opcional y posterior; el port Oxc experimental no forma parte de la base. No se añade servidor/RSC ni persistencia.
+**Corte React 08/11/2026:** leer [investigación y gates](REACT_RESEARCH.md). Conjunto propuesto para revalidar en 1A: React/React DOM 19.3.1, Base UI 1.9.0, Vite 8.3.6, plugin-react 6.2.1 y TypeScript 6.0.3; lint con oxlint (D10); ya ensayado solo en el fixture de PREFLIGHT. No está instalado en producto. Compiler Babel 1.0.0 es opcional y posterior; el port Oxc experimental no forma parte de la base. No se añade servidor/RSC ni persistencia.
 
 **Spec:** `prototypes/frontend-v5/docs/MIGRACION_REACT.md` en [HEAD 0f534df](https://github.com/fegome90-cmd/turno/blob/0f534df9bd5b012b4ec21c202a055e1e913bcab5/prototypes/frontend-v5/docs/MIGRACION_REACT.md), contrastado con `turno-v6-plan-standalone.html` de referencia y con el código vigente. Las precisiones D1–D9 de la sección 2 fueron aceptadas por el dueño el 08/11/2026 ([ACCEPTANCE](phase-0/ACCEPTANCE.md)); el plan fue firmado por el dueño el 08/11/2026 (G0 aprobado; ver [G0-RECORD](phase-0/G0-RECORD.md)).
 
@@ -56,7 +56,7 @@ El HTML adjunto y el MD coinciden en ocho fases y stack. El HTML es un resumen d
 
 React 19, TypeScript, Vite, Base UI, nueva carpeta, separación de v5, no router de URL, datos de demo y fases pequeñas. Identidad visual del PR #2 con las correcciones integradas de PR #1. No rediseñar ni cambiar textos como efecto de adoptar una librería. Excepción aceptada (D7): los grupos de tareas pasan de «Cama» a «Lista» en la v6 ([glosario](GLOSARIO.md)); es el único cambio de texto. La revisión de identidad visual (D8) ocurre después de la migración, no durante.
 
-### Precisiones aceptadas por el dueño (D1–D9, 08/11/2026)
+### Precisiones aceptadas por el dueño (D1–D10, 08/11/2026)
 
 1. **Tema:** proveedor de sesión propio basado en `theme.mjs`, con `data-theme` y `data-theme-preference`. next-themes guarda preferencias por defecto; no usarlo así. Si se quiere next-themes, demostrar antes que no escribe almacenamiento y conserva exactamente el contrato. No abrir un proyecto de persistencia.
 2. **Más opciones:** Popover/disclosure no modal, no Menu cuando contiene el selector de tema. Debe permitir Tab fuera, cerrar por click externo/Escape y conservar el destino del click; sin trampa de foco ni `role=menu` impropio.
@@ -67,6 +67,7 @@ React 19, TypeScript, Vite, Base UI, nueva carpeta, separación de v5, no router
 7. **Producto y vocabulario (D7, aceptada 08/11/2026):** Turno es un gestor de tareas general para trabajos por turnos; enfermería es un caso de uso. La v6 usa «Lista» en lugar de «Cama» en interfaz y pruebas; el resto del vocabulario de v5 queda congelado y pendiente de validación de dominio.
 8. **Identidad visual (D8, aceptada 08/11/2026):** dirección de arte, paleta y tipografía aplican, en una fase de identidad posterior a 7B con su propio encargo y criterio de cierre. Las fases 0–7B mantienen la identidad del PR #2 sin rediseño.
 9. **Movimiento (D9, aceptada 08/11/2026):** la v6 copia el movimiento de v5 (ver 6A); no se añaden animaciones durante la migración.
+10. **Revisor de código (D10, aceptada 08/11/2026):** el lint usa oxlint 1.92.0 en lugar de ESLint/typescript-eslint. Motivo: con el lock de 1A, la cadena ESLint conserva 10 moderadas de desarrollo (minimatch <11.0.1, GHSA-g3hv-75wg-m249) sin parche en los rangos de sus consumidores; el mismo conjunto con oxlint audita 0 total y 0 runtime. No es override ni aceptación de riesgo. oxlint no es el port Oxc experimental de Compiler, que sigue fuera.
 
 Alternativas consideradas: migración en la carpeta v5 (descartada por pérdida de referencia y colisiones), mezcla progresiva React/vanilla en un mismo DOM (descartada por doble autoridad sobre foco e historial), nueva v6 aislada (recomendada y ya prevista). No se vuelve a elegir framework ni Base UI.
 
@@ -145,7 +146,7 @@ Todos corren desde `prototypes/frontend-v6`. `vitest.config.ts` separa proyectos
 |---|---|
 | `dev` | `vite --host 127.0.0.1 --port 4176` |
 | `typecheck` | `tsc --noEmit -p tsconfig.json` |
-| `lint` | `eslint src tests scripts *.config.ts` |
+| `lint` | `oxlint -c .oxlintrc.json --deny-warnings src tests scripts` |
 | `test:unit` | `vitest run --project unit --maxWorkers=1 --no-file-parallelism` |
 | `test:component` | `vitest run --project component --maxWorkers=1 --no-file-parallelism` |
 | `test:e2e` | `playwright test --project=chromium --workers=1` |
@@ -158,7 +159,7 @@ Todos corren desde `prototypes/frontend-v6`. `vitest.config.ts` separa proyectos
 
 `tsconfig.json` incluye src, tests y configs con `strict: true`, `noEmit: true`, JSX React, bundler resolution y librerías DOM/ES pertinentes; no excluir tests para ocultar errores de tipos. Vite singlefile entrega `dist/preview.html`: usar `preview.html` como entrada Rollup o renombrar salida explícitamente en build y comprobar el nombre en test, no asumir que index.html se renombra solo. Playwright webServer ejecuta el build/preview configurado a4176 y usa reuseExistingServer=false para no probar un proceso ajeno.
 
-Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugin-react, vite-plugin-singlefile, Vitest, jsdom, @testing-library/react, @testing-library/user-event, @testing-library/jest-dom, @playwright/test, @axe-core/playwright, ESLint, @eslint/js, typescript-eslint, eslint-plugin-react-hooks, @types/react, @types/react-dom y @types/node. Crear `eslint.config.mjs` con reglas recomendadas TypeScript/React Hooks y sin ignorar errores de hooks. Verificar compatibilidad oficial de todas las versiones y engines antes de fijarlas y contrastar [el corte actual](REACT_RESEARCH.md). React 19.3.1 y Base UI 1.9.0 se instalaron conjuntamente solo en el fixture de PREFLIGHT, no en producto; su paridad no se presume. TypeScript 7.0.2 queda fuera del soporte publicado de typescript-eslint; mantener la recomendación 6.0.3 hasta revisar el conjunto. Fijar también Node probado en `.node-version` y `engines`: el fixture configuró el rango de engines >=24.15.0 <25 por jsdom y demás herramientas; la versión ejecutada fue 24.22.1; el mínimo de Vite/plugin no acredita todo el conjunto. Vite transpila, no comprueba tipos. Compiler no se activa en el bootstrap.
+Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugin-react, vite-plugin-singlefile, Vitest, jsdom, @testing-library/react, @testing-library/user-event, @testing-library/jest-dom, @playwright/test, @axe-core/playwright, oxlint, @types/react, @types/react-dom y @types/node. Crear `.oxlintrc.json` con plugins `typescript`, `react` e `import`, categoría `correctness` como error y `react/rules-of-hooks`, `react/exhaustive-deps` y `typescript/no-explicit-any` como error (D10); sin ignorar errores de hooks. Verificar compatibilidad oficial de todas las versiones y engines antes de fijarlas y contrastar [el corte actual](REACT_RESEARCH.md). React 19.3.1 y Base UI 1.9.0 se instalaron conjuntamente solo en el fixture de PREFLIGHT, no en producto; su paridad no se presume. Mantener TypeScript 6.0.3, versión ensayada en el fixture; pasar a 7.x requiere revisión aparte. Fijar también Node probado en `.node-version` y `engines`: el fixture configuró el rango de engines >=24.15.0 <25 por jsdom y demás herramientas; la versión ejecutada fue 24.22.1; el mínimo de Vite/plugin no acredita todo el conjunto. Vite transpila, no comprueba tipos. Compiler no se activa en el bootstrap.
 
 `check-parity` falla si falta una de las212 filas, hay ID duplicado, no existe destino/testcase por requirementId, falta evidencia del SHA final, una fila sigue planned/blocked al cierre o una sustitución no tiene justificación/revisión. La estructura inicial es planned; no puede pasar antes de implementar y reunir evidencia. `check-portable` busca referencias externas/imports no embebidos y ejecuta smoke en navegador sin red; una mera regex no acredita ejecución.
 
@@ -192,7 +193,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 **Objetivo:** una pantalla Inicio mínima, accesible y offline que preserve identidad y tema de sesión.
 
-**Archivos:** crear `package.json`, lockfile, `index.html`, `vite.config.ts`, `tsconfig*.json`, `vitest.config.ts`, `playwright.config.ts`, `eslint.config.mjs`, `.node-version`, `src/main.tsx`, `src/app/AppProviders.tsx`, `src/components/Home.tsx`, `src/appearance/theme-provider.tsx`, `src/styles/{tokens,global}.css`, `src/domain/home-subtitle.ts`, assets/licencias y scripts portables.
+**Archivos:** crear `package.json`, lockfile, `index.html`, `vite.config.ts`, `tsconfig*.json`, `vitest.config.ts`, `playwright.config.ts`, `.oxlintrc.json`, `.node-version`, `src/main.tsx`, `src/app/AppProviders.tsx`, `src/components/Home.tsx`, `src/appearance/theme-provider.tsx`, `src/styles/{tokens,global}.css`, `src/domain/home-subtitle.ts`, assets/licencias y scripts portables.
 
 **Interfaces:** `ThemeProvider({children})` expone `useTheme(): {preference: 'system'|'light'|'dark'; effective: 'light'|'dark'; setPreference(value): void}`. `chooseHomeSubtitle(random?: () => number): string` conserva exactamente `¿Qué haremos hoy?`, `¿Por dónde empezamos?`, `¿Qué tienes en mente?` y `¿En qué te ayudo hoy?`. `Home({preferredName, subtitle, summary, onOpenShift})` no vuelve a sortear.
 
