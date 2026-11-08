@@ -68,7 +68,7 @@ Se aplica el método Superpowers al alcance solicitado: diseño y decisiones ant
 
 **Dueño:** ejecutor prepara; usuario decide; orquestador registra. **Produce:** ADR, ACCEPTANCE y HOST-BOUNDARY revisados, y disposición de riesgos. **Test/oráculo:** cada precisión tiene decisión, evidencia de aceptación y alcance; lo pendiente sigue marcado pendiente.
 
-- [ ] Revisar las seis decisiones D1–D6 de ACCEPTANCE, sin reabrir stack, carpeta aislada o contrato sin persistencia ya fijados.
+- [ ] Revisar las decisiones D1–D9 de ACCEPTANCE (D7–D9 añadidas el 08/11/2026), sin reabrir stack, carpeta aislada o contrato sin persistencia ya fijados.
 - [ ] Separar producto vanilla, fixture y propuesta. Las 10 moderadas dev del fixture siguen FAIL histórico; resolverlas antes de reutilizar tooling en el alcance afectado; registrar aceptación contextual conserva FAIL/STOP en los gates de producto. Cero runtime no aprueba la auditoría total ni demuestra seguridad de aplicación.
 - [ ] Identificar una vía de navegador permitida y su alcance antes de 1A. El bloqueo histórico no se declara resuelto por tener Playwright instalado ni se elude por otra ruta.
 - [ ] Documentar fronteras por lectura; si no se inspeccionó backend/host, dejar contrato real NOT RUN. Su disponibilidad no bloquea la demo aislada.

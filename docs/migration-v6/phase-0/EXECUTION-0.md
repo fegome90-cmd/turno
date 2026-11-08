@@ -80,4 +80,4 @@ Inconsistencias (decisiones ya tomadas por el dueño que no llegaron a todos los
 3. ADR-001 solo cubre D1–D6.
 4. FASE_0.md:71 dice «las seis decisiones D1–D6».
 
-No se resolvieron decisiones en esta tarea. Corresponde al orquestador incorporar lo ya decidido a esos documentos antes de las revisiones de especificación y calidad (tarea 0.4).
+No se resolvieron decisiones en esta tarea. Corrección posterior del orquestador: las cuatro se incorporaron a PLAN.md (sección 2, puntos 5 y 7–9, y fase posterior de identidad), ADR-001 y FASE_0, sin decidir nada nuevo.

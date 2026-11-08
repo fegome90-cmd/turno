@@ -54,7 +54,7 @@ El HTML adjunto y el MD coinciden en ocho fases y stack. El HTML es un resumen d
 
 ### Se conserva lo ya elegido
 
-React 19, TypeScript, Vite, Base UI, nueva carpeta, separación de v5, no router de URL, datos de demo y fases pequeñas. Identidad visual del PR #2 con las correcciones integradas de PR #1. No rediseñar ni cambiar textos como efecto de adoptar una librería.
+React 19, TypeScript, Vite, Base UI, nueva carpeta, separación de v5, no router de URL, datos de demo y fases pequeñas. Identidad visual del PR #2 con las correcciones integradas de PR #1. No rediseñar ni cambiar textos como efecto de adoptar una librería. Excepción aceptada (D7): los grupos de tareas pasan de «Cama» a «Lista» en la v6 ([glosario](GLOSARIO.md)); es el único cambio de texto. La revisión de identidad visual (D8) ocurre después de la migración, no durante.
 
 ### Precisiones recomendadas para aceptar con este plan
 
@@ -62,8 +62,11 @@ React 19, TypeScript, Vite, Base UI, nueva carpeta, separación de v5, no router
 2. **Más opciones:** Popover/disclosure no modal, no Menu cuando contiene el selector de tema. Debe permitir Tab fuera, cerrar por click externo/Escape y conservar el destino del click; sin trampa de foco ni `role=menu` impropio.
 3. **Validación:** `Field`/`Form` presentan estado y asociaciones accesibles. `validation.ts` y el adaptador siguen validando datos. No sustituir validación de dominio por la de una librería de controles.
 4. **Avisos:** Sonner es el candidato previsto, condicionado a paridad. Un adaptador público puede completar lo que falte. Una regresión no se cierra diciendo «documentada»: bloquea la fase hasta corregir o acordar explícitamente una excepción.
-5. **Pruebas de navegador:** Chromium es mínimo de la fase 7; Firefox/WebKit y dispositivos/AT tienen resultados separados. Si no hay infraestructura, declarar BLOCKED; no eliminar escenarios para conseguir verde.
+5. **Pruebas de navegador:** Chromium es mínimo de la fase 7; Firefox/WebKit y dispositivos/AT tienen resultados separados. Si no hay infraestructura, declarar BLOCKED; no eliminar escenarios para conseguir verde. Además (D5): revisión de diseño local del dueño con Paper e Impeccable durante las fases 3A–4B; se registra aparte y no cuenta como evidencia de cierre.
 6. **Host:** preparar un límite de adaptación, no conectar ChatGPT/backend durante esta migración. El empaquetado offline y la integración real del widget son entregables distintos. Una revisión de contrato temprana evita decisiones incompatibles, pero no certifica host.
+7. **Producto y vocabulario (D7, aceptada 08/11/2026):** Turno es un gestor de tareas general para trabajos por turnos; enfermería es un caso de uso. La v6 usa «Lista» en lugar de «Cama» en interfaz y pruebas; el resto del vocabulario de v5 queda congelado y pendiente de validación de dominio.
+8. **Identidad visual (D8, aceptada 08/11/2026):** dirección de arte, paleta y tipografía aplican, en una fase de identidad posterior a 7B con su propio encargo y criterio de cierre. Las fases 0–7B mantienen la identidad del PR #2 sin rediseño.
+9. **Movimiento (D9, aceptada 08/11/2026):** la v6 copia el movimiento de v5 (ver 6A); no se añaden animaciones durante la migración.
 
 Alternativas consideradas: migración en la carpeta v5 (descartada por pérdida de referencia y colisiones), mezcla progresiva React/vanilla en un mismo DOM (descartada por doble autoridad sobre foco e historial), nueva v6 aislada (recomendada y ya prevista). No se vuelve a elegir framework ni Base UI.
 
@@ -389,6 +392,10 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 - [ ] Entregar HTML autónomo, código/plan/matriz/informe y lista de límites, con revisión del usuario. Publicación de PR, merge o despliegue solo por instrucción específica; no cerrar el trabajo paralelo.
 
 **Gate G7B:** PASS únicamente con evidencia manual de las combinaciones exigidas. Un bloqueo explícito conserva G7B pendiente, nunca lo cierra. «Prototipo React comprobado localmente» solo si corresponde; nunca «Turno integrado» por esta migración. El gate de host H siguiente no se incluye en los PASS locales.
+
+### Fase posterior · Identidad visual (D8), fuera de esta migración
+
+Tras 7B y con un encargo propio: dirección de arte, paleta, tipografía y nombres neutros revisados para un gestor de tareas general. Usa las skills marcadas como aplicables en el [inventario de la auditoría](design-audit/INVENTORY_REVIEW.md) y la revisión local con Paper e Impeccable. Sus cambios se miden contra la v6 con paridad ya cerrada, no contra la v5.
 
 ## 6. Gate H de integración futura con el otro trabajo
 
