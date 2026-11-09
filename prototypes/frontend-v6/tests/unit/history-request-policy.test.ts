@@ -18,6 +18,9 @@ describe('G2B · offline request policy for the browser test', () => {
     expect(allowHistoryHarnessRequest('http://127.0.0.1:9999/other.html', http)).toBe(false);
     expect(allowHistoryHarnessRequest(http, file)).toBe(false);
   });
+  it('rejects same-origin blob URLs rather than treating their inherited origin as HTTP', () => {
+    expect(allowHistoryHarnessRequest('blob:http://127.0.0.1:4182/id', http)).toBe(false);
+  });
   it.each([file, http])('blocks external requests when the document is %s', (document) => {
     for (const url of ['https://example.invalid/script.js', 'http://127.0.0.1.evil.invalid:4182/', 'https://127.0.0.1:4182/', 'data:text/html,external', 'blob:https://example.invalid/id', 'not a URL']) {
       expect(allowHistoryHarnessRequest(url, document), url).toBe(false);
