@@ -1,0 +1,128 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism --reporter=default --reporter=json --outputFile=evidence/2B/final-component.results.json
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6
+
+ ✓ |component| tests/component/primitive-contract.test.tsx (32 tests) 2301ms
+     ✓ G1B-OVERLAY-05 · abrir y cerrar Dialog 20 veces durante la animación no deja capas huérfanas  486ms
+     ✓ EXTRA-LIFECYCLE-ASYNC · 20 ciclos con StrictMode, Drawer y Dialog abiertos: listeners al valor inicial y sin capas huérfanas  809ms
+ ✓ |component| tests/component/history-harness.test.tsx (4 tests) 827ms
+     ✓ cancel and failed save conserve draft; success continues the original Forward  399ms
+ ✓ |component| tests/component/history-lifecycle.test.tsx (1 test) 187ms
+stderr | tests/component/session-lifecycle.test.tsx > EXTRA-LIFECYCLE-ASYNC · arranque repetido > EXTRA-LIFECYCLE-ASYNC · 20 ciclos de montaje y desmontaje: sin nodos residuales y listeners de tema balanceados
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+
+stderr | tests/component/session-lifecycle.test.tsx > EXTRA-LIFECYCLE-ASYNC · arranque repetido > EXTRA-LIFECYCLE-ASYNC · 20 ciclos del arranque real: cada montaje suma una suscripción al notification-store y el desmontaje la libera
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+
+ ✓ |component| tests/component/session-lifecycle.test.tsx (2 tests) 95ms
+ ✓ |component| tests/component/theme-home.test.tsx (12 tests) 106ms
+stderr | tests/component/bootstrap.test.tsx > EXTRA-STRICTMODE-HOME · arranque real (startApp) > EXTRA-STRICTMODE-HOME · random se llama exactamente 1 vez y no se usa Math.random
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+
+stderr | tests/component/bootstrap.test.tsx > EXTRA-STRICTMODE-HOME · arranque real (startApp) > EXTRA-STRICTMODE-HOME · StrictMode activo: los efectos de ThemeProvider se ejecutan dos veces al montar
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+
+stderr | tests/component/bootstrap.test.tsx > EXTRA-STRICTMODE-HOME · arranque real (startApp) > EXTRA-STRICTMODE-HOME · desmontar y montar otra vez crea una sesión nueva
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+The current testing environment is not configured to support act(...)
+
+ ✓ |component| tests/component/bootstrap.test.tsx (4 tests) 41ms
+ ✓ |component| tests/component/temporal-field.test.tsx (2 tests) 44ms
+
+ Test Files  7 passed (7)
+      Tests  57 passed (57)
+   Start at  01:20:16
+   Duration  12.20s (transform 242ms, setup 779ms, import 933ms, tests 3.60s, environment 5.65s)
+
+JSON report written to /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6/evidence/2B/final-component.results.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

@@ -174,3 +174,10 @@ Nota de W5: el mock del módulo `notification-store` cuenta las suscripciones qu
 No se ejecutaron e2e ni `build` en este cierre: `dist/preview.html` no cambia porque `src/` no cambió. Los gates de la fase (SHA `ae271fd0…`) siguen siendo los de `evidence/2A/SHA256SUMS.txt` del paso 5. Esas pruebas no son de la fase y no se regeneraron.
 
 Estado de sin commit: los cambios de tests y evidencia quedan sin commit para el orquestador.
+
+
+## Reconciliación independiente y contractual, 09/11/2026
+
+La auditoría posterior de e0133a4 detectó 34 mutaciones del script histórico, no 31; sumada N32 (session.dispose) son 35/35 detectadas. Se conservan los logs originales y se corrige aquí la cifra de sus resúmenes. Las seis observaciones W1–W6 y S3 quedaron verificadas independientemente, con 74 unit/52 componentes en ese corte.
+
+La regresión final de fuente 72459f5 en Mac repite el dominio sin cambios desde 2A y obtiene 105 unit/57 componentes, 24/24 de historial técnico y 40/40 E2E en tres corridas; no se reetiqueta ese resultado como una ejecución de e013. El HTML de producto mantiene ae271fd0… y el harness final es f9826fc0…. La trazabilidad actual de 30 filas no visuales está en docs/parity-map.json dentro de frontend-v6, sin modificar el canon ni cerrar HISTORY. El cierre formal se emite sólo mediante los reportes estructurados y su checker final.
