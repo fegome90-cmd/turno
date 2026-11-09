@@ -27,6 +27,50 @@ test.afterEach(({page}) => {
 
 const index = (page: Page) => page.evaluate(() => window.history.state?.idx as number | undefined);
 const length = (page: Page) => page.evaluate(() => window.history.length);
+declare global {
+  interface Window {__historyDelivery: {held: boolean; pending: (() => void)[]; release(): void}}
+}
+async function delayedDelivery(page: Page) {
+  // Real browser traversal with deliberately delayed adapter delivery, to reproduce stale-event races.
+  // This is test-only transport instrumentation, not a replacement for history.go or product evidence.
+  await page.addInitScript(() => {
+    const add = window.addEventListener.bind(window);
+    const remove = window.removeEventListener.bind(window);
+    const wrappers = new Map<EventListenerOrEventListenerObject, EventListener>();
+    const active = new Set<EventListener>();
+    const delivery = {held: false, pending: [] as (() => void)[], release() {
+      this.held = false;
+      for (const callback of this.pending.splice(0)) callback();
+    }};
+    window.__historyDelivery = delivery;
+    window.addEventListener = ((type: string, listener: EventListenerOrEventListenerObject | null, options?: boolean | AddEventListenerOptions) => {
+      if (!listener) return;
+      if (type !== 'popstate') { add(type, listener, options); return; }
+      const wrapped: EventListener = (event) => {
+        const invoke = () => {
+          if (!active.has(wrapped)) return;
+          if (typeof listener === 'function') listener.call(window, event); else listener.handleEvent(event);
+        };
+        if (delivery.held) delivery.pending.push(invoke); else invoke();
+      };
+      wrappers.set(listener, wrapped); active.add(wrapped); add(type, wrapped, options);
+    }) as typeof window.addEventListener;
+    window.removeEventListener = ((type: string, listener: EventListenerOrEventListenerObject | null, options?: boolean | EventListenerOptions) => {
+      if (!listener) return;
+      const wrapped = wrappers.get(listener);
+      if (type === 'popstate' && wrapped) { active.delete(wrapped); wrappers.delete(listener); remove(type, wrapped, options); }
+      else remove(type, listener, options);
+    }) as typeof window.removeEventListener;
+  });
+  await page.reload();
+  await expect.poll(() => index(page)).toBe(0);
+}
+const holdDelivery = (page: Page) => page.evaluate(() => { window.__historyDelivery.held = true; });
+const releaseDelivery = (page: Page) => page.evaluate(() => { window.__historyDelivery.release(); });
+async function waitForHeldMove(page: Page, target: number) {
+  await expect.poll(() => index(page)).toBe(target);
+  await expect.poll(() => page.evaluate(() => window.__historyDelivery.pending.length)).toBeGreaterThan(0);
+}
 async function traverse(page: Page, delta: number) {
   // Wait for a real popstate, rather than asserting an unchanged route before traversal begins.
   await page.evaluate((move) => new Promise<void>((done) => {
@@ -166,6 +210,32 @@ for (const protocol of ['file', 'http'] as const) {
       expect(await length(page)).toBe(size + 2);
       await traverse(page, 1);
       expect(await page.evaluate(() => history.state)).toEqual({hostKey: 'later'});
+    });
+
+    test('new selection during approved replay survives delayed old popstate and branches from the visible source', async ({page}) => {
+      await delayedDelivery(page); await middle(page);
+      await page.getByRole('textbox', {name: 'Borrador'}).fill('A guardar');
+      await traverse(page, -1); await expect.poll(() => index(page)).toBe(1);
+      await page.getByRole('button', {name: 'Guardar y continuar'}).click();
+      await holdDelivery(page);
+      await page.getByRole('button', {name: 'Resolver éxito'}).click();
+      await waitForHeldMove(page, 0);
+      await page.getByRole('button', {name: 'Tarea 2', exact: true}).click();
+      await expect(page.getByTestId('route')).toHaveText('workspace:task-1');
+      await releaseDelivery(page);
+      await expect(page.getByTestId('route')).toHaveText('workspace:task-2');
+      await expect(page).toHaveTitle('Revisar insumos · Turno'); expect(await index(page)).toBe(2);
+      await traverse(page, -1); await expect(page).toHaveTitle('Tarea 1 · Turno');
+    });
+
+    test('new selection before user popstate delivery cannot be overwritten by the queued route', async ({page}) => {
+      await delayedDelivery(page); await middle(page); await holdDelivery(page);
+      await page.evaluate(() => history.go(-1)); await waitForHeldMove(page, 0);
+      await page.getByRole('button', {name: 'Tarea 2', exact: true}).click();
+      await waitForHeldMove(page, 1); await releaseDelivery(page);
+      await expect(page.getByTestId('route')).toHaveText('workspace:task-2');
+      await expect(page).toHaveTitle('Revisar insumos · Turno'); expect(await index(page)).toBe(2);
+      await traverse(page, -1); await expect(page).toHaveTitle('Tarea 1 · Turno');
     });
   });
 }
