@@ -1,0 +1,53 @@
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 2 failed | 18 skipped) 1519ms
+     × G1B-NOTIFY-01 · 30 avisos (15 estado y 15 errores): ninguno se expulsa y el presupuesto de desplazamiento es explícito 73ms
+     × G1B-NOTIFY-02 · repetir el mismo aviso suma en el contador y no crea otro elemento 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-01 · 30 avisos (15 estado y 15 errores): ninguno se expulsa y el presupuesto de desplazamiento es explícito
+AssertionError: expected  to have a length of 30 but got +0
+
+- Expected
++ Received
+
+- 30
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:237:56
+    235|     }
+    236|     expect(store.getState().items).toHaveLength(30);
+    237|     expect(document.querySelectorAll('[data-notice]')).toHaveLength(30…
+       |                                                        ^
+    238|     for (let i = 0; i < 15; i += 1) expect(document.body.textContent).…
+    239|     const css = fs.readFileSync(CSS_PATH, 'utf8');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-02 · repetir el mismo aviso suma en el contador y no crea otro elemento
+AssertionError: expected  to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:250:56
+    248|     expect(store.getState().items).toHaveLength(1);
+    249|     expect(store.getState().items[0].count).toBe(2);
+    250|     expect(document.querySelectorAll('[data-notice]')).toHaveLength(1);
+       |                                                        ^
+    251|     expect(document.querySelector('[data-notice]')?.textContent).toCon…
+    252|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 12 passed | 18 skipped (32)
+   Start at  01:49:09
+   Duration  2.69s (transform 176ms, setup 148ms, import 423ms, tests 1.52s, environment 469ms)
+

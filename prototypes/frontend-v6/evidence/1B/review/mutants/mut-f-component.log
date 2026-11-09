@@ -1,0 +1,33 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 1 failed) 2472ms
+     × G1B-NOTIFY-01 · 30 avisos (15 estado y 15 errores): ninguno se expulsa y el presupuesto de desplazamiento es explícito 16ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-01 · 30 avisos (15 estado y 15 errores): ninguno se expulsa y el presupuesto de desplazamiento es explícito
+AssertionError: expected [ { id: 'n11', …(3) }, …(19) ] to have a length of 30 but got 20
+
+- Expected
++ Received
+
+- 30
++ 20
+
+ ❯ tests/component/primitive-contract.test.tsx:238:36
+    236|       }
+    237|     });
+    238|     expect(store.getState().items).toHaveLength(30);
+       |                                    ^
+    239|     expect(document.querySelectorAll('[data-notice]')).toHaveLength(30…
+    240|     for (let i = 0; i < 15; i += 1) expect(document.body.textContent).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 47 passed (48)
+   Start at  02:01:35
+   Duration  4.91s (transform 168ms, setup 288ms, import 422ms, tests 2.64s, environment 1.20s)
+

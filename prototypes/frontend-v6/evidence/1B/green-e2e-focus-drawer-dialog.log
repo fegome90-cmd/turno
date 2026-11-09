@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Drawer → Dialog: Escape cierra solo el Dialog con foco en el control del Drawer; otro Escape cierra el Drawer y el foco vuelve al disparador (1.1s)
+
+
+  1) [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Drawer → Dialog: Escape cierra solo el Dialog con foco en el control del Drawer; otro Escape cierra el Drawer y el foco vuelve al disparador 
+
+    Error: Tab 4 dentro del Dialog
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      147 |       await page.keyboard.press('Tab');
+      148 |       const inDialog = await page.evaluate(() => Boolean(document.activeElement?.closest('[data-overlay-layer="create"]')));
+    > 149 |       expect(inDialog, `Tab ${i + 1} dentro del Dialog`).toBe(true);
+          |                                                          ^
+      150 |     }
+      151 |     await page.keyboard.press('Escape');
+      152 |     await expect(dialog).toHaveCount(0);
+        at /home/user/turno/prototypes/frontend-v6/tests/e2e/primitive-contract.spec.ts:149:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/primitive-contract-G1B-·-c-aa404-l-foco-vuelve-al-disparador-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/primitive-contract-G1B-·-c-aa404-l-foco-vuelve-al-disparador-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/primitive-contract-G1B-·-c-aa404-l-foco-vuelve-al-disparador-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/primitive-contract-G1B-·-c-aa404-l-foco-vuelve-al-disparador-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Drawer → Dialog: Escape cierra solo el Dialog con foco en el control del Drawer; otro Escape cierra el Drawer y el foco vuelve al disparador 

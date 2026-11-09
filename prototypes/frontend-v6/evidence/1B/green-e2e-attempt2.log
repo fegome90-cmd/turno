@@ -1,0 +1,61 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 [chromium] › tests/e2e/primitive-contract.spec.ts:70:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible (4.8s)
+
+
+  1) [chromium] › tests/e2e/primitive-contract.spec.ts:70:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible 
+
+    TimeoutError: locator.click: Timeout 4000ms exceeded.
+    Call log:
+      - waiting for getByRole('dialog', { name: 'Navegación' }).getByRole('button', { name: 'Más opciones' })
+        - locator resolved to <button tabindex="0" type="button" id="base-ui-_r_d_" aria-expanded="false" aria-haspopup="dialog" data-base-ui-click-trigger="" data-focus-key="open-more-drawer">Más opciones</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div aria-hidden="true" role="presentation" data-base-ui-inert=""></div> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div aria-hidden="true" role="presentation" data-base-ui-inert=""></div> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        8 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div aria-hidden="true" role="presentation" data-base-ui-inert=""></div> intercepts pointer events
+        - retrying click action
+          - waiting 500ms
+
+
+      72 |     const trigger = page.getByRole('button', {name: 'Abrir navegación'});
+      73 |     await trigger.click();
+    > 74 |     await page.getByRole('dialog', {name: 'Navegación'}).getByRole('button', {name: 'Más opciones'}).click();
+         |                                                                                                      ^
+      75 |     await expect(page.getByRole('dialog', {name: 'Más opciones'})).toBeVisible();
+      76 |     await page.keyboard.press('Escape');
+      77 |     await expect(page.getByRole('dialog', {name: 'Más opciones'})).toHaveCount(0);
+        at /home/user/turno/prototypes/frontend-v6/tests/e2e/primitive-contract.spec.ts:74:102
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/primitive-contract-G1B-·-c-f1639-vuelve-a-un-destino-visible-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/primitive-contract-G1B-·-c-f1639-vuelve-a-un-destino-visible-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/primitive-contract-G1B-·-c-f1639-vuelve-a-un-destino-visible-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/primitive-contract-G1B-·-c-f1639-vuelve-a-un-destino-visible-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/primitive-contract.spec.ts:70:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible 

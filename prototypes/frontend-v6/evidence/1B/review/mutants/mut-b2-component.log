@@ -1,0 +1,47 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 1 failed) 2445ms
+     × EXTRA-NATIVE-EDIT · el campo de Estimación conserva su nodo al cambiar el docking 699↔700 45ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-NATIVE-EDIT · un solo campo y sin duplicados en portales > EXTRA-NATIVE-EDIT · el campo de Estimación conserva su nodo al cambiar el docking 699↔700
+AssertionError: expected <input data-invalid …(9)></input> to be <input id="estimate" …(11)></input> // Object.is equality
+
+- Expected
++ Received
+
+@@ -1,13 +1,11 @@
+  <input
+-   aria-describedby="base-ui-_r_4o_"
++   aria-describedby="base-ui-_r_4s_"
+    aria-invalid="true"
+-   aria-labelledby="base-ui-_r_4k_"
++   aria-labelledby="base-ui-_r_4q_"
+    autocomplete="off"
+-   data-dirty=""
+    data-filled=""
+-   data-focused=""
+    data-invalid=""
+    id="estimate"
+    inputmode="numeric"
+    type="text"
+    value="1.5"
+
+ ❯ tests/component/primitive-contract.test.tsx:206:63
+    204|     await user.type(field, '1.5');
+    205|     fireEvent.click(screen.getByRole('button', {name: 'Alternar banda'…
+    206|     expect(screen.getByRole('textbox', {name: 'Estimación'})).toBe(fie…
+       |                                                               ^
+    207|     expect((field as HTMLInputElement).value).toBe('1.5');
+    208|     expect(screen.getByText('Estimación: usa minutos enteros entre 0 y…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 47 passed (48)
+   Start at  02:00:58
+   Duration  5.15s (transform 247ms, setup 316ms, import 516ms, tests 2.63s, environment 1.26s)
+

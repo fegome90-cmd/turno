@@ -1,0 +1,36 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+stderr | tests/component/bootstrap.test.tsx > EXTRA-STRICTMODE-HOME · arranque real (startApp) > EXTRA-STRICTMODE-HOME · StrictMode activo: los efectos de ThemeProvider se ejecutan dos veces al montar
+The current testing environment is not configured to support act(...)
+
+ ❯ |component| tests/component/bootstrap.test.tsx (4 tests | 1 failed) 47ms
+     × EXTRA-STRICTMODE-HOME · StrictMode activo: los efectos de ThemeProvider se ejecutan dos veces al montar 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/bootstrap.test.tsx > EXTRA-STRICTMODE-HOME · arranque real (startApp) > EXTRA-STRICTMODE-HOME · StrictMode activo: los efectos de ThemeProvider se ejecutan dos veces al montar
+AssertionError: expected 1 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 1
+
+ ❯ tests/component/bootstrap.test.tsx:74:25
+     72|     // Positivo antes de cero: el montaje real debe haber registrado e…
+     73|     expect(counts.adds).toBeGreaterThan(0);
+     74|     expect(counts.adds).toBe(2);
+       |                         ^
+     75|     expect(counts.removes).toBe(1);
+     76|     act(() => stop());
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 47 passed (48)
+   Start at  02:02:13
+   Duration  4.94s (transform 176ms, setup 309ms, import 430ms, tests 2.60s, environment 1.22s)
+

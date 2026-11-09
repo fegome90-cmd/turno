@@ -1,0 +1,13 @@
+npm ci exit 0
+audit-total exit 0
+audit-runtime exit 0
+typecheck exit 0
+lint exit 0
+test:unit exit 0
+test:component exit 0
+build exit 0
+portable exit 0
+bundle exit 0
+e2e run1 exit 0
+e2e run2 exit 0
+e2e run3 exit 0

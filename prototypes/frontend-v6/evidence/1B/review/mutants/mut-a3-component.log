@@ -1,0 +1,47 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 2 failed) 2223ms
+     × G1B-TEMPORAL-RAW · "1441" queda visible tal cual y muestra el error v5 31ms
+     × G1B-TEMPORAL-RAW · 999 y 1000 no se acotan (sin clamp) y 1441 es error 30ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-TEMPORAL-RAW · TemporalField (Field + input text) con la regla v5 > G1B-TEMPORAL-RAW · "1441" queda visible tal cual y muestra el error v5
+AssertionError: expected '1440' to be '1441' // Object.is equality
+
+Expected: "1441"
+Received: "1440"
+
+ ❯ tests/component/primitive-contract.test.tsx:27:27
+     25|       const input = screen.getByRole('textbox', {name: 'Estimación'}) …
+     26|       await user.type(input, raw);
+     27|       expect(input.value).toBe(raw);
+       |                           ^
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-TEMPORAL-RAW · TemporalField (Field + input text) con la regla v5 > G1B-TEMPORAL-RAW · 999 y 1000 no se acotan (sin clamp) y 1441 es error
+AssertionError: expected '1440' to be '9999' // Object.is equality
+
+Expected: "9999"
+Received: "1440"
+
+ ❯ tests/component/primitive-contract.test.tsx:53:25
+     51|     expect(input.value).toBe('999');
+     52|     await user.type(input, '9');
+     53|     expect(input.value).toBe('9999');
+       |                         ^
+     54|     await user.clear(input);
+     55|     await user.type(input, '1000');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  2 failed | 46 passed (48)
+   Start at  02:00:42
+   Duration  4.54s (transform 208ms, setup 291ms, import 444ms, tests 2.35s, environment 1.12s)
+

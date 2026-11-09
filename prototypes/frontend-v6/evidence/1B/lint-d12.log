@@ -1,0 +1,5 @@
+
+> turno-frontend-v6@0.1.0-phase1a lint
+> oxlint -c .oxlintrc.json --deny-warnings src tests scripts
+
+src/notifications/NotificationStack.tsx:65:7: error react(set-state-in-effect): Calling setState synchronously within an effect can trigger cascading renders help: Effects should synchronize React with external systems. Calling setState synchronously inside an effect starts another render and is usually unnecessary. Derive the value during render, initialize state directly, or update it from the event that caused the change. Use an effect only when synchronizing with an external system.

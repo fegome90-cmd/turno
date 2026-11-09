@@ -1,0 +1,286 @@
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (14 tests | 7 failed) 1016ms
+     × G1B-NUMBERFIELD-RAW · "abc" se conserva exacto al escribir y al salir del campo 657ms
+     × G1B-NUMBERFIELD-RAW · "1.5" se conserva exacto al escribir y al salir del campo 42ms
+     × G1B-NUMBERFIELD-RAW · "1441" se conserva exacto al escribir y al salir del campo 32ms
+     × G1B-TEMPORAL-RAW · "abc" queda visible tal cual y muestra el error v5 43ms
+     × G1B-TEMPORAL-RAW · "-1" queda visible tal cual y muestra el error v5 23ms
+     × G1B-TEMPORAL-RAW · "1.5" queda visible tal cual y muestra el error v5 29ms
+     × G1B-TEMPORAL-RAW · "1441" queda visible tal cual y muestra el error v5 32ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "abc" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '' to be 'abc' // Object.is equality
+
+- Expected
++ Received
+
+- abc
+
+ ❯ tests/component/primitive-contract.test.tsx:27:27
+     25|       await user.clear(input);
+     26|       await user.type(input, raw);
+     27|       expect(input.value).toBe(raw);
+       |                           ^
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "1.5" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '15' to be '1.5' // Object.is equality
+
+Expected: "1.5"
+Received: "15"
+
+ ❯ tests/component/primitive-contract.test.tsx:29:27
+     27|       expect(input.value).toBe(raw);
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+       |                           ^
+     30|     });
+     31|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "1441" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '1.441' to be '1441' // Object.is equality
+
+Expected: "1441"
+Received: "1.441"
+
+ ❯ tests/component/primitive-contract.test.tsx:29:27
+     27|       expect(input.value).toBe(raw);
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+       |                           ^
+     30|     });
+     31|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-TEMPORAL-RAW · TemporalField (Field + input text) con la regla v5 > G1B-TEMPORAL-RAW · "abc" queda visible tal cual y muestra el error v5
+TestingLibraryElementError: Unable to find an element with the text: Estimación: usa minutos enteros entre 0 y 1440.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"temporal-field"[39m
+      [33mdata-dirty[39m=[32m""[39m
+      [33mdata-filled[39m=[32m""[39m
+      [33mdata-invalid[39m=[32m""[39m
+      [33mdata-touched[39m=[32m""[39m
+      [33mid[39m=[32m"estimate-field"[39m
+    [36m>[39m
+      [36m<label[39m
+        [33mdata-dirty[39m=[32m""[39m
+        [33mdata-filled[39m=[32m""[39m
+        [33mdata-invalid[39m=[32m""[39m
+        [33mdata-touched[39m=[32m""[39m
+        [33mfor[39m=[32m"estimate"[39m
+        [33mid[39m=[32m"base-ui-_r_7_"[39m
+      [36m>[39m
+        [0mEstimación[0m
+      [36m</label>[39m
+      [36m<input[39m
+        [33maria-invalid[39m=[32m"true"[39m
+        [33maria-labelledby[39m=[32m"base-ui-_r_7_"[39m
+        [33mautocomplete[39m=[32m"off"[39m
+        [33mdata-dirty[39m=[32m""[39m
+        [33mdata-filled[39m=[32m""[39m
+        [33mdata-invalid[39m=[32m""[39m
+        [33mdata-touched[39m=[32m""[39m
+        [33mid[39m=[32m"estimate"[39m
+        [33minputmode[39m=[32m"numeric"[39m
+        [33mtype[39m=[32m"text"[39m
+        [33mvalue[39m=[32m"abc"[39m
+      [36m/>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:59:21
+     57|       await user.tab();
+     58|       expect(input.value).toBe(raw);
+     59|       expect(screen.getByText('Estimación: usa minutos enteros entre 0…
+       |                     ^
+     60|     });
+     61|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-TEMPORAL-RAW · TemporalField (Field + input text) con la regla v5 > G1B-TEMPORAL-RAW · "-1" queda visible tal cual y muestra el error v5
+TestingLibraryElementError: Unable to find an element with the text: Estimación: usa minutos enteros entre 0 y 1440.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"temporal-field"[39m
+      [33mdata-dirty[39m=[32m""[39m
+      [33mdata-filled[39m=[32m""[39m
+      [33mdata-invalid[39m=[32m""[39m
+      [33mdata-touched[39m=[32m""[39m
+      [33mid[39m=[32m"estimate-field"[39m
+    [36m>[39m
+      [36m<label[39m
+        [33mdata-dirty[39m=[32m""[39m
+        [33mdata-filled[39m=[32m""[39m
+        [33mdata-invalid[39m=[32m""[39m
+        [33mdata-touched[39m=[32m""[39m
+        [33mfor[39m=[32m"estimate"[39m
+        [33mid[39m=[32m"base-ui-_r_b_"[39m
+      [36m>[39m
+        [0mEstimación[0m
+      [36m</label>[39m
+      [36m<input[39m
+        [33maria-invalid[39m=[32m"true"[39m
+        [33maria-labelledby[39m=[32m"base-ui-_r_b_"[39m
+        [33mautocomplete[39m=[32m"off"[39m
+        [33mdata-dirty[39m=[32m""[39m
+        [33mdata-filled[39m=[32m""[39m
+        [33mdata-invalid[39m=[32m""[39m
+        [33mdata-touched[39m=[32m""[39m
+        [33mid[39m=[32m"estimate"[39m
+        [33minputmode[39m=[32m"numeric"[39m
+        [33mtype[39m=[32m"text"[39m
+        [33mvalue[39m=[32m"-1"[39m
+      [36m/>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:59:21
+     57|       await user.tab();
+     58|       expect(input.value).toBe(raw);
+     59|       expect(screen.getByText('Estimación: usa minutos enteros entre 0…
+       |                     ^
+     60|     });
+     61|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-TEMPORAL-RAW · TemporalField (Field + input text) con la regla v5 > G1B-TEMPORAL-RAW · "1.5" queda visible tal cual y muestra el error v5
+TestingLibraryElementError: Unable to find an element with the text: Estimación: usa minutos enteros entre 0 y 1440.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"temporal-field"[39m
+      [33mdata-dirty[39m=[32m""[39m
+      [33mdata-filled[39m=[32m""[39m
+      [33mdata-invalid[39m=[32m""[39m
+      [33mdata-touched[39m=[32m""[39m
+      [33mid[39m=[32m"estimate-field"[39m
+    [36m>[39m
+      [36m<label[39m
+        [33mdata-dirty[39m=[32m""[39m
+        [33mdata-filled[39m=[32m""[39m
+        [33mdata-invalid[39m=[32m""[39m
+        [33mdata-touched[39m=[32m""[39m
+        [33mfor[39m=[32m"estimate"[39m
+        [33mid[39m=[32m"base-ui-_r_f_"[39m
+      [36m>[39m
+        [0mEstimación[0m
+      [36m</label>[39m
+      [36m<input[39m
+        [33maria-invalid[39m=[32m"true"[39m
+        [33maria-labelledby[39m=[32m"base-ui-_r_f_"[39m
+        [33mautocomplete[39m=[32m"off"[39m
+        [33mdata-dirty[39m=[32m""[39m
+        [33mdata-filled[39m=[32m""[39m
+        [33mdata-invalid[39m=[32m""[39m
+        [33mdata-touched[39m=[32m""[39m
+        [33mid[39m=[32m"estimate"[39m
+        [33minputmode[39m=[32m"numeric"[39m
+        [33mtype[39m=[32m"text"[39m
+        [33mvalue[39m=[32m"1.5"[39m
+      [36m/>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:59:21
+     57|       await user.tab();
+     58|       expect(input.value).toBe(raw);
+     59|       expect(screen.getByText('Estimación: usa minutos enteros entre 0…
+       |                     ^
+     60|     });
+     61|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-TEMPORAL-RAW · TemporalField (Field + input text) con la regla v5 > G1B-TEMPORAL-RAW · "1441" queda visible tal cual y muestra el error v5
+TestingLibraryElementError: Unable to find an element with the text: Estimación: usa minutos enteros entre 0 y 1440.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"temporal-field"[39m
+      [33mdata-dirty[39m=[32m""[39m
+      [33mdata-filled[39m=[32m""[39m
+      [33mdata-invalid[39m=[32m""[39m
+      [33mdata-touched[39m=[32m""[39m
+      [33mid[39m=[32m"estimate-field"[39m
+    [36m>[39m
+      [36m<label[39m
+        [33mdata-dirty[39m=[32m""[39m
+        [33mdata-filled[39m=[32m""[39m
+        [33mdata-invalid[39m=[32m""[39m
+        [33mdata-touched[39m=[32m""[39m
+        [33mfor[39m=[32m"estimate"[39m
+        [33mid[39m=[32m"base-ui-_r_j_"[39m
+      [36m>[39m
+        [0mEstimación[0m
+      [36m</label>[39m
+      [36m<input[39m
+        [33maria-invalid[39m=[32m"true"[39m
+        [33maria-labelledby[39m=[32m"base-ui-_r_j_"[39m
+        [33mautocomplete[39m=[32m"off"[39m
+        [33mdata-dirty[39m=[32m""[39m
+        [33mdata-filled[39m=[32m""[39m
+        [33mdata-invalid[39m=[32m""[39m
+        [33mdata-touched[39m=[32m""[39m
+        [33mid[39m=[32m"estimate"[39m
+        [33minputmode[39m=[32m"numeric"[39m
+        [33mtype[39m=[32m"text"[39m
+        [33mvalue[39m=[32m"1441"[39m
+      [36m/>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:59:21
+     57|       await user.tab();
+     58|       expect(input.value).toBe(raw);
+     59|       expect(screen.getByText('Estimación: usa minutos enteros entre 0…
+       |                     ^
+     60|     });
+     61|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed | 7 passed (14)
+   Start at  01:27:39
+   Duration  1.93s (transform 57ms, setup 109ms, import 277ms, tests 1.02s, environment 404ms)
+

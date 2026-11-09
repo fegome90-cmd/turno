@@ -1,0 +1,13 @@
+audit-total | npm audit --include=dev --json | exit=0 | artifact=evidence/1B/audit-total.audit.json
+audit-runtime | npm audit --omit=dev --json | exit=0 | artifact=evidence/1B/audit-runtime.audit.json
+typecheck | npm run typecheck | exit=0 | log=evidence/1B/gates/typecheck.log
+lint | npm run lint | exit=0 | log=evidence/1B/gates/lint.log
+test-unit | npm run test:unit | exit=0 | log=evidence/1B/gates/test-unit.log
+test-component | npm run test:component | exit=0 | log=evidence/1B/gates/test-component.log
+build | npm run build | exit=0 | log=evidence/1B/gates/build.log
+check-portable | npm run check:portable | exit=0 | log=evidence/1B/gates/check-portable.log
+measure-bundle | npm run measure:bundle | exit=0 | log=evidence/1B/gates/measure-bundle.log
+test-e2e-run1 | npm run test:e2e | exit=0 | log=evidence/1B/gates/test-e2e-run1.log
+test-e2e-run2 | npm run test:e2e | exit=0 | log=evidence/1B/gates/test-e2e-run2.log
+test-e2e-run3 | npm run test:e2e | exit=0 | log=evidence/1B/gates/test-e2e-run3.log
+7771a12a42cf510e4feb4e29d1dcd542820c84a553e8fd44e101efe468dab892  dist/preview.html

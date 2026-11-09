@@ -1,0 +1,9 @@
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 29 skipped (30)
+   Start at  01:38:36
+   Duration  2.40s (transform 129ms, setup 104ms, import 418ms, tests 1.38s, environment 367ms)
+

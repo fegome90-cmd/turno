@@ -1,0 +1,423 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 2 failed) 2674ms
+     × G1B-OVERLAY-01 · Drawer → Popover: Escape cierra solo el Popover de tema y el Drawer sigue abierto 206ms
+     × G1B-OVERLAY-02 · abrir Dialog desde Drawer cierra el Popover; Escape cierra el Dialog y el foco vuelve a un destino visible 138ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-OVERLAY · capas con un único coordinador > G1B-OVERLAY-01 · Drawer → Popover: Escape cierra solo el Popover de tema y el Drawer sigue abierto
+TestingLibraryElementError: Unable to find an accessible element with the role "dialog" and name "Navegación"
+
+Here are the accessible roles:
+
+  main:
+
+  Name "":
+  [36m<main[39m
+    [33mdata-band[39m=[32m"narrow"[39m
+    [33mdata-band-1000[39m=[32m"narrow"[39m
+    [33mid[39m=[32m"main"[39m
+    [33mtabindex[39m=[32m"-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Harness 1B":
+  [36m<h1 />[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Abrir navegación":
+  [36m<button[39m
+    [33mdata-focus-key[39m=[32m"open-nav"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Más opciones":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mdata-base-ui-click-trigger[39m=[32m""[39m
+    [33mdata-focus-key[39m=[32m"open-more-page"[39m
+    [33mid[39m=[32m"base-ui-_r_o_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Crear tarea":
+  [36m<button[39m
+    [33mdata-focus-key[39m=[32m"open-create-page"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Alternar banda":
+  [36m<button[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Generar 30 avisos":
+  [36m<button[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Generar 3 avisos":
+  [36m<button[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  region:
+
+  Name "Editor de prueba":
+  [36m<section[39m
+    [33maria-label[39m=[32m"Editor de prueba"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Título":
+  [36m<input[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"Revisión de signos vitales del turno con título largo de prueba"[39m
+  [36m/>[39m
+
+  Name "Hora prevista":
+  [36m<input[39m
+    [33maria-labelledby[39m=[32m"base-ui-_r_q_"[39m
+    [33mautocomplete[39m=[32m"off"[39m
+    [33mid[39m=[32m"time"[39m
+    [33minputmode[39m=[32m"numeric"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Estimación":
+  [36m<input[39m
+    [33maria-labelledby[39m=[32m"base-ui-_r_t_"[39m
+    [33mautocomplete[39m=[32m"off"[39m
+    [33mid[39m=[32m"estimate"[39m
+    [33minputmode[39m=[32m"numeric"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  status:
+
+  Name "":
+  [36m<div[39m
+    [33maria-live[39m=[32m"polite"[39m
+    [33mclass[39m=[32m"sr-only"[39m
+    [33mid[39m=[32m"live"[39m
+    [33mrole[39m=[32m"status"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  alert:
+
+  Name "":
+  [36m<div[39m
+    [33maria-live[39m=[32m"assertive"[39m
+    [33mclass[39m=[32m"sr-only"[39m
+    [33mid[39m=[32m"live-error"[39m
+    [33mrole[39m=[32m"alert"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mdata-band[39m=[32m"narrow"[39m
+      [33mdata-band-1000[39m=[32m"narrow"[39m
+      [33mid[39m=[32m"main"[39m
+      [33mtabindex[39m=[32m"-1"[39m
+    [36m>[39m
+      [36m<h1>[39m
+        [0mHarness 1B[0m
+      [36m</h1>[39m
+      [36m<button[39m
+        [33mdata-focus-key[39m=[32m"open-nav"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mAbrir navegación[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33maria-expanded[39m=[32m"false"[39m
+        [33maria-haspopup[39m=[32m"dialog"[39m
+        [33mdata-base-ui-click-trigger[39m=[32m""[39m
+        [33mdata-focus-key[39m=[32m"open-more-page"[39m
+        [33mid[39m=[32m"base-ui-_r_o_"[39m
+        [33mtabindex[39m=[32m"0"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mMás opciones[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33mdata-focus-key[39m=[32m"open-create-page"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mCrear tarea[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mAlternar banda[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mGenerar 30 avisos[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mGenerar 3 avisos[0m
+      [36m</button>[39m
+      [36m<section[39m
+        [33maria-label[39m=[32m"Editor de prueba"[39m
+      [36m>[39m
+        [36m<label>[39m
+          [0mTítulo[0m
+          [36m<input[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"Revisión de signos vitales del turno con título largo de prueba"[39m
+          [36m/>[39m
+        [36m</label>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"temporal-field"[39m
+          [33mid[39m=[32m"time-field"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mfor[39m=[32m"time"[39m
+            [33mid[39m=[32m"base-ui-_r_q_"[39m
+          [36m>[39m
+            [0mHora prevista[0m
+          [36m</label>[39m
+          [36m<input[39m
+            [33maria-labelledby[39m=[32m"base-ui-_r_q_"[39m
+            [33mautocomplete[39m=[32m"off"[39m
+            [33mid[39m=[32m"time"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"temporal-field"[39m
+          [33mid[39m=[32m"estimate-field"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mfor[39m=[32m"estimate"[39m
+            [33mid[39m=[32m"base-ui-_r_t_"[39m
+          [36m>[39m
+            [0mEstimación[0m
+          [36m</label>[39m
+          [36m<input[39m
+            [33maria-labelledby[39m=[32m"base-ui-_r_t_"[39m
+            [33mautocomplete[39m=[32m"off"[39m
+            [33mid[39m=[32m"estimate"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<div[39m
+        [33maria-live[39m=[32m"polite"[39m
+        [33mclass[39m=[32m"sr-only"[39m
+        [33mid[39m=[32m"live"[39m
+        [33mrole[39m=[32m"status"[39m
+      [36m/>[39m
+      [36m<div[39m
+        [33maria-live[39m=[32m"assertive"[39m
+        [33mclass[39m=[32m"sr-only"[39m
+        [33mid[39m=[32m"live-error"[39m
+        [33mrole[39m=[32m"alert"[39m
+      [36m/>[39m
+      [36m<section[39m
+        [33maria-label[39m=[32m"Avisos"[39m
+        [33mclass[39m=[32m"notification-region"[39m
+        [33mdata-notification-root[39m=[32m""[39m
+        [33mhidden[39m=[32m""[39m
+        [33mstyle[39m=[32m""[39m
+      [36m>[39m
+        [36m<ol[39m
+          [33mclass[39m=[32m"notice-list"[39m
+        [36m/>[39m
+      [36m</section>[39m
+    [36m</main>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../../../../../home/user/turno/prototypes/frontend-v6/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../../../../../home/user/turno/prototypes/frontend-v6/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../../../../../home/user/turno/prototypes/frontend-v6/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../../../../../home/user/turno/prototypes/frontend-v6/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:134:19
+    132|     await user.keyboard('{Escape}');
+    133|     await waitFor(() => expect(screen.queryByRole('dialog', {name: 'Má…
+    134|     expect(screen.getByRole('dialog', {name: 'Navegación'})).toBeInThe…
+       |                   ^
+    135|   });
+    136|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-OVERLAY · capas con un único coordinador > G1B-OVERLAY-02 · abrir Dialog desde Drawer cierra el Popover; Escape cierra el Dialog y el foco vuelve a un destino visible
+AssertionError: expected <body style><div>…(1)</div></body> to be <button type="button" …(1)></button> // Object.is equality
+
+- Expected
++ Received
+
++ <body
++   style=""
++ >
++   <div>
++     <main
++       data-band="narrow"
++       data-band-1000="narrow"
++       id="main"
++       tabindex="-1"
++     >
++       <h1>
++         Harness 1B
++       </h1>
++       <button
++         data-focus-key="open-nav"
++         type="button"
++       >
++         Abrir navegación
++       </button>
++       <button
++         aria-expanded="false"
++         aria-haspopup="dialog"
++         data-base-ui-click-trigger=""
++         data-focus-key="open-more-page"
++         id="base-ui-_r_19_"
++         tabindex="0"
++         type="button"
++       >
++         Más opciones
++       </button>
+        <button
+-   data-focus-key="open-create-drawer"
++         data-focus-key="open-create-page"
+          type="button"
+        >
+          Crear tarea
++       </button>
++       <button
++         type="button"
++       >
++         Alternar banda
++       </button>
++       <button
++         type="button"
++       >
++         Generar 30 avisos
++       </button>
++       <button
++         type="button"
++       >
++         Generar 3 avisos
+        </button>
++       <section
++         aria-label="Editor de prueba"
++       >
++         <label>
++           Título
++           <input
++             type="text"
++             value="Revisión de signos vitales del turno con título largo de prueba"
++           />
++         </label>
++         <div
++           class="temporal-field"
++           id="time-field"
++         >
++           <label
++             for="time"
++             id="base-ui-_r_1b_"
++           >
++             Hora prevista
++           </label>
++           <input
++             aria-labelledby="base-ui-_r_1b_"
++             autocomplete="off"
++             id="time"
++             inputmode="numeric"
++             type="text"
++             value=""
++           />
++         </div>
++         <div
++           class="temporal-field"
++           id="estimate-field"
++         >
++           <label
++             for="estimate"
++             id="base-ui-_r_1e_"
++           >
++             Estimación
++           </label>
++           <input
++             aria-labelledby="base-ui-_r_1e_"
++             autocomplete="off"
++             id="estimate"
++             inputmode="numeric"
++             type="text"
++             value=""
++           />
++         </div>
++       </section>
++       <div
++         aria-live="polite"
++         class="sr-only"
++         id="live"
++         role="status"
++       />
++       <div
++         aria-live="assertive"
++         class="sr-only"
++         id="live-error"
++         role="alert"
++       />
++       <section
++         aria-label="Avisos"
++         class="notification-region"
++         data-notification-root=""
++         hidden=""
++         style=""
++       >
++         <ol
++           class="notice-list"
++         />
++       </section>
++     </main>
++   </div>
++ </body>
+
+ ❯ tests/component/primitive-contract.test.tsx:154:36
+    152|     await waitFor(() => expect(screen.queryByRole('dialog', {name: 'Cr…
+    153|     // El destino de retorno (botón de Crear dentro del Drawer) sigue …
+    154|     expect(document.activeElement).toBe(within(drawer).getByRole('butt…
+       |                                    ^
+    155|   });
+    156|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  2 failed | 46 passed (48)
+   Start at  02:01:04
+   Duration  5.52s (transform 309ms, setup 350ms, import 588ms, tests 2.84s, environment 1.35s)
+

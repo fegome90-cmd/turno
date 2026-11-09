@@ -8,7 +8,8 @@ import {readPngPixel} from './support/png';
 
 // EXTRA-OFFLINE-ARTIFACT and EXTRA-PERFORMANCE-FLOWS (shell only) · 1A gate `offline-theme`.
 const ARTIFACT = path.resolve('dist/preview.html');
-const FIRST_PAINT_DIR = path.resolve('evidence/1A/first-paint');
+// Las capturas de primer paint no se escriben en evidencia versionada: van a test-results/ (o FIRST_PAINT_DIR).
+const FIRST_PAINT_DIR = path.resolve(process.env.FIRST_PAINT_DIR ?? 'test-results/first-paint');
 const DARK_SOLID = '#f2f3f0';
 const LIGHT_SOLID = '#111';
 const DARK_CANVAS_RGB = [23, 24, 23]; // #171817

@@ -1,0 +1,811 @@
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (29 tests | 8 failed) 4414ms
+     × G1B-NUMBERFIELD-RAW · "abc" se conserva exacto al escribir y al salir del campo 174ms
+     × G1B-NUMBERFIELD-RAW · "1.5" se conserva exacto al escribir y al salir del campo 64ms
+     × G1B-NUMBERFIELD-RAW · "1441" se conserva exacto al escribir y al salir del campo 45ms
+     × G1B-OVERLAY-02 · abrir Dialog desde Drawer cierra el Popover; Escape cierra el Dialog y el foco vuelve a un destino visible 195ms
+     × EXTRA-NATIVE-EDIT · abrir un portal no duplica el campo editable 88ms
+     × G1B-NOTIFY-03b · la pila suspendida queda inerte en el DOM 4ms
+     × G1B-NOTIFY-04 · descartar con teclado mueve el foco al cierre siguiente, como v5 1327ms
+     × EXTRA-LIFECYCLE-ASYNC · listeners de window/document y matchMedia vuelven a cero; sin operaciones duplicadas 36ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "abc" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '' to be 'abc' // Object.is equality
+
+- Expected
++ Received
+
+- abc
+
+ ❯ tests/component/primitive-contract.test.tsx:27:27
+     25|       await user.clear(input);
+     26|       await user.type(input, raw);
+     27|       expect(input.value).toBe(raw);
+       |                           ^
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "1.5" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '15' to be '1.5' // Object.is equality
+
+Expected: "1.5"
+Received: "15"
+
+ ❯ tests/component/primitive-contract.test.tsx:29:27
+     27|       expect(input.value).toBe(raw);
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+       |                           ^
+     30|     });
+     31|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "1441" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '1.441' to be '1441' // Object.is equality
+
+Expected: "1441"
+Received: "1.441"
+
+ ❯ tests/component/primitive-contract.test.tsx:29:27
+     27|       expect(input.value).toBe(raw);
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+       |                           ^
+     30|     });
+     31|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-OVERLAY · capas con un único coordinador > G1B-OVERLAY-02 · abrir Dialog desde Drawer cierra el Popover; Escape cierra el Dialog y el foco vuelve a un destino visible
+AssertionError: expected <body style="overflow: hidden;">…(2)</body> to be <button type="button" …(1)></button> // Object.is equality
+
+- Expected
++ Received
+
++ <body
++   style="overflow: hidden;"
++ >
++   <div
++     data-base-ui-inert=""
++   >
++     <main
++       data-band="narrow"
++       data-band-1000="narrow"
++       id="main"
++       tabindex="-1"
++     >
++       <h1
++         aria-hidden="true"
++       >
++         Harness 1B
++       </h1>
++       <button
++         aria-hidden="true"
++         data-focus-key="open-nav"
++         type="button"
++       >
++         Abrir navegación
++       </button>
++       <button
++         aria-expanded="false"
++         aria-haspopup="dialog"
++         aria-hidden="true"
++         data-base-ui-click-trigger=""
++         data-focus-key="open-more-page"
++         id="base-ui-_r_1f_"
++         tabindex="0"
++         type="button"
++       >
++         Más opciones
++       </button>
++       <button
++         aria-hidden="true"
++         data-focus-key="open-create-page"
++         type="button"
++       >
++         Crear tarea
++       </button>
++       <button
++         aria-hidden="true"
++         type="button"
++       >
++         Alternar banda
++       </button>
+        <button
++         aria-hidden="true"
++         type="button"
++       >
++         Generar 30 avisos
++       </button>
++       <button
++         aria-hidden="true"
++         type="button"
++       >
++         Generar 3 avisos
++       </button>
++       <section
++         aria-hidden="true"
++         aria-label="Editor de prueba"
++       >
++         <label>
++           Título
++           <input
++             type="text"
++             value="Revisión de signos vitales del turno con título largo de prueba"
++           />
++         </label>
++         <div
++           class="temporal-field"
++           id="time-field"
++         >
++           <label
++             for="time"
++             id="base-ui-_r_1h_"
++           >
++             Hora prevista
++           </label>
++           <input
++             aria-labelledby="base-ui-_r_1h_"
++             autocomplete="off"
++             id="time"
++             inputmode="numeric"
++             type="text"
++             value=""
++           />
++         </div>
++         <div
++           class="temporal-field"
++           id="estimate-field"
++         >
++           <label
++             for="estimate"
++             id="base-ui-_r_1k_"
++           >
++             Estimación
++           </label>
++           <input
++             aria-labelledby="base-ui-_r_1k_"
++             autocomplete="off"
++             id="estimate"
++             inputmode="numeric"
++             type="text"
++             value=""
++           />
++         </div>
++       </section>
++       <div
++         data-notification-root=""
++         inert=""
++         style="visibility: hidden;"
++       >
++         <section
++           aria-atomic="false"
++           aria-label="Notifications alt+T"
++           aria-live="polite"
++           aria-relevant="additions text"
++           data-react-aria-top-layer="true"
++           tabindex="-1"
++         />
++       </div>
++     </main>
++   </div>
++   <div
++     data-base-ui-portal=""
++     id="_r_1o_"
++   >
++     <div
++       aria-hidden="true"
++       data-base-ui-inert=""
++       role="presentation"
++       style="position: fixed; inset: 0px; user-select: none;"
++     />
++     <span
++       aria-hidden="true"
++       data-base-ui-focus-guard=""
++       data-base-ui-inert=""
++       data-type="inside"
++       style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: 0px; position: fixed; top: 0px; left: 0px;"
++       tabindex="0"
++     />
++     <div
++       aria-labelledby="base-ui-_r_1p_"
++       data-base-ui-focusable=""
++       data-open=""
++       data-overlay-layer="navigation"
++       data-swipe-direction="down"
++       id="_r_1m_"
++       role="dialog"
++       style="--drawer-swipe-progress: 0; --nested-drawers: 0; --drawer-snap-point-offset: 0px; --drawer-swipe-strength: 1;"
++       tabindex="-1"
++     >
++       <h2
++         id="base-ui-_r_1p_"
++       >
++         Navegación
++       </h2>
++       <button
++         aria-expanded="false"
++         aria-haspopup="dialog"
++         data-base-ui-click-trigger=""
++         data-focus-key="open-more-drawer"
++         id="base-ui-_r_1r_"
++         tabindex="0"
++         type="button"
++       >
++         Más opciones
++       </button>
++       <button
+          data-focus-key="open-create-drawer"
+          type="button"
+        >
+          Crear tarea
++       </button>
++       <button
++         tabindex="0"
++         type="button"
++       >
++         Cerrar navegación
+        </button>
++     </div>
++     <span
++       aria-hidden="true"
++       data-base-ui-focus-guard=""
++       data-base-ui-inert=""
++       data-type="inside"
++       style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: 0px; position: fixed; top: 0px; left: 0px;"
++       tabindex="0"
++     />
++   </div>
++ </body>
+
+ ❯ tests/component/primitive-contract.test.tsx:151:36
+    149|     await waitFor(() => expect(screen.queryByRole('dialog', {name: 'Cr…
+    150|     // El destino de retorno (botón de Crear dentro del Drawer) sigue …
+    151|     expect(document.activeElement).toBe(within(drawer).getByRole('butt…
+       |                                    ^
+    152|   });
+    153|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-NATIVE-EDIT · un solo campo y sin duplicados en portales > EXTRA-NATIVE-EDIT · abrir un portal no duplica el campo editable
+TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name "Estimación"
+
+Here are the accessible roles:
+
+  main:
+
+  Name "":
+  [36m<main[39m
+    [33mdata-band[39m=[32m"narrow"[39m
+    [33mdata-band-1000[39m=[32m"narrow"[39m
+    [33mid[39m=[32m"main"[39m
+    [33mtabindex[39m=[32m"-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------dialog:
+
+  Name "Crear tarea":
+  [36m<div[39m
+    [33maria-labelledby[39m=[32m"base-ui-_r_5e_"[39m
+    [33mdata-base-ui-focusable[39m=[32m""[39m
+    [33mdata-open[39m=[32m""[39m
+    [33mdata-overlay-layer[39m=[32m"create"[39m
+    [33mid[39m=[32m"_r_58_"[39m
+    [33mrole[39m=[32m"dialog"[39m
+    [33mstyle[39m=[32m"--nested-dialogs: 0;"[39m
+    [33mtabindex[39m=[32m"-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Crear tarea":
+  [36m<h2[39m
+    [33mid[39m=[32m"base-ui-_r_5e_"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Título de la tarea":
+  [36m<input[39m
+    [33mtype[39m=[32m"text"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Cerrar":
+  [36m<button[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m"overflow: hidden;"[39m
+[36m>[39m
+  [36m<div[39m
+    [33mdata-base-ui-inert[39m=[32m""[39m
+  [36m>[39m
+    [36m<main[39m
+      [33mdata-band[39m=[32m"narrow"[39m
+      [33mdata-band-1000[39m=[32m"narrow"[39m
+      [33mid[39m=[32m"main"[39m
+      [33mtabindex[39m=[32m"-1"[39m
+    [36m>[39m
+      [36m<h1[39m
+        [33maria-hidden[39m=[32m"true"[39m
+      [36m>[39m
+        [0mHarness 1B[0m
+      [36m</h1>[39m
+      [36m<button[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mdata-focus-key[39m=[32m"open-nav"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mAbrir navegación[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33maria-expanded[39m=[32m"false"[39m
+        [33maria-haspopup[39m=[32m"dialog"[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mdata-base-ui-click-trigger[39m=[32m""[39m
+        [33mdata-focus-key[39m=[32m"open-more-page"[39m
+        [33mid[39m=[32m"base-ui-_r_50_"[39m
+        [33mtabindex[39m=[32m"0"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mMás opciones[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mdata-focus-key[39m=[32m"open-create-page"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mCrear tarea[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mAlternar banda[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mGenerar 30 avisos[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mGenerar 3 avisos[0m
+      [36m</button>[39m
+      [36m<section[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33maria-label[39m=[32m"Editor de prueba"[39m
+      [36m>[39m
+        [36m<label>[39m
+          [0mTítulo[0m
+          [36m<input[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"Revisión de signos vitales del turno con título largo de prueba"[39m
+          [36m/>[39m
+        [36m</label>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"temporal-field"[39m
+          [33mid[39m=[32m"time-field"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mfor[39m=[32m"time"[39m
+            [33mid[39m=[32m"base-ui-_r_52_"[39m
+          [36m>[39m
+            [0mHora prevista[0m
+          [36m</label>[39m
+          [36m<input[39m
+            [33maria-labelledby[39m=[32m"base-ui-_r_52_"[39m
+            [33mautocomplete[39m=[32m"off"[39m
+            [33mid[39m=[32m"time"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"temporal-field"[39m
+          [33mid[39m=[32m"estimate-field"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mfor[39m=[32m"estimate"[39m
+            [33mid[39m=[32m"base-ui-_r_55_"[39m
+          [36m>[39m
+            [0mEstimación[0m
+          [36m</label>[39m
+          [36m<input[39m
+            [33maria-labelledby[39m=[32m"base-ui-_r_55_"[39m
+            [33mautocomplete[39m=[32m"off"[39m
+            [33mid[39m=[32m"estimate"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<div[39m
+        [33mdata-notification-root[39m=[32m""[39m
+        [33minert[39m=[32m""[39m
+        [33mstyle[39m=[32m"visibility: hidden;"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33maria-atomic[39m=[32m"false"[39m
+          [33maria-label[39m=[32m"Notifications alt+T"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33maria-relevant[39m=[32m"additions text"[39m
+          [33mdata-react-aria-top-layer[39m=[32m"true"[39m
+          [33mtabindex[39m=[32m"-1"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</main>[39m
+  [36m</div>[39m
+  [36m<div[39m
+    [33maria-hidden[39m=[32m"true"[39m
+    [33mdata-base-ui-inert[39m=[32m""[39m
+    [33mdata-base-ui-portal[39m=[32m""[39m
+    [33mid[39m=[32m"_r_59_"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33maria-hidden[39m=[32m"true"[39m
+      [33mdata-base-ui-inert[39m=[32m""[39m
+      [33mrole[39m=[32m"presentation"[39m
+      [33mstyle[39m=[32m"position: fixed; inset: 0px; user-select: none;"[39m
+    [36m/>[39m
+    [36m<span[39m
+      [33maria-hidden[39m=[32m"true"[39m
+      [33mdata-base-ui-focus-guard[39m=[32m""[39m
+      [33mdata-base-ui-inert[39m=[32m""[39m
+      [33mdata-type[39m=[32m"inside"[39m
+      [33mstyle[39m=[32m"clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: 0px; position: fixed; top: 0px; left: 0px;"[39m
+      [33mtabindex[39m=[32m"0"[39m
+    [36m/>[39m
+    [36m<div[39m
+      [33maria-labelledby[39m=[32m"base-ui-_r_5a_"[39m
+      [33mdata-base-ui-focusable[39m=[32m""[39m
+      [33mdata-open[39m=[32m""[39m
+      [33mdata-overlay-layer[39m=[32m"navigation"[39m
+      [33mdata-swipe-direction[39m=[32m"down"[39m
+      [33mid[39m=[32m"_r_57_"[39m
+      [33mrole[39m=[32m"dialog"[39m
+      [33mstyle[39m=[32m"--drawer-swipe-progress: 0; --nested-drawers: 0; --drawer-snap-point-offset: 0px; --drawer-swipe-strength: 1;"[39m
+      [33mtabindex[39m=[32m"-1"[39m
+    [36m>[39m
+      [36m<h2[39m
+        [33mid[39m=[32m"base-ui-_r_5a_"[39m
+      [36m>[39m
+        [0mNavegación[0m
+      [36m</h2>[39m
+      [36m<button[39m
+        [33maria-expanded[39m=[32m"false"[39m
+        [33maria-haspopup[39m=[32m"dialog"[39m
+        [33mdata-base-ui-click-trigger[39m=[32m""[39m
+        [33mdata-focus-key[39m=[32m"open-more-drawer"[39m
+        [33mid[39m=[32m"base-ui-_r_5c_"[39m
+        [33mtabindex[39m=[32m"0"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mMás opciones[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33mdata-focus-key[39m=[32m"open-create-drawer"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mCrear tarea[0m
+      [36m</button>[39m
+      [36m<button[39m
+        [33mtabindex[39m=[32m"0"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mCerrar navegación[0m
+      [36m</button>[39m
+    [36m</div>[39m
+    [36m<span[39m
+      [33maria-hidden[39m=[32m"true"[39m
+      [33mdata-base-ui-focus-guard[39m=[32m""[39m
+      [33mdata-base-ui-inert[39m=[32m""[39m
+      [33mdata-type[39m=[32m"inside"[39m
+      [33mstyle[39m=[32m"clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: 0px; position: fixed; top: 0px; left: 0px;"[39m
+      [33mtabindex[39m=[32m"0"[39m
+    [36m/>[39m
+  [36m</div>[39m
+  [36m<div[39m
+    [33mdata-base-ui-portal[39m=[32m""[39m
+    [33mid[39m=[32m"_r_5d_"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33maria-hidden[39m=[32m"true"[39m
+      [33mdata-base-ui-inert[39m=[32m""[39m
+      [33mrole[39m=[32m"presentation"[39m
+      [33mstyle[39m=[32m"position: fixed; inset: 0px; user-select: none;"[39m
+    [36m/>[39m
+    [36m<span[39m
+      [33maria-hidden[39m=[32m"true"[39m
+      [33mdata-base-ui-focus-guard[39m=[32m""[39m
+      [33mdata-base-ui-inert[39m=[32m""[39m
+      [33mdata-type[39m=[32m"inside"[39m
+      [33mstyle[39m=[32m"clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: 0px; position: fixed; top: 0px; left: 0px;"[39m
+      [33mtabindex[39m=[32m"0"[39m
+    [36m/>[39m
+    [36m<div[39m
+      [33maria-labelledby[39m=[32m"base-ui-_r_5e_"[39m
+      [33mdata-base-ui-focusable[39m=[32m""[39m
+      [33mdata-open[39m=[32m""[39m
+      [33mdata-overlay-layer[39m=[32m"create"[39m
+      [33mid[39m=[32m"_r_58_"[39m
+      [33mrole[39m=[32m"dialog"[39m
+      [33mstyle[39m=[32m"--nested-dialogs: 0;"[39m
+      [33mtabindex[39m=[32m"-1"[39m
+    [36m>[39m
+      [36m<h2[39m
+        [33mid[39m=[32m"base-ui-_r_5e_"[39m
+      [36m>[39m
+        [0mCrear tarea[0m
+      [36m</h2>[39m
+      [36m<label>[39m
+        [0mTítulo de la tarea[0m
+        [36m<input[39m
+          [33mtype[39m=[32m"text"[39m
+        [36m/>[39m
+      [36m</label>[39m
+      [36m<button[39m
+        [33mtabindex[39m=[32m"0"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mCerrar[0m
+      [36m</button>[39m
+    [36m</div>[39m
+    [36m<span[39m
+      [33maria-hidden[39m=[32m"true"[39m
+      [33mdata-base-ui-focus-guard[39m=[32m""[39m
+      [33mdata-base-ui-inert[39m=[32m""[39m
+      [33mdata-type[39m=[32m"inside"[39m
+      [33mstyle[39m=[32m"clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: 0px; position: fixed; top: 0px; left: 0px;"[39m
+      [33mtabindex[39m=[32m"0"[39m
+    [36m/>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:109:15
+ ❯ tests/component/primitive-contract.test.tsx:215:19
+    213|     await user.click(within(drawer).getByRole('button', {name: 'Crear …
+    214|     await screen.findByRole('dialog', {name: 'Crear tarea'});
+    215|     expect(screen.getAllByRole('textbox', {name: 'Estimación'})).toHav…
+       |                   ^
+    216|   });
+    217| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · store como fuente de verdad y adaptador Sonner > G1B-NOTIFY-03b · la pila suspendida queda inerte en el DOM
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/component/primitive-contract.test.tsx:290:40
+    288|     const root = container.querySelector('[data-notification-root]') a…
+    289|     expect(root).not.toBeNull();
+    290|     expect(root.hasAttribute('inert')).toBe(true);
+       |                                        ^
+    291|     store.setSuspended(false);
+    292|     expect(root.hasAttribute('inert')).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · store como fuente de verdad y adaptador Sonner > G1B-NOTIFY-04 · descartar con teclado mueve el foco al cierre siguiente, como v5
+AssertionError: expected [ <button …(4)>…(1)</button>, …(29) ] to have a length of 3 but got 30
+
+Ignored nodes: comments, script, style
+[36m<html[39m
+  [33mdata-theme[39m=[32m"light"[39m
+  [33mdata-theme-preference[39m=[32m"system"[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<head />[39m
+  [36m<body[39m
+    [33mstyle[39m=[32m""[39m
+  [36m>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mdata-notification-root[39m=[32m""[39m
+      [36m>[39m
+        [36m<section[39m
+          [33maria-atomic[39m=[32m"false"[39m
+          [33maria-label[39m=[32m"Notifications alt+T"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33maria-relevant[39m=[32m"additions text"[39m
+          [33mdata-react-aria-top-layer[39m=[32m"true"[39m
+          [33mtabindex[39m=[32m"-1"[39m
+        [36m>[39m
+          [36m<ol[39m
+            [33mdata-sonner-theme[39m=[32m"light"[39m
+            [33mdata-sonner-toaster[39m=[32m"true"[39m
+            [33mdata-x-position[39m=[32m"right"[39m
+            [33mdata-y-position[39m=[32m"bottom"[39m
+            [33mdir[39m=[32m"ltr"[39m
+            [33mstyle[39m=[32m"--front-toast-height: 0px; --width: 356px; --gap: 14px; --offset-top: 24px; --offset-right: 24px; --offset-bottom: 24px; --offset-left: 24px; --mobile-offset-top: 16px; --mobile-offset-right: 16px; --mobile-offset-bottom: 16px; --mobile-offset-left: 16px;"[39m
+            [33mtabindex[39m=[32m"-1"[39m
+          [36m>[39m
+            [36m<li[39m
+              [33mclass[39m=[32m""[39m
+              [33mdata-dismissible[39m=[32m"true"[39m
+              [33mdata-expanded[39m=[32m"true"[39m
+              [33mdata-front[39m=[32m"true"[39m
+              [33mdata-index[39m=[32m"0"[39m
+              [33mdata-mounted[39m=[32m"true"[39m
+              [33mdata-promise[39m=[32m"false"[39m
+              [33mdata-removed[39m=[32m"false"[39m
+              [33mdata-sonner-toast[39m=[32m""[39m
+              [33mdata-styled[39m=[32m"true"[39m
+              [33mdata-swipe-out[39m=[32m"false"[39m
+              [33mdata-swiped[39m=[32m"false"[39m
+              [33mdata-swiping[39m=[32m"false"[39m
+              [33mdata-testid[39m=[32m"notif-n30"[39m
+              [33mdata-type[39m=[32m"error"[39m
+              [33mdata-visible[39m=[32m"true"[39m
+              [33mdata-x-position[39m=[32m"right"[39m
+              [33mdata-y-position[39m=[32m"bottom"[39m
+              [33mstyle[39m=[32m"--index: 0; --toasts-before: 0; --z-index: 30; --offset: 0px; --initial-height: auto;"[39m
+              [33mtabindex[39m=[32m"0"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33maria-label[39m=[32m"Cerrar aviso"[39m
+                [33mclass[39m=[32m""[39m
+                [33mdata-close-button[39m=[32m"true"[39m
+                [33mdata-disabled[39m=[32m"false"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mheight[39m=[32m"12"[39m
+                  [33mstroke[39m=[32m"currentColor"[39m
+                  [33mstroke-linecap[39m=[32m"round"[39m
+                  [33mstroke-linejoin[39m=[32m"round"[39m
+                  [33mstroke-width[39m=[32m"1.5"[39m
+                  [33mviewBox[39m=[32m"0 0 24 24"[39m
+                  [33mwidth[39m=[32m"12"[39m
+                  [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                [36m>[39m
+                  [36m<line[39m
+                    [33mx1[39m=[32m"18"[39m
+                    [33mx2[39m=[32m"6"[39m
+                    [33my1[39m=[32m"6"[39m
+                    [33my2[39m=[32m"18"[39m
+                  [36m/>[39m
+                  [36m<line[39m
+                    [33mx1[39m=[32m"6"[39m
+                    [33mx2[39m=[32m"18"[39m
+                    [33my1[39m=[32m"6"[39m
+                    [33my2[39m=[32m"18"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+              [36m</button>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m""[39m
+                [33mdata-icon[39m=[32m""[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mfill[39m=[32m"currentColor"[39m
+                  [33mheight[39m=[32m"20"[39m
+                  [33mviewBox[39m=[32m"0 0 20 20"[39m
+                  [33mwidth[39m=[32m"20"[39m
+                  [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                [36m>[39m
+                  [36m<path[39m
+                    [33mclip-rule[39m=[32m"evenodd"[39m
+                    [33md[39m=[32m"M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z"[39m
+                    [33mfill-rule[39m=[32m"evenodd"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m""[39m
+                [33mdata-content[39m=[32m""[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m""[39m
+                  [33mdata-title[39m=[32m""[39m
+                [36m>[39m
+                  [0mError 14[0m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</li>[39m
+            [36m<li[39m
+              [33mclass[39m=[32m""[39m
+              [33mdata-dismissible[39m=[32m"true"[39m
+              [33mdata-expanded[39m=[32m"true"[39m
+              [33mdata-front[39m=[32m"false"[39m
+              [33mdata-index[39m=[32m"1"[39m
+              [33mdata-mounted[39m=[32m"true"[39m
+              [33mdata-promise[39m=[32m"false"[39m
+              [33mdata-removed[39m=[32m"false"[39m
+              [33mdata-sonner-toast[39m=[32m""[39m
+              [33mdata-styled[39m=[32m"true"[39m
+              [33mdata-swipe-out[39m=[32m"false"[39m
+              [33mdata-swiped[39m=[32m"false"[39m
+              [33mdata-swiping[39m=[32m"false"[39m
+              [33mdata-testid[39m=[32m"notif-n29"[39m
+              [33mdata-visible[39m=[32m"true"[39m
+              [33mdata-x-position[39m=[32m"right"[39m
+              [33mdata-y-position[39m=[32m"bottom"[39m
+              [33mstyle[39m=[32m"--index: 1; --toasts-before: 1; --z-index: 29; --offset: 14px; --initial-height: auto;"[39m
+              [33mtabindex[39m=[32m"0"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33maria-label[39m=[32m"Cerrar aviso"[39m
+                [33mclass[39m=[32m""[39m
+                [33mdata-close-button[39m=[32m"true"[39m
+                [33mdata-disabled[39m=[32m"false"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33maria-hidd...
+
+- Expected
++ Received
+
+- 3
++ 30
+
+ ❯ tests/component/primitive-contract.test.tsx:303:42
+    301|     await waitFor(() => expect(document.querySelectorAll('[data-sonner…
+    302|     const closes = () => Array.from(document.querySelectorAll<HTMLButt…
+    303|     await waitFor(() => expect(closes()).toHaveLength(3));
+       |                                          ^
+    304|     const middle = closes()[1];
+    305|     middle.focus();
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-LIFECYCLE-ASYNC · 20 ciclos de montaje y desmontaje > EXTRA-LIFECYCLE-ASYNC · listeners de window/document y matchMedia vuelven a cero; sin operaciones duplicadas
+AssertionError: expected +0 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:387:61
+    385|       expect(mediaNet.count).toBe(0);
+    386|       // Una notificación por ciclo: 20 operaciones de presentación, n…
+    387|       expect(sonnerToast.getHistory().length - toastBefore).toBe(20);
+       |                                                             ^
+    388|     } finally {
+    389|       EventTarget.prototype.addEventListener = add;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 21 passed (29)
+   Start at  01:33:17
+   Duration  6.12s (transform 196ms, setup 168ms, import 752ms, tests 4.41s, environment 621ms)
+

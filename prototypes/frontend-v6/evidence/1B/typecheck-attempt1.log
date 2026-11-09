@@ -1,0 +1,6 @@
+
+> turno-frontend-v6@0.1.0-phase1a typecheck
+> tsc --noEmit -p tsconfig.json
+
+tests/component/primitive-contract.test.tsx(13,38): error TS2322: Type 'null' is not assignable to type 'number | undefined'.
+tests/component/primitive-contract.test.tsx(112,1): error TS6192: All imports in import declaration are unused.
