@@ -1,0 +1,60 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 2 failed) 41ms
+     × PREVIEW-16 · renameBed changes only the label and preserves IDs, shift and all task relations 7ms
+     × PREVIEW-17 · duplicate group names do not merge stable identities or task membership 1ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  2 failed | 58 passed (60)
+   Start at  03:03:55
+   Duration  1.00s (transform 127ms, setup 0ms, import 205ms, tests 108ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-16 · renameBed changes only the label and preserves IDs, shift and all task relations
+AssertionError: expected { id: 'bed-Lista norte', …(2) } to deeply equal { id: 'bed-1', …(2) }
+
+- Expected
++ Received
+
+  {
+-   "id": "bed-1",
++   "id": "bed-Lista norte",
+    "label": "Lista norte",
+    "shiftId": "demo-shift-1",
+  }
+
+ ❯ tests/unit/preview.test.ts:187:20
+    185|     const result = await adapter.renameBed('bed-1', 'Lista norte');
+    186|     const after = await adapter.load();
+    187|     expect(result).toEqual({...before.beds[0], label: 'Lista norte'});
+       |                    ^
+    188|     expect(after.tasks).toEqual(before.tasks);
+    189|     expect(after.beds[1]).toEqual(before.beds[1]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-17 · duplicate group names do not merge stable identities or task membership
+AssertionError: expected [ 'bed-Lista 2', 'bed-2' ] to deeply equal [ 'bed-1', 'bed-2' ]
+
+- Expected
++ Received
+
+  [
+-   "bed-1",
++   "bed-Lista 2",
+    "bed-2",
+  ]
+
+ ❯ tests/unit/preview.test.ts:200:45
+    198|     const after = await adapter.load();
+    199|     expect(after.beds.map((bed) => bed.label)).toEqual(['Lista 2', 'Li…
+    200|     expect(after.beds.map((bed) => bed.id)).toEqual(['bed-1', 'bed-2']…
+       |                                             ^
+    201|     expect(after.tasks).toEqual(before.tasks);
+    202|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+

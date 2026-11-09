@@ -1,0 +1,155 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/store.test.ts (13 tests | 8 failed) 27ms
+     × EXTRA-STATE-AUTHORITY · guardado exitoso: snapshot confirmado y borrador alineado, una sola mutación 8ms
+     × EXTRA-STATE-AUTHORITY · fallo simulado: snapshot previo intacto y borrador con el texto editado; aviso de error 4ms
+     × EXTRA-STATE-AUTHORITY · conflicto de versión: no pisa el borrador ni confirma el guardado 1ms
+     × EXTRA-STATE-AUTHORITY · respuesta tardía de una selección anterior: actualiza su copia confirmada, sin tocar el borrador ni los errores actuales 1ms
+     × EXTRA-STATE-AUTHORITY · respuesta tardía con fallo de una selección anterior: el borrador actual y el snapshot no cambian 3ms
+     × EXTRA-STATE-AUTHORITY · una sola mutación por acción: un segundo guardado mientras hay uno en curso no llama al adaptador 1ms
+     × EXTRA-STATE-AUTHORITY · sin actualización optimista: el snapshot no cambia mientras el guardado está pendiente 1ms
+     × EXTRA-LIFECYCLE-ASYNC · cerrar y reabrir un turno produce una sola operación de dominio por acción 1ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  8 failed | 52 passed (60)
+     Errors  1 error
+   Start at  03:04:12
+   Duration  1.13s (transform 152ms, setup 0ms, import 254ms, tests 105ms, environment 1ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · guardado exitoso: snapshot confirmado y borrador alineado, una sola mutación
+AssertionError: expected "saveTask" to be called 1 times, but got 0 times
+ ❯ tests/unit/store.test.ts:70:17
+     68|     ctx.store.getState().setDraftField('title', 'Título nuevo');
+     69|     await ctx.store.getState().saveTask();
+     70|     expect(spy).toHaveBeenCalledTimes(1);
+       |                 ^
+     71|     expect(taskOf(ctx, 'task-1').title).toBe('Título nuevo');
+     72|     expect(taskOf(ctx, 'task-1').version).toBe(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · fallo simulado: snapshot previo intacto y borrador con el texto editado; aviso de error
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/unit/store.test.ts:88:39
+     86|     expect(ctx.store.getState().snapshot).toEqual(before);
+     87|     expect(ctx.store.getState().draft?.title).toBe('Texto que se pierd…
+     88|     expect(ctx.store.getState().busy).toBe(false);
+       |                                       ^
+     89|     expect(ctx.store.getState().noticeCount).toBe(1);
+     90|     expect(ctx.notifications.store.getState().items[0]).toMatchObject(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · conflicto de versión: no pisa el borrador ni confirma el guardado
+AssertionError: expected "saveTask" to be called 1 times, but got 0 times
+ ❯ tests/unit/store.test.ts:104:17
+    102|     ctx.store.getState().setDraftField('title', 'Mi edición');
+    103|     await ctx.store.getState().saveTask();
+    104|     expect(spy).toHaveBeenCalledTimes(1);
+       |                 ^
+    105|     expect(ctx.store.getState().snapshot).toEqual(before);
+    106|     expect(ctx.store.getState().draft?.title).toBe('Mi edición');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · respuesta tardía de una selección anterior: actualiza su copia confirmada, sin tocar el borrador ni los errores actuales
+AssertionError: expected "saveTask" to be called 1 times, but got 0 times
+ ❯ tests/unit/store.test.ts:121:17
+    119|     ctx.store.getState().setDraftField('title', '');
+    120|     await ctx.store.getState().saveTask();
+    121|     expect(spy).toHaveBeenCalledTimes(1);
+       |                 ^
+    122|     const errorsBefore = structuredClone(ctx.store.getState().errors);
+    123|     expect(errorsBefore.title).toBeTruthy();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · respuesta tardía con fallo de una selección anterior: el borrador actual y el snapshot no cambian
+AssertionError: expected [] to deeply equal [ 'Fallo tardío simulado.' ]
+
+- Expected
++ Received
+
+- [
+-   "Fallo tardío simulado.",
+- ]
++ []
+
+ ❯ tests/unit/store.test.ts:146:82
+    144|     expect(ctx.store.getState().snapshot).toEqual(before);
+    145|     expect(ctx.store.getState().draft).toMatchObject({id: 'task-3', bo…
+    146|     expect(ctx.notifications.store.getState().items.map((item) => item…
+       |                                                                                  ^
+    147|   });
+    148|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · una sola mutación por acción: un segundo guardado mientras hay uno en curso no llama al adaptador
+AssertionError: expected "saveTask" to be called 1 times, but got 0 times
+ ❯ tests/unit/store.test.ts:157:17
+    155|     const first = ctx.store.getState().saveTask();
+    156|     await ctx.store.getState().saveTask();
+    157|     expect(spy).toHaveBeenCalledTimes(1);
+       |                 ^
+    158|     pending.resolve({...taskOf(ctx, 'task-1'), title: 'Una vez', versi…
+    159|     await first;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · sin actualización optimista: el snapshot no cambia mientras el guardado está pendiente
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/unit/store.test.ts:174:39
+    172|     pending.resolve({...taskOf(ctx, 'task-1'), title: 'Pendiente', ver…
+    173|     await saving;
+    174|     expect(ctx.store.getState().busy).toBe(false);
+       |                                       ^
+    175|   });
+    176|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > ciclo de vida del store y de la sesión > EXTRA-LIFECYCLE-ASYNC · cerrar y reabrir un turno produce una sola operación de dominio por acción
+AssertionError: expected "closeShift" to be called 1 times, but got 0 times
+ ❯ tests/unit/store.test.ts:240:17
+    238|     const spy = vi.spyOn(ctx.port, 'closeShift');
+    239|     await ctx.store.getState().closeShift('demo-shift-1');
+    240|     expect(spy).toHaveBeenCalledTimes(1);
+       |                 ^
+    241|     expect(ctx.store.getState().snapshot?.activeShiftId).toBeNull();
+    242|     await ctx.store.getState().openShift('Turno nuevo');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: Fallo tardío simulado.
+ ❯ tests/unit/store.test.ts:142:20
+ ❯ process.processTicksAndRejections node:internal/process/task_queues:104:5
+ ❯ ../../../../../../home/user/turno/prototypes/frontend-v6/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20
+
+This error originated in "tests/unit/store.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+

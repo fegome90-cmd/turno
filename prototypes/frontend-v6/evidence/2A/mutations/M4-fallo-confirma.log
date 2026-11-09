@@ -1,0 +1,106 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/2A-mut/fe
+
+ ❯ |unit| tests/unit/store.test.ts (13 tests | 3 failed) 41ms
+     × EXTRA-STATE-AUTHORITY · fallo simulado: snapshot previo intacto y borrador con el texto editado; aviso de error 9ms
+     × EXTRA-STATE-AUTHORITY · conflicto de versión: no pisa el borrador ni confirma el guardado 2ms
+     × EXTRA-STATE-AUTHORITY · respuesta tardía con fallo de una selección anterior: el borrador actual y el snapshot no cambian 3ms
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  3 failed | 54 passed (57)
+   Start at  02:55:24
+   Duration  1.00s (transform 158ms, setup 0ms, import 239ms, tests 122ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · fallo simulado: snapshot previo intacto y borrador con el texto editado; aviso de error
+AssertionError: expected { …(6) } to deeply equal { …(6) }
+
+- Expected
++ Received
+
+@@ -43,11 +43,11 @@
+        "performed": "",
+        "priority": "normal",
+        "reason": "Exámenes",
+        "shiftId": "demo-shift-1",
+        "time": "",
+-       "title": "Tarea 1",
++       "title": "Texto que se pierde",
+        "version": 1,
+      },
+      {
+        "bedId": "bed-1",
+        "body": "",
+
+ ❯ tests/unit/store.test.ts:86:43
+     84|     ctx.store.getState().setDraftField('title', 'Texto que se pierde');
+     85|     await ctx.store.getState().saveTask();
+     86|     expect(ctx.store.getState().snapshot).toEqual(before);
+       |                                           ^
+     87|     expect(ctx.store.getState().draft?.title).toBe('Texto que se pierd…
+     88|     expect(ctx.store.getState().busy).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · conflicto de versión: no pisa el borrador ni confirma el guardado
+AssertionError: expected { …(6) } to deeply equal { …(6) }
+
+- Expected
++ Received
+
+@@ -43,11 +43,11 @@
+        "performed": "",
+        "priority": "normal",
+        "reason": "Exámenes",
+        "shiftId": "demo-shift-1",
+        "time": "",
+-       "title": "Tarea 1",
++       "title": "Mi edición",
+        "version": 1,
+      },
+      {
+        "bedId": "bed-1",
+        "body": "",
+
+ ❯ tests/unit/store.test.ts:105:43
+    103|     await ctx.store.getState().saveTask();
+    104|     expect(spy).toHaveBeenCalledTimes(1);
+    105|     expect(ctx.store.getState().snapshot).toEqual(before);
+       |                                           ^
+    106|     expect(ctx.store.getState().draft?.title).toBe('Mi edición');
+    107|     expect(ctx.notifications.store.getState().items[0].message).toMatc…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · respuesta tardía con fallo de una selección anterior: el borrador actual y el snapshot no cambian
+AssertionError: expected { …(6) } to deeply equal { …(6) }
+
+- Expected
++ Received
+
+@@ -43,11 +43,11 @@
+        "performed": "",
+        "priority": "normal",
+        "reason": "Exámenes",
+        "shiftId": "demo-shift-1",
+        "time": "",
+-       "title": "Tarea 1",
++       "title": "A fallida",
+        "version": 1,
+      },
+      {
+        "bedId": "bed-1",
+        "body": "",
+
+ ❯ tests/unit/store.test.ts:144:43
+    142|     pending.reject(new Error('Fallo tardío simulado.'));
+    143|     await saving;
+    144|     expect(ctx.store.getState().snapshot).toEqual(before);
+       |                                           ^
+    145|     expect(ctx.store.getState().draft).toMatchObject({id: 'task-3', bo…
+    146|     expect(ctx.notifications.store.getState().items.map((item) => item…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+

@@ -1,0 +1,28 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 1 failed) 29ms
+     × PREVIEW-03 · añadido: cuerpo de 10.000 se guarda y 10.001 se rechaza; HTML en el cuerpo se guarda literal 5ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:03:18
+   Duration  999ms (transform 124ms, setup 0ms, import 205ms, tests 106ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-03 · añadido: cuerpo de 10.000 se guarda y 10.001 se rechaza; HTML en el cuerpo se guarda literal
+Error: Notas: máximo 10.000 caracteres.
+ ❯ validateTask src/adapters/preview-adapter.ts:24:73
+     22| function validateTask(task: Task): Task {
+     23|   const title = titled(task.title);
+     24|   if (typeof task.body !== 'string' || task.body.length >= 10000) thro…
+       |                                                                         ^
+     25|   if (task.date) parseDate(displayDate(task.date));
+     26|   for (const value of [task.time, task.performed]) {
+ ❯ Object.saveTask src/adapters/preview-adapter.ts:102:21
+ ❯ tests/unit/preview.test.ts:71:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

@@ -24,5 +24,8 @@ export function startApp(container: HTMLElement | null, {random}: StartAppOption
       </AppProviders>
     </StrictMode>,
   );
-  return () => root.unmount();
+  return () => {
+    root.unmount();
+    session.dispose();
+  };
 }

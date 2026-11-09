@@ -3,18 +3,11 @@
 // la regla de v5 (src/validation.mjs). Nunca corrige ni convierte vacío en cero.
 import {Field} from '@base-ui/react/field';
 import type {ReactNode} from 'react';
+import {validateTemporal, type TemporalKind} from '../domain/validation';
 
-export type TemporalKind = 'time' | 'minutes';
-
-// Regla v5: hora 24 h HH:MM; minutos enteros 0–1440; vacío es válido y no es cero. Devuelve null si es válido.
-export function validateTemporal(kind: TemporalKind, label: string, raw: string): string | null {
-  const value = String(raw ?? '').trim();
-  if (!value) return null;
-  if (kind === 'time') {
-    return /^([01]\d|2[0-3]):[0-5]\d$/.test(value) ? null : `${label}: usa una hora de 24 horas, por ejemplo 14:30.`;
-  }
-  return !/^\d+$/.test(value) || Number(value) > 1440 ? `${label}: usa minutos enteros entre 0 y 1440.` : null;
-}
+// La regla vive en src/domain/validation.ts (2A): este componente solo la usa y la reexporta.
+export {validateTemporal};
+export type {TemporalKind};
 
 export type TemporalFieldProps = {
   id: string;

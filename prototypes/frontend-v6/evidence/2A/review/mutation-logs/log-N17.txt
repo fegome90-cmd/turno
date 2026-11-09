@@ -1,0 +1,26 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/store.test.ts (13 tests | 1 failed) 33ms
+     × EXTRA-STATE-AUTHORITY · una sola mutación por acción: un segundo guardado mientras hay uno en curso no llama al adaptador 4ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:03:46
+   Duration  1.08s (transform 142ms, setup 0ms, import 229ms, tests 103ms, environment 1ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · una sola mutación por acción: un segundo guardado mientras hay uno en curso no llama al adaptador
+AssertionError: expected "saveTask" to be called 1 times, but got 2 times
+ ❯ tests/unit/store.test.ts:157:17
+    155|     const first = ctx.store.getState().saveTask();
+    156|     await ctx.store.getState().saveTask();
+    157|     expect(spy).toHaveBeenCalledTimes(1);
+       |                 ^
+    158|     pending.resolve({...taskOf(ctx, 'task-1'), title: 'Una vez', versi…
+    159|     await first;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

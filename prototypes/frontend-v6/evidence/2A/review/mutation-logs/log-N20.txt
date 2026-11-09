@@ -1,0 +1,81 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/format.test.ts (8 tests | 1 failed) 25ms
+     × PREVIEW-01 · date-only is dd/mm/yyyy and leap days validated 5ms
+ ❯ |unit| tests/unit/validation.test.ts (8 tests | 2 failed) 16ms
+     × VALIDATION-02 · civil date validation, date dependency, valid boundaries and note isolation 6ms
+     × VALIDATION-02 · añadido: 29/02/2028 válido, 29/02/2027 inválido y 31/02/2026 conservado como texto crudo con error 1ms
+ ❯ |unit| tests/unit/draft.test.ts (3 tests | 1 failed) 8ms
+     × DRAFT-02 · invalid temporal text survives validation failure 4ms
+
+ Test Files  3 failed | 3 passed (6)
+      Tests  4 failed | 56 passed (60)
+   Start at  03:03:51
+   Duration  1.08s (transform 153ms, setup 0ms, import 248ms, tests 112ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/draft.test.ts > borrador temporal crudo > DRAFT-02 · invalid temporal text survives validation failure
+AssertionError: expected [Function] to throw an error
+ ❯ tests/unit/draft.test.ts:22:67
+     20|     const raw = createTemporalDraft(makeTask({date: null, time: '', es…
+     21|     raw.date = '31/02/2026';
+     22|     expect(() => applyTemporalDraft(makeTask({date: null}), raw)).toTh…
+       |                                                                   ^
+     23|     expect(raw.date).toBe('31/02/2026');
+     24|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/unit/format.test.ts > formato de fechas y agenda > PREVIEW-01 · date-only is dd/mm/yyyy and leap days validated
+AssertionError: expected [Function] to throw an error
+ ❯ tests/unit/format.test.ts:12:43
+     10|     expect(displayDate('2026-11-07')).toBe('07/11/2026');
+     11|     expect(parseDate('29/02/2024')).toBe('2024-02-29');
+     12|     expect(() => parseDate('29/02/2025')).toThrow();
+       |                                           ^
+     13|     expect(() => parseDate('31/04/2026')).toThrow();
+     14|     expect(parseDate('')).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-02 · civil date validation, date dependency, valid boundaries and note isolation
+AssertionError: expected undefined to be truthy
+
+- Expected:
+true
+
++ Received:
+undefined
+
+ ❯ tests/unit/validation.test.ts:54:75
+     52|
+     53|   it('VALIDATION-02 · civil date validation, date dependency, valid bo…
+     54|     expect(validateEditor(draft, {...temporal, date: '31/02/2026'}).da…
+       |                                                                           ^
+     55|     expect(validateEditor(draft, {...temporal, date: '', time: '14:30'…
+     56|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-02 · añadido: 29/02/2028 válido, 29/02/2027 inválido y 31/02/2026 conservado como texto crudo con error
+AssertionError: expected undefined to be truthy
+
+- Expected:
+true
+
++ Received:
+undefined
+
+ ❯ tests/unit/validation.test.ts:66:75
+     64|   it('VALIDATION-02 · añadido: 29/02/2028 válido, 29/02/2027 inválido …
+     65|     expect(validateEditor(draft, {...temporal, date: '29/02/2028'})).t…
+     66|     expect(validateEditor(draft, {...temporal, date: '29/02/2027'}).da…
+       |                                                                           ^
+     67|     const raw = createTemporalDraft(makeTask({date: null}));
+     68|     raw.date = '31/02/2026';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+

@@ -1,0 +1,121 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 2 failed) 68ms
+     × PREVIEW-03 · save accepts literal title and increments version 8ms
+     × PREVIEW-05 · version conflict preserves confirmed state 13ms
+ ❯ |unit| tests/unit/store.test.ts (13 tests | 2 failed) 43ms
+     × EXTRA-STATE-AUTHORITY · guardado exitoso: snapshot confirmado y borrador alineado, una sola mutación 11ms
+     × EXTRA-STATE-AUTHORITY · conflicto de versión: no pisa el borrador ni confirma el guardado 5ms
+
+ Test Files  2 failed | 4 passed (6)
+      Tests  4 failed | 56 passed (60)
+   Start at  03:03:21
+   Duration  1.32s (transform 177ms, setup 0ms, import 287ms, tests 158ms, environment 1ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-03 · save accepts literal title and increments version
+AssertionError: expected 1 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 1
+
+ ❯ tests/unit/preview.test.ts:52:29
+     50|     const updated = await adapter.saveTask({...task, title: '<b>Litera…
+     51|     expect(updated.title).toBe('<b>Literal</b>');
+     52|     expect(updated.version).toBe(task.version + 1);
+       |                             ^
+     53|   });
+     54|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-05 · version conflict preserves confirmed state
+AssertionError: promise resolved "{ id: 'task-1', …(13) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "bedId": "bed-1",
++   "body": "",
++   "completed": false,
++   "date": "2026-11-07",
++   "duration": "",
++   "estimate": "",
++   "id": "task-1",
++   "performed": "",
++   "priority": "normal",
++   "reason": "Exámenes",
++   "shiftId": "demo-shift-1",
++   "time": "",
++   "title": "Second",
++   "version": 1,
+  }
+
+ ❯ tests/unit/preview.test.ts:88:63
+     86|     const task = await firstTask(adapter);
+     87|     await adapter.saveTask({...task, title: 'First'});
+     88|     await expect(adapter.saveTask({...task, title: 'Second'})).rejects…
+       |                                                               ^
+     89|     expect((await adapter.load()).tasks[0].title).toBe('First');
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · guardado exitoso: snapshot confirmado y borrador alineado, una sola mutación
+AssertionError: expected 1 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 1
+
+ ❯ tests/unit/store.test.ts:72:43
+     70|     expect(spy).toHaveBeenCalledTimes(1);
+     71|     expect(taskOf(ctx, 'task-1').title).toBe('Título nuevo');
+     72|     expect(taskOf(ctx, 'task-1').version).toBe(2);
+       |                                           ^
+     73|     expect(ctx.store.getState().draft?.title).toBe('Título nuevo');
+     74|     expect(ctx.store.getState().errors).toEqual({});
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · conflicto de versión: no pisa el borrador ni confirma el guardado
+AssertionError: expected { …(6) } to deeply equal { …(6) }
+
+- Expected
++ Received
+
+@@ -43,11 +43,11 @@
+        "performed": "",
+        "priority": "normal",
+        "reason": "Exámenes",
+        "shiftId": "demo-shift-1",
+        "time": "",
+-       "title": "Tarea 1",
++       "title": "Mi edición",
+        "version": 1,
+      },
+      {
+        "bedId": "bed-1",
+        "body": "",
+
+ ❯ tests/unit/store.test.ts:105:43
+    103|     await ctx.store.getState().saveTask();
+    104|     expect(spy).toHaveBeenCalledTimes(1);
+    105|     expect(ctx.store.getState().snapshot).toEqual(before);
+       |                                           ^
+    106|     expect(ctx.store.getState().draft?.title).toBe('Mi edición');
+    107|     expect(ctx.notifications.store.getState().items[0].message).toMatc…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+

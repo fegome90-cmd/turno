@@ -1,0 +1,9 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+
+ Test Files  6 passed (6)
+      Tests  60 passed (60)
+   Start at  03:04:14
+   Duration  1.10s (transform 147ms, setup 0ms, import 238ms, tests 128ms, environment 1ms)
+

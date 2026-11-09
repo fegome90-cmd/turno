@@ -1,0 +1,20 @@
+
+> turno-frontend-v6@0.1.0-phase1a measure:bundle
+> node scripts/measure-bundle.mjs dist/preview.html
+
+{
+  "candidate": {
+    "file": "dist/preview.html",
+    "rawBytes": 1106242,
+    "gzipBytes": 729360
+  },
+  "reference": {
+    "file": "../frontend-v5/preview.html",
+    "rawBytes": 1086162,
+    "gzipBytes": 756192
+  },
+  "rawRatio": 1.018,
+  "gzipRatio": 0.965,
+  "budgetWarning": false,
+  "note": "Informativo. No es un PASS de rendimiento; el criterio de rendimiento está en evidence/1A/perf-shell.json."
+}

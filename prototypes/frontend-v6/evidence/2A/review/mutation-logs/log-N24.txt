@@ -1,0 +1,29 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 1 failed) 40ms
+     × PREVIEW-03 · añadido: título de 1 y 300 caracteres se guarda; 301 se rechaza sin cambiar el estado 7ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:03:58
+   Duration  1.02s (transform 132ms, setup 0ms, import 212ms, tests 108ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-03 · añadido: título de 1 y 300 caracteres se guarda; 301 se rechaza sin cambiar el estado
+Error: Escribe un título de 1 a 300 caracteres.
+ ❯ titled src/adapters/preview-adapter.ts:17:11
+     15| const titled = (value: unknown): string => {
+     16|   if (typeof value !== 'string' || !value.trim() || value.length > 299…
+     17|     throw new Error('Escribe un título de 1 a 300 caracteres.');
+       |           ^
+     18|   }
+     19|   return value.trim();
+ ❯ validateTask src/adapters/preview-adapter.ts:23:17
+ ❯ Object.saveTask src/adapters/preview-adapter.ts:102:21
+ ❯ tests/unit/preview.test.ts:60:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

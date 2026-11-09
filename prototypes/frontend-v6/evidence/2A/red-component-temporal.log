@@ -1,0 +1,29 @@
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+ ❯ |component| tests/component/temporal-field.test.tsx (2 tests | 1 failed) 37ms
+     × TEMPORAL-FIELD-DOMAIN · TemporalField usa validateTemporal de src/domain/validation.ts (misma función) 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/temporal-field.test.tsx > TemporalField y validación de dominio > TEMPORAL-FIELD-DOMAIN · TemporalField usa validateTemporal de src/domain/validation.ts (misma función)
+AssertionError: expected [Function validateTemporal] to be [Function validateTemporal] // Object.is equality
+
+Compared values have no visual difference.
+
+ ❯ tests/component/temporal-field.test.tsx:10:44
+      8| describe('TemporalField y validación de dominio', () => {
+      9|   it('TEMPORAL-FIELD-DOMAIN · TemporalField usa validateTemporal de sr…
+     10|     expect(temporalField.validateTemporal).toBe(domainValidation.valid…
+       |                                            ^
+     11|   });
+     12|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  02:52:27
+   Duration  1.86s (transform 53ms, setup 250ms, import 110ms, tests 37ms, environment 1.34s)
+

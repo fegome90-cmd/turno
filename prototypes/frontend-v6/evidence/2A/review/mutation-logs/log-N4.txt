@@ -1,0 +1,83 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 1 failed) 41ms
+     × PREVIEW-05 · version conflict preserves confirmed state 8ms
+ ❯ |unit| tests/unit/store.test.ts (13 tests | 1 failed) 41ms
+     × EXTRA-STATE-AUTHORITY · conflicto de versión: no pisa el borrador ni confirma el guardado 10ms
+
+ Test Files  2 failed | 4 passed (6)
+      Tests  2 failed | 58 passed (60)
+   Start at  03:03:23
+   Duration  1.09s (transform 133ms, setup 0ms, import 216ms, tests 122ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-05 · version conflict preserves confirmed state
+AssertionError: promise resolved "{ id: 'task-1', …(13) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "bedId": "bed-1",
++   "body": "",
++   "completed": false,
++   "date": "2026-11-07",
++   "duration": "",
++   "estimate": "",
++   "id": "task-1",
++   "performed": "",
++   "priority": "normal",
++   "reason": "Exámenes",
++   "shiftId": "demo-shift-1",
++   "time": "",
++   "title": "Second",
++   "version": 3,
+  }
+
+ ❯ tests/unit/preview.test.ts:88:63
+     86|     const task = await firstTask(adapter);
+     87|     await adapter.saveTask({...task, title: 'First'});
+     88|     await expect(adapter.saveTask({...task, title: 'Second'})).rejects…
+       |                                                               ^
+     89|     expect((await adapter.load()).tasks[0].title).toBe('First');
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · conflicto de versión: no pisa el borrador ni confirma el guardado
+AssertionError: expected { …(6) } to deeply equal { …(6) }
+
+- Expected
++ Received
+
+@@ -43,12 +43,12 @@
+        "performed": "",
+        "priority": "normal",
+        "reason": "Exámenes",
+        "shiftId": "demo-shift-1",
+        "time": "",
+-       "title": "Tarea 1",
+-       "version": 1,
++       "title": "Mi edición",
++       "version": 3,
+      },
+      {
+        "bedId": "bed-1",
+        "body": "",
+        "completed": false,
+
+ ❯ tests/unit/store.test.ts:105:43
+    103|     await ctx.store.getState().saveTask();
+    104|     expect(spy).toHaveBeenCalledTimes(1);
+    105|     expect(ctx.store.getState().snapshot).toEqual(before);
+       |                                           ^
+    106|     expect(ctx.store.getState().draft?.title).toBe('Mi edición');
+    107|     expect(ctx.notifications.store.getState().items[0].message).toMatc…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
