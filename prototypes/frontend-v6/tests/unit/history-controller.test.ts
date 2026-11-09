@@ -210,6 +210,35 @@ describe('G2B · indexed history contract (technical harness, not product parity
     expect(ctx.route).toEqual(task('task-2'));
   });
 
+  it.each([-1, 1])('a newer push during approved replay %i cannot be overwritten by its late popstate', (direction) => {
+    const ctx = threeEntries(); ctx.guard(() => 'pending');
+    ctx.browser.move(direction); ctx.browser.flush(); ctx.resume();
+    ctx.guard(() => 'allow'); ctx.controller.push(task('newer')); ctx.browser.flush();
+    expect(ctx.route).toEqual(task('newer'));
+    expect(ctx.browser.history.state).toMatchObject({selected: {id: 'newer'}, idx: 2});
+    expect(ctx.titles.at(-1)).toBe('newer · Turno');
+    ctx.browser.move(-1); ctx.browser.flush();
+    expect(ctx.route).toEqual(task());
+  });
+
+  it('same-route intent during approved replay cancels that replay and preserves Forward', () => {
+    const ctx = threeEntries(); ctx.guard(() => 'pending');
+    ctx.browser.move(-1); ctx.browser.flush(); ctx.resume();
+    ctx.guard(() => 'allow'); ctx.controller.push(task()); ctx.browser.flush();
+    expect(ctx.route).toEqual(task()); expect(ctx.browser.index).toBe(1);
+    expect(ctx.browser.entries).toHaveLength(3);
+    ctx.browser.move(1); ctx.browser.flush(); expect(ctx.route).toEqual(task('task-2'));
+  });
+
+  it.each([-1, 1])('newer push before user popstate %i is delivered restores the source before branching', (direction) => {
+    const ctx = threeEntries(); ctx.browser.move(direction);
+    ctx.controller.push(task('newer')); ctx.browser.flush();
+    expect(ctx.route).toEqual(task('newer'));
+    expect(ctx.browser.history.state).toMatchObject({selected: {id: 'newer'}, idx: 2});
+    expect(ctx.titles.at(-1)).toBe('newer · Turno');
+    ctx.browser.move(-1); ctx.browser.flush(); expect(ctx.route).toEqual(task());
+  });
+
   it('after a foreign boundary, new navigation uses a fresh owned segment, not reused indices', () => {
     const ctx = setup(); ctx.controller.start(); ctx.controller.push(task());
     const old = ctx.browser.history.state as {__turnoHistory: string};

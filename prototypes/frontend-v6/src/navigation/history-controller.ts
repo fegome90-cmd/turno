@@ -102,6 +102,12 @@ export function createHistoryController(options: HistoryOptions): HistoryControl
     continuePending();
   };
   const onPopState = (state: unknown) => {
+    // A queued popstate can arrive after another traversal has already changed the actual entry.
+    // It must never apply an old route over a newer intent or alter the logical source index.
+    const actual = readState();
+    if (owned(actual)) {
+      if (!owned(state) || actual.idx !== state.idx || !sameRoute(actual, state)) return;
+    } else if (owned(state)) return;
     if (!owned(state)) {
       // Never fabricate an index, replace a foreign entry, or push a compensating route.
       invalidate(); returning = null; queuedPush = null; current = null;
@@ -120,10 +126,15 @@ export function createHistoryController(options: HistoryOptions): HistoryControl
       return;
     }
     returning = null;
-    queuedPush = null;
     if (replay && target.idx === replay.idx) {
+      // A newer intent cancels the replay, not its in-flight browser event. Return to the source
+      // before branching so the original source entry and its Forward stack stay consistent.
+      if (queuedPush && current) {
+        replay = null; returning = current; traverse(current.idx - target.idx); return;
+      }
       replay = null; current = target; apply(target); return;
     }
+    queuedPush = null;
     if (current && target.idx === current.idx) return;
     request(target, target);
   };
@@ -154,8 +165,15 @@ export function createHistoryController(options: HistoryOptions): HistoryControl
     push(route) {
       if (!unsubscribe) return;
       const next = copyRoute(route);
+      const inFlightReplay = replay;
       invalidate();
-      if (returning) { queuedPush = next; return; }
+      replay = inFlightReplay;
+      if (returning || replay) { queuedPush = next; return; }
+      const actual = readState();
+      if (current && owned(actual) && actual.idx !== current.idx) {
+        queuedPush = next; returning = current; traverse(current.idx - actual.idx); return;
+      }
+      if (!owned(actual)) current = null;
       if (sameRoute(readRoute(), next)) { setTitle(copyRoute(readRoute())); return; }
       request(next, null);
     },
