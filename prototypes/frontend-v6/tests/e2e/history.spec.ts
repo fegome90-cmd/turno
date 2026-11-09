@@ -3,6 +3,7 @@ import {createServer, type Server} from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {allowHistoryHarnessRequest} from './support/history-request-policy';
 
 // G2B technical harness only. Does not mark HISTORY-01–09 integrated or certify host ChatGPT.
 // Build first: node scripts/build-history-harness.mjs
@@ -11,6 +12,7 @@ let server: Server;
 let httpUrl: string;
 const failures = new WeakMap<Page, string[]>();
 const externalRequests = new WeakMap<Page, string[]>();
+const expectedBlockedRequests = new WeakMap<Page, string[]>();
 test.beforeAll(async () => {
   const html = await readFile(artifact);
   server = createServer((_req, res) => { res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); res.end(html); });
@@ -22,7 +24,7 @@ test.beforeAll(async () => {
 test.afterAll(async () => { if (server) await new Promise<void>((done, reject) => server.close((error) => error ? reject(error) : done())); });
 test.afterEach(({page}) => {
   expect(failures.get(page) ?? []).toEqual([]);
-  expect(externalRequests.get(page) ?? []).toEqual([]);
+  expect(externalRequests.get(page) ?? []).toEqual(expectedBlockedRequests.get(page) ?? []);
 });
 
 const index = (page: Page) => page.evaluate(() => window.history.state?.idx as number | undefined);
@@ -92,12 +94,13 @@ for (const protocol of ['file', 'http'] as const) {
       const errors: string[] = []; const requests: string[] = [];
       failures.set(page, errors); externalRequests.set(page, requests);
       page.on('pageerror', (error) => errors.push(error.message));
+      const documentUrl = protocol === 'file' ? pathToFileURL(artifact).href : httpUrl;
       await context.route('**/*', (route) => {
         const url = route.request().url();
-        if (url.startsWith('http://127.0.0.1:')) return route.continue();
+        if (allowHistoryHarnessRequest(url, documentUrl)) return route.continue();
         requests.push(url); return route.abort();
       });
-      await page.goto(protocol === 'file' ? pathToFileURL(artifact).href : httpUrl);
+      await page.goto(documentUrl);
       await expect(page.getByRole('heading', {name: 'Historial y guardas · harness técnico 2B'})).toBeVisible();
       await expect.poll(() => index(page)).toBe(0);
       expect(errors).toEqual([]);
@@ -114,6 +117,20 @@ for (const protocol of ['file', 'http'] as const) {
       await traverse(page, -1); await expect(page).toHaveTitle('Inicio · Turno');
       await traverse(page, 1); await expect(page).toHaveTitle('Tarea 1 · Turno');
       expect(page.url()).toBe(url); expect(await length(page)).toBe(initialLength + 1);
+    });
+
+    test('negative control: external request is intercepted and aborted while the local document stays usable', async ({page}) => {
+      const blocked = 'https://blocked.invalid/turno-history-probe';
+      expectedBlockedRequests.set(page, [blocked]);
+      const failed = page.waitForEvent('requestfailed', {predicate: (request) => request.url() === blocked});
+      const rejected = await page.evaluate(async (url) => {
+        try { await fetch(url); return false; } catch { return true; }
+      }, blocked);
+      expect(rejected).toBe(true);
+      expect((await failed).failure()?.errorText).toBeTruthy();
+      expect(externalRequests.get(page)).toEqual([blocked]);
+      await expect(page.getByRole('heading', {name: 'Historial y guardas · harness técnico 2B'})).toBeVisible();
+      await expect(page).toHaveTitle('Inicio · Turno');
     });
 
     test('overlay Back returns to the same entry, restores visible focus, and retains Forward', async ({page}) => {
