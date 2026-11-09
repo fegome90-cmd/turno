@@ -84,4 +84,32 @@ describe('G2B · technical guard harness (simulated history, not browser evidenc
     expect(screen.getByTestId('route')).toHaveTextContent('workspace:task-1');
     expect(screen.getByRole('textbox', {name: 'Borrador'})).toHaveValue('Conservar');
   });
+
+  it('does not present a new editable route while the closing modal still owns focus', async () => {
+    // JSDOM lacks getAnimations, so Base UI otherwise completes close synchronously.
+    // Exercise its asynchronous browser branch without claiming browser/focus evidence.
+    const hadAnimations = Object.hasOwn(Element.prototype, 'getAnimations');
+    const previousAnimations = Element.prototype.getAnimations;
+    Element.prototype.getAnimations = () => [];
+    const ctx = setup();
+    await ctx.user.click(screen.getByRole('button', {name: 'Tarea 1'}));
+    await ctx.user.type(screen.getByRole('textbox', {name: 'Borrador'}), 'Pendiente');
+    await ctx.user.click(screen.getByRole('button', {name: 'Tarea 2'}));
+    await screen.findByRole('dialog', {name: 'Cambios sin guardar'});
+    let navigatedUnderModal = false;
+    const observer = new MutationObserver(() => {
+      if (screen.getByTestId('route').textContent === 'workspace:task-2' && document.querySelector('[role="dialog"]')) navigatedUnderModal = true;
+    });
+    observer.observe(document.body, {childList: true, characterData: true, subtree: true});
+    try {
+      await ctx.user.click(screen.getByRole('button', {name: 'Descartar'}));
+      await waitFor(() => expect(screen.getByTestId('route')).toHaveTextContent('workspace:task-2'));
+      await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+      expect(navigatedUnderModal).toBe(false);
+    } finally {
+      observer.disconnect();
+      if (hadAnimations) Element.prototype.getAnimations = previousAnimations;
+      else Reflect.deleteProperty(Element.prototype, 'getAnimations');
+    }
+  });
 });

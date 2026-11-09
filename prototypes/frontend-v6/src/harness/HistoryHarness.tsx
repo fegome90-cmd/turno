@@ -22,6 +22,8 @@ export function HistoryHarness() {
   const revision = useRef(0);
   const saveGeneration = useRef(0);
   const pending = useRef<(() => void) | null>(null);
+  const closing = useRef(false);
+  const afterClose = useRef<(() => void) | null>(null);
   const finishSave = useRef<((ok: boolean) => void) | null>(null);
   const overlays = useOverlays();
   const top = overlays.state.layers.at(-1);
@@ -40,8 +42,11 @@ export function HistoryHarness() {
       revision.current++; setDirty(false); setBody(''); setTitle(initialTitle(next)); setError('');
     },
     guardNavigation(_target, resume) {
-      if (busy) return 'blocked';
-      if (top) { pending.current = null; overlays.closeTop(); return 'blocked'; }
+      if (busy || closing.current) return 'blocked';
+      if (top) {
+        pending.current = null; afterClose.current = null; closing.current = true;
+        overlays.closeTop(); return 'blocked';
+      }
       if (!dirty) return 'allow';
       pending.current = resume;
       overlays.open({id: 'history-confirm', kind: 'confirm', returnFocusKey: 'history-body'});
@@ -53,6 +58,8 @@ export function HistoryHarness() {
   });
   const close = () => {
     pending.current = null;
+    afterClose.current = null;
+    closing.current = true;
     // A cancelled asynchronous decision cannot later resume, even if the route has not changed.
     saveGeneration.current++;
     controller.push(routeRef.current);
@@ -60,7 +67,8 @@ export function HistoryHarness() {
   };
   const discard = () => {
     const resume = pending.current; pending.current = null;
-    setDirty(false); overlays.closeTop(); resume?.();
+    afterClose.current = resume; closing.current = true;
+    setDirty(false); overlays.closeTop();
   };
   const save = () => {
     if (busy) return;
@@ -74,7 +82,8 @@ export function HistoryHarness() {
       if (savedRevision !== revision.current || generation !== saveGeneration.current) return;
       setBusy(false);
       if (!ok) { setError('Fallo simulado. El borrador se conserva.'); return; }
-      pending.current = null; setDirty(false); overlays.close('history-confirm'); resume?.();
+      pending.current = null; afterClose.current = resume; closing.current = true;
+      setDirty(false); overlays.close('history-confirm');
     };
   };
   const resolve = (ok: boolean) => finishSave.current?.(ok);
@@ -98,7 +107,14 @@ export function HistoryHarness() {
     <output aria-label="Estado">{busy ? 'busy' : dirty ? 'dirty' : 'clean'}:{paint}</output>
     {savePending && !top && <button onClick={() => resolve(true)}>Resolver respuesta antigua</button>}
     {!top && <p role="alert">{error}</p>}
-    <Dialog.Root open={!!top} onOpenChange={(open) => { if (!open) close(); }}>
+    <Dialog.Root open={!!top} onOpenChange={(open) => { if (!open) close(); }} onOpenChangeComplete={(open) => {
+      if (open) return;
+      closing.current = false;
+      const resume = afterClose.current; afterClose.current = null;
+      // The public close-complete boundary releases Base UI's modal focus owner. Resume after
+      // its synchronous unmount/cleanup, not while a newly editable route can still be trapped.
+      queueMicrotask(() => resume?.());
+    }}>
       <Dialog.Portal><Dialog.Backdrop />
         <Dialog.Popup finalFocus={() => returnFocus.current.revision === revision.current ? resolveReturnFocus(returnFocus.current.key) : false} style={{position: 'fixed', inset: '20% 20% auto', background: 'var(--canvas)', padding: '2rem', border: '1px solid'}}>
           <Dialog.Title>{top?.kind === 'confirm' ? 'Cambios sin guardar' : 'Opciones de prueba'}</Dialog.Title>

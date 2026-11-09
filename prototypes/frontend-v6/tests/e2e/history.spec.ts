@@ -197,6 +197,8 @@ for (const protocol of ['file', 'http'] as const) {
       await page.getByRole('button', {name: 'Descartar', exact: true}).click();
       await expect(page.getByTestId('route')).toHaveText('workspace:task-2');
       await page.getByRole('textbox', {name: 'Borrador'}).fill('Más reciente');
+      // The destination is editable only after the previous modal has released focus ownership.
+      await expect(page.getByRole('textbox', {name: 'Borrador'})).toBeFocused();
       // Resolve programmatically so the resolver button itself cannot move focus.
       await page.getByRole('button', {name: 'Resolver respuesta antigua'}).evaluate((button: HTMLButtonElement) => button.click());
       await expect(page.getByRole('textbox', {name: 'Borrador'})).toBeFocused();
