@@ -31,6 +31,8 @@ Surgidas de la auditoría con el router de diseño (árbol v0.4). Cambian el pla
 | D8 · Identidad visual | Dirección de arte, paleta y tipografía **aplican**, en una fase de identidad **después** de la migración con paridad. La v6 copia primero la v5 | Las fases 1A–7B siguen sin rediseño; la fase de identidad es un encargo posterior con su propio criterio de cierre | G7A: tokens y fuentes iguales a v5; la fase de identidad define su propio gate |
 | D9 · Movimiento | La v6 copia el movimiento de la v5: hover 180 ms y botón principal sin escala al pulsar. El plan se corrigió en consecuencia | Sin animaciones nuevas en la migración | G6A: `motionPolicy` con los valores de v5 y sin escala al pulsar |
 | D10 · Revisor de código | oxlint 1.92.0 sustituye a ESLint/typescript-eslint en 1A porque la cadena ESLint mantiene 10 moderadas de desarrollo sin parche en sus rangos; con oxlint la auditoría total y runtime da 0 | Mismas reglas de hooks y TypeScript como error; sin overrides | G1A: `npm run lint` con `.oxlintrc.json` y `audit-total`/`audit-runtime` en PASS sobre el lock real |
+| D11 · Campos de minutos y hora | TemporalField (Field + texto validado por el dominio) en lugar de NumberField de Base UI, que corrige el texto al escribir y con es-CL (09/11/2026) | G1B/G4A: texto crudo, errores v5, sin clamp ni vacío → 0 |
+| D12 · Avisos | Pila propia en React portada de v5; se retira Sonner, cuyo contenedor fija anuncio no urgente y cuyo Escape no cierra el aviso enfocado (09/11/2026) | G1B/G5A: las 22 identidades de toasts, errores urgentes, Escape, foco y suspensión modal |
 
 ## Riesgos y condiciones que no se aceptan implícitamente
 

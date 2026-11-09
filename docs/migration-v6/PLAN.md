@@ -6,7 +6,7 @@
 
 **Architecture:** Nueva aplicación aislada en `prototypes/frontend-v6/`; v5 permanece como referencia inmutable. Dominio y adaptador sintético separados del estado de interfaz; componentes React consumen un puerto explícito y nunca llaman al backend. CSS y primitivas Base UI resuelven interacción y movimiento antes de añadir otra dependencia.
 
-**Tech Stack:** React 19, TypeScript, Vite, `@base-ui/react`, zustand, clsx, Sonner, lucide-react, vite-plugin-singlefile, Vitest, Testing Library y Playwright. Versiones exactas y compatibilidad se fijan en la fase 1; no se asumen instaladas. Tema de sesión mediante proveedor propio; `motion/react` solo tras justificar una necesidad que CSS y Base UI no cubran.
+**Tech Stack:** React 19, TypeScript, Vite, `@base-ui/react`, zustand, clsx, lucide-react, vite-plugin-singlefile, Vitest, Testing Library y Playwright. Versiones exactas y compatibilidad se fijan en la fase 1; no se asumen instaladas. Tema de sesión mediante proveedor propio; `motion/react` solo tras justificar una necesidad que CSS y Base UI no cubran.
 
 **Corte React 08/11/2026:** leer [investigación y gates](REACT_RESEARCH.md). Conjunto propuesto para revalidar en 1A: React/React DOM 19.3.1, Base UI 1.9.0, Vite 8.3.6, plugin-react 6.2.1 y TypeScript 6.0.3; lint con oxlint (D10); ya ensayado solo en el fixture de PREFLIGHT. No está instalado en producto. Compiler Babel 1.0.0 es opcional y posterior; el port Oxc experimental no forma parte de la base. No se añade servidor/RSC ni persistencia.
 
@@ -56,18 +56,20 @@ El HTML adjunto y el MD coinciden en ocho fases y stack. El HTML es un resumen d
 
 React 19, TypeScript, Vite, Base UI, nueva carpeta, separación de v5, no router de URL, datos de demo y fases pequeñas. Identidad visual del PR #2 con las correcciones integradas de PR #1. No rediseñar ni cambiar textos como efecto de adoptar una librería. Excepción aceptada (D7): los grupos de tareas pasan de «Cama» a «Lista» en la v6 ([glosario](GLOSARIO.md)); es el único cambio de texto. La revisión de identidad visual (D8) ocurre después de la migración, no durante.
 
-### Precisiones aceptadas por el dueño (D1–D10, 08/11/2026)
+### Precisiones aceptadas por el dueño (D1–D10, 08/11/2026; D11–D12, 09/11/2026)
 
 1. **Tema:** proveedor de sesión propio basado en `theme.mjs`, con `data-theme` y `data-theme-preference`. next-themes guarda preferencias por defecto; no usarlo así. Si se quiere next-themes, demostrar antes que no escribe almacenamiento y conserva exactamente el contrato. No abrir un proyecto de persistencia.
 2. **Más opciones:** Popover/disclosure no modal, no Menu cuando contiene el selector de tema. Debe permitir Tab fuera, cerrar por click externo/Escape y conservar el destino del click; sin trampa de foco ni `role=menu` impropio.
 3. **Validación:** `Field`/`Form` presentan estado y asociaciones accesibles. `validation.ts` y el adaptador siguen validando datos. No sustituir validación de dominio por la de una librería de controles.
-4. **Avisos:** Sonner es el candidato previsto, condicionado a paridad. Un adaptador público puede completar lo que falte. Una regresión no se cierra diciendo «documentada»: bloquea la fase hasta corregir o acordar explícitamente una excepción.
+4. **Avisos:** sustituida por D12 (pila propia). Texto original: Sonner es el candidato previsto, condicionado a paridad. Un adaptador público puede completar lo que falte. Una regresión no se cierra diciendo «documentada»: bloquea la fase hasta corregir o acordar explícitamente una excepción.
 5. **Pruebas de navegador:** Chromium es mínimo de la fase 7; Firefox/WebKit y dispositivos/AT tienen resultados separados. Si no hay infraestructura, declarar BLOCKED; no eliminar escenarios para conseguir verde. Además (D5): revisión de diseño local del dueño con Paper e Impeccable durante las fases 3A–4B; se registra aparte y no cuenta como evidencia de cierre.
 6. **Host:** preparar un límite de adaptación, no conectar ChatGPT/backend durante esta migración. El empaquetado offline y la integración real del widget son entregables distintos. Una revisión de contrato temprana evita decisiones incompatibles, pero no certifica host.
 7. **Producto y vocabulario (D7, aceptada 08/11/2026):** Turno es un gestor de tareas general para trabajos por turnos; enfermería es un caso de uso. La v6 usa «Lista» en lugar de «Cama» en interfaz y pruebas; el resto del vocabulario de v5 queda congelado y pendiente de validación de dominio.
 8. **Identidad visual (D8, aceptada 08/11/2026):** dirección de arte, paleta y tipografía aplican, en una fase de identidad posterior a 7B con su propio encargo y criterio de cierre. Las fases 0–7B mantienen la identidad del PR #2 sin rediseño.
 9. **Movimiento (D9, aceptada 08/11/2026):** la v6 copia el movimiento de v5 (ver 6A); no se añaden animaciones durante la migración.
 10. **Revisor de código (D10, aceptada 08/11/2026):** el lint usa oxlint 1.92.0 en lugar de ESLint/typescript-eslint. Motivo: con el lock de 1A, la cadena ESLint conserva 10 moderadas de desarrollo (minimatch <11.0.1, GHSA-g3hv-75wg-m249) sin parche en los rangos de sus consumidores; el mismo conjunto con oxlint audita 0 total y 0 runtime. No es override ni aceptación de riesgo. oxlint no es el port Oxc experimental de Compiler, que sigue fuera.
+11. **Campos de minutos y hora (D11, aceptada 09/11/2026):** `TemporalField` = `Field` de Base UI + `<input type="text">` validado por el dominio, no `NumberField`. Evidencia G1B: NumberField 1.9.0 descarta «abc» al escribir y, con `es-CL`, convierte «1.5» en 15 y «1441» en «1.441» tras blur; v5 conserva el texto crudo y muestra el error. Donde el plan dice NumberField, léase TemporalField.
+12. **Avisos (D12, aceptada 09/11/2026):** pila de avisos propia en React, portada de `toasts.mjs` de v5; se retira Sonner del stack. Evidencia G1B: Sonner 2.0.8 fija `aria-live="polite"` en su contenedor sin opción pública (los errores de v5 son urgentes) y Escape solo colapsa la pila, sin cerrar el aviso enfocado; `toast.custom` no cambia el contenedor. Donde el plan, la matriz o la investigación mencionan Sonner, léase la pila propia con el mismo contrato `notify/dismiss/setSuspended/clear`.
 
 Alternativas consideradas: migración en la carpeta v5 (descartada por pérdida de referencia y colisiones), mezcla progresiva React/vanilla en un mismo DOM (descartada por doble autoridad sobre foco e historial), nueva v6 aislada (recomendada y ya prevista). No se vuelve a elegir framework ni Base UI.
 
@@ -106,7 +108,7 @@ Todas las rutas siguientes son propuestas para crear al ejecutar. No existen tod
 - `src/navigation/{history-controller,use-history}.ts`: índice de historial y restauración, sin alterar URL.
 - `src/appearance/theme-provider.tsx`, `src/appearance/motion-policy.ts` y `src/styles/{tokens,global,motion}.css`: tema/estilos de sesión.
 - `src/components/{AppShell,Navigation,MoreOptions,OverlayCoordinator,Home,TaskEditor,NoteEditor,TimePanel,Agenda,ShiftDialogs,BedDialogs}.tsx`: unidades de interfaz.
-- `src/notifications/{notification-store,sonner-adapter}.ts` y `NotificationStack.tsx`: estado de avisos separado del renderer.
+- `src/notifications/notification-store.ts` y `NotificationStack.tsx`: estado de avisos separado del renderer propio (D12).
 - `src/test/setup.ts`, `src/test/fixtures.ts`, `src/test/render-app.tsx`, `tests/unit`, `tests/component`, `tests/e2e`: suites por evidencia; helpers solo implementados una vez.
 - `scripts/{check-portable,measure-bundle,check-parity}.mjs`: packaging, bytes y cobertura de matriz.
 - `docs/{ADR-001,ACCEPTANCE,HOST-BOUNDARY,QA-REPORT}.md` y `docs/parity-map.json`: decisiones, criterios, frontera host, informe y trazabilidad.
@@ -216,7 +218,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 **Objetivo:** descartar pronto incompatibilidades de Base UI/Sonner con foco, capas, historial y borrador.
 
-**Archivos:** crear `src/components/TemporalField.tsx` (wrapper candidato de campo crudo), `src/components/OverlayCoordinator.tsx`, `src/notifications/{notification-store,sonner-adapter}.ts`, `src/notifications/NotificationStack.tsx`, `tests/component/primitive-contract.test.tsx`, `tests/e2e/primitive-contract.spec.ts`. El harness de pruebas no se convierte en pantalla del producto.
+**Archivos:** crear `src/components/TemporalField.tsx` (wrapper candidato de campo crudo), `src/components/OverlayCoordinator.tsx`, `src/notifications/notification-store.ts` (D12: sin adaptador de Sonner), `src/notifications/NotificationStack.tsx`, `tests/component/primitive-contract.test.tsx`, `tests/e2e/primitive-contract.spec.ts`. El harness de pruebas no se convierte en pantalla del producto.
 
 **Interfaces:** `OverlayLayer = {id: string; kind: 'navigation'|'time'|'more'|'confirm'|'create'|'rename'; returnFocusKey: string|null}` y `OverlayState = {layers: OverlayLayer[]}`. El último elemento es topmost; se permite Drawer → Popover o Drawer → Dialog. Abrir Dialog cierra el Popover previo, no remonta el editor. Escape/Back cierra solo topmost y restaura foco a un destino todavía visible; el coordinador es la única autoridad de capas. La pila permite representar la composición que se prueba, no una unión de un solo kind. Notificaciones: `notify(message: string, kind: 'status'|'error'): string`, `dismiss(id: string, modality: 'pointer'|'keyboard'): void`, `setSuspended(value: boolean): void`, `clear(): void`.
 
@@ -324,7 +326,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 
 **Gate G4B:** ciclos con fallos, cancelar y reintentar conservan identidad y estado. No se añade borrar ni otra operación fuera de v5.
 
-### Fase 5A · Avisos persistentes con Sonner
+### Fase 5A · Avisos persistentes con pila propia (D12)
 
 **Objetivo:** migrar la pila funcional y conservar las 22 identidades fuente. Las cláusulas de movimiento/interrupción se ensayan ahora y se cierran/revalidan en 6A, no se declaran todas cerradas en 5A.
 
@@ -339,7 +341,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 - [ ] `npm run test:unit -- notification-store && npm run test:component -- notifications && npm run test:e2e -- notifications.spec.ts`: PASS. Cada fila fuente debe tener destino verificable; no basta 22 tests nominales.
 - [ ] Revisión y commit `feat(v6): preserve persistent notification behavior`.
 
-**Gate G5:** pila/foco/errores integrados con editor, navegación y modales reales; repetir responsive/overlays para suspensión y validación/rename para anuncios (VIEWPORT-02/03/06, INTERFACE-SKILLS-01, UI-27/28/36). Las 12 filas TOASTS cuyo contrato incluye movimiento permanecen planned hasta G6, aunque sus ensayos parciales funcionen. Cero regresiones funcionales dentro del alcance que se cierra. Una limitación no cubierta de Sonner es FAIL/BLOCKED, no una nota aceptable por sí misma. No confundir toasts de UI con Programadas de ChatGPT.
+**Gate G5:** pila/foco/errores integrados con editor, navegación y modales reales; repetir responsive/overlays para suspensión y validación/rename para anuncios (VIEWPORT-02/03/06, INTERFACE-SKILLS-01, UI-27/28/36). Las 12 filas TOASTS cuyo contrato incluye movimiento permanecen planned hasta G6, aunque sus ensayos parciales funcionen. Cero regresiones funcionales dentro del alcance que se cierra. Una limitación no cubierta de la pila es FAIL/BLOCKED, no una nota aceptable por sí misma. No confundir toasts de UI con Programadas de ChatGPT.
 
 ### Fase 6A · Movimiento y detalles visuales
 
