@@ -40,7 +40,7 @@ describe('validación de editor', () => {
     );
   });
 
-  it('VALIDATION-01 · añadido (WARN 1B): el texto crudo de minutos se valida sin trim, y su espacio no cambia el valor aplicado', () => {
+  it('VALIDATION-01 · añadido (WARN 1B): la validación recorta el texto de minutos, el crudo conserva sus espacios y el valor aplicado no los tiene', () => {
     // Si una mutación elimina el trim() de la validación, «  10  » daría error: esta prueba lo detecta.
     expect(validateEditor(draft, {...temporal, estimate: '  10  '})).toEqual({});
     expect(validateEditor(draft, {...temporal, estimate: '   '})).toEqual({});

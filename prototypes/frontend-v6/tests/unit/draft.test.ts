@@ -31,3 +31,29 @@ describe('borrador temporal crudo', () => {
     expect(task.time).toBe('');
   });
 });
+
+describe('borrador temporal · cierre de WARN de la revisión 2A', () => {
+  it('DRAFT-03 · añadido: applyTemporalDraft recorta las cuatro claves de texto como v5', () => {
+    const task = applyTemporalDraft(makeTask({date: '2026-11-07'}), {
+      date: '07/11/2026',
+      time: ' 09:30 ',
+      estimate: '  10  ',
+      performed: ' 10:00 ',
+      duration: '  5  ',
+    });
+    expect({time: task.time, estimate: task.estimate, performed: task.performed, duration: task.duration}).toEqual({
+      time: '09:30',
+      estimate: '10',
+      performed: '10:00',
+      duration: '5',
+    });
+  });
+
+  it('DRAFT-03 · añadido: vacío no es cero: estimación y duración vacías se aplican como cadena vacía', () => {
+    const raw = {date: '', time: '', estimate: '', performed: '', duration: ''};
+    const task = applyTemporalDraft(makeTask({estimate: '20', duration: '30'}), raw);
+    expect(task.estimate).toBe('');
+    expect(task.duration).toBe('');
+    expect(task.date).toBeNull();
+  });
+});

@@ -31,3 +31,7 @@ Enmiendas al plan por la revisión: `parseDate` lanza como en v5 (la firma `stri
 Sugerencias: `persist` descarta en silencio una acción concurrente (4A debe deshabilitar controles por `busy`); el adaptador acepta `24:00` y `openShift` en fecha UTC sin prueba.
 
 No verificado: interfaz conectada, foco, IME, rendimiento comparado (7A), Firefox/WebKit, `check:parity` (script inexistente). Los `targetCases` de `parity-map.json` siguen como marcadores; la correspondencia real es el prefijo de ID en el nombre de cada prueba.
+
+## Cierre de las observaciones (09/11/2026)
+
+Solo pruebas, `src/` sin cambios desde `139f3d8` (`dist/preview.html` sigue en `ae271fd0…`). Las seis observaciones y la sugerencia de `24:00`/fecha local de `openShift` quedan cubiertas: unit 74/74, component 52/52, typecheck y lint en 0. Las 31 mutaciones del revisor (N1–N31) y la de `session.dispose()` se detectan todas (implementador, `evidence/2A/review-fix/`); el orquestador repitió N11, N19 y N30 en una copia aparte: las tres fallan. No hubo nueva revisión independiente de este cambio de pruebas.

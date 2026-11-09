@@ -112,6 +112,20 @@ describe('adaptador de vista previa', () => {
     expect(reopened.beds.filter((bed) => bed.shiftId === next.id)).toHaveLength(0);
   });
 
+  it('PREVIEW-07 · añadido: el turno nuevo usa la fecha civil de Santiago, no la UTC', async () => {
+    vi.useFakeTimers({toFake: ['Date']});
+    try {
+      // 08/11 02:30Z es 07/11 23:30 en Santiago (horario de verano, -03); en UTC ya es 08/11.
+      vi.setSystemTime(new Date('2026-11-08T02:30:00Z'));
+      const adapter = createPreviewAdapter();
+      await adapter.closeShift('demo-shift-1');
+      const shift = await adapter.openShift('Turno de noche');
+      expect(shift.date).toBe('2026-11-07');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it('PREVIEW-08 · quick note has no shift or bed fields', async () => {
     const adapter = createPreviewAdapter();
     const note = await adapter.createNote('Nota general');
@@ -168,6 +182,7 @@ describe('adaptador de vista previa', () => {
     const task = await firstTask(adapter);
     await expect(adapter.saveTask({...task, date: null, time: '10:30'})).rejects.toThrow(/fecha/);
     await expect(adapter.saveTask({...task, time: '25:00'})).rejects.toThrow(/hora/);
+    await expect(adapter.saveTask({...task, time: '24:00'})).rejects.toThrow(/hora/);
     const saved = await adapter.saveTask({...task, time: '23:59'});
     expect(saved.time).toBe('23:59');
   });

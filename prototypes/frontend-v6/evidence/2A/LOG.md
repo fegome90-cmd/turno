@@ -128,3 +128,49 @@ Notas de gates:
 7. El SHA de `dist/preview.html` cambia (ver Paso 5). El cambio se explica por la cadena de importación, no por un cambio de comportamiento.
 8. Dos fallos de gate de la primera pasada (typecheck y lint por una variable no usada en pruebas) se corrigieron y se registran; ambos gates se repitieron en verde.
 9. El contrato estructurado de auditoría (`context`, `risks`, validador `contract_gate.py`) no se produjo ni se ejecutó: el validador revisa el informe del orquestador, no el de implementación. Los JSON nativos de npm están en su lugar.
+
+## Cierre de WARN de la revisión
+
+Alcance: solo pruebas (`tests/**`) y evidencia. `src/` sin cambios respecto a 139f3d8 (verificado con `git diff 139f3d8 -- prototypes/frontend-v6/src`: vacío). Mutaciones de `evidence/2A/review/mutate.py` ejecutadas en copia (`scratchpad/review-copy`, `M=<copia> python3 -I .../mutate.py`), con `npx vitest run --project unit`. N32 se aplicó a mano en la copia (quitar `session.dispose()` de `src/app/bootstrap.tsx`) y se corrió con `npx vitest run --project component`, porque el script no la incluye. Tras cada mutación se restauró el archivo.
+
+### Pruebas nuevas o corregidas
+
+| Warn | Archivo · prueba | Mutación que debe fallar | Resultado |
+|---|---|---|---|
+| W1 | `tests/unit/store.test.ts` · «borrador temporal crudo intacto tras fallo simulado (espacios incluidos)» | N11, N21 | CAUGHT |
+| W1 | `tests/unit/store.test.ts` · «borrador temporal crudo intacto tras conflicto de versión» | N21 | CAUGHT |
+| W1 | `tests/unit/store.test.ts` · «respuesta tardía de la misma tarea conserva el temporal editado durante el guardado» | — (guarda; sin mutación de la lista) | PASS |
+| W1 | `tests/unit/store.test.ts` · «respuesta tardía tras cambiar de tarea no toca el temporal de la nueva selección» | — (guarda) | PASS |
+| W2 | `tests/unit/store.test.ts` · «select reinicia el temporal y los errores al cambiar de tarea» | N26, N28 | CAUGHT (ambas) |
+| W3 | `tests/unit/store.test.ts` · «el store guarda el texto crudo de minutos sin trim; el valor aplicado sí va recortado» | N30, N31 | CAUGHT (ambas) |
+| W3 | `tests/unit/draft.test.ts` · «DRAFT-03 · añadido: applyTemporalDraft recorta las cuatro claves de texto como v5» | N31 | CAUGHT |
+| W3 | `tests/unit/validation.test.ts` · título corregido (antes contradecía la prueba) | — (corrección de texto; aserciones sin cambio) | PASS |
+| W4 | `tests/unit/draft.test.ts` · «DRAFT-03 · añadido: vacío no es cero: estimación y duración vacías se aplican como cadena vacía» | N19 | CAUGHT |
+| W5 | `tests/component/session-lifecycle.test.tsx` · «20 ciclos del arranque real: cada montaje suma una suscripción al notification-store y el desmontaje la libera» (mock del módulo notification-store con contador) | N32 | CAUGHT (1 fallo en la suite de componentes) |
+| W6 | `tests/unit/store.test.ts` · cinco pruebas de `saveNote`: éxito; fallo; respuesta tardía con edición nueva; respuesta tardía tras cambiar de selección; título vacío sin llamada | N29 | CAUGHT (2 fallos) |
+| S3 | `tests/unit/preview.test.ts` · PREVIEW-14, nuevo caso `24:00` rechazado | N1b | CAUGHT |
+| S3 | `tests/unit/preview.test.ts` · «PREVIEW-07 · añadido: el turno nuevo usa la fecha civil de Santiago, no la UTC» (`vi.useFakeTimers({toFake:['Date']})`, 08/11 02:30Z) | N16 | CAUGHT |
+
+Corrección de texto (W3): `tests/unit/validation.test.ts:43`. El título decía «sin trim» y la prueba afirma que el recorte de validación acepta `'  10  '`. Nuevo título: «la validación recorta el texto de minutos, el crudo conserva sus espacios y el valor aplicado no los tiene». Aserciones sin cambio.
+
+Nota de W5: el mock del módulo `notification-store` cuenta las suscripciones que crea `createSession` dentro del arranque real. Antes de cerrar W5, `session-lifecycle` solo contaba listeners de `matchMedia`.
+
+### Resultados de mutación (copia, `mutate.py`, lista completa N1–N31 y N32)
+
+- Lista completa del revisor (31 mutaciones de `mutate.py`, ejecución de 56 s): 31/31 CAUGHT. Salida en `evidence/2A/review-fix/full-run.txt` y `results.json`. Ninguna sobrevive.
+- Lista pedida (N11, N12, N21, N26, N28, N30, N31, N19, N29, N1b, N16): 11/11 CAUGHT.
+- N32 (suite de componentes, con `preview.html` presente en la copia): 1 fallo, el nuevo lifecycle (`mutation-N32-component.log`, código 1). Sin mutación, la suite de componentes queda en 52/52.
+- Observación de copia: en una pasada previa de N32 faltaba `preview.html` en la copia y `bootstrap.test.tsx` (offline-first-paint) fallaba por esa razón. No es una detección: se descartó con la copia completa.
+
+### Gates del árbol con las pruebas nuevas (cwd `prototypes/frontend-v6`)
+
+| Comando | Código | Resultado | Log |
+|---|---|---|---|
+| `npm run test:unit` | 0 | 74/74 (antes 60) | `evidence/2A/review-fix-test-unit.log` |
+| `npm run test:component` | 0 | 52/52 (antes 51) | `evidence/2A/review-fix-test-component.log` |
+| `npm run typecheck` | 0 | sin errores | `evidence/2A/review-fix-typecheck.log` |
+| `npm run lint` | 0 | sin errores | `evidence/2A/review-fix-lint.log` |
+
+No se ejecutaron e2e ni `build` en este cierre: `dist/preview.html` no cambia porque `src/` no cambió. Los gates de la fase (SHA `ae271fd0…`) siguen siendo los de `evidence/2A/SHA256SUMS.txt` del paso 5. Esas pruebas no son de la fase y no se regeneraron.
+
+Estado de sin commit: los cambios de tests y evidencia quedan sin commit para el orquestador.

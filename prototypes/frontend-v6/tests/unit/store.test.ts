@@ -6,7 +6,7 @@ import {createSession} from '../../src/app/create-session';
 import {createTurnoStore} from '../../src/app/store';
 import {createNotificationStore, type NotificationStore} from '../../src/notifications/notification-store';
 import {installNetworkAndStorageSpies} from '../../src/test/network-spy';
-import type {Task} from '../../src/domain/types';
+import type {QuickNote, Task} from '../../src/domain/types';
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -241,5 +241,154 @@ describe('ciclo de vida del store y de la sesión', () => {
     expect(ctx.store.getState().snapshot?.activeShiftId).toBeNull();
     await ctx.store.getState().openShift('Turno nuevo');
     expect(ctx.store.getState().snapshot?.activeShiftId).toBeTruthy();
+  });
+});
+
+describe('store · cierre de WARN de la revisión 2A (temporal, selección)', () => {
+  it('EXTRA-STATE-AUTHORITY · borrador temporal crudo intacto tras fallo simulado (espacios incluidos)', async () => {
+    const ctx = await loadedStore();
+    ctx.store.getState().select({kind: 'task', id: 'task-1'});
+    ctx.store.getState().setTemporalField('time', '09:30');
+    ctx.store.getState().setTemporalField('estimate', '  12  ');
+    const rawBefore = structuredClone(ctx.store.getState().temporal);
+    ctx.port.failNext('error');
+    await ctx.store.getState().saveTask();
+    expect(ctx.store.getState().temporal).toEqual(rawBefore);
+    expect(ctx.store.getState().temporal.estimate).toBe('  12  ');
+    expect(taskOf(ctx, 'task-1').time).toBe('');
+  });
+
+  it('EXTRA-STATE-AUTHORITY · borrador temporal crudo intacto tras conflicto de versión', async () => {
+    const ctx = await loadedStore();
+    const task = taskOf(ctx, 'task-1');
+    await ctx.port.saveTask({...task, title: 'Versión ajena'});
+    ctx.store.getState().select({kind: 'task', id: 'task-1'});
+    ctx.store.getState().setTemporalField('time', '09:30');
+    ctx.store.getState().setTemporalField('performed', '10:15');
+    const rawBefore = structuredClone(ctx.store.getState().temporal);
+    await ctx.store.getState().saveTask();
+    expect(ctx.notifications.store.getState().items[0].message).toMatch(/versión/);
+    expect(ctx.store.getState().temporal).toEqual(rawBefore);
+  });
+
+  it('EXTRA-STATE-AUTHORITY · respuesta tardía de la misma tarea conserva el temporal editado durante el guardado', async () => {
+    const ctx = await loadedStore();
+    const pending = deferred<Task>();
+    vi.spyOn(ctx.port, 'saveTask').mockImplementationOnce(() => pending.promise);
+    ctx.store.getState().select({kind: 'task', id: 'task-1'});
+    ctx.store.getState().setTemporalField('time', '09:30');
+    const saving = ctx.store.getState().saveTask();
+    ctx.store.getState().setTemporalField('estimate', '  15  ');
+    pending.resolve({...taskOf(ctx, 'task-1'), time: '09:30', version: 2});
+    await saving;
+    expect(ctx.store.getState().temporal.time).toBe('09:30');
+    expect(ctx.store.getState().temporal.estimate).toBe('  15  ');
+  });
+
+  it('EXTRA-STATE-AUTHORITY · respuesta tardía tras cambiar de tarea no toca el temporal de la nueva selección', async () => {
+    const ctx = await loadedStore();
+    const pending = deferred<Task>();
+    vi.spyOn(ctx.port, 'saveTask').mockImplementationOnce(() => pending.promise);
+    ctx.store.getState().select({kind: 'task', id: 'task-1'});
+    ctx.store.getState().setTemporalField('time', '09:30');
+    const saving = ctx.store.getState().saveTask();
+    ctx.store.getState().select({kind: 'task', id: 'task-2'});
+    ctx.store.getState().setTemporalField('performed', '08:00');
+    const expected = structuredClone(ctx.store.getState().temporal);
+    pending.resolve({...taskOf(ctx, 'task-1'), time: '09:30', version: 2});
+    await saving;
+    expect(ctx.store.getState().temporal).toEqual(expected);
+    expect(expected).toEqual({date: '07/11/2026', time: '11:30', estimate: '20', performed: '08:00', duration: ''});
+  });
+
+  it('EXTRA-STATE-AUTHORITY · select reinicia el temporal y los errores al cambiar de tarea', async () => {
+    const ctx = await loadedStore();
+    ctx.store.getState().select({kind: 'task', id: 'task-1'});
+    ctx.store.getState().setTemporalField('time', '09:30');
+    ctx.store.getState().setTemporalField('estimate', 'abc');
+    await ctx.store.getState().saveTask();
+    expect(ctx.store.getState().errors.estimate).toBeTruthy();
+    ctx.store.getState().select({kind: 'task', id: 'task-2'});
+    expect(ctx.store.getState().errors).toEqual({});
+    expect(ctx.store.getState().temporal).toEqual({date: '07/11/2026', time: '11:30', estimate: '20', performed: '', duration: ''});
+  });
+
+  it('EXTRA-STATE-AUTHORITY · el store guarda el texto crudo de minutos sin trim; el valor aplicado sí va recortado', async () => {
+    const ctx = await loadedStore();
+    ctx.store.getState().select({kind: 'task', id: 'task-1'});
+    ctx.store.getState().setTemporalField('estimate', '  10  ');
+    ctx.store.getState().setTemporalField('duration', '  5  ');
+    expect(ctx.store.getState().temporal.estimate).toBe('  10  ');
+    expect(ctx.store.getState().temporal.duration).toBe('  5  ');
+    await ctx.store.getState().saveTask();
+    expect(ctx.store.getState().errors).toEqual({});
+    expect(taskOf(ctx, 'task-1').estimate).toBe('10');
+    expect(taskOf(ctx, 'task-1').duration).toBe('5');
+  });
+});
+
+describe('store · notas (saveNote) · cierre de WARN de la revisión 2A', () => {
+  it('EXTRA-STATE-AUTHORITY · guardado de nota exitoso confirma la nota y alinea su borrador', async () => {
+    const ctx = await loadedStore();
+    const spy = vi.spyOn(ctx.port, 'saveNote');
+    ctx.store.getState().select({kind: 'note', id: 'note-1'});
+    ctx.store.getState().setDraftField('body', 'Texto de nota');
+    await ctx.store.getState().saveNote();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(ctx.store.getState().snapshot!.notes[0]).toMatchObject({body: 'Texto de nota', version: 2});
+    expect(ctx.store.getState().draft).toMatchObject({id: 'note-1', kind: 'note', body: 'Texto de nota'});
+    expect(ctx.notifications.counter.active).toBe(1);
+  });
+
+  it('EXTRA-STATE-AUTHORITY · fallo al guardar nota: snapshot de la nota intacto y texto editado conservado', async () => {
+    const ctx = await loadedStore();
+    const before = structuredClone(ctx.store.getState().snapshot!.notes);
+    ctx.port.failNext('error');
+    ctx.store.getState().select({kind: 'note', id: 'note-1'});
+    ctx.store.getState().setDraftField('body', 'Se conserva');
+    await ctx.store.getState().saveNote();
+    expect(ctx.store.getState().snapshot!.notes).toEqual(before);
+    expect(ctx.store.getState().draft).toMatchObject({id: 'note-1', body: 'Se conserva'});
+    expect(ctx.notifications.store.getState().items).toHaveLength(1);
+  });
+
+  it('EXTRA-STATE-AUTHORITY · respuesta tardía de nota con edición nueva: el borrador conserva el texto más reciente', async () => {
+    const ctx = await loadedStore();
+    const pending = deferred<QuickNote>();
+    vi.spyOn(ctx.port, 'saveNote').mockImplementationOnce(() => pending.promise);
+    ctx.store.getState().select({kind: 'note', id: 'note-1'});
+    ctx.store.getState().setDraftField('body', 'A');
+    const saving = ctx.store.getState().saveNote();
+    ctx.store.getState().setDraftField('body', 'A más');
+    pending.resolve({id: 'note-1', title: 'Notas generales', body: 'A', version: 2});
+    await saving;
+    expect(ctx.store.getState().draft).toMatchObject({id: 'note-1', body: 'A más'});
+    expect(ctx.store.getState().snapshot!.notes[0].body).toBe('A');
+  });
+
+  it('EXTRA-STATE-AUTHORITY · respuesta tardía de nota tras cambiar de selección no toca el borrador de la nueva tarea', async () => {
+    const ctx = await loadedStore();
+    const pending = deferred<QuickNote>();
+    vi.spyOn(ctx.port, 'saveNote').mockImplementationOnce(() => pending.promise);
+    ctx.store.getState().select({kind: 'note', id: 'note-1'});
+    ctx.store.getState().setDraftField('body', 'A');
+    const saving = ctx.store.getState().saveNote();
+    ctx.store.getState().select({kind: 'task', id: 'task-1'});
+    const expected = structuredClone(ctx.store.getState().draft);
+    pending.resolve({id: 'note-1', title: 'Notas generales', body: 'A', version: 2});
+    await saving;
+    expect(ctx.store.getState().draft).toEqual(expected);
+    expect(ctx.store.getState().draft).toMatchObject({kind: 'task', id: 'task-1'});
+  });
+
+  it('EXTRA-STATE-AUTHORITY · título de nota vacío no llama al adaptador y conserva el borrador', async () => {
+    const ctx = await loadedStore();
+    const spy = vi.spyOn(ctx.port, 'saveNote');
+    ctx.store.getState().select({kind: 'note', id: 'note-1'});
+    ctx.store.getState().setDraftField('title', '');
+    await ctx.store.getState().saveNote();
+    expect(spy).not.toHaveBeenCalled();
+    expect(ctx.store.getState().errors.title).toBeTruthy();
+    expect(ctx.store.getState().draft?.title).toBe('');
   });
 });
