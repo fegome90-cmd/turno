@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { prepareCaptureReview, proposalsForReview, validateCaptureInput } from '../capture-review.mjs';
+import { prepareCaptureReview, proposalsForReview, validateCaptureInput, normalizeTime } from '../capture-review.mjs';
 
 const input = {
   shiftId: 'demo-shift',
@@ -37,7 +37,26 @@ test('no acepta datos reales ni datos malformados', () => {
 
 test('no acepta inventar hora para cierre ni tiempos inválidos', () => {
   assert.throws(()=>proposalsForReview({proposals:[{title:'Informe',bedLabel:null,time:'18:00',beforeClose:true}]}),/antes del cierre/);
-  assert.throws(()=>proposalsForReview({proposals:[{title:'A',bedLabel:null,time:'25:00',beforeClose:false}]}),/Horario/);
+});
+
+test('normaliza horas de un dígito y no tumba la captura por una hora ilegible', () => {
+  assert.equal(normalizeTime('9:00'),'09:00');
+  assert.equal(normalizeTime(' 17:30 '),'17:30');
+  for (const bad of ['25:00','9','primera hora','9:5','09:00 am',null]) assert.equal(normalizeTime(bad),null);
+  const out = proposalsForReview({proposals:[
+    {title:'A',bedLabel:null,time:'9:30',beforeClose:false},
+    {title:'B',bedLabel:null,time:'primera hora',beforeClose:false},
+    {title:'C',bedLabel:null,time:'25:00',beforeClose:false},
+  ]});
+  assert.equal(out.length,3);
+  assert.equal(out[0].time,'09:30');
+  assert.deepEqual(out[0].reviewFlags,['confirm_date']);
+  assert.equal(out[1].time,null);
+  assert.deepEqual(out[1].reviewFlags,['confirm_time']);
+  assert.equal(out[2].time,null);
+  assert.ok(out.every(p=>p.date===null && p.status==='requires_human_review'));
+  assert.throws(()=>proposalsForReview({proposals:[{title:'A',bedLabel:null,time:9,beforeClose:false}]}),/Horario/);
+  assert.throws(()=>proposalsForReview({proposals:[{title:'A',bedLabel:null,time:'9:00',beforeClose:true}]}),/antes del cierre/);
 });
 
 test('sin invocador, no intenta guardar ni ejecutar', async () => {

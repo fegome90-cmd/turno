@@ -13,13 +13,14 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createStrandsClassifier } from '../gateway-provider.mjs';
 import { createStrandsCapture } from '../gateway-capture.mjs';
-import { CLASSIFIER_CASES, CAPTURE_CASES, BEDS } from './dataset.mjs';
+import { CLASSIFIER_CASES, CAPTURE_CASES, BEDS, setOf } from './dataset.mjs';
+import { PROMPT_VERSION } from '../prompts.mjs';
 
 const RESULTS_DIR = fileURLToPath(new URL('./results/', import.meta.url));
 
 export function parseArgs(argv) {
   const opts = { live: false, models: [], reps: 1, suites: ['classifier', 'capture'], minBalance: 3,
-    concurrency: 4, freePaceMs: 12_500, paceMs: null, only: null, tag: '' };
+    concurrency: 4, freePaceMs: 12_500, paceMs: null, only: null, tag: '', set: 'all' };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const next = () => argv[++i];
@@ -33,12 +34,14 @@ export function parseArgs(argv) {
     else if (a === '--pace-ms') opts.paceMs = Number(next()); // aplica a todos los modelos
     else if (a === '--only') opts.only = new Set(next().split(','));
     else if (a === '--tag') opts.tag = next();
+    else if (a === '--set') opts.set = next();
     else throw new Error('Argumento desconocido: ' + a);
   }
   if (!Number.isInteger(opts.reps) || opts.reps < 1 || opts.reps > 10) throw new Error('--reps entre 1 y 10.');
   if (!Number.isFinite(opts.minBalance) || opts.minBalance < 0) throw new Error('--min-balance inválido.');
   if (!opts.suites.every(s => ['classifier', 'capture'].includes(s))) throw new Error('--suites inválido.');
   if (opts.tag && !/^[a-z0-9-]{1,30}$/.test(opts.tag)) throw new Error('--tag inválido.');
+  if (!['all', 'dev', 'holdout'].includes(opts.set)) throw new Error('--set inválido; usa all, dev u holdout.');
   return opts;
 }
 
@@ -92,6 +95,21 @@ async function readCredits(env) {
     const j = await res.json();
     return Number(j.balance);
   } catch { return null; }
+}
+
+/** Public price list (USD per token) from Gateway's model catalog. */
+async function readPricing(modelId) {
+  try {
+    const res = await fetch('https://ai-gateway.vercel.sh/v1/models', { signal: AbortSignal.timeout(10_000) });
+    const j = await res.json();
+    const p = j.data.find(m => m.id === modelId)?.pricing;
+    return p ? { input: Number(p.input), output: Number(p.output) } : null;
+  } catch { return null; }
+}
+
+export function callCost(tokens, pricing) {
+  if (!tokens || !pricing || !Number.isFinite(tokens.inputTokens) || !Number.isFinite(tokens.outputTokens)) return null;
+  return tokens.inputTokens * pricing.input + tokens.outputTokens * pricing.output;
 }
 
 export function percentile(values, p) {
@@ -208,47 +226,55 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
     throw new Error(`Saldo ${startBalance} bajo el mínimo ${opts.minBalance}; no se ejecuta ${modelId}.`);
   }
   const pool = { concurrency: opts.concurrency, paceMs: opts.paceMs ?? (isFree ? opts.freePaceMs : 0), budgetCheck, log };
-  const report = { modelId, tag: opts.tag || null, startedAt: new Date().toISOString(), reps: opts.reps, startBalance };
+  const pricing = await readPricing(modelId);
+  const inSet = c => opts.set === 'all' || setOf(c) === opts.set;
+  const report = { modelId, tag: opts.tag || null, promptVersion: PROMPT_VERSION, set: opts.set,
+    startedAt: new Date().toISOString(), reps: opts.reps, startBalance, pricing };
 
   if (opts.suites.includes('classifier')) {
-    const classify = await createStrandsClassifier({ env });
     const jobs = [];
     for (let rep = 1; rep <= opts.reps; rep++) {
       for (const c of CLASSIFIER_CASES) {
         if (opts.only && !opts.only.has(c.id)) continue;
+        if (!inSet(c)) continue;
         jobs.push(async () => {
           const t = performance.now();
+          let tokens = null;
+          const classify = await createStrandsClassifier({ env, onMetrics: m => { tokens = m; } });
           try {
             const { value, retries } = await withRateLimitRetry(
               () => classify({ id: c.id + '-' + rep, synthetic: true, text: c.text }), { log });
-            const rec = { id: c.id, rep, label: value.label, ms: Math.round(performance.now() - t), retries };
+            const rec = { id: c.id, set: setOf(c), rep, label: value.label, ms: Math.round(performance.now() - t), retries,
+              tokens, costUsd: callCost(tokens, pricing) };
             log(`${modelId} cls ${c.id}#${rep} ${value.label} ${c.accept.includes(value.label) ? 'ok' : 'MISS'}`);
             return rec;
           } catch (error) {
             const info = error.evalInfo ?? classifyError(error);
             log(`${modelId} cls ${c.id}#${rep} ERROR ${info.type}`);
-            return { id: c.id, rep, label: null, errorType: info.type, errorDetail: errorDetail(error),
+            return { id: c.id, set: setOf(c), rep, label: null, errorType: info.type, errorDetail: errorDetail(error),
               ms: Math.round(performance.now() - t), retries: error.retries ?? 0 };
           }
         });
       }
     }
     const { records, aborted } = await runPool(jobs, pool);
-    report.classifier = { aborted, records, score: scoreClassifier(records) };
+    report.classifier = { aborted, records, score: scoreClassifier(records), scoreBySet: {
+      dev: scoreClassifier(records.filter(r => r.set === 'dev')),
+      holdout: scoreClassifier(records.filter(r => r.set === 'holdout')) } };
   }
 
   if (opts.suites.includes('capture')) {
-    let lastMetrics = null;
-    const propose = await createStrandsCapture({ env, onMetrics: m => { lastMetrics = m; } });
     const jobs = [];
     for (let rep = 1; rep <= opts.reps; rep++) {
       for (const c of CAPTURE_CASES) {
         if (opts.only && !opts.only.has(c.id)) continue;
+        if (!inSet(c)) continue;
         jobs.push(async () => {
           const t = performance.now();
           const input = { shiftId: 'eval-shift', synthetic: true, text: c.text };
+          let lastMetrics = null;
+          const propose = await createStrandsCapture({ env, onMetrics: m => { lastMetrics = m; } });
           try {
-            lastMetrics = null;
             const { value, retries } = await withRateLimitRetry(
               () => propose(input, { isAuthorized: x => x === input, beds: BEDS }), { log });
             const proposals = value.proposals;
@@ -256,23 +282,29 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
             const invariants = captureInvariants(proposals);
             const pass = Object.values(criteria).every(Boolean) && Object.values(invariants).every(Boolean);
             log(`${modelId} cap ${c.id}#${rep} ${pass ? 'ok' : 'MISS'} (${proposals.length})`);
-            return { id: c.id, rep, pass, criteria, invariants, count: proposals.length,
+            return { id: c.id, set: setOf(c), rep, pass, criteria, invariants, count: proposals.length, costUsd: callCost(lastMetrics, pricing),
               proposals: proposals.map(p => ({ title: p.title, time: p.time, bedLabel: p.bedLabel, linked: !!p.bedId, beforeClose: p.beforeClose })),
               ms: Math.round(performance.now() - t), tokens: lastMetrics, retries };
           } catch (error) {
             const info = error.evalInfo ?? classifyError(error);
             const pass = c.allowSchemaReject === true && info.type === 'model_or_schema';
             log(`${modelId} cap ${c.id}#${rep} ${pass ? 'ok (rechazado)' : 'ERROR ' + info.type}`);
-            return { id: c.id, rep, pass, errorType: pass ? null : info.type, rejected: pass, errorDetail: errorDetail(error),
+            return { id: c.id, set: setOf(c), rep, pass, errorType: pass ? null : info.type, rejected: pass, errorDetail: errorDetail(error),
               ms: Math.round(performance.now() - t), retries: error.retries ?? 0 };
           }
         });
       }
     }
     const { records, aborted } = await runPool(jobs, pool);
-    report.capture = { aborted, records, score: scoreCapture(records) };
+    report.capture = { aborted, records, score: scoreCapture(records), scoreBySet: {
+      dev: scoreCapture(records.filter(r => r.set === 'dev')),
+      holdout: scoreCapture(records.filter(r => r.set === 'holdout')) } };
   }
 
+  const calls = [...(report.classifier?.records ?? []), ...(report.capture?.records ?? [])];
+  const priced = calls.filter(r => Number.isFinite(r.costUsd));
+  report.tokenCostUsd = priced.length ? Math.round(priced.reduce((a, r) => a + r.costUsd, 0) * 1e6) / 1e6 : null;
+  report.tokenCostCoverage = calls.length ? priced.length / calls.length : null;
   report.endBalance = await readCredits(env);
   report.costUsd = report.startBalance !== null && report.endBalance !== null
     ? Math.round((report.startBalance - report.endBalance) * 1e6) / 1e6 : null;
@@ -297,7 +329,7 @@ export async function main(argv = process.argv.slice(2)) {
       const report = await evaluateModel(modelId, opts);
       const file = RESULTS_DIR + modelId.replace(/[^a-z0-9.-]+/gi, '_') + (opts.tag ? '.' + opts.tag : '') + '.json';
       writeFileSync(file, JSON.stringify(report, null, 2) + '\n');
-      summary.push({ modelId, costUsd: report.costUsd, classifier: report.classifier?.score, capture: report.capture?.score });
+      summary.push({ modelId, tokenCostUsd: report.tokenCostUsd, classifier: report.classifier?.scoreBySet, capture: report.capture?.scoreBySet });
     } catch (error) {
       summary.push({ modelId, error: String(error.message).slice(0, 200) });
     }

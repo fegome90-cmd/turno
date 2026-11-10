@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { CLASSIFIER_CASES, CAPTURE_CASES } from '../eval/dataset.mjs';
-import { parseArgs, classifyError, scoreClassifier, scoreCapture, captureInvariants, percentile } from '../eval/run-eval.mjs';
+import { parseArgs, classifyError, scoreClassifier, scoreCapture, captureInvariants, percentile, callCost } from '../eval/run-eval.mjs';
+import { setOf } from '../eval/dataset.mjs';
+import { CLASSIFIER_PROMPT, CAPTURE_PROMPT } from '../prompts.mjs';
 
 const LABELS = ['NO_ACTION', 'PROPOSE_TASK', 'PROPOSE_REMINDER', 'NEEDS_REVIEW'];
 
@@ -75,4 +77,22 @@ test('casos de captura: criterios detectan respuestas incorrectas', () => {
   assert.equal(cap01.check(wrongBed).bed4, false);
   assert.equal(CAPTURE_CASES.find(c => c.id === 'cap-03').check([]).none, true);
   assert.equal(percentile([5, 1, 3], 50), 3);
+});
+
+test('set de control: existe, es distinto y no aparece en las instrucciones', () => {
+  const hold = [...CLASSIFIER_CASES, ...CAPTURE_CASES].filter(c => setOf(c) === 'holdout');
+  assert.ok(hold.length >= 20);
+  for (const c of hold) {
+    // Ninguna nota de control se copió en las instrucciones (evita sobreajuste).
+    assert.equal(CLASSIFIER_PROMPT.includes(c.text), false, c.id);
+    assert.equal(CAPTURE_PROMPT.includes(c.text), false, c.id);
+  }
+  assert.deepEqual(parseArgs(['--set', 'holdout']).set, 'holdout');
+  assert.throws(() => parseArgs(['--set', 'test']), /set/);
+});
+
+test('costo por llamada con el precio público del modelo', () => {
+  assert.equal(callCost({ inputTokens: 1000, outputTokens: 500 }, { input: 0.0000004, output: 0.0000016 }), 0.0012);
+  assert.equal(callCost(null, { input: 1, output: 1 }), null);
+  assert.equal(callCost({ inputTokens: 1, outputTokens: 1 }, null), null);
 });
