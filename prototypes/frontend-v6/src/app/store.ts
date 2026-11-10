@@ -13,7 +13,7 @@ import {validateEditor} from '../domain/validation';
 import type {Bed, FieldErrors, Priority, QuickNote, ReviewedTaskInput, Selection, Shift, Snapshot, Task, TemporalDraft} from '../domain/types';
 import type {NotificationStore} from '../notifications/notification-store';
 
-export type EditDraft = {id: string; kind: 'task'; title: string; body: string; reason: string; priority: Priority; completed: boolean}
+export type EditDraft = {id: string; kind: 'task'; title: string; body: string; reason: string; priority: Priority; completed: boolean; beforeClose: boolean}
   | {id: string; kind: 'note'; title: string; body: string};
 export type SaveResult = {status: 'saved'; selection: NonNullable<Selection>; revision: number; appliedToDraft: boolean}
   | {status: 'invalid' | 'error' | 'busy' | 'noop'};
@@ -59,7 +59,7 @@ export type TurnoState = {
   load(): Promise<void>;
   select(selection: Selection): void;
   setDraftField(field: 'title' | 'body', value: string): void;
-  setTaskField(field: 'reason' | 'priority' | 'completed', value: string | boolean): void;
+  setTaskField(field: 'reason' | 'priority' | 'completed' | 'beforeClose', value: string | boolean): void;
   setTemporalField(field: keyof TemporalDraft, value: string): void;
   cancelDraft(): void;
   saveTask(): Promise<SaveResult>;
@@ -122,7 +122,7 @@ export function createTurnoStore(port: TurnoPort, notifications: NotificationSto
       if (!selection || !snapshot) return null;
       if (selection.kind === 'task') {
         const task = snapshot.tasks.find((item) => item.id === selection.id);
-        return task ? {id: task.id, kind: 'task', title: task.title, body: task.body, reason: task.reason, priority: task.priority, completed: task.completed} : null;
+        return task ? {id: task.id, kind: 'task', title: task.title, body: task.body, reason: task.reason, priority: task.priority, completed: task.completed, beforeClose: task.beforeClose === true} : null;
       }
       const note = snapshot.notes.find((item) => item.id === selection.id);
       return note ? {id: note.id, kind: 'note', title: note.title, body: note.body} : null;
@@ -139,7 +139,7 @@ export function createTurnoStore(port: TurnoPort, notifications: NotificationSto
         return note ? {...note, title: draft.title, body: draft.body} : null;
       }
       const task = snapshot.tasks.find((item) => item.id === draft.id);
-      return task ? {...task, title: draft.title, body: draft.body, reason: draft.reason, priority: draft.priority, completed: draft.completed} : null;
+      return task ? {...task, title: draft.title, body: draft.body, reason: draft.reason, priority: draft.priority, completed: draft.completed, beforeClose: draft.beforeClose} : null;
     };
     const errorsFor = (draft: EditDraft, temporal: TemporalDraft): FieldErrors => {
       const snapshot = get().snapshot;
@@ -236,6 +236,7 @@ export function createTurnoStore(port: TurnoPort, notifications: NotificationSto
         const draft = get().draft;
         if (draft?.kind !== 'task') return;
         if (field === 'completed' && typeof value === 'boolean') edit({...draft, completed: value}, get().temporal);
+        if (field === 'beforeClose' && typeof value === 'boolean') edit({...draft, beforeClose: value}, get().temporal);
         if (field === 'reason' && typeof value === 'string') edit({...draft, reason: value}, get().temporal);
         if (field === 'priority' && ['normal', 'high', 'low'].includes(String(value))) edit({...draft, priority: value as Priority}, get().temporal);
       },
