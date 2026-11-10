@@ -28,11 +28,7 @@ test('rechaza modo o modelo inválido', () => {
   assert.throws(() => readOpenCodeSettings({ ...base, OPENCODE_MODEL_ID: '' }), /OPENCODE_MODEL_ID/);
 });
 
-test('OpenCode Go requiere la sesión de servidor', () => {
-  assert.throws(() => readOpenCodeSettings({ ...base, OPENCODE_MODE: 'go' }), /OPENCODE_SESSION_ID/);
-  assert.deepEqual(readOpenCodeSettings({ ...base, OPENCODE_MODE: 'go', OPENCODE_SESSION_ID: 'test-session' }), {
-    mode: 'go',
-    modelId: 'glm-5.3',
-    sessionId: 'test-session',
-  });
+test('OpenCode Go no expone un sessionId global desde el entorno', () => {
+  const settings = readOpenCodeSettings({ ...base, OPENCODE_MODE: 'go', OPENCODE_SESSION_ID: 'global-session-should-be-ignored' });
+  assert.deepEqual(settings, { mode: 'go', modelId: 'glm-5.3' });
 });
