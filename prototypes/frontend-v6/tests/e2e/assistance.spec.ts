@@ -61,3 +61,21 @@ test('móvil: cierre con borradores conserva datos y permite descarte explícito
   await dialog.getByRole('button',{name:'Cerrar captura y sugerencias'}).click();
   await expect(dialog).not.toBeVisible();
 });
+
+for (const scheme of ['light','dark'] as const) {
+  test(`diálogo accesible y pestañas operables por teclado · tema ${scheme}`,async({page})=>{
+    const {default:AxeBuilder}=await import('@axe-core/playwright');
+    await page.emulateMedia({colorScheme:scheme});
+    await page.setViewportSize({width:1024,height:768});
+    await page.goto(product);
+    await page.getByRole('button',{name:'Abrir captura de tareas'}).click();
+    const dialog=page.getByRole('dialog',{name:'Captura y sugerencias'});
+    const capture=dialog.getByRole('tab',{name:'Captura',exact:true});
+    await capture.focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(dialog.getByRole('tab',{name:/Sugerencias/})).toBeFocused();
+    await expect(dialog.getByRole('tab',{name:/Sugerencias/})).toHaveAttribute('aria-selected','true');
+    const result=await new AxeBuilder({page}).include('.assist-dialog').analyze();
+    expect(result.violations.map(v=>({id:v.id,impact:v.impact,targets:v.nodes.map(n=>n.target)}))).toEqual([]);
+  });
+}
