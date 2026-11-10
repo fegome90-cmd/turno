@@ -33,7 +33,7 @@ function checkDocument(html, name) {
     if (link.startsWith('https://') || link.startsWith('mailto:')) continue;
     if (link.startsWith('#')) {
       const target = link.slice(1);
-      assert(new RegExp('id=["\\']' + target + '["\\']').test(html),
+      assert(html.includes('id="' + target + '"') || html.includes("id='" + target + "'"),
         name + ': missing in-page anchor ' + link);
       continue;
     }
