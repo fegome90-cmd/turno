@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { CLASSIFIER_CASES, CAPTURE_CASES } from '../eval/dataset.mjs';
-import { parseArgs, classifyError, scoreClassifier, scoreCapture, captureInvariants, percentile, callCost } from '../eval/run-eval.mjs';
+import { parseArgs, classifyError, scoreClassifier, scoreCapture, captureInvariants, percentile, callCost, effectiveDecisionLabel } from '../eval/run-eval.mjs';
 import { setOf } from '../eval/dataset.mjs';
 import { CLASSIFIER_PROMPT, CAPTURE_PROMPT } from '../prompts.mjs';
 
@@ -95,4 +95,12 @@ test('costo por llamada con el precio público del modelo', () => {
   assert.equal(callCost({ inputTokens: 1000, outputTokens: 500 }, { input: 0.0000004, output: 0.0000016 }), 0.0012);
   assert.equal(callCost(null, { input: 1, output: 1 }), null);
   assert.equal(callCost({ inputTokens: 1, outputTokens: 1 }, null), null);
+});
+
+test('modelo de decisión: bajo el umbral el agente se abstiene', () => {
+  assert.equal(effectiveDecisionLabel({ label: 'PROPOSE_TASK', confidence: 0.99 }), 'PROPOSE_TASK');
+  assert.equal(effectiveDecisionLabel({ label: 'PROPOSE_REMINDER', confidence: 0.5 }), 'NO_ACTION');
+  assert.equal(effectiveDecisionLabel({ label: 'PROPOSE_TASK', confidence: null }), 'NO_ACTION');
+  assert.equal(effectiveDecisionLabel({}), null);
+  assert.deepEqual(parseArgs(['--suites', 'decision']).suites, ['decision']);
 });

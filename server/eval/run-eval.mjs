@@ -13,6 +13,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createStrandsClassifier } from '../gateway-provider.mjs';
 import { createStrandsCapture } from '../gateway-capture.mjs';
+import { createRemoteDecisionClassifier } from '../decision-provider.mjs';
 import { CLASSIFIER_CASES, CAPTURE_CASES, BEDS, setOf } from './dataset.mjs';
 import { PROMPT_VERSION } from '../prompts.mjs';
 
@@ -39,7 +40,7 @@ export function parseArgs(argv) {
   }
   if (!Number.isInteger(opts.reps) || opts.reps < 1 || opts.reps > 10) throw new Error('--reps entre 1 y 10.');
   if (!Number.isFinite(opts.minBalance) || opts.minBalance < 0) throw new Error('--min-balance inválido.');
-  if (!opts.suites.every(s => ['classifier', 'capture'].includes(s))) throw new Error('--suites inválido.');
+  if (!opts.suites.every(s => ['classifier', 'capture', 'decision'].includes(s))) throw new Error('--suites inválido.');
   if (opts.tag && !/^[a-z0-9-]{1,30}$/.test(opts.tag)) throw new Error('--tag inválido.');
   if (!['all', 'dev', 'holdout'].includes(opts.set)) throw new Error('--set inválido; usa all, dev u holdout.');
   return opts;
@@ -110,6 +111,16 @@ async function readPricing(modelId) {
 export function callCost(tokens, pricing) {
   if (!tokens || !pricing || !Number.isFinite(tokens.inputTokens) || !Number.isFinite(tokens.outputTokens)) return null;
   return tokens.inputTokens * pricing.input + tokens.outputTokens * pricing.output;
+}
+
+// Same threshold the agent uses in DECISION mode (decision-switch.mjs minConfidence).
+export const DECISION_THRESHOLD = 0.9;
+
+/** What the agent does with a decision: below the threshold it abstains (= no action). */
+export function effectiveDecisionLabel(result) {
+  if (!result || typeof result.label !== 'string') return null;
+  if (!Number.isFinite(result.confidence) || result.confidence < DECISION_THRESHOLD) return 'NO_ACTION';
+  return result.label;
 }
 
 export function percentile(values, p) {
@@ -263,6 +274,43 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
       holdout: scoreClassifier(records.filter(r => r.set === 'holdout')) } };
   }
 
+  if (opts.suites.includes('decision')) {
+    // Decision API (TURNO_DECISION_MODE=DECISION): the model returns a label and a
+    // confidence; below DECISION_THRESHOLD the agent abstains (no suggestion).
+    const denv = { ...env, TURNO_DECISION_MODEL_ID: modelId, TURNO_AI_MODEL_ID: '' };
+    const decide = await createRemoteDecisionClassifier({ env: denv });
+    const jobs = [];
+    for (let rep = 1; rep <= opts.reps; rep++) {
+      for (const c of CLASSIFIER_CASES) {
+        if (opts.only && !opts.only.has(c.id)) continue;
+        if (!inSet(c)) continue;
+        jobs.push(async () => {
+          const t = performance.now();
+          try {
+            const { value, retries } = await withRateLimitRetry(
+              () => decide({ id: c.id + '-' + rep, synthetic: true, text: c.text }), { log });
+            const label = effectiveDecisionLabel(value);
+            log(`${modelId} dec ${c.id}#${rep} ${label} (${value.label} ${value.confidence}) ${c.accept.includes(label) ? 'ok' : 'MISS'}`);
+            return { id: c.id, set: setOf(c), rep, label, rawLabel: value.label ?? null, confidence: value.confidence ?? null,
+              ms: Math.round(performance.now() - t), retries };
+          } catch (error) {
+            const info = error.evalInfo ?? classifyError(error);
+            log(`${modelId} dec ${c.id}#${rep} ERROR ${info.type}`);
+            return { id: c.id, set: setOf(c), rep, label: null, errorType: info.type, errorDetail: errorDetail(error),
+              ms: Math.round(performance.now() - t), retries: error.retries ?? 0 };
+          }
+        });
+      }
+    }
+    const { records, aborted } = await runPool(jobs, pool);
+    const raw = records.map(r => ({ ...r, label: r.rawLabel ?? r.label }));
+    report.decision = { aborted, threshold: DECISION_THRESHOLD, records,
+      score: scoreClassifier(records), scoreBySet: {
+        dev: scoreClassifier(records.filter(r => r.set === 'dev')),
+        holdout: scoreClassifier(records.filter(r => r.set === 'holdout')) },
+      rawScore: scoreClassifier(raw) };
+  }
+
   if (opts.suites.includes('capture')) {
     const jobs = [];
     for (let rep = 1; rep <= opts.reps; rep++) {
@@ -301,7 +349,7 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
       holdout: scoreCapture(records.filter(r => r.set === 'holdout')) } };
   }
 
-  const calls = [...(report.classifier?.records ?? []), ...(report.capture?.records ?? [])];
+  const calls = [...(report.classifier?.records ?? []), ...(report.capture?.records ?? []), ...(report.decision?.records ?? [])];
   const priced = calls.filter(r => Number.isFinite(r.costUsd));
   report.tokenCostUsd = priced.length ? Math.round(priced.reduce((a, r) => a + r.costUsd, 0) * 1e6) / 1e6 : null;
   report.tokenCostCoverage = calls.length ? priced.length / calls.length : null;
@@ -329,7 +377,8 @@ export async function main(argv = process.argv.slice(2)) {
       const report = await evaluateModel(modelId, opts);
       const file = RESULTS_DIR + modelId.replace(/[^a-z0-9.-]+/gi, '_') + (opts.tag ? '.' + opts.tag : '') + '.json';
       writeFileSync(file, JSON.stringify(report, null, 2) + '\n');
-      summary.push({ modelId, tokenCostUsd: report.tokenCostUsd, classifier: report.classifier?.scoreBySet, capture: report.capture?.scoreBySet });
+      summary.push({ modelId, tokenCostUsd: report.tokenCostUsd, classifier: report.classifier?.scoreBySet,
+        capture: report.capture?.scoreBySet, decision: report.decision?.scoreBySet });
     } catch (error) {
       summary.push({ modelId, error: String(error.message).slice(0, 200) });
     }
