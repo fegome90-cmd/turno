@@ -23,16 +23,18 @@ El chequeo **no hace peticiones a OpenCode ni muestra la clave**. También puede
 
 ## Proveedor y modelo
 
-El archivo `opencode-provider.mjs` expone `createOpenCodeModel()`, un constructor exclusivo del servidor que importa `@guru.prasath/model-opencode`. Para usarlo en una integración posterior hay que instalar las dependencias, revisar el paquete y verificar compatibilidad con el endpoint y modelo elegidos. No se instaló ni ejecutó una llamada de inferencia con credenciales reales.
+El archivo `opencode-provider.mjs` expone `createOpenCodeModel({ sessionId? })`, un constructor exclusivo del servidor que importa `@guru.prasath/model-opencode`. Para usarlo en una integración posterior hay que instalar las dependencias, revisar el paquete y verificar compatibilidad con el endpoint y modelo elegidos. No se instaló ni ejecutó una llamada de inferencia con credenciales reales.
 
 - `OPENCODE_MODE=zen`: usa OpenCode Zen.
-- `OPENCODE_MODE=go`: usa OpenCode Go y requiere también `OPENCODE_SESSION_ID`.
+- `OPENCODE_MODE=go`: usa OpenCode Go, exige `sessionId` proporcionado por el backend, estable dentro de un contexto y distinto entre turnos/usuarios.
 - `OPENCODE_MODEL_ID`: modelo elegido (el ejemplo es ilustrativo; debe verificarse disponibilidad).
 
-El paquete de terceros `@guru.prasath/model-opencode` está fijado en versión `0.1.0` y **no es un componente oficial de Turno ni de OpenCode**. Sus versiones y endpoints se deben revisar antes de habilitarlo.
+No pongas una sesión global compartida en `.env`. No aceptes sin validar un `sessionId` arbitrario del navegador. El servicio backend tendrá que generar y asociar el identificador al contexto autorizado de Turno.
+
+El paquete de terceros `@guru.prasath/model-opencode` está fijado en versión `0.1.0` y **no es un componente oficial de Turno ni de OpenCode**. Sus versiones y endpoints se deben revisar antes de habilitarlo, en particular las URL de OpenCode Console actuales frente a las URL Zen codificadas por el adaptador.
 
 ## Despliegue futuro
 
-Configura `OPENCODE_API_KEY` y, si corresponde, `OPENCODE_SESSION_ID` como **secretos del servicio backend** o de su gestor de secretos. No uses prefijos públicos como `VITE_` ni `NEXT_PUBLIC_`, no incrustes credenciales en JavaScript descargable por el navegador y no transmitas la clave desde el frontend. GitHub Actions Secrets solo sirven para un workflow que realmente los necesite, no sustituyen los secretos del runtime.
+Configura `OPENCODE_API_KEY` como **secreto del servicio backend** o de su gestor de secretos. No uses prefijos públicos como `VITE_` ni `NEXT_PUBLIC_`, no incrustes credenciales en JavaScript descargable por el navegador y no transmitas la clave desde el frontend. GitHub Actions Secrets solo sirven para un workflow que realmente los necesite, no sustituyen los secretos del runtime.
 
-La captura inteligente seguirá el contrato: entrada -> propuesta -> revisión humana -> validación/guardado por Turno. Este módulo no escribe tareas.
+La captura inteligente seguirá el contrato: entrada -> propuesta -> revisión humana -> validación/guardado por Turno. Este módulo no escribe tareas. El asistente ambiental propuesto está documentado en `../docs/assistant-background-v0.1.md`.
