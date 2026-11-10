@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Turno: prototipo de organización personal de tareas, notas y pendientes por jornada de trabajo. Sin uso clínico productivo ni IA conectada.">
+  <title>Turno · Organiza lo que importa</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="site-header" id="inicio">
+    <div class="shell nav">
+      <a class="wordmark" href="#inicio" aria-label="Turno, inicio">Turno<span aria-hidden="true" class="wordmark-dot">✳</span></a>
+      <nav aria-label="Navegación principal">
+        <a href="#producto">Producto</a>
+        <a href="#prototipo">Prototipo</a>
+        <a href="./privacy.html">Privacidad</a>
+        <a href="https://github.com/fegome90-cmd/turno" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main id="contenido">
+    <section class="hero shell">
+      <p class="eyebrow">TURNO · EN DESARROLLO</p>
+      <h1>Un lugar para lo que <em>no puede quedar pendiente.</em></h1>
+      <p class="intro">Turno es un proyecto independiente para organizar tareas, horarios y notas durante una jornada de trabajo. Busca reducir el esfuerzo de mantener todo en la cabeza, sin transformar la aplicación en un chat.</p>
+      <div class="actions">
+        <a class="button primary" href="#prototipo">Ver prototipo</a>
+        <a class="button ghost" href="https://github.com/fegome90-cmd/turno" rel="noopener noreferrer">Explorar repositorio <span aria-hidden="true">↗</span></a>
+      </div>
+      <p class="disclosure">Esta página presenta un prototipo experimental. No existe una versión pública con cuentas, datos reales o inferencia de IA habilitada.</p>
+    </section>
+
+    <section class="shell section" id="producto" aria-labelledby="producto-titulo">
+      <div class="section-lead">
+        <p class="eyebrow">QUÉ ES</p>
+        <h2 id="producto-titulo">Organización personal, con contexto.</h2>
+        <p>Turno reúne compromisos cotidianos en una estructura visible y sencilla. Una persona puede organizar tareas por listas, consultar fechas y pendientes, escribir notas y revisar lo que falta antes de finalizar su jornada. Su diseño busca que esas acciones sean claras incluso cuando el trabajo cambia constantemente.</p>
+      </div>
+      <div class="features">
+        <article>
+          <span class="feature-number" aria-hidden="true">01</span>
+          <h3>Tareas y listas</h3>
+          <p>Registra pendientes, agrúpalos y vuelve a encontrarlos sin depender de una conversación con un asistente.</p>
+        </article>
+        <article>
+          <span class="feature-number" aria-hidden="true">02</span>
+          <h3>Tiempo y cierre</h3>
+          <p>Revisa las tareas de una jornada y reconoce compromisos que deben verificarse antes del cierre.</p>
+        </article>
+        <article>
+          <span class="feature-number" aria-hidden="true">03</span>
+          <h3>Revisión antes de guardar</h3>
+          <p>Las propuestas se convierten en tareas solo cuando la persona las revisa y aprueba. La captura actual es manual, sin LLM.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="showcase section" id="prototipo" aria-labelledby="prototipo-titulo">
+      <div class="shell">
+        <p class="eyebrow">PROTOTIPO REAL · REACT V6</p>
+        <h2 id="prototipo-titulo">Captura y revisión, sin prometer magia.</h2>
+        <p class="showcase-description">Esta es una captura auténtica del prototipo React v6, generada con tres tareas sintéticas. El recorrido permite crear tarjetas para revisión; actualmente no interpreta lenguaje natural ni se conecta a un modelo. Las tareas permanecen en la demo y requieren confirmación individual.</p>
+        <figure class="product-shot">
+          <img src="./assets/turno-capture-review-v6-synthetic.png" width="1440" height="900" loading="lazy" decoding="async" alt="Captura del prototipo Turno v6: ventana Captura y sugerencias con una tarea pendiente de aprobación sobre la interfaz de tareas y tiempo.">
+          <figcaption>Captura verificada del frontend experimental · 10 de noviembre de 2026 · datos sintéticos · sin conexión de IA.</figcaption>
+        </figure>
+        <p class="source-link"><a href="https://github.com/fegome90-cmd/turno/pull/5" rel="noopener noreferrer">Revisar el PR del prototipo v6 <span aria-hidden="true">↗</span></a></p>
+      </div>
+    </section>
+
+    <section class="shell section compact" aria-labelledby="inteligencia-titulo">
+      <p class="eyebrow">DIRECCIÓN DE PRODUCTO · AÚN NO DISPONIBLE</p>
+      <h2 id="inteligencia-titulo">Sugerencias que no interrumpan.</h2>
+      <p>Estamos investigando un agente ambiental basado en Strands Agents que pueda proponer recordatorios operativos y destacar información útil desde eventos autorizados. La persona seguiría controlando qué se guarda y qué se descarta; no existiría un chatbot obligatorio.</p>
+      <p>También evaluamos, sujetos a autorización de OpenAI, que cada usuario elegible pueda conectar su propia cuenta de ChatGPT. Esta función <strong>no está disponible</strong>, no solicita credenciales y no utiliza la suscripción de terceros. Las pruebas de integración se mantienen limitadas a información sintética.</p>
+    </section>
+
+    <section class="shell section boundaries" aria-labelledby="limites-titulo">
+      <p class="eyebrow">LÍMITES DEL PRODUCTO</p>
+      <h2 id="limites-titulo">Qué no es Turno.</h2>
+      <p>No es una ficha clínica electrónica ni un sustituto de registros institucionales, protocolos, evaluaciones o decisiones asistenciales. No está diseñado para almacenar datos identificables de pacientes, emitir indicaciones terapéuticas ni priorizar riesgos clínicos automáticamente.</p>
+      <p>La versión de demostración utiliza datos sintéticos en memoria y no cuenta con backend autenticado, colaboración entre usuarios ni persistencia productiva. <strong>No ingreses información personal ni clínica real en la demo.</strong></p>
+    </section>
+
+    <section class="english shell section" lang="en" aria-labelledby="about-title">
+      <p class="eyebrow">ENGLISH · FOR INTEGRATION REVIEW</p>
+      <h2 id="about-title">About Turno</h2>
+      <p>Turno is an independent, early-stage personal task and shift organizer for professionals across disciplines. The React prototype demonstrates tasks, notes, scheduling context, and human-reviewed task capture using synthetic data. It is not an electronic health record or a clinical decision system, and it has no production user accounts or connected AI provider. We are exploring an optional non-chat Strands Agents feature and would like eligible users to authorize their own ChatGPT plan use, subject to OpenAI partner approval and explicit consent.</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div><strong>Turno.</strong><p>Proyecto independiente · material de presentación G0.</p></div>
+      <div class="footer-links">
+        <a href="https://github.com/fegome90-cmd/turno" rel="noopener noreferrer">Código</a>
+        <a href="./privacy.html">Información de privacidad (borrador)</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
