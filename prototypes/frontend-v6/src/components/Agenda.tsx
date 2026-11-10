@@ -18,9 +18,9 @@ export function Agenda({store, onSelect, onCreateTask}: {store: TurnoStore; onSe
         aria-current={state.selection?.kind === 'task' && state.selection.id === task.id ? 'true' : undefined}
         aria-label={`${task.time || 'Sin hora'} · ${task.title}${task.priority === 'high' ? ' · Prioridad Alta' : ''} · ${listLabel(task.bedId)}${task.completed ? ' · Completada' : ''}`}
         onClick={() => onSelect(task.id)}>
-        <span className="agenda-time">{task.time || 'Sin hora'}</span><span className="agenda-detail"><span className="agenda-title">{task.title}</span>
+        <span className="agenda-time">{task.time || (task.beforeClose ? 'Cierre' : 'Sin hora')}</span><span className="agenda-detail"><span className="agenda-title">{task.title}</span>
           {task.priority === 'high' && <span className="priority-badge"><svg className="priority-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5m-6 6 6-6 6 6"/></svg><span className="visually-hidden">Prioridad </span>Alta</span>}
-          <small>{listLabel(task.bedId)}{task.completed ? ' · Completada' : ''}</small>
+          <small>{listLabel(task.bedId)}{task.beforeClose ? ' · Antes del cierre' : ''}{task.completed ? ' · Completada' : ''}</small>
         </span>{task.completed && <CircleCheck aria-hidden="true" size={15}/>}
       </button>)}</div>
     </section>)}
