@@ -24,6 +24,8 @@ test('argumentos: exige --live explícito y valida límites', () => {
   assert.throws(() => parseArgs(['--reps', '50']), /reps/);
   assert.throws(() => parseArgs(['--suites', 'chat']), /suites/);
   assert.throws(() => parseArgs(['--x']), /desconocido/);
+  assert.equal(parseArgs(['--tag', 'despues']).tag, 'despues');
+  assert.throws(() => parseArgs(['--tag', '../x']), /tag/);
 });
 
 test('errores: límite de solicitudes con espera, plan gratuito y tiempo', () => {

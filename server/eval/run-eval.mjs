@@ -19,7 +19,7 @@ const RESULTS_DIR = fileURLToPath(new URL('./results/', import.meta.url));
 
 export function parseArgs(argv) {
   const opts = { live: false, models: [], reps: 1, suites: ['classifier', 'capture'], minBalance: 3,
-    concurrency: 4, freePaceMs: 12_500, paceMs: null, only: null };
+    concurrency: 4, freePaceMs: 12_500, paceMs: null, only: null, tag: '' };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const next = () => argv[++i];
@@ -32,11 +32,13 @@ export function parseArgs(argv) {
     else if (a === '--free-pace-ms') opts.freePaceMs = Number(next());
     else if (a === '--pace-ms') opts.paceMs = Number(next()); // aplica a todos los modelos
     else if (a === '--only') opts.only = new Set(next().split(','));
+    else if (a === '--tag') opts.tag = next();
     else throw new Error('Argumento desconocido: ' + a);
   }
   if (!Number.isInteger(opts.reps) || opts.reps < 1 || opts.reps > 10) throw new Error('--reps entre 1 y 10.');
   if (!Number.isFinite(opts.minBalance) || opts.minBalance < 0) throw new Error('--min-balance inválido.');
   if (!opts.suites.every(s => ['classifier', 'capture'].includes(s))) throw new Error('--suites inválido.');
+  if (opts.tag && !/^[a-z0-9-]{1,30}$/.test(opts.tag)) throw new Error('--tag inválido.');
   return opts;
 }
 
@@ -206,7 +208,7 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
     throw new Error(`Saldo ${startBalance} bajo el mínimo ${opts.minBalance}; no se ejecuta ${modelId}.`);
   }
   const pool = { concurrency: opts.concurrency, paceMs: opts.paceMs ?? (isFree ? opts.freePaceMs : 0), budgetCheck, log };
-  const report = { modelId, startedAt: new Date().toISOString(), reps: opts.reps, startBalance };
+  const report = { modelId, tag: opts.tag || null, startedAt: new Date().toISOString(), reps: opts.reps, startBalance };
 
   if (opts.suites.includes('classifier')) {
     const classify = await createStrandsClassifier({ env });
@@ -293,7 +295,7 @@ export async function main(argv = process.argv.slice(2)) {
   for (const modelId of opts.models) {
     try {
       const report = await evaluateModel(modelId, opts);
-      const file = RESULTS_DIR + modelId.replace(/[^a-z0-9.-]+/gi, '_') + '.json';
+      const file = RESULTS_DIR + modelId.replace(/[^a-z0-9.-]+/gi, '_') + (opts.tag ? '.' + opts.tag : '') + '.json';
       writeFileSync(file, JSON.stringify(report, null, 2) + '\n');
       summary.push({ modelId, costUsd: report.costUsd, classifier: report.classifier?.score, capture: report.capture?.score });
     } catch (error) {
