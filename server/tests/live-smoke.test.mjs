@@ -35,3 +35,39 @@ test('detecta aprobación faltante y hora ficticia de cierre', () => {
   assert.equal(r.allNeedHumanReview,false);
   assert.equal(r.closeCorrect,false);
 });
+
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+
+const scriptPath = fileURLToPath(new URL('../live-smoke.mjs', import.meta.url));
+const isolatedEnv = {PATH: process.env.PATH || '', HOME: process.env.HOME || '', LANG:'C'};
+
+test('preflight ejecutable no consume API ni requiere credenciales', () => {
+  const p=spawnSync(process.execPath,[scriptPath,'--preflight'],{
+    cwd:fileURLToPath(new URL('..', import.meta.url)), env:isolatedEnv,
+    encoding:'utf8', timeout:10000,
+  });
+  assert.equal(p.status,0,p.stderr);
+  const report=JSON.parse(p.stdout);
+  assert.equal(report.requests,0);
+  assert.equal(report.ready,true);
+});
+
+test('live sin credenciales falla cerrado antes de hacer una petición', () => {
+  const p=spawnSync(process.execPath,[scriptPath,'--live','--from-env'],{
+    cwd:fileURLToPath(new URL('..', import.meta.url)), env:isolatedEnv,
+    encoding:'utf8', timeout:10000,
+  });
+  assert.equal(p.status,2,p.stderr);
+  assert.match(p.stderr,/No hay credencial disponible/);
+  assert.equal(p.stdout.trim(),'');
+});
+
+test('live requiere argumentos explícitos para habilitar inferencia', () => {
+  const p=spawnSync(process.execPath,[scriptPath,'--live'],{
+    cwd:fileURLToPath(new URL('..', import.meta.url)), env:isolatedEnv,
+    encoding:'utf8', timeout:10000,
+  });
+  assert.equal(p.status,2);
+  assert.match(p.stderr,/Uso:/);
+});
