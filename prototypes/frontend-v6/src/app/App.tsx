@@ -181,7 +181,7 @@ function ProductApp({session}: {session: AppSession}) {
       open={state.overlays.layers.some((layer) => layer.id === 'domain-dialog')} onEdit={navigation.beforeEdit}
       onSubmit={(value) => submitName(nameRequest, value)} onCancel={() => navigation.dismissDomain(nameRequest.origin)}
       onClosed={() => {setNameRequest((current) => current?.key === nameRequest.key ? null : current); navigation.panelClosed('domain-dialog');}}/>}
-    {closeRequest && <CloseShiftDialog shiftName={state.snapshot?.shifts.find((shift) => shift.id === closeRequest.shiftId)?.label ?? 'Turno'} open={state.overlays.layers.some((layer) => layer.id === 'domain-dialog')} pending={state.snapshot?.tasks.filter((task) => task.shiftId === closeRequest.shiftId && !task.completed).length ?? 0} busy={state.busy} error={closeError}
+    {closeRequest && <CloseShiftDialog shiftName={state.snapshot?.shifts.find((shift) => shift.id === closeRequest.shiftId)?.label ?? 'Turno'} open={state.overlays.layers.some((layer) => layer.id === 'domain-dialog')} pending={state.snapshot?.tasks.filter((task) => task.shiftId === closeRequest.shiftId && !task.completed).length ?? 0} beforeClose={state.snapshot?.tasks.filter((task) => task.shiftId === closeRequest.shiftId && !task.completed && task.beforeClose).length ?? 0} busy={state.busy} error={closeError}
       onConfirm={() => {void submitClose(closeRequest);}} onCancel={() => navigation.dismissDomain(closeRequest.origin)}
       onClosed={() => {setCloseRequest((current) => current?.key === closeRequest.key ? null : current); navigation.panelClosed('domain-dialog');}}/>}
     <AssistanceDialog store={session.store} notifications={session.notifications}
