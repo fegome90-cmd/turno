@@ -66,7 +66,7 @@ export function collectAmbientSuggestions(snapshot: Snapshot | null): AmbientSug
     const label = snapshot.beds.find((bed) => bed.id === bedId)?.label ?? 'Lista sin nombre';
     const ids = tasks.map((task) => task.id).sort();
     suggestions.push({
-      id: 'shared:' + snapshot.activeShiftId + ':' + ids.join(':'),
+      id: 'shared:' + snapshot.activeShiftId + ':' + bedId + ':' + date + ':' + time + ':' + ids.join(':'),
       kind: 'shared-slot',
       title: 'Tareas en el mismo horario',
       detail: `${tasks.length} tareas pendientes en ${label}, ${displayDate(date)} a las ${time}. Podrían requerir coordinación; esto no demuestra duplicidad.`,
