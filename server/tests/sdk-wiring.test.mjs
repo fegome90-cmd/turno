@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 // Verifica los imports reales y la compatibilidad de objetos SIN invocar APIs.
 test('Strands acepta Vercel Gateway como modelo sin red ni credenciales', async () => {
-  const [{ Agent }, { VercelModel }, { gateway }, { experimental_decide }] = await Promise.all([
+  const [{ Agent }, { VercelModel }, { gateway }, { experimental_decide, gateway: decisionGateway }] = await Promise.all([
     import('@strands-agents/sdk'),
     import('@strands-agents/sdk/models/vercel'),
     import('@ai-sdk/gateway'),
@@ -12,5 +12,6 @@ test('Strands acepta Vercel Gateway como modelo sin red ni credenciales', async 
   const agent = new Agent({ model, systemPrompt:'Solo test de construcción.', tools:[], printer:false });
   assert.equal(typeof agent.invoke,'function');
   assert.equal(typeof experimental_decide,'function');
-  assert.equal(typeof gateway.decisionModel,'function');
+  assert.equal(gateway('anthropic/claude-haiku-4.5').specificationVersion,'v3');
+  assert.equal(typeof decisionGateway.decisionModel,'function');
 });
