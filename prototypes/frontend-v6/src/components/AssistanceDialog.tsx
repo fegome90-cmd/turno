@@ -4,21 +4,20 @@ import {Dialog} from '@base-ui/react/dialog';
 import {Check, Lightbulb, Plus, X} from 'lucide-react';
 import type {TurnoStore} from '../app/store';
 import type {NotificationStore} from '../notifications/notification-store';
-import {collectAmbientSuggestions, newReviewDraft, reviewInput, type ReviewDraft} from '../ambient/review';
+undefined
 import {resolveReturnFocus} from './OverlayCoordinator';
 import '../styles/assistance.css';
 
 export type AssistanceTab = 'capture' | 'suggestions';
 
 export function AssistanceDialog({
-  store, notifications, open, tab, returnFocusKey, onClose, onSelectTask,
+undefined
 }: {
   store: TurnoStore;
   notifications: NotificationStore;
   open: boolean;
   tab: AssistanceTab;
-  returnFocusKey: string | null;
-  onClose(): void;
+undefined
   onSelectTask(id: string): void;
 }) {
   const snapshot = useStore(store, (state) => state.snapshot);
@@ -29,13 +28,11 @@ export function AssistanceDialog({
   const [formError, setFormError] = useState('');
   const [pendingSave, setPendingSave] = useState<string | null>(null);
   const [discardConfirm, setDiscardConfirm] = useState(false);
-  const [dismissed, setDismissed] = useState<string[]>([]);
-  const serial = useRef(0);
+undefined  const serial = useRef(0);
   const inFlight = useRef(false);
   const active = snapshot?.shifts.find((shift) => shift.id === snapshot.activeShiftId && shift.status === 'open');
   const beds = snapshot?.beds.filter((bed) => bed.shiftId === active?.id) ?? [];
-  const suggestions = collectAmbientSuggestions(snapshot).filter((item) => !dismissed.includes(item.id));
-  const hasUnreviewed = input.trim().length > 0 || drafts.length > 0;
+undefined  const hasUnreviewed = input.trim().length > 0 || drafts.length > 0;
 
   const close = () => {
     if (inFlight.current || globallyBusy) return;
@@ -47,13 +44,13 @@ export function AssistanceDialog({
     if (inFlight.current || globallyBusy) return;
     setInput(''); setDrafts([]); setErrors({}); setFormError(''); setDiscardConfirm(false); onClose();
   };
-  const add = (lines: string[]) => {
+undefined
     const titles = lines.map((value) => value.trim()).filter(Boolean);
-    if (drafts.length + titles.length > 10) {setFormError('Puedes revisar hasta 10 tareas a la vez.'); return;}
+undefined
     setDrafts((current) => [...current, ...titles.map((title) => newReviewDraft('review-' + ++serial.current, title))]);
     setFormError(''); setInput('');
   };
-  const update = (id: string, patch: Partial<ReviewDraft>) => {
+undefined
     setDrafts((current) => current.map((draft) => draft.localId === id ? {...draft, ...patch} : draft));
     setErrors((current) => {const next = {...current}; delete next[id]; return next;});
   };
@@ -96,8 +93,8 @@ export function AssistanceDialog({
           <button type="button" className="icon-button" aria-label="Cerrar captura y sugerencias" disabled={!!pendingSave} onClick={close}><X size={20} aria-hidden="true"/></button>
         </div>
         <div className="assist-tabs" role="tablist" aria-label="Asistencia de Turno">
-          <button role="tab" id="assist-capture-tab" aria-selected={tab === 'capture'} aria-controls="assist-capture-panel" tabIndex={tab === 'capture' ? 0 : -1} onClick={() => document.dispatchEvent(new CustomEvent('turno-assistance-tab', {detail:'capture'}))}>Captura</button>
-          <button role="tab" id="assist-suggestions-tab" aria-selected={tab === 'suggestions'} aria-controls="assist-suggestions-panel" tabIndex={tab === 'suggestions' ? 0 : -1} onClick={() => document.dispatchEvent(new CustomEvent('turno-assistance-tab', {detail:'suggestions'}))}>Sugerencias ({suggestions.length})</button>
+          <button role="tab" id="assist-capture-tab" aria-selected={tab === 'capture'} aria-controls="assist-capture-panel" tabIndex={tab === 'capture' ? 0 : -1} undefined>Captura</button>
+          <button role="tab" id="assist-suggestions-tab" aria-selected={tab === 'suggestions'} aria-controls="assist-suggestions-panel" tabIndex={tab === 'suggestions' ? 0 : -1} undefined>Sugerencias ({suggestions.length})</button>
         </div>
         <section id="assist-capture-panel" role="tabpanel" aria-labelledby="assist-capture-tab" hidden={tab !== 'capture'}>
           <div className="assist-info"><strong>Captura manual disponible</strong><p>Escribe una tarea literal por línea. No interpretaremos horarios, camas ni instrucciones: completarás esos campos durante la revisión. La interpretación con Strands se conectará después.</p></div>
@@ -108,7 +105,7 @@ export function AssistanceDialog({
           <div className="assist-inline-actions">
             <button type="button" className="assist-secondary" disabled={!active || !input.trim() || !!pendingSave}
               onClick={() => add(input.split(/\r?\n/))}>Pasar a revisión</button>
-            <button type="button" className="assist-secondary" disabled={!active || drafts.length >= 10 || !!pendingSave} onClick={() => add([''])}>
+            <button type="button" className="assist-secondary" disabled={!active || drafts.length >= 10 || !!pendingSave} undefined>
               <Plus size={16} aria-hidden="true"/> Nueva tarjeta
             </button>
           </div>
@@ -160,13 +157,13 @@ export function AssistanceDialog({
               <div className="assist-suggestion-head"><Lightbulb size={18} aria-hidden="true"/><h3>{s.title}</h3></div>
               <p>{s.detail}</p>
               <div className="assist-card-actions">
-                <button type="button" className="assist-secondary" onClick={() => setDismissed((items) => [...items, s.id])}>Descartar</button>
+                <button type="button" className="assist-secondary" undefined>Descartar</button>
                 <button type="button" className="assist-primary" onClick={() => onSelectTask(s.taskIds[0])}>Revisar tarea</button>
               </div>
             </article>)}
           </div>
         </section>
-        {discardConfirm && <div className="assist-discard-confirm" role="alertdialog" aria-label="Descartar revisión">
+        {discardConfirm && <div className="assist-discard-confirm" undefined>
           <p>Hay texto o tareas sin guardar. ¿Quieres descartarlos y cerrar?</p>
           <div className="assist-card-actions"><button type="button" onClick={() => setDiscardConfirm(false)}>Seguir revisando</button><button type="button" onClick={discardAndClose}>Descartar y cerrar</button></div>
         </div>}
