@@ -37,12 +37,19 @@ Fuente: https://github.com/openai/sign-in-with-chatgpt-devkit/blob/main/LICENSE
 ## Plan en gates (sin trabajo de modelos ni cambios de runtime)
 
 ### G0 — Identidad, propósito y titularidad del producto (P0)
-- [ ] Página pública propia de Turno con descripción, captura y repositorio.
-- [ ] Identificar responsable de la solicitud, entidad/titularidad jurídica y contacto de soporte; no sugerir afiliación con hospitales/OpenAI sin autorización.
-- [ ] Publicar política de privacidad y tratamiento de datos adecuada, y explicar que Turno es un organizador personal, no un EHR ni un dispositivo de decisión clínica.
-- [ ] Documentar alcance inicial limitado a **datos sintéticos** en cualquier piloto de integración.
 
-**Salida:** paquete de producto apto para solicitud, con responsables y URLs reales.
+**Estado al 10-11-2026:** `G0_PREPARED_NOT_SUBMISSION_READY`. El paquete está creado y verificado en [docs/siwc-g0](./siwc-g0/README.md), rama `docs/siwc-approval-readiness-2026-11`. **G0 no está aprobado.**
+
+- [x] Página informativa estática propia, con descripción fiel al prototipo y repositorio público: [index.html](./siwc-g0/index.html). **Código preparado, todavía sin publicación HTTPS verificada.**
+- [x] Captura auténtica del frontend React v6 del PR #5, con tres tareas sintéticas: [evidencia PNG](./siwc-g0/assets/turno-capture-review-v6-synthetic.png).
+- [x] Borrador de privacidad conforme a lo que funciona **hoy**, sin afirmar que existen usuarios, backend ni inferencia habilitada: [privacy.html](./siwc-g0/privacy.html). **No equivale a política publicada y vigente.**
+- [x] Identidad de producto y texto en inglés para solicitud: [APPLICANT-PROFILE.md](./siwc-g0/APPLICANT-PROFILE.md). Sin nombres/correos personales inferidos.
+- [x] Verificación sin red con Node y navegador: recursos locales e imagen OK; sin scripts de analítica; responsive; sin incidencias WCAG 2 A/AA detectadas con axe-core en escritorio/móvil para la página estática.
+- [ ] Confirmar responsable, titularidad jurídica y contacto de soporte verificable.
+- [ ] Elegir hosting y publicar sitio HTTPS real con imagen, enlaces y privacidad revisada.
+- [ ] Revisar legalmente aviso según proveedor y tratamientos efectivos, incluyendo la Ley 21.719 con vigencia desde 01-12-2026.
+
+**Gate:** no pasar a G1 hasta cerrar los puntos pendientes. Matriz de aceptación y evidencia: [G0-ACCEPTANCE.md](./siwc-g0/G0-ACCEPTANCE.md). La página alojada como **código** en GitHub no sustituye una URL pública de sitio publicada.
 
 ### G1 — Solicitud oficial y confirmación por escrito (P0)
 Formulario: https://openai.com/form/sign-in-with-chatgpt-interest/
