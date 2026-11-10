@@ -285,7 +285,7 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
 
   if (opts.suites.includes('decision')) {
     // Decision API (TURNO_DECISION_MODE=DECISION): the model returns a label and a
-    // confidence; below DECISION_THRESHOLD the agent abstains (no suggestion).
+    // confidence; below `threshold` (agent setting or --threshold) the agent abstains (no suggestion).
     const denv = { ...env, TURNO_DECISION_MODEL_ID: modelId, TURNO_AI_MODEL_ID: '' };
     const decide = await createRemoteDecisionClassifier({ env: denv });
     const jobs = [];
