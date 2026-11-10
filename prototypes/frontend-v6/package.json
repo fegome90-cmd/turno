@@ -18,7 +18,11 @@
     "preview": "vite preview --host 127.0.0.1 --port 4176",
     "check:portable": "node scripts/check-portable.mjs dist/preview.html",
     "measure:bundle": "node scripts/measure-bundle.mjs dist/preview.html",
-    "check:parity": "node scripts/check-parity.mjs docs/parity-map.json"
+    "check:parity": "node scripts/check-parity.mjs docs/parity-map.json",
+    "test:tooling": "node --test tests/tooling/*.test.mjs",
+    "build:e2e": "npm run build && node scripts/build-history-harness.mjs && node scripts/build-layout-harness.mjs",
+    "pretest:e2e": "npm run build:e2e",
+    "pretest:smoke:engines": "npm run build"
   },
   "dependencies": {
     "@base-ui/react": "1.9.0",

@@ -1,7 +1,8 @@
 import {defineConfig, devices} from '@playwright/test';
+import {chromiumLaunchOptions} from './scripts/chromium-launch.ts';
 
-// Chromium is the only browser gate of 1A. Firefox/WebKit are not installed and are not gates here.
-// The file:// tests open dist/preview.html directly: no dev server or webServer is started.
+// Full regression runs on Chromium. Firefox/WebKit run only the explicit smoke suite.
+// file:// cases read built artifacts; the primitive harness uses the local server below.
 export default defineConfig({
   testDir: 'tests/e2e',
   workers: 1,
@@ -19,7 +20,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://127.0.0.1:4177',
     trace: 'retain-on-failure',
-    // video desactivado en este entorno: falta /opt/pw-browsers/ffmpeg-1013 y no se instalan navegadores (1B, desviación documentada).
+    // Video stays off; traces and failure screenshots are retained.
     video: 'off',
     screenshot: 'only-on-failure',
   },
@@ -28,8 +29,10 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        launchOptions: {executablePath: '/opt/pw-browsers/chromium'},
+        launchOptions: chromiumLaunchOptions(),
       },
     },
+    {name: 'firefox', testMatch: '**/smoke.spec.ts', use: {...devices['Desktop Firefox']}},
+    {name: 'webkit', testMatch: '**/smoke.spec.ts', use: {...devices['Desktop Safari']}},
   ],
 });

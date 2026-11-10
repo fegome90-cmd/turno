@@ -5,6 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {pathToFileURL} from 'node:url';
 import {chromium} from '@playwright/test';
+import {chromiumLaunchOptions} from './chromium-launch.ts';
 
 const SAMPLES = Number(process.env.PERF_SAMPLES ?? 20);
 const VIEWPORT = {width: 1280, height: 720};
@@ -28,7 +29,7 @@ const summary = (values) => ({
   max: percentile(values, 100),
 });
 
-const browser = await chromium.launch({executablePath: '/opt/pw-browsers/chromium', headless: true});
+const browser = await chromium.launch({...chromiumLaunchOptions(), headless: true});
 const samples = {v6: [], v5: []};
 try {
   for (let i = 0; i < SAMPLES; i++) {

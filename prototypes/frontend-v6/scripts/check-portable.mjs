@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {chromium} from '@playwright/test';
+import {chromiumLaunchOptions} from './chromium-launch.ts';
 
 const target = process.argv[2] ?? 'dist/preview.html';
 const abs = path.resolve(target);
@@ -34,7 +35,7 @@ const external = [];
 const consoleErrors = [];
 const pageErrors = [];
 const failed = [];
-const browser = await chromium.launch({executablePath: '/opt/pw-browsers/chromium', headless: true});
+const browser = await chromium.launch({...chromiumLaunchOptions(), headless: true});
 let report;
 try {
   const context = await browser.newContext({serviceWorkers: 'block', offline: false});

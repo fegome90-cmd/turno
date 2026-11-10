@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {chromium} from '@playwright/test';
+import {chromiumLaunchOptions} from './chromium-launch.ts';
 import {readPngPixel} from '../tests/e2e/support/png.ts';
 
 const RUNS = Number(process.env.FP_RUNS ?? 10);
@@ -13,7 +14,7 @@ const APP_CANVAS = [23, 24, 23];
 fs.rmSync(OUT, {recursive: true, force: true});
 fs.mkdirSync(OUT, {recursive: true});
 
-const browser = await chromium.launch({executablePath: '/opt/pw-browsers/chromium', headless: true});
+const browser = await chromium.launch({...chromiumLaunchOptions(), headless: true});
 const runs = [];
 try {
   for (let run = 1; run <= RUNS; run++) {
