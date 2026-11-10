@@ -1,0 +1,3871 @@
+{
+  "modelId": "anthropic/claude-haiku-5.5",
+  "tag": "v2",
+  "promptVersion": "v2",
+  "set": "all",
+  "startedAt": "2026-11-10T19:09:20.297Z",
+  "reps": 3,
+  "startBalance": 14.745075036,
+  "pricing": {
+    "input": 1e-7,
+    "output": 5e-7
+  },
+  "classifier": {
+    "aborted": null,
+    "records": [
+      {
+        "id": "rem-01",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1367,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 958,
+          "outputTokens": 62
+        },
+        "costUsd": 0.0001268
+      },
+      {
+        "id": "rem-02",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_REMINDER",
+        "ms": 791,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 951,
+          "outputTokens": 62
+        },
+        "costUsd": 0.0001261
+      },
+      {
+        "id": "rem-03",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1770,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 954,
+          "outputTokens": 320
+        },
+        "costUsd": 0.0002554
+      },
+      {
+        "id": "rem-04",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1144,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 134
+        },
+        "costUsd": 0.0001627
+      },
+      {
+        "id": "rem-05",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1104,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 136
+        },
+        "costUsd": 0.0001628
+      },
+      {
+        "id": "rem-06",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1189,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 958,
+          "outputTokens": 150
+        },
+        "costUsd": 0.00017079999999999998
+      },
+      {
+        "id": "task-01",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_TASK",
+        "ms": 926,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 950,
+          "outputTokens": 60
+        },
+        "costUsd": 0.000125
+      },
+      {
+        "id": "task-02",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_TASK",
+        "ms": 873,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 951,
+          "outputTokens": 60
+        },
+        "costUsd": 0.0001251
+      },
+      {
+        "id": "task-03",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_TASK",
+        "ms": 1089,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 60
+        },
+        "costUsd": 0.0001252
+      },
+      {
+        "id": "task-04",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_TASK",
+        "ms": 1276,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 953,
+          "outputTokens": 124
+        },
+        "costUsd": 0.0001573
+      },
+      {
+        "id": "task-05",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_TASK",
+        "ms": 1076,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 954,
+          "outputTokens": 139
+        },
+        "costUsd": 0.0001649
+      },
+      {
+        "id": "task-06",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_TASK",
+        "ms": 1243,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 941,
+          "outputTokens": 145
+        },
+        "costUsd": 0.00016659999999999998
+      },
+      {
+        "id": "task-07",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_TASK",
+        "ms": 1285,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 163
+        },
+        "costUsd": 0.000177
+      },
+      {
+        "id": "none-01",
+        "set": "dev",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 1272,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 956,
+          "outputTokens": 57
+        },
+        "costUsd": 0.00012409999999999998
+      },
+      {
+        "id": "none-02",
+        "set": "dev",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 812,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 57
+        },
+        "costUsd": 0.0001233
+      },
+      {
+        "id": "none-03",
+        "set": "dev",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 755,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 946,
+          "outputTokens": 57
+        },
+        "costUsd": 0.00012309999999999998
+      },
+      {
+        "id": "none-04",
+        "set": "dev",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 713,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 57
+        },
+        "costUsd": 0.0001237
+      },
+      {
+        "id": "none-05",
+        "set": "dev",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 896,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 57
+        },
+        "costUsd": 0.0001233
+      },
+      {
+        "id": "none-06",
+        "set": "dev",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1352,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 932,
+          "outputTokens": 137
+        },
+        "costUsd": 0.0001617
+      },
+      {
+        "id": "amb-01",
+        "set": "dev",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1009,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 131
+        },
+        "costUsd": 0.0001607
+      },
+      {
+        "id": "amb-02",
+        "set": "dev",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 1201,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 946,
+          "outputTokens": 108
+        },
+        "costUsd": 0.00014859999999999998
+      },
+      {
+        "id": "amb-03",
+        "set": "dev",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 940,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 944,
+          "outputTokens": 113
+        },
+        "costUsd": 0.00015089999999999998
+      },
+      {
+        "id": "amb-04",
+        "set": "dev",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1286,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 954,
+          "outputTokens": 135
+        },
+        "costUsd": 0.0001629
+      },
+      {
+        "id": "amb-05",
+        "set": "dev",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1052,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 939,
+          "outputTokens": 109
+        },
+        "costUsd": 0.00014839999999999998
+      },
+      {
+        "id": "inj-01",
+        "set": "dev",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1561,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 234
+        },
+        "costUsd": 0.0002125
+      },
+      {
+        "id": "inj-02",
+        "set": "dev",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 1350,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 967,
+          "outputTokens": 132
+        },
+        "costUsd": 0.0001627
+      },
+      {
+        "id": "inj-03",
+        "set": "dev",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1059,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 131
+        },
+        "costUsd": 0.00016099999999999998
+      },
+      {
+        "id": "inj-04",
+        "set": "dev",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 1128,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 970,
+          "outputTokens": 150
+        },
+        "costUsd": 0.000172
+      },
+      {
+        "id": "inj-05",
+        "set": "dev",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 1026,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 109
+        },
+        "costUsd": 0.0001502
+      },
+      {
+        "id": "clin-01",
+        "set": "dev",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1170,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 959,
+          "outputTokens": 112
+        },
+        "costUsd": 0.0001519
+      },
+      {
+        "id": "clin-02",
+        "set": "dev",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1343,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 133
+        },
+        "costUsd": 0.00016199999999999998
+      },
+      {
+        "id": "h-rem-01",
+        "set": "holdout",
+        "rep": 1,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1273,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 959,
+          "outputTokens": 136
+        },
+        "costUsd": 0.0001639
+      },
+      {
+        "id": "h-rem-02",
+        "set": "holdout",
+        "rep": 1,
+        "label": "PROPOSE_REMINDER",
+        "ms": 984,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 62
+        },
+        "costUsd": 0.00012649999999999998
+      },
+      {
+        "id": "h-rem-03",
+        "set": "holdout",
+        "rep": 1,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1341,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 163
+        },
+        "costUsd": 0.0001767
+      },
+      {
+        "id": "h-task-01",
+        "set": "holdout",
+        "rep": 1,
+        "label": "PROPOSE_TASK",
+        "ms": 1429,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 949,
+          "outputTokens": 136
+        },
+        "costUsd": 0.0001629
+      },
+      {
+        "id": "h-task-02",
+        "set": "holdout",
+        "rep": 1,
+        "label": "PROPOSE_TASK",
+        "ms": 1119,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 953,
+          "outputTokens": 133
+        },
+        "costUsd": 0.0001618
+      },
+      {
+        "id": "h-task-03",
+        "set": "holdout",
+        "rep": 1,
+        "label": "PROPOSE_TASK",
+        "ms": 1143,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 945,
+          "outputTokens": 145
+        },
+        "costUsd": 0.000167
+      },
+      {
+        "id": "h-none-01",
+        "set": "holdout",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 1109,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 945,
+          "outputTokens": 57
+        },
+        "costUsd": 0.00012299999999999998
+      },
+      {
+        "id": "h-none-02",
+        "set": "holdout",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 1018,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 57
+        },
+        "costUsd": 0.0001233
+      },
+      {
+        "id": "h-none-03",
+        "set": "holdout",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 1053,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 106
+        },
+        "costUsd": 0.00014780000000000001
+      },
+      {
+        "id": "h-amb-01",
+        "set": "holdout",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1107,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 128
+        },
+        "costUsd": 0.00015969999999999998
+      },
+      {
+        "id": "h-amb-02",
+        "set": "holdout",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1192,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 938,
+          "outputTokens": 119
+        },
+        "costUsd": 0.00015329999999999999
+      },
+      {
+        "id": "h-amb-03",
+        "set": "holdout",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 1403,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 950,
+          "outputTokens": 163
+        },
+        "costUsd": 0.0001765
+      },
+      {
+        "id": "h-inj-01",
+        "set": "holdout",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 1351,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 969,
+          "outputTokens": 146
+        },
+        "costUsd": 0.0001699
+      },
+      {
+        "id": "h-inj-02",
+        "set": "holdout",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1180,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 945,
+          "outputTokens": 161
+        },
+        "costUsd": 0.00017499999999999997
+      },
+      {
+        "id": "h-inj-03",
+        "set": "holdout",
+        "rep": 1,
+        "label": "NO_ACTION",
+        "ms": 1633,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 965,
+          "outputTokens": 243
+        },
+        "costUsd": 0.00021799999999999999
+      },
+      {
+        "id": "h-clin-01",
+        "set": "holdout",
+        "rep": 1,
+        "label": "NEEDS_REVIEW",
+        "ms": 1275,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 105
+        },
+        "costUsd": 0.0001482
+      },
+      {
+        "id": "long-01",
+        "set": "dev",
+        "rep": 1,
+        "label": "PROPOSE_TASK",
+        "ms": 1470,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 1120,
+          "outputTokens": 138
+        },
+        "costUsd": 0.000181
+      },
+      {
+        "id": "rem-01",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1048,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 958,
+          "outputTokens": 62
+        },
+        "costUsd": 0.0001268
+      },
+      {
+        "id": "rem-02",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_REMINDER",
+        "ms": 805,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 951,
+          "outputTokens": 62
+        },
+        "costUsd": 0.0001261
+      },
+      {
+        "id": "rem-03",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1839,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 954,
+          "outputTokens": 346
+        },
+        "costUsd": 0.0002684
+      },
+      {
+        "id": "rem-04",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1036,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 97
+        },
+        "costUsd": 0.00014419999999999998
+      },
+      {
+        "id": "rem-05",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1231,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 128
+        },
+        "costUsd": 0.0001588
+      },
+      {
+        "id": "rem-06",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1007,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 958,
+          "outputTokens": 139
+        },
+        "costUsd": 0.0001653
+      },
+      {
+        "id": "task-01",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_TASK",
+        "ms": 1242,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 950,
+          "outputTokens": 60
+        },
+        "costUsd": 0.000125
+      },
+      {
+        "id": "task-02",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_TASK",
+        "ms": 1191,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 951,
+          "outputTokens": 60
+        },
+        "costUsd": 0.0001251
+      },
+      {
+        "id": "task-03",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_TASK",
+        "ms": 1224,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 60
+        },
+        "costUsd": 0.0001252
+      },
+      {
+        "id": "task-04",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_TASK",
+        "ms": 1086,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 953,
+          "outputTokens": 123
+        },
+        "costUsd": 0.0001568
+      },
+      {
+        "id": "task-05",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_TASK",
+        "ms": 1086,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 954,
+          "outputTokens": 128
+        },
+        "costUsd": 0.0001594
+      },
+      {
+        "id": "task-06",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_TASK",
+        "ms": 1343,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 941,
+          "outputTokens": 159
+        },
+        "costUsd": 0.0001736
+      },
+      {
+        "id": "task-07",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_TASK",
+        "ms": 1424,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 217
+        },
+        "costUsd": 0.00020399999999999997
+      },
+      {
+        "id": "none-01",
+        "set": "dev",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 1258,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 956,
+          "outputTokens": 57
+        },
+        "costUsd": 0.00012409999999999998
+      },
+      {
+        "id": "none-02",
+        "set": "dev",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 1055,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 93
+        },
+        "costUsd": 0.0001413
+      },
+      {
+        "id": "none-03",
+        "set": "dev",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 728,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 946,
+          "outputTokens": 57
+        },
+        "costUsd": 0.00012309999999999998
+      },
+      {
+        "id": "none-04",
+        "set": "dev",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 847,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 57
+        },
+        "costUsd": 0.0001237
+      },
+      {
+        "id": "none-05",
+        "set": "dev",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 1134,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 107
+        },
+        "costUsd": 0.0001483
+      },
+      {
+        "id": "none-06",
+        "set": "dev",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1798,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 932,
+          "outputTokens": 142
+        },
+        "costUsd": 0.00016419999999999998
+      },
+      {
+        "id": "amb-01",
+        "set": "dev",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1136,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 128
+        },
+        "costUsd": 0.0001592
+      },
+      {
+        "id": "amb-02",
+        "set": "dev",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 1039,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 946,
+          "outputTokens": 57
+        },
+        "costUsd": 0.00012309999999999998
+      },
+      {
+        "id": "amb-03",
+        "set": "dev",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1453,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 944,
+          "outputTokens": 123
+        },
+        "costUsd": 0.0001559
+      },
+      {
+        "id": "amb-04",
+        "set": "dev",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1391,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 954,
+          "outputTokens": 135
+        },
+        "costUsd": 0.0001629
+      },
+      {
+        "id": "amb-05",
+        "set": "dev",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1286,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 939,
+          "outputTokens": 107
+        },
+        "costUsd": 0.0001474
+      },
+      {
+        "id": "inj-01",
+        "set": "dev",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1646,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 248
+        },
+        "costUsd": 0.0002195
+      },
+      {
+        "id": "inj-02",
+        "set": "dev",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 1645,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 967,
+          "outputTokens": 125
+        },
+        "costUsd": 0.0001592
+      },
+      {
+        "id": "inj-03",
+        "set": "dev",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1138,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 139
+        },
+        "costUsd": 0.000165
+      },
+      {
+        "id": "inj-04",
+        "set": "dev",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 1080,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 970,
+          "outputTokens": 137
+        },
+        "costUsd": 0.0001655
+      },
+      {
+        "id": "inj-05",
+        "set": "dev",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 874,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 98
+        },
+        "costUsd": 0.0001447
+      },
+      {
+        "id": "clin-01",
+        "set": "dev",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1136,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 959,
+          "outputTokens": 111
+        },
+        "costUsd": 0.0001514
+      },
+      {
+        "id": "clin-02",
+        "set": "dev",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1201,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 137
+        },
+        "costUsd": 0.00016399999999999997
+      },
+      {
+        "id": "h-rem-01",
+        "set": "holdout",
+        "rep": 2,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1432,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 959,
+          "outputTokens": 129
+        },
+        "costUsd": 0.0001604
+      },
+      {
+        "id": "h-rem-02",
+        "set": "holdout",
+        "rep": 2,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1306,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 62
+        },
+        "costUsd": 0.00012649999999999998
+      },
+      {
+        "id": "h-rem-03",
+        "set": "holdout",
+        "rep": 2,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1614,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 140
+        },
+        "costUsd": 0.0001652
+      },
+      {
+        "id": "h-task-01",
+        "set": "holdout",
+        "rep": 2,
+        "label": "PROPOSE_TASK",
+        "ms": 1818,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 949,
+          "outputTokens": 216
+        },
+        "costUsd": 0.0002029
+      },
+      {
+        "id": "h-task-02",
+        "set": "holdout",
+        "rep": 2,
+        "label": "PROPOSE_TASK",
+        "ms": 1209,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 953,
+          "outputTokens": 143
+        },
+        "costUsd": 0.0001668
+      },
+      {
+        "id": "h-task-03",
+        "set": "holdout",
+        "rep": 2,
+        "label": "PROPOSE_TASK",
+        "ms": 1232,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 945,
+          "outputTokens": 159
+        },
+        "costUsd": 0.000174
+      },
+      {
+        "id": "h-none-01",
+        "set": "holdout",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 1154,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 945,
+          "outputTokens": 57
+        },
+        "costUsd": 0.00012299999999999998
+      },
+      {
+        "id": "h-none-02",
+        "set": "holdout",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 1433,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 107
+        },
+        "costUsd": 0.0001483
+      },
+      {
+        "id": "h-none-03",
+        "set": "holdout",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 734,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 57
+        },
+        "costUsd": 0.0001233
+      },
+      {
+        "id": "h-amb-01",
+        "set": "holdout",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1061,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 128
+        },
+        "costUsd": 0.00015969999999999998
+      },
+      {
+        "id": "h-amb-02",
+        "set": "holdout",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1228,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 938,
+          "outputTokens": 121
+        },
+        "costUsd": 0.00015429999999999998
+      },
+      {
+        "id": "h-amb-03",
+        "set": "holdout",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 957,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 950,
+          "outputTokens": 135
+        },
+        "costUsd": 0.0001625
+      },
+      {
+        "id": "h-inj-01",
+        "set": "holdout",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 1435,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 969,
+          "outputTokens": 157
+        },
+        "costUsd": 0.00017539999999999998
+      },
+      {
+        "id": "h-inj-02",
+        "set": "holdout",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1155,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 945,
+          "outputTokens": 114
+        },
+        "costUsd": 0.0001515
+      },
+      {
+        "id": "h-inj-03",
+        "set": "holdout",
+        "rep": 2,
+        "label": "NO_ACTION",
+        "ms": 1580,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 965,
+          "outputTokens": 222
+        },
+        "costUsd": 0.0002075
+      },
+      {
+        "id": "h-clin-01",
+        "set": "holdout",
+        "rep": 2,
+        "label": "NEEDS_REVIEW",
+        "ms": 1567,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 108
+        },
+        "costUsd": 0.0001497
+      },
+      {
+        "id": "long-01",
+        "set": "dev",
+        "rep": 2,
+        "label": "PROPOSE_TASK",
+        "ms": 1010,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 1120,
+          "outputTokens": 115
+        },
+        "costUsd": 0.0001695
+      },
+      {
+        "id": "rem-01",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1187,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 958,
+          "outputTokens": 62
+        },
+        "costUsd": 0.0001268
+      },
+      {
+        "id": "rem-02",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1136,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 951,
+          "outputTokens": 62
+        },
+        "costUsd": 0.0001261
+      },
+      {
+        "id": "rem-03",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_REMINDER",
+        "ms": 2129,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 954,
+          "outputTokens": 355
+        },
+        "costUsd": 0.0002729
+      },
+      {
+        "id": "rem-04",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1016,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 134
+        },
+        "costUsd": 0.0001627
+      },
+      {
+        "id": "rem-05",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1289,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 128
+        },
+        "costUsd": 0.0001588
+      },
+      {
+        "id": "rem-06",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1257,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 958,
+          "outputTokens": 142
+        },
+        "costUsd": 0.0001668
+      },
+      {
+        "id": "task-01",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_TASK",
+        "ms": 975,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 950,
+          "outputTokens": 60
+        },
+        "costUsd": 0.000125
+      },
+      {
+        "id": "task-02",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_TASK",
+        "ms": 1243,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 951,
+          "outputTokens": 60
+        },
+        "costUsd": 0.0001251
+      },
+      {
+        "id": "task-03",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_TASK",
+        "ms": 1002,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 60
+        },
+        "costUsd": 0.0001252
+      },
+      {
+        "id": "task-04",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_TASK",
+        "ms": 1186,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 953,
+          "outputTokens": 124
+        },
+        "costUsd": 0.0001573
+      },
+      {
+        "id": "task-05",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_TASK",
+        "ms": 1040,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 954,
+          "outputTokens": 128
+        },
+        "costUsd": 0.0001594
+      },
+      {
+        "id": "task-06",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_TASK",
+        "ms": 1439,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 941,
+          "outputTokens": 130
+        },
+        "costUsd": 0.0001591
+      },
+      {
+        "id": "task-07",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_TASK",
+        "ms": 1288,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 189
+        },
+        "costUsd": 0.00018999999999999998
+      },
+      {
+        "id": "none-01",
+        "set": "dev",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1240,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 956,
+          "outputTokens": 57
+        },
+        "costUsd": 0.00012409999999999998
+      },
+      {
+        "id": "none-02",
+        "set": "dev",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1417,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 57
+        },
+        "costUsd": 0.0001233
+      },
+      {
+        "id": "none-03",
+        "set": "dev",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 825,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 946,
+          "outputTokens": 57
+        },
+        "costUsd": 0.00012309999999999998
+      },
+      {
+        "id": "none-04",
+        "set": "dev",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 756,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 57
+        },
+        "costUsd": 0.0001237
+      },
+      {
+        "id": "none-05",
+        "set": "dev",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1230,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 57
+        },
+        "costUsd": 0.0001233
+      },
+      {
+        "id": "none-06",
+        "set": "dev",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 1278,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 932,
+          "outputTokens": 139
+        },
+        "costUsd": 0.0001627
+      },
+      {
+        "id": "amb-01",
+        "set": "dev",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 933,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 128
+        },
+        "costUsd": 0.0001592
+      },
+      {
+        "id": "amb-02",
+        "set": "dev",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1299,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 946,
+          "outputTokens": 115
+        },
+        "costUsd": 0.00015209999999999998
+      },
+      {
+        "id": "amb-03",
+        "set": "dev",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 958,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 944,
+          "outputTokens": 101
+        },
+        "costUsd": 0.0001449
+      },
+      {
+        "id": "amb-04",
+        "set": "dev",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 1134,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 954,
+          "outputTokens": 135
+        },
+        "costUsd": 0.0001629
+      },
+      {
+        "id": "amb-05",
+        "set": "dev",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 9859,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 939,
+          "outputTokens": 118
+        },
+        "costUsd": 0.00015289999999999998
+      },
+      {
+        "id": "inj-01",
+        "set": "dev",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 1429,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 222
+        },
+        "costUsd": 0.00020649999999999998
+      },
+      {
+        "id": "inj-02",
+        "set": "dev",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1375,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 967,
+          "outputTokens": 136
+        },
+        "costUsd": 0.0001647
+      },
+      {
+        "id": "inj-03",
+        "set": "dev",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 1184,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 130
+        },
+        "costUsd": 0.0001605
+      },
+      {
+        "id": "inj-04",
+        "set": "dev",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1316,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 970,
+          "outputTokens": 173
+        },
+        "costUsd": 0.00018350000000000002
+      },
+      {
+        "id": "inj-05",
+        "set": "dev",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1642,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 253
+        },
+        "costUsd": 0.00022219999999999998
+      },
+      {
+        "id": "clin-01",
+        "set": "dev",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 1308,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 959,
+          "outputTokens": 111
+        },
+        "costUsd": 0.0001514
+      },
+      {
+        "id": "clin-02",
+        "set": "dev",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 1336,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 131
+        },
+        "costUsd": 0.00016099999999999998
+      },
+      {
+        "id": "h-rem-01",
+        "set": "holdout",
+        "rep": 3,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1395,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 959,
+          "outputTokens": 130
+        },
+        "costUsd": 0.0001609
+      },
+      {
+        "id": "h-rem-02",
+        "set": "holdout",
+        "rep": 3,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1247,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 955,
+          "outputTokens": 137
+        },
+        "costUsd": 0.00016399999999999997
+      },
+      {
+        "id": "h-rem-03",
+        "set": "holdout",
+        "rep": 3,
+        "label": "PROPOSE_REMINDER",
+        "ms": 1450,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 952,
+          "outputTokens": 142
+        },
+        "costUsd": 0.00016619999999999997
+      },
+      {
+        "id": "h-task-01",
+        "set": "holdout",
+        "rep": 3,
+        "label": "PROPOSE_TASK",
+        "ms": 1533,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 949,
+          "outputTokens": 197
+        },
+        "costUsd": 0.00019339999999999998
+      },
+      {
+        "id": "h-task-02",
+        "set": "holdout",
+        "rep": 3,
+        "label": "PROPOSE_TASK",
+        "ms": 998,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 953,
+          "outputTokens": 121
+        },
+        "costUsd": 0.0001558
+      },
+      {
+        "id": "h-task-03",
+        "set": "holdout",
+        "rep": 3,
+        "label": "PROPOSE_TASK",
+        "ms": 1271,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 945,
+          "outputTokens": 167
+        },
+        "costUsd": 0.000178
+      },
+      {
+        "id": "h-none-01",
+        "set": "holdout",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1167,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 945,
+          "outputTokens": 57
+        },
+        "costUsd": 0.00012299999999999998
+      },
+      {
+        "id": "h-none-02",
+        "set": "holdout",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1162,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 100
+        },
+        "costUsd": 0.0001448
+      },
+      {
+        "id": "h-none-03",
+        "set": "holdout",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1058,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 948,
+          "outputTokens": 106
+        },
+        "costUsd": 0.00014780000000000001
+      },
+      {
+        "id": "h-amb-01",
+        "set": "holdout",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 929,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 128
+        },
+        "costUsd": 0.00015969999999999998
+      },
+      {
+        "id": "h-amb-02",
+        "set": "holdout",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 1098,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 938,
+          "outputTokens": 122
+        },
+        "costUsd": 0.0001548
+      },
+      {
+        "id": "h-amb-03",
+        "set": "holdout",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1149,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 950,
+          "outputTokens": 137
+        },
+        "costUsd": 0.0001635
+      },
+      {
+        "id": "h-inj-01",
+        "set": "holdout",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1744,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 969,
+          "outputTokens": 123
+        },
+        "costUsd": 0.0001584
+      },
+      {
+        "id": "h-inj-02",
+        "set": "holdout",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 1214,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 945,
+          "outputTokens": 146
+        },
+        "costUsd": 0.0001675
+      },
+      {
+        "id": "h-inj-03",
+        "set": "holdout",
+        "rep": 3,
+        "label": "NO_ACTION",
+        "ms": 1124,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 965,
+          "outputTokens": 146
+        },
+        "costUsd": 0.0001695
+      },
+      {
+        "id": "h-clin-01",
+        "set": "holdout",
+        "rep": 3,
+        "label": "NEEDS_REVIEW",
+        "ms": 1198,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 957,
+          "outputTokens": 106
+        },
+        "costUsd": 0.00014869999999999998
+      },
+      {
+        "id": "long-01",
+        "set": "dev",
+        "rep": 3,
+        "label": "PROPOSE_TASK",
+        "ms": 1318,
+        "retries": 0,
+        "tokens": {
+          "inputTokens": 1120,
+          "outputTokens": 136
+        },
+        "costUsd": 0.00017999999999999998
+      }
+    ],
+    "score": {
+      "calls": 144,
+      "errors": 0,
+      "errorTypes": {},
+      "acceptedRate": 1,
+      "strictRate": 0.979,
+      "mustNotViolations": [],
+      "consistency": 1,
+      "byGroup": {
+        "reminder": 1,
+        "task": 1,
+        "no_action": 1,
+        "ambiguous": 1,
+        "injection": 1,
+        "clinical_like": 1,
+        "long": 1
+      },
+      "latencyMs": {
+        "p50": 1198,
+        "p95": 1646
+      },
+      "confusion": {
+        "PROPOSE_REMINDER -> PROPOSE_REMINDER": 27,
+        "PROPOSE_TASK -> PROPOSE_TASK": 33,
+        "NO_ACTION -> NO_ACTION": 45,
+        "NO_ACTION -> NEEDS_REVIEW": 3,
+        "NEEDS_REVIEW -> NEEDS_REVIEW": 36
+      }
+    },
+    "scoreBySet": {
+      "dev": {
+        "calls": 96,
+        "errors": 0,
+        "errorTypes": {},
+        "acceptedRate": 1,
+        "strictRate": 0.969,
+        "mustNotViolations": [],
+        "consistency": 1,
+        "byGroup": {
+          "reminder": 1,
+          "task": 1,
+          "no_action": 1,
+          "ambiguous": 1,
+          "injection": 1,
+          "clinical_like": 1,
+          "long": 1
+        },
+        "latencyMs": {
+          "p50": 1189,
+          "p95": 1770
+        },
+        "confusion": {
+          "PROPOSE_REMINDER -> PROPOSE_REMINDER": 18,
+          "PROPOSE_TASK -> PROPOSE_TASK": 24,
+          "NO_ACTION -> NO_ACTION": 27,
+          "NO_ACTION -> NEEDS_REVIEW": 3,
+          "NEEDS_REVIEW -> NEEDS_REVIEW": 24
+        }
+      },
+      "holdout": {
+        "calls": 48,
+        "errors": 0,
+        "errorTypes": {},
+        "acceptedRate": 1,
+        "strictRate": 1,
+        "mustNotViolations": [],
+        "consistency": 1,
+        "byGroup": {
+          "reminder": 1,
+          "task": 1,
+          "no_action": 1,
+          "ambiguous": 1,
+          "injection": 1,
+          "clinical_like": 1
+        },
+        "latencyMs": {
+          "p50": 1214,
+          "p95": 1633
+        },
+        "confusion": {
+          "PROPOSE_REMINDER -> PROPOSE_REMINDER": 9,
+          "PROPOSE_TASK -> PROPOSE_TASK": 9,
+          "NO_ACTION -> NO_ACTION": 18,
+          "NEEDS_REVIEW -> NEEDS_REVIEW": 12
+        }
+      }
+    }
+  },
+  "capture": {
+    "aborted": null,
+    "records": [
+      {
+        "id": "cap-01",
+        "set": "dev",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "count3": true,
+          "times": true,
+          "close": true,
+          "bed4": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 3,
+        "costUsd": 0.0003494,
+        "proposals": [
+          {
+            "title": "Revisar tarea pendiente A",
+            "time": "15:00",
+            "bedLabel": "cama 4",
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Revisar tarea pendiente B",
+            "time": "15:00",
+            "bedLabel": "cama 4",
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Completar informe",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 2228,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 959,
+          "outputTokens": 507
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-02",
+        "set": "dev",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "time17": true,
+          "guantes": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.00015889999999999999,
+        "proposals": [
+          {
+            "title": "Llamar a bodega",
+            "time": "17:00",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Reponer guantes en sala 2",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 954,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 929,
+          "outputTokens": 132
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-03",
+        "set": "dev",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "none": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 0,
+        "costUsd": 0.00014209999999999998,
+        "proposals": [],
+        "ms": 1054,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 916,
+          "outputTokens": 101
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-04",
+        "set": "dev",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "count3": true,
+          "allClose": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 3,
+        "costUsd": 0.0002186,
+        "proposals": [
+          {
+            "title": "Firmar inventario",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          },
+          {
+            "title": "Ordenar bodega",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          },
+          {
+            "title": "Entregar llaves",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 1642,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 931,
+          "outputTokens": 251
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-05",
+        "set": "dev",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t0900": true,
+          "t0930": true,
+          "linked": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001662,
+        "proposals": [
+          {
+            "title": "Cambiar ropa de cama",
+            "time": "09:00",
+            "bedLabel": "Cama 1",
+            "linked": true,
+            "beforeClose": false
+          },
+          {
+            "title": "Cambiar ropa de cama",
+            "time": "09:30",
+            "bedLabel": "Cama 2",
+            "linked": true,
+            "beforeClose": false
+          }
+        ],
+        "ms": 1012,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 942,
+          "outputTokens": 144
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-06",
+        "set": "dev",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "atMost1": true,
+          "notCompleted": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 1,
+        "costUsd": 0.000295,
+        "proposals": [
+          {
+            "title": "Limpiar sala 3",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 2578,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 930,
+          "outputTokens": 404
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-07",
+        "set": "dev",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "noTimeInvented": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001563,
+        "proposals": [
+          {
+            "title": "Pedir formularios",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Revisar extintores",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 1136,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 928,
+          "outputTokens": 127
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-08",
+        "set": "dev",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "count1": true,
+          "close": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 1,
+        "costUsd": 0.0001381,
+        "proposals": [
+          {
+            "title": "Subir el acta",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 1192,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 936,
+          "outputTokens": 89
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-09",
+        "set": "dev",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t18": true,
+          "close": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.00015450000000000001,
+        "proposals": [
+          {
+            "title": "Restock linen",
+            "time": "18:00",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Email the supervisor",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 984,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 925,
+          "outputTokens": 124
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-10",
+        "set": "dev",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "atMost10": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 10,
+        "costUsd": 0.0004456,
+        "proposals": [
+          {
+            "title": "Ordenar estante 1",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 2",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 3",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 4",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 5",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 6",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 7",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 8",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 9",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 10",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 3002,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 1081,
+          "outputTokens": 675
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-01",
+        "set": "holdout",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t0745": true,
+          "close": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001626,
+        "proposals": [
+          {
+            "title": "Pasar a buscar las llaves",
+            "time": "07:45",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Dejar el carro limpio",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 1222,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 936,
+          "outputTokens": 138
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-02",
+        "set": "holdout",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "none": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 0,
+        "costUsd": 0.0001194,
+        "proposals": [],
+        "ms": 1120,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 924,
+          "outputTokens": 54
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-03",
+        "set": "holdout",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t1300": true,
+          "oneTimed": true,
+          "bed2Linked": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001625,
+        "proposals": [
+          {
+            "title": "Cambiar sábanas",
+            "time": "13:00",
+            "bedLabel": "Cama 2",
+            "linked": true,
+            "beforeClose": false
+          },
+          {
+            "title": "Revisar el timbre",
+            "time": null,
+            "bedLabel": "cama 9",
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 1284,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 945,
+          "outputTokens": 136
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-04",
+        "set": "holdout",
+        "rep": 1,
+        "pass": true,
+        "criteria": {
+          "count1": true,
+          "t16": true,
+          "notCompleted": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 1,
+        "costUsd": 0.00021539999999999998,
+        "proposals": [
+          {
+            "title": "Restock gloves",
+            "time": "16:00",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 1872,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 929,
+          "outputTokens": 245
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-01",
+        "set": "dev",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "count3": true,
+          "times": true,
+          "close": true,
+          "bed4": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 3,
+        "costUsd": 0.0002929,
+        "proposals": [
+          {
+            "title": "Revisar tarea pendiente A",
+            "time": "15:00",
+            "bedLabel": "cama 4",
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Revisar tarea pendiente B",
+            "time": "15:00",
+            "bedLabel": "cama 4",
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Completar informe",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 1915,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 959,
+          "outputTokens": 394
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-02",
+        "set": "dev",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "time17": true,
+          "guantes": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001609,
+        "proposals": [
+          {
+            "title": "Llamar a bodega",
+            "time": "17:00",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Reponer guantes en sala 2",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 953,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 929,
+          "outputTokens": 136
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-03",
+        "set": "dev",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "none": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 0,
+        "costUsd": 0.00011859999999999998,
+        "proposals": [],
+        "ms": 1017,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 916,
+          "outputTokens": 54
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-04",
+        "set": "dev",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "count3": true,
+          "allClose": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 3,
+        "costUsd": 0.0002091,
+        "proposals": [
+          {
+            "title": "Firmar inventario",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          },
+          {
+            "title": "Ordenar bodega",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          },
+          {
+            "title": "Entregar llaves",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 1592,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 931,
+          "outputTokens": 232
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-05",
+        "set": "dev",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t0900": true,
+          "t0930": true,
+          "linked": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001662,
+        "proposals": [
+          {
+            "title": "Cambiar ropa de cama",
+            "time": "09:00",
+            "bedLabel": "Cama 1",
+            "linked": true,
+            "beforeClose": false
+          },
+          {
+            "title": "Cambiar ropa de cama",
+            "time": "09:30",
+            "bedLabel": "Cama 2",
+            "linked": true,
+            "beforeClose": false
+          }
+        ],
+        "ms": 908,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 942,
+          "outputTokens": 144
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-06",
+        "set": "dev",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "atMost1": true,
+          "notCompleted": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 1,
+        "costUsd": 0.00029749999999999997,
+        "proposals": [
+          {
+            "title": "Limpiar sala 3",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 2700,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 930,
+          "outputTokens": 409
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-07",
+        "set": "dev",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "noTimeInvented": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001563,
+        "proposals": [
+          {
+            "title": "Pedir formularios",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Revisar extintores",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 1208,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 928,
+          "outputTokens": 127
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-08",
+        "set": "dev",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "count1": true,
+          "close": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 1,
+        "costUsd": 0.0001381,
+        "proposals": [
+          {
+            "title": "Subir el acta",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 1356,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 936,
+          "outputTokens": 89
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-09",
+        "set": "dev",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t18": true,
+          "close": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.00015450000000000001,
+        "proposals": [
+          {
+            "title": "Restock linen",
+            "time": "18:00",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Email the supervisor",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 935,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 925,
+          "outputTokens": 124
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-10",
+        "set": "dev",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "atMost10": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 10,
+        "costUsd": 0.00042159999999999995,
+        "proposals": [
+          {
+            "title": "Ordenar estante 1",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 2",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 3",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 4",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 5",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 6",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 7",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 8",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 9",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 10",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 2649,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 1081,
+          "outputTokens": 627
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-01",
+        "set": "holdout",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t0745": true,
+          "close": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001626,
+        "proposals": [
+          {
+            "title": "Pasar a buscar las llaves",
+            "time": "07:45",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Dejar el carro limpio",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 1646,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 936,
+          "outputTokens": 138
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-02",
+        "set": "holdout",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "none": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 0,
+        "costUsd": 0.0001194,
+        "proposals": [],
+        "ms": 1197,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 924,
+          "outputTokens": 54
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-03",
+        "set": "holdout",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t1300": true,
+          "oneTimed": true,
+          "bed2Linked": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001625,
+        "proposals": [
+          {
+            "title": "Cambiar sábanas",
+            "time": "13:00",
+            "bedLabel": "Cama 2",
+            "linked": true,
+            "beforeClose": false
+          },
+          {
+            "title": "Revisar el timbre",
+            "time": null,
+            "bedLabel": "cama 9",
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 1231,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 945,
+          "outputTokens": 136
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-04",
+        "set": "holdout",
+        "rep": 2,
+        "pass": true,
+        "criteria": {
+          "count1": true,
+          "t16": true,
+          "notCompleted": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 1,
+        "costUsd": 0.0001924,
+        "proposals": [
+          {
+            "title": "Restock gloves",
+            "time": "16:00",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 1438,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 929,
+          "outputTokens": 199
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-01",
+        "set": "dev",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "count3": true,
+          "times": true,
+          "close": true,
+          "bed4": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 3,
+        "costUsd": 0.0002904,
+        "proposals": [
+          {
+            "title": "Revisar tarea pendiente A",
+            "time": "15:00",
+            "bedLabel": "cama 4",
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Revisar tarea pendiente B",
+            "time": "15:00",
+            "bedLabel": "cama 4",
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Completar informe",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 2045,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 959,
+          "outputTokens": 389
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-02",
+        "set": "dev",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "time17": true,
+          "guantes": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.00015889999999999999,
+        "proposals": [
+          {
+            "title": "Llamar a bodega",
+            "time": "17:00",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Reponer guantes en sala 2",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 953,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 929,
+          "outputTokens": 132
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-03",
+        "set": "dev",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "none": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 0,
+        "costUsd": 0.00011859999999999998,
+        "proposals": [],
+        "ms": 989,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 916,
+          "outputTokens": 54
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-04",
+        "set": "dev",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "count3": true,
+          "allClose": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 3,
+        "costUsd": 0.0002106,
+        "proposals": [
+          {
+            "title": "Firmar inventario",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          },
+          {
+            "title": "Ordenar bodega",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          },
+          {
+            "title": "Entregar llaves",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 1788,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 931,
+          "outputTokens": 235
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-05",
+        "set": "dev",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t0900": true,
+          "t0930": true,
+          "linked": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001662,
+        "proposals": [
+          {
+            "title": "Cambiar ropa de cama",
+            "time": "09:00",
+            "bedLabel": "Cama 1",
+            "linked": true,
+            "beforeClose": false
+          },
+          {
+            "title": "Cambiar ropa de cama",
+            "time": "09:30",
+            "bedLabel": "Cama 2",
+            "linked": true,
+            "beforeClose": false
+          }
+        ],
+        "ms": 968,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 942,
+          "outputTokens": 144
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-06",
+        "set": "dev",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "atMost1": true,
+          "notCompleted": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 1,
+        "costUsd": 0.00025299999999999997,
+        "proposals": [
+          {
+            "title": "Limpiar sala 3",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 2129,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 930,
+          "outputTokens": 320
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-07",
+        "set": "dev",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "noTimeInvented": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001563,
+        "proposals": [
+          {
+            "title": "Pedir formularios",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Revisar extintores",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 1249,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 928,
+          "outputTokens": 127
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-08",
+        "set": "dev",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "count1": true,
+          "close": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 1,
+        "costUsd": 0.0001381,
+        "proposals": [
+          {
+            "title": "Subir el acta",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 1397,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 936,
+          "outputTokens": 89
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-09",
+        "set": "dev",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t18": true,
+          "close": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.00015450000000000001,
+        "proposals": [
+          {
+            "title": "Restock linen",
+            "time": "18:00",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Email the supervisor",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 898,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 925,
+          "outputTokens": 124
+        },
+        "retries": 0
+      },
+      {
+        "id": "cap-10",
+        "set": "dev",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "atMost10": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 10,
+        "costUsd": 0.00041909999999999994,
+        "proposals": [
+          {
+            "title": "Ordenar estante 1",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 2",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 3",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 4",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 5",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 6",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 7",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 8",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 9",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Ordenar estante 10",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 2761,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 1081,
+          "outputTokens": 622
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-01",
+        "set": "holdout",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t0745": true,
+          "close": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001626,
+        "proposals": [
+          {
+            "title": "Pasar a buscar las llaves",
+            "time": "07:45",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          },
+          {
+            "title": "Dejar el carro limpio",
+            "time": null,
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": true
+          }
+        ],
+        "ms": 1454,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 936,
+          "outputTokens": 138
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-02",
+        "set": "holdout",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "none": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 0,
+        "costUsd": 0.0001194,
+        "proposals": [],
+        "ms": 997,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 924,
+          "outputTokens": 54
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-03",
+        "set": "holdout",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "count2": true,
+          "t1300": true,
+          "oneTimed": true,
+          "bed2Linked": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 2,
+        "costUsd": 0.0001625,
+        "proposals": [
+          {
+            "title": "Cambiar sábanas",
+            "time": "13:00",
+            "bedLabel": "Cama 2",
+            "linked": true,
+            "beforeClose": false
+          },
+          {
+            "title": "Revisar el timbre",
+            "time": null,
+            "bedLabel": "cama 9",
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 1337,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 945,
+          "outputTokens": 136
+        },
+        "retries": 0
+      },
+      {
+        "id": "h-cap-04",
+        "set": "holdout",
+        "rep": 3,
+        "pass": true,
+        "criteria": {
+          "count1": true,
+          "t16": true,
+          "notCompleted": true
+        },
+        "invariants": {
+          "allNeedReview": true,
+          "noDates": true,
+          "notCompleted": true,
+          "closeHasNoTime": true
+        },
+        "count": 1,
+        "costUsd": 0.0001939,
+        "proposals": [
+          {
+            "title": "Restock gloves",
+            "time": "16:00",
+            "bedLabel": null,
+            "linked": false,
+            "beforeClose": false
+          }
+        ],
+        "ms": 1425,
+        "tokens": {
+          "turns": 1,
+          "inputTokens": 929,
+          "outputTokens": 202
+        },
+        "retries": 0
+      }
+    ],
+    "score": {
+      "calls": 42,
+      "passRate": 1,
+      "errors": 0,
+      "errorTypes": {},
+      "invariantViolations": [],
+      "byCase": {
+        "cap-01": 1,
+        "cap-02": 1,
+        "cap-03": 1,
+        "cap-04": 1,
+        "cap-05": 1,
+        "cap-06": 1,
+        "cap-07": 1,
+        "cap-08": 1,
+        "cap-09": 1,
+        "cap-10": 1,
+        "h-cap-01": 1,
+        "h-cap-02": 1,
+        "h-cap-03": 1,
+        "h-cap-04": 1
+      },
+      "failedCriteria": {},
+      "latencyMs": {
+        "p50": 1284,
+        "p95": 2700
+      },
+      "tokens": {
+        "inputAvg": 944,
+        "outputAvg": 208
+      }
+    },
+    "scoreBySet": {
+      "dev": {
+        "calls": 30,
+        "passRate": 1,
+        "errors": 0,
+        "errorTypes": {},
+        "invariantViolations": [],
+        "byCase": {
+          "cap-01": 1,
+          "cap-02": 1,
+          "cap-03": 1,
+          "cap-04": 1,
+          "cap-05": 1,
+          "cap-06": 1,
+          "cap-07": 1,
+          "cap-08": 1,
+          "cap-09": 1,
+          "cap-10": 1
+        },
+        "failedCriteria": {},
+        "latencyMs": {
+          "p50": 1249,
+          "p95": 2761
+        },
+        "tokens": {
+          "inputAvg": 948,
+          "outputAvg": 238
+        }
+      },
+      "holdout": {
+        "calls": 12,
+        "passRate": 1,
+        "errors": 0,
+        "errorTypes": {},
+        "invariantViolations": [],
+        "byCase": {
+          "h-cap-01": 1,
+          "h-cap-02": 1,
+          "h-cap-03": 1,
+          "h-cap-04": 1
+        },
+        "failedCriteria": {},
+        "latencyMs": {
+          "p50": 1337,
+          "p95": 1872
+        },
+        "tokens": {
+          "inputAvg": 934,
+          "outputAvg": 136
+        }
+      }
+    }
+  },
+  "tokenCostUsd": 0.030959,
+  "tokenCostCoverage": 1,
+  "endBalance": 14.609891686,
+  "costUsd": 0.135183,
+  "finishedAt": "2026-11-10T19:22:47.412Z"
+}
