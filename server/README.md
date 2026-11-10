@@ -39,7 +39,7 @@ Variables configuradas en `server/.env.example`:
 
 ## Entradas y salidas
 
-`ambient-engine.mjs` exporta `analyzeAmbientEvent({ event, settings, isAuthorized, getAuthorizedSnapshot, ...classifiers })`. El consumidor backend debe comprobar la identidad antes de entregar un snapshot autoritativo del turno; nunca confiar en una lista de tareas enviada por el navegador. Solo se aceptan los eventos `drafts_ready`, `note_saved`, `shift_close_attempt`. Una nota enviada al clasificador se limita a 500 caracteres sintéticos.
+`ambient-engine.mjs` exporta `analyzeAmbientEvent({ event, settings, isAuthorized, getAuthorizedSnapshot, ...classifiers })`. El consumidor backend debe comprobar la identidad antes de entregar un snapshot autoritativo del turno; nunca confiar en una lista de tareas enviada por el navegador. Solo se aceptan los eventos `drafts_ready`, `note_saved`, `shift_close_attempt`. Además de la marca del evento, el snapshot debe estar identificado como sintético por el backend (`snapshot.synthetic === true`). Es una barrera de prueba, no detección automática de datos clínicos. Una nota enviada al clasificador se limita a 500 caracteres sintéticos.
 
 El motor devuelve objetos `suggestions` con `actions: ['review','dismiss']`; no tiene acceso a una función `saveTask`. Para la captura libre se debe añadir después un extractor de borradores de tareas con Zod y revisión explícita; este paso no debe mezclar inferencia con persistencia. El frontend v5 disponible en la rama sigue siendo un prototipo aislado.
 
