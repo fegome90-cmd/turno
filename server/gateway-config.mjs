@@ -11,7 +11,8 @@ export function readGatewaySettings(env = process.env) {
   if (!MODELS.test(modelId) || !MODELS.test(decisionModelId)) throw new Error('Modelo de AI Gateway inválido.');
   if (!MODES.has(decisionMode)) throw new Error('Modo de decisión inválido.');
   const enabled = env.TURNO_AI_ENABLED === '1';
-  const syntheticOnly = env.TURNO_SYNTHETIC_ONLY !== '0'; // Safe default
+  if (env.TURNO_SYNTHETIC_ONLY === '0') throw new Error('El piloto no autoriza datos reales.');
+  const syntheticOnly = true;
   const hasKey = typeof env.AI_GATEWAY_API_KEY === 'string' && env.AI_GATEWAY_API_KEY.trim().length > 0;
   const onVercel = env.VERCEL === '1' || ['production', 'preview', 'development'].includes(env.VERCEL_ENV);
   if (enabled && !hasKey && !onVercel && !env.VERCEL_OIDC_TOKEN) {
@@ -23,5 +24,5 @@ export function readGatewaySettings(env = process.env) {
 export function assertSyntheticEvent(event, settings) {
   if (!settings.enabled) throw new Error('Agente ambiental desactivado.');
   if (!event || !/^[a-zA-Z0-9_-]{1,80}$/.test(event.id || '')) throw new Error('ID de evento inválido.');
-  if (settings.syntheticOnly && event.synthetic !== true) throw new Error('Solo datos sintéticos autorizados para el piloto.');
+  if (event.synthetic !== true) throw new Error('Solo datos sintéticos autorizados para el piloto.');
 }
