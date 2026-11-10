@@ -1,0 +1,59 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 2 failed) 2300ms
+     × EXTRA-LIFECYCLE-ASYNC · listeners de window/document y matchMedia vuelven a cero; un anuncio por ciclo 36ms
+     × EXTRA-LIFECYCLE-ASYNC · 20 ciclos con StrictMode, Drawer y Dialog abiertos: listeners al valor inicial y sin capas huérfanas 793ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-LIFECYCLE-ASYNC · 20 ciclos de montaje y desmontaje de la pila > EXTRA-LIFECYCLE-ASYNC · listeners de window/document y matchMedia vuelven a cero; un anuncio por ciclo
+AssertionError: expected { type: 'keydown', value: 20 } to deeply equal { type: 'keydown', value: +0 }
+
+- Expected
++ Received
+
+  {
+    "type": "keydown",
+-   "value": 0,
++   "value": 20,
+  }
+
+ ❯ tests/component/primitive-contract.test.tsx:455:62
+    453|       for (let index = 0; index < 20; index += 1) cycle(index);
+    454|       for (const [type, value] of Object.entries(net)) {
+    455|         expect({type, value: value - (baseline[type] ?? 0)}).toEqual({…
+       |                                                              ^
+    456|       }
+    457|     } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-LIFECYCLE-ASYNC · harness completo bajo StrictMode > EXTRA-LIFECYCLE-ASYNC · 20 ciclos con StrictMode, Drawer y Dialog abiertos: listeners al valor inicial y sin capas huérfanas
+AssertionError: expected { type: 'keydown', value: 40 } to deeply equal { type: 'keydown', value: +0 }
+
+- Expected
++ Received
+
+  {
+    "type": "keydown",
+-   "value": 0,
++   "value": 40,
+  }
+
+ ❯ tests/component/primitive-contract.test.tsx:513:62
+    511|       for (let index = 0; index < 20; index += 1) await cycle();
+    512|       for (const [type, value] of Object.entries(net)) {
+    513|         expect({type, value: value - (baseline[type] ?? 0)}).toEqual({…
+       |                                                              ^
+    514|       }
+    515|       expect(media.count).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  2 failed | 46 passed (48)
+   Start at  02:01:51
+   Duration  4.78s (transform 170ms, setup 306ms, import 448ms, tests 2.49s, environment 1.19s)
+

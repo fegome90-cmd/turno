@@ -1,0 +1,36 @@
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (30 tests | 1 failed | 29 skipped) 1188ms
+     × EXTRA-LIFECYCLE-ASYNC · 20 ciclos con StrictMode, Drawer y Dialog abiertos: listeners al valor inicial y sin capas huérfanas 1185ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-LIFECYCLE-ASYNC · harness completo bajo StrictMode > EXTRA-LIFECYCLE-ASYNC · 20 ciclos con StrictMode, Drawer y Dialog abiertos: listeners al valor inicial y sin capas huérfanas
+AssertionError: expected { type: 'selectionchange', value: 1 } to deeply equal { type: 'selectionchange', value: +0 }
+
+- Expected
++ Received
+
+  {
+    "type": "selectionchange",
+-   "value": 0,
++   "value": 1,
+  }
+
+ ❯ tests/component/primitive-contract.test.tsx:454:62
+    452|       }
+    453|       for (const [type, value] of Object.entries(net)) {
+    454|         expect({type, value: value - (baseline[type] ?? 0)}).toEqual({…
+       |                                                              ^
+    455|       }
+    456|       expect(media.count).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 29 skipped (30)
+   Start at  01:38:21
+   Duration  2.45s (transform 156ms, setup 160ms, import 499ms, tests 1.19s, environment 457ms)
+

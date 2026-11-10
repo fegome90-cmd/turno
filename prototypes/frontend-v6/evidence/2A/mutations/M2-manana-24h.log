@@ -1,0 +1,36 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/2A-mut/fe
+
+ ❯ |unit| tests/unit/format.test.ts (8 tests | 1 failed) 30ms
+     × POLISH-10 · añadido: «Mañana» es el día civil siguiente aunque el cambio de horario de Chile tenga 23 h 7ms
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 56 passed (57)
+   Start at  02:55:23
+   Duration  956ms (transform 140ms, setup 0ms, import 216ms, tests 113ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-10 · añadido: «Mañana» es el día civil siguiente aunque el cambio de horario de Chile tenga 23 h
+AssertionError: expected [ '06/09/2026', 'Mañana' ] to deeply equal [ 'Mañana', '07/09/2026' ]
+
+- Expected
++ Received
+
+  [
++   "06/09/2026",
+    "Mañana",
+-   "07/09/2026",
+  ]
+
+ ❯ tests/unit/format.test.ts:69:48
+     67|       new Date('2026-09-06T03:30:00Z'),
+     68|     );
+     69|     expect(groups.map((group) => group.label)).toEqual(['Mañana', '07/…
+       |                                                ^
+     70|   });
+     71|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

@@ -1,0 +1,60 @@
+{
+  "scope": "2A code unchanged at final 2B source",
+  "files": [
+    {
+      "path": "src/adapters/preview-adapter.ts",
+      "sha256": "bb47d735f5cab70f423a4a5cb33277e3a5db930d94140a1399b3ea7beed0700c",
+      "unchangedFrom": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b"
+    },
+    {
+      "path": "src/adapters/turno-port.ts",
+      "sha256": "a56fe61e0a52bdf1e0bc967f42dea9241a1083667ffea41b7a4428d971c47a9d",
+      "unchangedFrom": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b"
+    },
+    {
+      "path": "src/app/bootstrap.tsx",
+      "sha256": "492b7323ad050015968d1cb867dd79bbf3af43e3d99346aac677589f70f655d3",
+      "unchangedFrom": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b"
+    },
+    {
+      "path": "src/app/create-session.ts",
+      "sha256": "b689ec3d341c7b6611b697dad2a39a304af277ef36b3a25e21b7393ac35c9f9e",
+      "unchangedFrom": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b"
+    },
+    {
+      "path": "src/app/store.ts",
+      "sha256": "85c7585bbd6ac831407b7243c898cff9f6e192e8f3d8d91792b4a18732af115f",
+      "unchangedFrom": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b"
+    },
+    {
+      "path": "src/components/TemporalField.tsx",
+      "sha256": "bf89dd8c28e0bca99050c02ba2d5976cfbca6f9dd87c67522c26607ef93557d5",
+      "unchangedFrom": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b"
+    },
+    {
+      "path": "src/domain/draft-state.ts",
+      "sha256": "c183e795ff82a06994fcc715d7d549bf48bd97bc7980a74550d1e7bdc1b4b9ec",
+      "unchangedFrom": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b"
+    },
+    {
+      "path": "src/domain/format.ts",
+      "sha256": "f28ebc4eecae26baac29310dbef97059fe597981534718a5a49b6b7c6fb3cefa",
+      "unchangedFrom": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b"
+    },
+    {
+      "path": "src/domain/home-subtitle.ts",
+      "sha256": "84dde7a7d03e4e335548c394e11fd6ea28adda19136849cf34b372a01bc44d1e",
+      "unchangedFrom": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b"
+    },
+    {
+      "path": "src/domain/types.ts",
+      "sha256": "0f49e14e627f2dd8b42abc01a63b973ede159a27218e57bde7996762185af5c1",
+      "unchangedFrom": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b"
+    },
+    {
+      "path": "src/domain/validation.ts",
+      "sha256": "1b135fbda4463088c108c1dc20480cd56af93b9afb741d7823689165dcf5cc23",
+      "unchangedFrom": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "commit": "72459f5ffc3c48db4202792208370b4ca92d5426",
+  "source_tar_sha256": "c96303ef391a6d0308ca6098d4d8a40d0a85f550229a47919aa823d94e2ee72e",
+  "computer": "MacBook-Air-de-Felipe.local",
+  "macOS": "26.2 (25C5048a)",
+  "architecture": "arm64",
+  "node": "24.22.1",
+  "npm": "11.19.1",
+  "browser": "Google Chrome 156.0.8078.80",
+  "playwright": "1.65.0",
+  "unit": 105,
+  "component": 57,
+  "source_integrity": {
+    "checked": 577,
+    "mismatches": []
+  },
+  "browser_runs": {
+    "e2e-history": {
+      "startTime": "2026-11-09T04:22:48.305Z",
+      "duration": 13258.991,
+      "expected": 24,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "e2e-full-1": {
+      "startTime": "2026-11-09T04:23:28.930Z",
+      "duration": 23334.114999999998,
+      "expected": 40,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "e2e-full-2": {
+      "startTime": "2026-11-09T04:23:52.779Z",
+      "duration": 22760.522,
+      "expected": 40,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "e2e-full-3": {
+      "startTime": "2026-11-09T04:24:15.976Z",
+      "duration": 22543.247,
+      "expected": 40,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "status": "PASS_TECHNICAL_HARNESS",
+  "limits": [
+    "No independent manual visual review",
+    "No VoiceOver or other assistive technology",
+    "No Firefox/WebKit",
+    "No ChatGPT host sandbox certification",
+    "No integrated HISTORY-01–09 closure",
+    "No push, merge, deploy or human acceptance"
+  ]
+}

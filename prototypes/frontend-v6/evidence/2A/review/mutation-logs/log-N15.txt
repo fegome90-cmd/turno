@@ -1,0 +1,27 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 1 failed) 36ms
+     × PREVIEW-15 · close repetition preserves the same result 3ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:03:43
+   Duration  1.02s (transform 143ms, setup 0ms, import 233ms, tests 114ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-15 · close repetition preserves the same result
+Error: Turno no activo.
+ ❯ Object.closeShift src/adapters/preview-adapter.ts:169:44
+    167|       const shift = state.shifts.find((item) => item.id === id);
+    168|       if (!shift) throw new Error('Turno no encontrado.');
+    169|       if (shift.status === 'closed') throw new Error('Turno no activo.…
+       |                                            ^
+    170|       if (id !== state.activeShiftId) throw new Error('Turno no activo…
+    171|       shift.status = 'closed';
+ ❯ tests/unit/preview.test.ts:179:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

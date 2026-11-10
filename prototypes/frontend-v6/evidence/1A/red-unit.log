@@ -1,0 +1,82 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:unit
+> vitest run --project unit --maxWorkers=1 --no-file-parallelism
+
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+ ❯ |unit| tests/unit/home-subtitle.test.ts (3 tests | 3 failed) 14ms
+     × HOME-SUBTITLE-01 · catálogo congelado de cuatro frases exactas sin «Demo» ni «<» 9ms
+     × HOME-SUBTITLE-02 · random inyectado llega a cada frase con (i+.5)/4 y se llama una sola vez 2ms
+     × HOME-SUBTITLE-03 · -1 da la primera, 1 la última, NaN la primera; nunca undefined 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/home-subtitle.test.ts > subtítulo de Inicio > HOME-SUBTITLE-01 · catálogo congelado de cuatro frases exactas sin «Demo» ni «<»
+AssertionError: expected [] to deeply equal [ '¿Qué haremos hoy?', …(3) ]
+
+- Expected
++ Received
+
+- [
+-   "¿Qué haremos hoy?",
+-   "¿Por dónde empezamos?",
+-   "¿Qué tienes en mente?",
+-   "¿En qué te ayudo hoy?",
+- ]
++ []
+
+ ❯ tests/unit/home-subtitle.test.ts:6:33
+      4| describe('subtítulo de Inicio', () => {
+      5|   it('HOME-SUBTITLE-01 · catálogo congelado de cuatro frases exactas s…
+      6|     expect([...HOME_SUBTITLES]).toEqual([
+       |                                 ^
+      7|       '¿Qué haremos hoy?',
+      8|       '¿Por dónde empezamos?',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/unit/home-subtitle.test.ts > subtítulo de Inicio > HOME-SUBTITLE-02 · random inyectado llega a cada frase con (i+.5)/4 y se llama una sola vez
+AssertionError: expected [] to have a length of 4 but got +0
+
+- Expected
++ Received
+
+- 4
++ 0
+
+ ❯ tests/unit/home-subtitle.test.ts:20:28
+     18|
+     19|   it('HOME-SUBTITLE-02 · random inyectado llega a cada frase con (i+.5…
+     20|     expect(HOME_SUBTITLES).toHaveLength(4);
+       |                            ^
+     21|     for (let index = 0; index < HOME_SUBTITLES.length; index++) {
+     22|       let calls = 0;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/unit/home-subtitle.test.ts > subtítulo de Inicio > HOME-SUBTITLE-03 · -1 da la primera, 1 la última, NaN la primera; nunca undefined
+AssertionError: expected '' to be undefined // Object.is equality
+
+- Expected:
+undefined
+
++ Received:
+""
+
+ ❯ tests/unit/home-subtitle.test.ts:33:42
+     31|
+     32|   it('HOME-SUBTITLE-03 · -1 da la primera, 1 la última, NaN la primera…
+     33|     expect(chooseHomeSubtitle(() => -1)).toBe(HOME_SUBTITLES[0]);
+       |                                          ^
+     34|     expect(chooseHomeSubtitle(() => 1)).toBe(HOME_SUBTITLES[HOME_SUBTI…
+     35|     expect(chooseHomeSubtitle(() => Number.NaN)).toBe(HOME_SUBTITLES[0…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  23:19:50
+   Duration  225ms (transform 30ms, setup 0ms, import 43ms, tests 14ms, environment 0ms)
+

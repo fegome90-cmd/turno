@@ -1,0 +1,9 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/mut1B
+
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  01:26:35
+   Duration  679ms (transform 68ms, setup 109ms, import 68ms, tests 57ms, environment 328ms)
+

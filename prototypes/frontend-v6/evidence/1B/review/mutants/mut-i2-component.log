@@ -1,0 +1,33 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 1 failed) 2483ms
+     × EXTRA-LIFECYCLE-ASYNC · 20 ciclos con StrictMode, Drawer y Dialog abiertos: listeners al valor inicial y sin capas huérfanas 938ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-LIFECYCLE-ASYNC · harness completo bajo StrictMode > EXTRA-LIFECYCLE-ASYNC · 20 ciclos con StrictMode, Drawer y Dialog abiertos: listeners al valor inicial y sin capas huérfanas
+AssertionError: expected 84 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 84
+
+ ❯ tests/component/primitive-contract.test.tsx:515:27
+    513|         expect({type, value: value - (baseline[type] ?? 0)}).toEqual({…
+    514|       }
+    515|       expect(media.count).toBe(0);
+       |                           ^
+    516|       expect(document.querySelectorAll('[role="dialog"]').length).toBe…
+    517|       expect(document.querySelectorAll('[data-overlay-layer]').length)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 47 passed (48)
+   Start at  02:01:57
+   Duration  5.00s (transform 187ms, setup 333ms, import 462ms, tests 2.65s, environment 1.20s)
+

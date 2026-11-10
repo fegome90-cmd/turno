@@ -1,0 +1,6 @@
+
+Running 1 test using 1 worker
+
+  ✓  1 [chromium] › tests/e2e/primitive-contract.spec.ts:70:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible (974ms)
+
+  1 passed (2.7s)

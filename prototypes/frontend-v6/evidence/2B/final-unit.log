@@ -1,0 +1,23 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:unit
+> vitest run --project unit --maxWorkers=1 --no-file-parallelism --reporter=default --reporter=json --outputFile=evidence/2B/final-unit.results.json
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6
+
+ ✓ |unit| tests/unit/store.test.ts (24 tests) 42ms
+ ✓ |unit| tests/unit/preview.test.ts (26 tests) 45ms
+ ✓ |unit| tests/unit/format.test.ts (8 tests) 23ms
+ ✓ |unit| tests/unit/history-controller.test.ts (25 tests) 15ms
+ ✓ |unit| tests/unit/home-subtitle.test.ts (3 tests) 5ms
+ ✓ |unit| tests/unit/validation.test.ts (8 tests) 6ms
+ ✓ |unit| tests/unit/draft.test.ts (5 tests) 7ms
+ ✓ |unit| tests/unit/history-request-policy.test.ts (6 tests) 5ms
+
+ Test Files  8 passed (8)
+      Tests  105 passed (105)
+   Start at  01:20:14
+   Duration  1.68s (transform 166ms, setup 0ms, import 282ms, tests 148ms, environment 1ms)
+
+JSON report written to /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6/evidence/2B/final-unit.results.json

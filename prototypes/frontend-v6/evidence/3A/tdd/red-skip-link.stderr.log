@@ -1,0 +1,16 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · navegación repetida conserva salto al contenido de v5
+AssertionError: expected null not to be null
+ ❯ tests/component/navigation.test.tsx:253:21
+    251|   const source = new DOMParser().parseFromString(html,'text/html');
+    252|   const first = source.body.querySelector('a[href="#main"]');
+    253|   expect(first).not.toBeNull();
+       |                     ^
+    254|   expect(first?.textContent).toBe('Saltar al contenido');
+    255|   expect(first?.nextElementSibling?.id).toBe('root');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

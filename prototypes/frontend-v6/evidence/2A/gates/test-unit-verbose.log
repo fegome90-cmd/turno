@@ -1,0 +1,69 @@
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-02 · snapshots are detached 2ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-02 · añadido: dos instancias del adaptador no comparten estado 2ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-02 · añadido: el adaptador no llama a red ni a almacenamiento 1ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-03 · save accepts literal title and increments version 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-03 · añadido: título de 1 y 300 caracteres se guarda; 301 se rechaza sin cambiar el estado 2ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-03 · añadido: cuerpo de 10.000 se guarda y 10.001 se rechaza; HTML en el cuerpo se guarda literal 1ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-04 · save rejects blank title without changing state 1ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-05 · version conflict preserves confirmed state 1ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-06 · simulated failed save does not commit 1ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-07 · close preserves pending tasks and notes; opening is empty 14ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-08 · quick note has no shift or bed fields 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-09 · cannot create a task without an open shift or cross-link a bed 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-09 · añadido: una lista de otro turno se rechaza 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-10 · archive is read only 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-11 · only one active shift in preview 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-12 · new bed and task are linked to active shift 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-13 · note save is independent and ignores foreign linkage fields 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-14 · time requires date and accepts 24-hour format 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-15 · close repetition preserves the same result 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-16 · renameBed changes only the label and preserves IDs, shift and all task relations 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-17 · duplicate group names do not merge stable identities or task membership 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-18 · renameBed rejects invalid labels and missing groups without changing the snapshot 1ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-19 · renameBed failure leaves label and relationships unchanged; retry can succeed 0ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-20 · archived group cannot be renamed even after opening a new active shift 1ms
+ ✓ |unit| tests/unit/preview.test.ts > adaptador de vista previa > EMIL-SKILLS-07 · simulated adapter conflict identifies its type without prescribing Save 0ms
+ ✓ |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · guardado exitoso: snapshot confirmado y borrador alineado, una sola mutación 5ms
+ ✓ |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · fallo simulado: snapshot previo intacto y borrador con el texto editado; aviso de error 2ms
+ ✓ |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · conflicto de versión: no pisa el borrador ni confirma el guardado 1ms
+ ✓ |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · respuesta tardía de una selección anterior: actualiza su copia confirmada, sin tocar el borrador ni los errores actuales 1ms
+ ✓ |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · respuesta tardía con fallo de una selección anterior: el borrador actual y el snapshot no cambian 1ms
+ ✓ |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · una sola mutación por acción: un segundo guardado mientras hay uno en curso no llama al adaptador 1ms
+ ✓ |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · sin actualización optimista: el snapshot no cambia mientras el guardado está pendiente 0ms
+ ✓ |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · validación antes de mutar: título vacío no llama al adaptador y conserva el texto 1ms
+ ✓ |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · el store no llama a red ni a almacenamiento en carga, edición, guardado y cierre 1ms
+ ✓ |unit| tests/unit/store.test.ts > ciclo de vida del store y de la sesión > EXTRA-LIFECYCLE-ASYNC · 20 ciclos crear/destruir sesión: suscripción al notification-store vuelve a cero 1ms
+ ✓ |unit| tests/unit/store.test.ts > ciclo de vida del store y de la sesión > EXTRA-LIFECYCLE-ASYNC · 20 ciclos del store con carga y mutación: suscripciones contadas vuelven a cero y dispose es idempotente 1ms
+ ✓ |unit| tests/unit/store.test.ts > ciclo de vida del store y de la sesión > EXTRA-LIFECYCLE-ASYNC · createSession pide el sorteo una sola vez y no crea el adaptador por render 0ms
+ ✓ |unit| tests/unit/store.test.ts > ciclo de vida del store y de la sesión > EXTRA-LIFECYCLE-ASYNC · cerrar y reabrir un turno produce una sola operación de dominio por acción 13ms
+ ✓ |unit| tests/unit/format.test.ts > formato de fechas y agenda > PREVIEW-01 · date-only is dd/mm/yyyy and leap days validated 4ms
+ ✓ |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-08 · civil date is evaluated in Santiago rather than UTC at midnight boundaries 17ms
+ ✓ |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-08 · añadido: fin de mes, fin de año y bisiesto se evalúan en Santiago 1ms
+ ✓ |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-09 · tomorrow calendar arithmetic handles month/year/leap boundaries without 24-hour assumptions 0ms
+ ✓ |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-09 · añadido: 28/02 de año no bisiesto pasa a 01/03 0ms
+ ✓ |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-10 · agenda groups Hoy, Mañana, later dates and undated tasks without mutating data 3ms
+ ✓ |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-10 · añadido: «Mañana» es el día civil siguiente aunque el cambio de horario de Chile tenga 23 h 1ms
+ ✓ |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-11 · agenda handles empty and only-undated lists, including empty date strings 2ms
+ ✓ |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-01 · validation distinguishes fields in the same semantic family 2ms
+ ✓ |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-01 · añadido: minutos vacío, 0 y 1440 válidos; -1, 1.5 y 1441 inválidos con el mensaje de v5 1ms
+ ✓ |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-01 · añadido: 23:59 válido y 24:00 inválido con el mensaje de v5 0ms
+ ✓ |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-01 · añadido (WARN 1B): el texto crudo de minutos se valida sin trim, y su espacio no cambia el valor aplicado 0ms
+ ✓ |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-02 · civil date validation, date dependency, valid boundaries and note isolation 0ms
+ ✓ |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-02 · añadido: 29/02/2028 válido, 29/02/2027 inválido y 31/02/2026 conservado como texto crudo con error 4ms
+ ✓ |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-02 · añadido: título de 1 y 300 caracteres válido; 301 inválido; cuerpo 10.000 válido y 10.001 inválido 0ms
+ ✓ |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-02 · añadido: validateTemporal expone la regla de minutos y hora de v5 0ms
+ ✓ |unit| tests/unit/home-subtitle.test.ts > subtítulo de Inicio > HOME-SUBTITLE-01 · catálogo congelado de cuatro frases exactas sin «Demo» ni «<» 2ms
+ ✓ |unit| tests/unit/home-subtitle.test.ts > subtítulo de Inicio > HOME-SUBTITLE-02 · random inyectado llega a cada frase con (i+.5)/4 y se llama una sola vez 1ms
+ ✓ |unit| tests/unit/home-subtitle.test.ts > subtítulo de Inicio > HOME-SUBTITLE-03 · -1 da la primera, 1 la última, NaN la primera; nunca undefined 0ms
+ ✓ |unit| tests/unit/draft.test.ts > borrador temporal crudo > DRAFT-01 · raw temporal draft retains edits before validation and across re-render 2ms
+ ✓ |unit| tests/unit/draft.test.ts > borrador temporal crudo > DRAFT-02 · invalid temporal text survives validation failure 1ms
+ ✓ |unit| tests/unit/draft.test.ts > borrador temporal crudo > DRAFT-03 · applying temporal fields does not mutate source entity 0ms
+
+ Test Files  6 passed (6)
+      Tests  60 passed (60)
+   Start at  02:58:18
+   Duration  1.09s (transform 133ms, setup 0ms, import 216ms, tests 110ms, environment 0ms)
+

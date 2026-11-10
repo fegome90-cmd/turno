@@ -1,0 +1,51 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:unit
+> vitest run --project unit --maxWorkers=1 --no-file-parallelism history-controller
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6
+
+ ❯ |unit| tests/unit/history-controller.test.ts (18 tests | 2 failed) 21ms
+     × after a foreign boundary, new navigation uses a fresh owned segment, not reused indices 4ms
+     × unavailable history writes do not crash in-memory navigation 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > after a foreign boundary, new navigation uses a fresh owned segment, not reused indices
+AssertionError: expected 'turno-v6-xscgb3wtvi9' not to be 'turno-v6-xscgb3wtvi9' // Object.is equality
+ ❯ tests/unit/history-controller.test.ts:209:88
+    207|     ctx.browser.move(-1); ctx.browser.flush();
+    208|     ctx.controller.push(task('new-segment'));
+    209|     expect((ctx.browser.history.state as {__turnoHistory: string}).__t…
+       |                                                                                        ^
+    210|     ctx.browser.move(-2); ctx.browser.flush();
+    211|     expect(ctx.route).toEqual(task('new-segment'));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > unavailable history writes do not crash in-memory navigation
+AssertionError: expected [Function] to not throw an error but 'Error: sandboxed' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: sandboxed"
+
+ ❯ tests/unit/history-controller.test.ts:222:42
+    220|       applyRoute(next) { route = next; }, guardNavigation: () => 'allo…
+    221|     });
+    222|     expect(() => controller.start()).not.toThrow();
+       |                                          ^
+    223|     expect(() => controller.push(task())).not.toThrow();
+    224|     expect(route).toEqual(task()); controller.dispose();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 16 passed (18)
+   Start at  00:28:48
+   Duration  301ms (transform 44ms, setup 0ms, import 61ms, tests 21ms, environment 0ms)
+

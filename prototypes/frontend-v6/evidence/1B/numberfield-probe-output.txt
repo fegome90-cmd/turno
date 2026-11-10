@@ -1,0 +1,14 @@
+PROBE locale=es-CL raw=abc typed= blur=
+PROBE locale=es-CL raw=-1 typed=-1 blur=-1
+PROBE locale=es-CL raw=1.5 typed=1.5 blur=15
+PROBE locale=es-CL raw=1441 typed=1441 blur=1.441
+PROBE locale=es-CL raw=0 typed=0 blur=0
+PROBE locale=es-CL raw=1000 typed=1000 blur=1.000
+PROBE locale=es-CL raw=999 typed=999 blur=999
+PROBE locale=en-US raw=abc typed= blur=
+PROBE locale=en-US raw=-1 typed=-1 blur=-1
+PROBE locale=en-US raw=1.5 typed=1.5 blur=1.5
+PROBE locale=en-US raw=1441 typed=1441 blur=1,441
+PROBE locale=en-US raw=0 typed=0 blur=0
+PROBE locale=en-US raw=1000 typed=1000 blur=1,000
+PROBE locale=en-US raw=999 typed=999 blur=999

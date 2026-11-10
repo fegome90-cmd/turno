@@ -1,0 +1,6 @@
+
+Running 1 test using 1 worker
+
+  ✓  1 [chromium] › tests/e2e/offline-theme.spec.ts:134:1 › EXTRA-OFFLINE-FIRST-PAINT · file:// primer paint y frames capturados sin destello claro (985ms)
+
+  1 passed (1.6s)

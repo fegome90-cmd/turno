@@ -1,0 +1,30 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 1 failed) 39ms
+     × EMIL-SKILLS-07 · simulated adapter conflict identifies its type without prescribing Save 5ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:04:16
+   Duration  1.06s (transform 145ms, setup 0ms, import 228ms, tests 103ms, environment 1ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > EMIL-SKILLS-07 · simulated adapter conflict identifies its type without prescribing Save
+AssertionError: expected 'SIMULATED_FAILURE' to be 'SIMULATED_CONFLICT' // Object.is equality
+
+Expected: "SIMULATED_CONFLICT"
+Received: "SIMULATED_FAILURE"
+
+ ❯ tests/unit/preview.test.ts:240:25
+    238|       (caught: Error & {code?: string}) => caught,
+    239|     );
+    240|     expect(error?.code).toBe('SIMULATED_CONFLICT');
+       |                         ^
+    241|     expect(error?.message).not.toMatch(/guardar|borrador/i);
+    242|     expect((await adapter.load()).activeShiftId).toBe('demo-shift-1');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

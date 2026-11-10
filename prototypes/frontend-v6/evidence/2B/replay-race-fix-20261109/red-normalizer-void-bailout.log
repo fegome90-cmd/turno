@@ -1,0 +1,31 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-fix/prototypes/frontend-v6
+
+ ❯ |component| tests/component/history-lifecycle.test.tsx (7 tests | 1 failed) 216ms
+     × a normalizer that bails out of React state still reconciles the effective route and title 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/history-lifecycle.test.tsx > G2B · hook effect lifecycle > a normalizer that bails out of React state still reconciles the effective route and title
+AssertionError: expected 'missing' to be 'workspace' // Object.is equality
+
+Expected: "workspace"
+Received: "missing"
+
+ ❯ tests/component/history-lifecycle.test.tsx:79:28
+     77|     render(<StrictMode><Harness /></StrictMode>);
+     78|     fireEvent.click(screen.getByRole('button', {name: 'Ausente sin com…
+     79|     expect(document.title).toBe('workspace');
+       |                            ^
+     80|     expect(screen.getByRole('status')).toHaveTextContent('workspace');
+     81|     fireEvent.click(screen.getByRole('button', {name: 'Ruta efectiva'}…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  06:27:39
+   Duration  1.34s (transform 53ms, setup 128ms, import 45ms, tests 216ms, environment 785ms)
+

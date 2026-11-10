@@ -1,0 +1,39 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:e2e
+> playwright test --project=chromium --workers=1 --config /Users/felipe/turno-2b-qa-4f88fca-20261109/v3/playwright.mac-qa.config.ts history.spec.ts
+
+[WebServer] (node:14386) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:14387) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 24 tests using 1 worker
+
+(node:14388) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/history.spec.ts:109:5 › G2B · file · controller harness › initial replace, distinct route push, title, rerender and Back/Forward restore without URL changes (572ms)
+  ✓   2 [chromium] › tests/e2e/history.spec.ts:122:5 › G2B · file · controller harness › negative control: external request is intercepted and aborted while the local document stays usable (300ms)
+  ✓   3 [chromium] › tests/e2e/history.spec.ts:136:5 › G2B · file · controller harness › overlay Back returns to the same entry, restores visible focus, and retains Forward (467ms)
+  ✓   4 [chromium] › tests/e2e/history.spec.ts:148:5 › G2B · file · controller harness › busy blocks traversal without truncating Forward (461ms)
+  ✓   5 [chromium] › tests/e2e/history.spec.ts:159:7 › G2B · file · controller harness › cancel and discard repeat original delta -1 once (621ms)
+  ✓   6 [chromium] › tests/e2e/history.spec.ts:159:7 › G2B · file · controller harness › cancel and discard repeat original delta 1 once (578ms)
+  ✓   7 [chromium] › tests/e2e/history.spec.ts:175:5 › G2B · file · controller harness › failed save preserves draft and route; retry success continues original Forward once (619ms)
+  ✓   8 [chromium] › tests/e2e/history.spec.ts:190:5 › G2B · file · controller harness › EXTRA-LIFECYCLE-ASYNC · late response cannot navigate or steal focus from a newer selection (554ms)
+  ✓   9 [chromium] › tests/e2e/history.spec.ts:209:5 › G2B · file · controller harness › cancel during save invalidates its eventual success without another navigation (453ms)
+  ✓  10 [chromium] › tests/e2e/history.spec.ts:222:5 › G2B · file · controller harness › foreign entries without owned idx stay external and are not replaced or bounced (344ms)
+  ✓  11 [chromium] › tests/e2e/history.spec.ts:234:5 › G2B · file · controller harness › new selection during approved replay survives delayed old popstate and branches from the visible source (688ms)
+  ✓  12 [chromium] › tests/e2e/history.spec.ts:250:5 › G2B · file · controller harness › new selection before user popstate delivery cannot be overwritten by the queued route (511ms)
+  ✓  13 [chromium] › tests/e2e/history.spec.ts:109:5 › G2B · http · controller harness › initial replace, distinct route push, title, rerender and Back/Forward restore without URL changes (416ms)
+  ✓  14 [chromium] › tests/e2e/history.spec.ts:122:5 › G2B · http · controller harness › negative control: external request is intercepted and aborted while the local document stays usable (313ms)
+  ✓  15 [chromium] › tests/e2e/history.spec.ts:136:5 › G2B · http · controller harness › overlay Back returns to the same entry, restores visible focus, and retains Forward (432ms)
+  ✓  16 [chromium] › tests/e2e/history.spec.ts:148:5 › G2B · http · controller harness › busy blocks traversal without truncating Forward (426ms)
+  ✓  17 [chromium] › tests/e2e/history.spec.ts:159:7 › G2B · http · controller harness › cancel and discard repeat original delta -1 once (576ms)
+  ✓  18 [chromium] › tests/e2e/history.spec.ts:159:7 › G2B · http · controller harness › cancel and discard repeat original delta 1 once (571ms)
+  ✓  19 [chromium] › tests/e2e/history.spec.ts:175:5 › G2B · http · controller harness › failed save preserves draft and route; retry success continues original Forward once (579ms)
+  ✓  20 [chromium] › tests/e2e/history.spec.ts:190:5 › G2B · http · controller harness › EXTRA-LIFECYCLE-ASYNC · late response cannot navigate or steal focus from a newer selection (538ms)
+  ✓  21 [chromium] › tests/e2e/history.spec.ts:209:5 › G2B · http · controller harness › cancel during save invalidates its eventual success without another navigation (463ms)
+  ✓  22 [chromium] › tests/e2e/history.spec.ts:222:5 › G2B · http · controller harness › foreign entries without owned idx stay external and are not replaced or bounced (349ms)
+  ✓  23 [chromium] › tests/e2e/history.spec.ts:234:5 › G2B · http · controller harness › new selection during approved replay survives delayed old popstate and branches from the visible source (705ms)
+  ✓  24 [chromium] › tests/e2e/history.spec.ts:250:5 › G2B · http · controller harness › new selection before user popstate delivery cannot be overwritten by the queued route (482ms)
+
+  24 passed (13.3s)

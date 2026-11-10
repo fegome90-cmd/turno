@@ -1,0 +1,19 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:unit
+> vitest run --project unit --maxWorkers=1 --no-file-parallelism panel-mode
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-3a-isolated/prototypes/frontend-v6
+
+ ❯ |unit| tests/unit/panel-mode.test.ts (8 tests | 5 failed) 13ms
+     × 700: navegación column y Tiempo drawer 6ms
+     × 999: navegación column y Tiempo drawer 1ms
+     × 1000: navegación column y Tiempo column 1ms
+     × 1024: navegación column y Tiempo column 1ms
+     × 1440: navegación column y Tiempo column 1ms
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 3 passed (8)
+   Start at  10:49:44
+   Duration  216ms (transform 20ms, setup 0ms, import 34ms, tests 13ms, environment 0ms)
+

@@ -1,0 +1,69 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-fix/prototypes/frontend-v6
+
+ ❯ |component| tests/component/history-lifecycle.test.tsx (7 tests | 3 failed) 222ms
+     × React-batched navigation keeps the latest intent without duplicate entries: 'last-home', cloned read=true 16ms
+     × React-batched navigation keeps the latest intent without duplicate entries: 'duplicate-task', cloned read=true 9ms
+     × a normalizer that bails out of React state returns its effective route without leaving a projection 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/history-lifecycle.test.tsx > G2B · hook effect lifecycle > React-batched navigation keeps the latest intent without duplicate entries: 'last-home', cloned read=true
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  home
+Received:
+  workspace
+ ❯ tests/component/history-lifecycle.test.tsx:56:40
+     54|     fireEvent.click(screen.getByRole('button', {name: 'Navegar dos vec…
+     55|     const expected = mode === 'last-home' ? home : task;
+     56|     expect(screen.getByRole('status')).toHaveTextContent(expected.view…
+       |                                        ^
+     57|     expect(document.title).toBe(`${expected.view} · Turno`);
+     58|     expect(entries).toHaveLength(mode === 'last-home' ? 3 : 2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |component| tests/component/history-lifecycle.test.tsx > G2B · hook effect lifecycle > React-batched navigation keeps the latest intent without duplicate entries: 'duplicate-task', cloned read=true
+AssertionError: expected [ { view: 'home', …(4) }, …(2) ] to have a length of 2 but got 3
+
+- Expected
++ Received
+
+- 2
++ 3
+
+ ❯ tests/component/history-lifecycle.test.tsx:58:21
+     56|     expect(screen.getByRole('status')).toHaveTextContent(expected.view…
+     57|     expect(document.title).toBe(`${expected.view} · Turno`);
+     58|     expect(entries).toHaveLength(mode === 'last-home' ? 3 : 2);
+       |                     ^
+     59|     expect(history.state).toMatchObject({...expected, idx: mode === 'l…
+     60|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |component| tests/component/history-lifecycle.test.tsx > G2B · hook effect lifecycle > a normalizer that bails out of React state returns its effective route without leaving a projection
+AssertionError: expected 'missing' to be 'workspace' // Object.is equality
+
+Expected: "workspace"
+Received: "missing"
+
+ ❯ tests/component/history-lifecycle.test.tsx:82:28
+     80|     render(<StrictMode><Harness /></StrictMode>);
+     81|     fireEvent.click(screen.getByRole('button', {name: 'Ausente sin com…
+     82|     expect(document.title).toBe('workspace');
+       |                            ^
+     83|     expect(screen.getByRole('status')).toHaveTextContent('workspace');
+     84|     fireEvent.click(screen.getByRole('button', {name: 'Ruta efectiva'}…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 4 passed (7)
+   Start at  06:26:33
+   Duration  1.31s (transform 58ms, setup 132ms, import 49ms, tests 222ms, environment 742ms)
+

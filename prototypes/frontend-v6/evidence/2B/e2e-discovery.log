@@ -1,0 +1,31 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:e2e
+> playwright test --project=chromium --workers=1 --list history.spec.ts
+
+Listing tests:
+  [chromium] › history.spec.ts:109:5 › G2B · file · controller harness › initial replace, distinct route push, title, rerender and Back/Forward restore without URL changes
+  [chromium] › history.spec.ts:122:5 › G2B · file · controller harness › negative control: external request is intercepted and aborted while the local document stays usable
+  [chromium] › history.spec.ts:136:5 › G2B · file · controller harness › overlay Back returns to the same entry, restores visible focus, and retains Forward
+  [chromium] › history.spec.ts:148:5 › G2B · file · controller harness › busy blocks traversal without truncating Forward
+  [chromium] › history.spec.ts:159:7 › G2B · file · controller harness › cancel and discard repeat original delta -1 once
+  [chromium] › history.spec.ts:159:7 › G2B · file · controller harness › cancel and discard repeat original delta 1 once
+  [chromium] › history.spec.ts:175:5 › G2B · file · controller harness › failed save preserves draft and route; retry success continues original Forward once
+  [chromium] › history.spec.ts:190:5 › G2B · file · controller harness › EXTRA-LIFECYCLE-ASYNC · late response cannot navigate or steal focus from a newer selection
+  [chromium] › history.spec.ts:207:5 › G2B · file · controller harness › cancel during save invalidates its eventual success without another navigation
+  [chromium] › history.spec.ts:220:5 › G2B · file · controller harness › foreign entries without owned idx stay external and are not replaced or bounced
+  [chromium] › history.spec.ts:232:5 › G2B · file · controller harness › new selection during approved replay survives delayed old popstate and branches from the visible source
+  [chromium] › history.spec.ts:248:5 › G2B · file · controller harness › new selection before user popstate delivery cannot be overwritten by the queued route
+  [chromium] › history.spec.ts:109:5 › G2B · http · controller harness › initial replace, distinct route push, title, rerender and Back/Forward restore without URL changes
+  [chromium] › history.spec.ts:122:5 › G2B · http · controller harness › negative control: external request is intercepted and aborted while the local document stays usable
+  [chromium] › history.spec.ts:136:5 › G2B · http · controller harness › overlay Back returns to the same entry, restores visible focus, and retains Forward
+  [chromium] › history.spec.ts:148:5 › G2B · http · controller harness › busy blocks traversal without truncating Forward
+  [chromium] › history.spec.ts:159:7 › G2B · http · controller harness › cancel and discard repeat original delta -1 once
+  [chromium] › history.spec.ts:159:7 › G2B · http · controller harness › cancel and discard repeat original delta 1 once
+  [chromium] › history.spec.ts:175:5 › G2B · http · controller harness › failed save preserves draft and route; retry success continues original Forward once
+  [chromium] › history.spec.ts:190:5 › G2B · http · controller harness › EXTRA-LIFECYCLE-ASYNC · late response cannot navigate or steal focus from a newer selection
+  [chromium] › history.spec.ts:207:5 › G2B · http · controller harness › cancel during save invalidates its eventual success without another navigation
+  [chromium] › history.spec.ts:220:5 › G2B · http · controller harness › foreign entries without owned idx stay external and are not replaced or bounced
+  [chromium] › history.spec.ts:232:5 › G2B · http · controller harness › new selection during approved replay survives delayed old popstate and branches from the visible source
+  [chromium] › history.spec.ts:248:5 › G2B · http · controller harness › new selection before user popstate delivery cannot be overwritten by the queued route
+Total: 24 tests in 1 file

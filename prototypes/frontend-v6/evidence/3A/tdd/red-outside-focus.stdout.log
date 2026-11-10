@@ -1,0 +1,15 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism navigation
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-3a-isolated/prototypes/frontend-v6
+
+ ❯ |component| tests/component/navigation.test.tsx (15 tests | 1 failed) 2912ms
+   × EXTRA-NATIVE-EDIT · ocultar columna Tiempo no roba foco de edición exterior 1075ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 passed (15)
+   Start at  11:15:29
+   Duration  4.47s (transform 212ms, setup 114ms, import 564ms, tests 2.91s, environment 723ms)
+

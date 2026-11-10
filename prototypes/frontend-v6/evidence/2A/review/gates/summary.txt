@@ -1,0 +1,16 @@
+npm-ci | npm ci --ignore-scripts | exit=0
+audit-total | exit=0
+audit-runtime | exit=0
+typecheck | npm run typecheck | exit=0
+lint | npm run lint | exit=0
+test-unit | npm run test:unit | exit=0
+test-component | npm run test:component | exit=0
+build | npm run build | exit=0
+ae271fd0a7f084b0e3583969f70ad448af637dca2c634a369e981eb17ee6d343  dist/preview.html
+check-portable | npm run check:portable | exit=0
+measure-bundle | npm run measure:bundle | exit=0
+test-e2e-run1 | npm run test:e2e | exit=0
+test-e2e-run2 | npm run test:e2e | exit=0
+test-e2e-run3 | npm run test:e2e | exit=0
+624efd951ed586a71effc45b2fa7ea4add23f33f3ada7e18fade7cdb2e4e130f  -
+DONE

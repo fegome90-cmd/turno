@@ -1,0 +1,57 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:e2e
+> playwright test --project=chromium --workers=1 primitive-contract.spec.ts
+
+
+Running 7 tests using 1 worker
+
+  ✓  1 [chromium] › tests/e2e/primitive-contract.spec.ts:37:3 › G1B · contratos de primitivas en Chromium › EXTRA-NATIVE-EDIT · un solo nodo de campo, texto crudo y error conservados al cruzar 699↔700 y 999↔1000 (1.4s)
+  ✓  2 [chromium] › tests/e2e/primitive-contract.spec.ts:56:3 › G1B · contratos de primitivas en Chromium › EXTRA-NATIVE-EDIT · tema claro, oscuro y sistema con Popover, Dialog y avisos abiertos: tokens y contraste ≥ 4.5:1 (1.5s)
+  ✓  3 [chromium] › tests/e2e/primitive-contract.spec.ts:96:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible (828ms)
+  ✓  4 [chromium] › tests/e2e/primitive-contract.spec.ts:110:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Tab sale del Popover de tema (728ms)
+  ✘  5 [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · 30 avisos sin expulsión, pila suspendida inerte y descarte por teclado con foco al siguiente cierre (1.2s)
+  ✓  6 [chromium] › tests/e2e/primitive-contract.spec.ts:137:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · descarte por teclado de un aviso intermedio enfoca el cierre siguiente (787ms)
+  ✓  7 [chromium] › tests/e2e/primitive-contract.spec.ts:148:3 › G1B · contratos de primitivas en Chromium › EXTRA-LIFECYCLE-ASYNC · un solo root de React en el documento (599ms)
+
+
+  1) [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · 30 avisos sin expulsión, pila suspendida inerte y descarte por teclado con foco al siguiente cierre 
+
+    Error: expect(locator).toBeAttached() failed
+
+    Locator: getByText('Error 14', { exact: true })
+    Expected: attached
+    Error: strict mode violation: getByText('Error 14', { exact: true }) resolved to 2 elements:
+        1) <div role="alert" id="live-error" class="sr-only" aria-live="assertive">Error 14</div> aka locator('#live-error')
+        2) <p class="notice-message" data-notice-message="">Error 14</p> aka getByRole('region', { name: 'Avisos' }).getByText('Error 14')
+
+    Call log:
+      - Expect "toBeAttached" getByText('Error 14', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Error 14', { exact: true })
+
+
+      128 |     await page.waitForTimeout(500);
+      129 |     await expect(page.locator('[data-notice]')).toHaveCount(30);
+    > 130 |     await expect(page.getByText('Error 14', {exact: true})).toBeAttached();
+          |                                                             ^
+      131 |     await page.getByRole('button', {name: 'Abrir navegación'}).click();
+      132 |     await expect(page.locator('[data-notification-root]')).toHaveJSProperty('inert', true);
+      133 |     await page.keyboard.press('Escape');
+        at /home/user/turno/prototypes/frontend-v6/tests/e2e/primitive-contract.spec.ts:130:61
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/primitive-contract-G1B-·-c-31dd6-on-foco-al-siguiente-cierre-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/primitive-contract-G1B-·-c-31dd6-on-foco-al-siguiente-cierre-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/primitive-contract-G1B-·-c-31dd6-on-foco-al-siguiente-cierre-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/primitive-contract-G1B-·-c-31dd6-on-foco-al-siguiente-cierre-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · 30 avisos sin expulsión, pila suspendida inerte y descarte por teclado con foco al siguiente cierre 
+  6 passed (9.9s)

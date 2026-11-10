@@ -1,0 +1,37 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/store.test.ts (13 tests | 1 failed) 35ms
+     × EXTRA-STATE-AUTHORITY · respuesta tardía de una selección anterior: actualiza su copia confirmada, sin tocar el borrador ni los errores actuales 8ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:03:33
+   Duration  1.02s (transform 123ms, setup 0ms, import 202ms, tests 117ms, environment 1ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · respuesta tardía de una selección anterior: actualiza su copia confirmada, sin tocar el borrador ni los errores actuales
+AssertionError: expected { id: 'task-2', kind: 'task', …(2) } to match object { id: 'task-2', title: '' }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "id": "task-2",
+-   "title": "",
++   "title": "Revisar insumos",
+  }
+
+ ❯ tests/unit/store.test.ts:128:40
+    126|     expect(taskOf(ctx, 'task-1').title).toBe('Tarea A editada');
+    127|     expect(ctx.store.getState().selection).toEqual({kind: 'task', id: …
+    128|     expect(ctx.store.getState().draft).toMatchObject({id: 'task-2', ti…
+       |                                        ^
+    129|     expect(ctx.store.getState().errors).toEqual(errorsBefore);
+    130|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

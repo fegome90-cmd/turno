@@ -1,0 +1,72 @@
+[
+  {
+    "id": "M1-fecha-utc",
+    "note": "fecha de Santiago sustituida por UTC en la agenda",
+    "exit": 1,
+    "failedTests": 2,
+    "status": "DETECTED"
+  },
+  {
+    "id": "M1b-localdate-utc",
+    "note": "localDate ignora la hora dada (variante de zona)",
+    "exit": 1,
+    "failedTests": 4,
+    "status": "DETECTED"
+  },
+  {
+    "id": "M2-manana-24h",
+    "note": "«mañana» como +24 h",
+    "exit": 1,
+    "failedTests": 1,
+    "status": "DETECTED"
+  },
+  {
+    "id": "M4-fallo-confirma",
+    "note": "el fallo de saveTask confirma el valor en el snapshot",
+    "exit": 1,
+    "failedTests": 3,
+    "status": "DETECTED"
+  },
+  {
+    "id": "M5-snapshot-compartido",
+    "note": "load devuelve la referencia interna, sin clonar",
+    "exit": 1,
+    "failedTests": 2,
+    "status": "DETECTED"
+  },
+  {
+    "id": "M6-renombrar-cambia-id",
+    "note": "renombrar una lista cambia su id",
+    "exit": 1,
+    "failedTests": 2,
+    "status": "DETECTED"
+  },
+  {
+    "id": "M7-nota-con-shiftid",
+    "note": "la nota guarda campos ajenos (shiftId)",
+    "exit": 1,
+    "failedTests": 1,
+    "status": "DETECTED"
+  },
+  {
+    "id": "M8-minutos-sin-trim",
+    "note": "la validación de minutos no recorta el texto crudo (trim eliminado)",
+    "exit": 1,
+    "failedTests": 1,
+    "status": "DETECTED"
+  },
+  {
+    "id": "M9-suscripcion-no-liberada",
+    "note": "dispose no libera la suscripción al notification-store",
+    "exit": 1,
+    "failedTests": 2,
+    "status": "DETECTED"
+  },
+  {
+    "id": "M3-conflicto-pisa-borrador",
+    "note": "un error de versión/guardado repone el borrador desde el snapshot",
+    "exit": 1,
+    "failedTests": 3,
+    "status": "DETECTED"
+  }
+]

@@ -1,0 +1,38 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism history-lifecycle
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6
+
+ ❯ |component| tests/component/history-lifecycle.test.tsx (1 test | 1 failed) 29ms
+     × EXTRA-LIFECYCLE-ASYNC · StrictMode plus 20 mounts leaves zero listeners, one initial replace per mount and one push per click 28ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/history-lifecycle.test.tsx > G2B · hook effect lifecycle > EXTRA-LIFECYCLE-ASYNC · StrictMode plus 20 mounts leaves zero listeners, one initial replace per mount and one push per click
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/component/history-lifecycle.test.tsx:34:30
+     32|     for (let cycle = 0; cycle < 20; cycle++) {
+     33|       const view = render(<StrictMode><Harness /></StrictMode>);
+     34|       expect(listeners.size).toBe(1);
+       |                              ^
+     35|       expect(replaces).toBe(cycle + 1);
+     36|       fireEvent.click(screen.getByRole('button', {name: 'Abrir'}));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  00:24:50
+   Duration  1.19s (transform 52ms, setup 148ms, import 35ms, tests 29ms, environment 837ms)
+

@@ -1,0 +1,94 @@
+
+Running 11 tests using 1 worker
+
+  ✓   1 [chromium] › tests/e2e/primitive-contract.spec.ts:37:3 › G1B · contratos de primitivas en Chromium › EXTRA-NATIVE-EDIT · un solo nodo de campo, texto crudo y error conservados al cruzar 699↔700 y 999↔1000 (955ms)
+  ✓   2 [chromium] › tests/e2e/primitive-contract.spec.ts:56:3 › G1B · contratos de primitivas en Chromium › EXTRA-NATIVE-EDIT · tema claro, oscuro y sistema con Popover, Dialog y avisos abiertos: tokens y contraste ≥ 4.5:1 (1.4s)
+  ✘   3 [chromium] › tests/e2e/primitive-contract.spec.ts:96:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible (5.8s)
+  ✓   4 [chromium] › tests/e2e/primitive-contract.spec.ts:110:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Tab sale del Popover de tema (770ms)
+  ✘   5 [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Drawer → Dialog: Escape cierra solo el Dialog con foco en el control del Drawer; otro Escape cierra el Drawer y el foco vuelve al disparador (6.1s)
+  ✓   6 [chromium] › tests/e2e/primitive-contract.spec.ts:170:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Popover de tema no modal: Tab sale del Popover y la página no queda inerte (809ms)
+  ✓   7 [chromium] › tests/e2e/primitive-contract.spec.ts:190:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · Alt+T enfoca el botón de cierre del aviso más reciente; Escape cierra solo ese aviso y el foco pasa al siguiente cierre (732ms)
+  ✓   8 [chromium] › tests/e2e/primitive-contract.spec.ts:206:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · la llegada de un aviso nuevo no mueve el foco (716ms)
+  ✓   9 [chromium] › tests/e2e/primitive-contract.spec.ts:215:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · 30 avisos sin expulsión, pila suspendida inerte y descarte por teclado con foco al siguiente cierre (1.4s)
+  ✓  10 [chromium] › tests/e2e/primitive-contract.spec.ts:228:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · descarte por teclado de un aviso intermedio enfoca el cierre siguiente (665ms)
+  ✓  11 [chromium] › tests/e2e/primitive-contract.spec.ts:239:3 › G1B · contratos de primitivas en Chromium › EXTRA-LIFECYCLE-ASYNC · un solo root de React en el documento (655ms)
+
+
+  1) [chromium] › tests/e2e/primitive-contract.spec.ts:96:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('dialog', { name: 'Navegación' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('dialog', { name: 'Navegación' }) with timeout 5000ms
+      - waiting for getByRole('dialog', { name: 'Navegación' })
+
+
+      102 |     await page.keyboard.press('Escape');
+      103 |     await expect(page.getByRole('dialog', {name: 'Más opciones'})).toHaveCount(0);
+    > 104 |     await expect(page.getByRole('dialog', {name: 'Navegación'})).toBeVisible();
+          |                                                                  ^
+      105 |     await page.keyboard.press('Escape');
+      106 |     await expect(page.getByRole('dialog', {name: 'Navegación'})).toHaveCount(0);
+      107 |     await expect(trigger).toBeFocused();
+        at /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants/tests/e2e/primitive-contract.spec.ts:104:66
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/primitive-contract-G1B-·-c-f1639-vuelve-a-un-destino-visible-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/primitive-contract-G1B-·-c-f1639-vuelve-a-un-destino-visible-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/primitive-contract-G1B-·-c-f1639-vuelve-a-un-destino-visible-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/primitive-contract-G1B-·-c-f1639-vuelve-a-un-destino-visible-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Drawer → Dialog: Escape cierra solo el Dialog con foco en el control del Drawer; otro Escape cierra el Drawer y el foco vuelve al disparador 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('dialog', { name: 'Navegación' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('dialog', { name: 'Navegación' }) with timeout 5000ms
+      - waiting for getByRole('dialog', { name: 'Navegación' })
+
+
+      161 |     await page.keyboard.press('Escape');
+      162 |     await expect(dialog).toHaveCount(0);
+    > 163 |     await expect(drawer).toBeVisible();
+          |                          ^
+      164 |     await expect(drawerCreate).toBeFocused();
+      165 |     await page.keyboard.press('Escape');
+      166 |     await expect(drawer).toHaveCount(0);
+        at /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants/tests/e2e/primitive-contract.spec.ts:163:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/primitive-contract-G1B-·-c-aa404-l-foco-vuelve-al-disparador-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/primitive-contract-G1B-·-c-aa404-l-foco-vuelve-al-disparador-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/primitive-contract-G1B-·-c-aa404-l-foco-vuelve-al-disparador-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/primitive-contract-G1B-·-c-aa404-l-foco-vuelve-al-disparador-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium] › tests/e2e/primitive-contract.spec.ts:96:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible 
+    [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Drawer → Dialog: Escape cierra solo el Dialog con foco en el control del Drawer; otro Escape cierra el Drawer y el foco vuelve al disparador 
+  9 passed (23.2s)

@@ -1,0 +1,36 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 1 failed) 2425ms
+     × G1B-OVERLAY-06 · Drawer → Popover → Dialog: el Dialog retira el Popover y el Drawer queda debajo 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-OVERLAY · autoridad del coordinador (reductor puro) > G1B-OVERLAY-06 · Drawer → Popover → Dialog: el Dialog retira el Popover y el Drawer queda debajo
+AssertionError: expected [ 'navigation', 'more:drawer', …(1) ] to deeply equal [ 'navigation', 'create' ]
+
+- Expected
++ Received
+
+  [
+    "navigation",
++   "more:drawer",
+    "create",
+  ]
+
+ ❯ tests/component/primitive-contract.test.tsx:98:43
+     96|     expect(state.layers.map((l) => l.id)).toEqual(['navigation', 'more…
+     97|     state = overlayReducer(state, {type: 'open', layer: create});
+     98|     expect(state.layers.map((l) => l.id)).toEqual(['navigation', 'crea…
+       |                                           ^
+     99|   });
+    100|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 47 passed (48)
+   Start at  02:05:27
+   Duration  4.96s (transform 299ms, setup 298ms, import 550ms, tests 2.58s, environment 1.18s)
+

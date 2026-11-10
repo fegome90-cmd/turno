@@ -1,0 +1,90 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/2A-mut/fe
+
+ ❯ |unit| tests/unit/format.test.ts (8 tests | 4 failed) 28ms
+     × POLISH-08 · civil date is evaluated in Santiago rather than UTC at midnight boundaries 16ms
+     × POLISH-08 · añadido: fin de mes, fin de año y bisiesto se evalúan en Santiago 1ms
+     × POLISH-10 · agenda groups Hoy, Mañana, later dates and undated tasks without mutating data 3ms
+     × POLISH-10 · añadido: «Mañana» es el día civil siguiente aunque el cambio de horario de Chile tenga 23 h 1ms
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  4 failed | 53 passed (57)
+   Start at  02:55:21
+   Duration  937ms (transform 123ms, setup 0ms, import 194ms, tests 124ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-08 · civil date is evaluated in Santiago rather than UTC at midnight boundaries
+AssertionError: expected '1969-12-31' to be '2026-11-07' // Object.is equality
+
+Expected: "2026-11-07"
+Received: "1969-12-31"
+
+ ❯ tests/unit/format.test.ts:18:57
+     16|
+     17|   it('POLISH-08 · civil date is evaluated in Santiago rather than UTC …
+     18|     expect(localDate(new Date('2026-11-08T01:30:00Z'))).toBe('2026-11-…
+       |                                                         ^
+     19|     expect(localDate(new Date('2026-11-08T03:30:00Z'))).toBe('2026-11-…
+     20|     expect(localDate(new Date('2026-06-08T03:30:00Z'))).toBe('2026-06-…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-08 · añadido: fin de mes, fin de año y bisiesto se evalúan en Santiago
+AssertionError: expected '1969-12-31' to be '2026-12-31' // Object.is equality
+
+Expected: "2026-12-31"
+Received: "1969-12-31"
+
+ ❯ tests/unit/format.test.ts:26:62
+     24|   it('POLISH-08 · añadido: fin de mes, fin de año y bisiesto se evalúa…
+     25|     // 31/12 23:30 en Santiago (-03) es 01/01 en UTC: una fecha valida…
+     26|     expect(localDate(new Date('2026-12-31T23:30:00-03:00'))).toBe('202…
+       |                                                              ^
+     27|     // Marzo 2026 sigue en horario de verano (-03): 01/03 02:30Z es 28…
+     28|     expect(localDate(new Date('2026-03-01T02:30:00Z'))).toBe('2026-02-…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-10 · agenda groups Hoy, Mañana, later dates and undated tasks without mutating data
+AssertionError: expected [ '07/11/2026', '08/11/2026', …(2) ] to deeply equal [ 'Hoy', 'Mañana', '10/11/2026', …(1) ]
+
+- Expected
++ Received
+
+  [
+-   "Hoy",
+-   "Mañana",
++   "07/11/2026",
++   "08/11/2026",
+    "10/11/2026",
+    "Sin fecha",
+  ]
+
+ ❯ tests/unit/format.test.ts:54:48
+     52|     const snapshot = structuredClone(tasks);
+     53|     const groups = groupAgenda(tasks, new Date('2026-11-08T01:30:00Z')…
+     54|     expect(groups.map((group) => group.label)).toEqual(['Hoy', 'Mañana…
+       |                                                ^
+     55|     expect(groups[0].tasks.map((task) => task.id)).toEqual(['today', '…
+     56|     expect(groups[0].tasks[1].completed).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-10 · añadido: «Mañana» es el día civil siguiente aunque el cambio de horario de Chile tenga 23 h
+AssertionError: expected '1969-12-31' to be '2026-09-05' // Object.is equality
+
+Expected: "2026-09-05"
+Received: "1969-12-31"
+
+ ❯ tests/unit/format.test.ts:63:57
+     61|     // 06/09/2026 es el inicio del horario de verano en Chile (04:00Z)…
+     62|     // Sumar 24 h daría 07/09 (fallo de la mutación «mañana = +24 h»).
+     63|     expect(localDate(new Date('2026-09-06T03:30:00Z'))).toBe('2026-09-…
+       |                                                         ^
+     64|     expect(localDate(new Date('2026-09-06T04:30:00Z'))).toBe('2026-09-…
+     65|     const groups = groupAgenda(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+

@@ -1,0 +1,44 @@
+
+> turno-frontend-v6@0.1.0-phase1a check:portable
+> node scripts/check-portable.mjs dist/preview.html
+
+{
+  "file": "dist/preview.html",
+  "bytes": 1095605,
+  "staticFailures": 1,
+  "runtime": {
+    "h1": "Hola, Demo.",
+    "fontsLoaded": [
+      "Source Sans 3 400 normal",
+      "Source Serif Pro 400 normal"
+    ],
+    "theme": "light"
+  },
+  "externalRequests": 2,
+  "consoleErrors": 1,
+  "pageErrors": 0,
+  "failures": [
+    {
+      "kind": "static-attribute",
+      "attribute": "src",
+      "value": "https://example.com/x.png"
+    },
+    {
+      "kind": "runtime-request",
+      "url": "https://example.com/x.png"
+    },
+    {
+      "kind": "runtime-request",
+      "url": "https://example.com/x.png"
+    },
+    {
+      "kind": "console",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "kind": "request-failed",
+      "url": "https://example.com/x.png"
+    }
+  ],
+  "status": "FAIL"
+}

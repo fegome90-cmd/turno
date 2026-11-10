@@ -1,0 +1,8 @@
+.domain-dialog-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}.domain-dialog-heading h2{margin:0}.domain-dialog-heading .icon-button{margin-top:-10px;margin-right:-10px}
+.domain-dialog form{min-width:0}.domain-dialog label{display:block;font-size:var(--type-small);font-weight:600;margin-bottom:6px}.domain-name-input{display:block;box-sizing:border-box;width:100%;min-width:0;max-width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--control);border-radius:var(--radius-control);background:var(--field);color:var(--ink);font:inherit;font-size:var(--type-body)}
+.domain-dialog [id=domain-name-hint]{display:block;font-size:var(--type-small);color:var(--secondary);margin-top:10px;overflow-wrap:break-word}.domain-dialog .demo-actions{justify-content:flex-end;margin-bottom:0}
+.archive-view{flex:1;min-width:0;padding:12px 32px 40px;padding-bottom:calc(40px + env(safe-area-inset-bottom,0px));overflow-wrap:break-word}.archive-view h1{font-size:var(--type-title);font-weight:600;margin:8px 0}.archive-list{margin-top:32px}.archive-link{display:flex;width:100%;min-width:0;justify-content:flex-start;text-align:left;border-bottom:1px solid var(--border);border-radius:0}.archive-link span{min-width:0;overflow-wrap:break-word}.archive-link svg{flex:none}.archive-notice{width:100%;font-size:var(--type-caption);padding:8px 12px;background:var(--hover);margin:0 0 20px;overflow-wrap:break-word}
+@media(max-width:699px){.archive-view{padding-inline:20px}}
+
+/* Preserve the source error token against the shared dialog paragraph style. */
+.domain-dialog .error{color:var(--error)}

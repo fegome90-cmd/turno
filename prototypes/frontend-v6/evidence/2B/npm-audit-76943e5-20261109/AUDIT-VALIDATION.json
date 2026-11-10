@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "scope": "check_dependency_audits only; no full contract CLI or phase acceptance",
+  "sourceCommit": "76943e5db6cf203e8f2738391f4318523c63ad7b",
+  "sourceGitTree": "f70a1a19b28d5dd2cedae789d07c1568ed4dc2ab",
+  "treeDigest": "fe09112d7a14a44d2c158e97921f17e34bcc2035d9484d21966eb5e22b6a03a9",
+  "briefAuditInputs": {
+    "taskId": "2B",
+    "gates": [
+      {
+        "id": "audit-total",
+        "kind": "nonvisual",
+        "required": true,
+        "command": "npm audit --include=dev --json"
+      },
+      {
+        "id": "audit-runtime",
+        "kind": "nonvisual",
+        "required": true,
+        "command": "npm audit --omit=dev --json"
+      }
+    ]
+  },
+  "auditEvidence": {
+    "scope": "dependency-audit-evidence-only; not a phase report or approval",
+    "headSha": "76943e5db6cf203e8f2738391f4318523c63ad7b",
+    "treeDigest": "fe09112d7a14a44d2c158e97921f17e34bcc2035d9484d21966eb5e22b6a03a9",
+    "gates": [
+      {
+        "id": "audit-total",
+        "kind": "nonvisual",
+        "command": "npm audit --include=dev --json",
+        "status": "PASS",
+        "sha": "76943e5db6cf203e8f2738391f4318523c63ad7b",
+        "treeDigest": "fe09112d7a14a44d2c158e97921f17e34bcc2035d9484d21966eb5e22b6a03a9",
+        "exitCode": 0,
+        "artifact": "audit-total.audit.json",
+        "artifactSha256": "7a89042b7a831336741e54af87cf296c130594d51bb498224fc425d42e64e1df",
+        "testCases": [],
+        "context": {
+          "cwd": "prototypes/frontend-v6",
+          "nodeVersion": "v24.22.1",
+          "npmVersion": "11.9.0",
+          "registry": "https://registry.npmjs.org/",
+          "packageSha256": "bc79b9b319d409d7cefeef981f52c8ef0a1ab2daf10de7cc737fc1b114936cb2",
+          "lockSha256": "63673cd3cc34ecfea5d4c92a30c42388fe79644d08d6637f04c070dfd8d79280",
+          "observedAt": "2026-11-09T13:20:44.901441+00:00"
+        },
+        "risks": []
+      },
+      {
+        "id": "audit-runtime",
+        "kind": "nonvisual",
+        "command": "npm audit --omit=dev --json",
+        "status": "PASS",
+        "sha": "76943e5db6cf203e8f2738391f4318523c63ad7b",
+        "treeDigest": "fe09112d7a14a44d2c158e97921f17e34bcc2035d9484d21966eb5e22b6a03a9",
+        "exitCode": 0,
+        "artifact": "audit-runtime.audit.json",
+        "artifactSha256": "7a89042b7a831336741e54af87cf296c130594d51bb498224fc425d42e64e1df",
+        "testCases": [],
+        "context": {
+          "cwd": "prototypes/frontend-v6",
+          "nodeVersion": "v24.22.1",
+          "npmVersion": "11.9.0",
+          "registry": "https://registry.npmjs.org/",
+          "packageSha256": "bc79b9b319d409d7cefeef981f52c8ef0a1ab2daf10de7cc737fc1b114936cb2",
+          "lockSha256": "63673cd3cc34ecfea5d4c92a30c42388fe79644d08d6637f04c070dfd8d79280",
+          "observedAt": "2026-11-09T13:20:48.816107+00:00"
+        },
+        "risks": []
+      }
+    ]
+  },
+  "errors": [],
+  "observedTreeValidation": "Recomputed using CLI string sorting of relative POSIX paths; 718 files, exact source snapshot."
+}

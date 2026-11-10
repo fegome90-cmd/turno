@@ -1,0 +1,156 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:unit
+> vitest run --project unit --maxWorkers=1 --no-file-parallelism history-controller
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6
+
+ ❯ |unit| tests/unit/history-controller.test.ts (25 tests | 5 failed) 31ms
+     × a newer push during approved replay -1 cannot be overwritten by its late popstate 8ms
+     × a newer push during approved replay 1 cannot be overwritten by its late popstate 2ms
+     × same-route intent during approved replay cancels that replay and preserves Forward 1ms
+     × newer push before user popstate -1 is delivered restores the source before branching 1ms
+     × newer push before user popstate 1 is delivered restores the source before branching 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > a newer push during approved replay -1 cannot be overwritten by its late popstate
+AssertionError: expected { view: 'home', archiveId: null, …(1) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+-   "selected": {
+-     "id": "newer",
+-     "kind": "task",
+-   },
+-   "view": "workspace",
++   "selected": null,
++   "view": "home",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:217:23
+    215|     ctx.browser.move(direction); ctx.browser.flush(); ctx.resume();
+    216|     ctx.guard(() => 'allow'); ctx.controller.push(task('newer')); ctx.…
+    217|     expect(ctx.route).toEqual(task('newer'));
+       |                       ^
+    218|     expect(ctx.browser.history.state).toMatchObject({selected: {id: 'n…
+    219|     expect(ctx.titles.at(-1)).toBe('newer · Turno');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > a newer push during approved replay 1 cannot be overwritten by its late popstate
+AssertionError: expected { view: 'workspace', …(2) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+    "selected": {
+-     "id": "task-1",
++     "id": "newer",
+      "kind": "task",
+    },
+    "view": "workspace",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:221:23
+    219|     expect(ctx.titles.at(-1)).toBe('newer · Turno');
+    220|     ctx.browser.move(-1); ctx.browser.flush();
+    221|     expect(ctx.route).toEqual(task());
+       |                       ^
+    222|   });
+    223|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > same-route intent during approved replay cancels that replay and preserves Forward
+AssertionError: expected { view: 'home', archiveId: null, …(1) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+-   "selected": {
+-     "id": "task-1",
+-     "kind": "task",
+-   },
+-   "view": "workspace",
++   "selected": null,
++   "view": "home",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:228:23
+    226|     ctx.browser.move(-1); ctx.browser.flush(); ctx.resume();
+    227|     ctx.guard(() => 'allow'); ctx.controller.push(task()); ctx.browser…
+    228|     expect(ctx.route).toEqual(task()); expect(ctx.browser.index).toBe(…
+       |                       ^
+    229|     expect(ctx.browser.entries).toHaveLength(3);
+    230|     ctx.browser.move(1); ctx.browser.flush(); expect(ctx.route).toEqua…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > newer push before user popstate -1 is delivered restores the source before branching
+AssertionError: expected { view: 'home', archiveId: null, …(1) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+-   "selected": {
+-     "id": "newer",
+-     "kind": "task",
+-   },
+-   "view": "workspace",
++   "selected": null,
++   "view": "home",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:236:23
+    234|     const ctx = threeEntries(); ctx.browser.move(direction);
+    235|     ctx.controller.push(task('newer')); ctx.browser.flush();
+    236|     expect(ctx.route).toEqual(task('newer'));
+       |                       ^
+    237|     expect(ctx.browser.history.state).toMatchObject({selected: {id: 'n…
+    238|     expect(ctx.titles.at(-1)).toBe('newer · Turno');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > newer push before user popstate 1 is delivered restores the source before branching
+AssertionError: expected { view: 'workspace', …(2) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+    "selected": {
+-     "id": "task-1",
++     "id": "newer",
+      "kind": "task",
+    },
+    "view": "workspace",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:239:66
+    237|     expect(ctx.browser.history.state).toMatchObject({selected: {id: 'n…
+    238|     expect(ctx.titles.at(-1)).toBe('newer · Turno');
+    239|     ctx.browser.move(-1); ctx.browser.flush(); expect(ctx.route).toEqu…
+       |                                                                  ^
+    240|   });
+    241|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 20 passed (25)
+   Start at  00:39:29
+   Duration  320ms (transform 45ms, setup 0ms, import 63ms, tests 31ms, environment 0ms)
+

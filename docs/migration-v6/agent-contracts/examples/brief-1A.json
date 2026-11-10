@@ -1,0 +1,150 @@
+{
+  "taskId": "1A",
+  "mode": "prepare",
+  "baseSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
+  "headSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",
+  "executionAuthorized": false,
+  "acceptanceEvidence": null,
+  "environment": "Sandbox de preparación, snapshot sin Git. No es rama de implementación.",
+  "cwd": "PENDIENTE: checkout Git autorizado, después prototypes/frontend-v6",
+  "planFile": "docs/migration-v6/PLAN.md",
+  "taskTextRequired": "Adjuntar texto íntegro Fase 1A y contratos/interfaces relevantes antes de despachar. Este ejemplo no es ejecutable.",
+  "allowedPaths": [
+    "prototypes/frontend-v6/**"
+  ],
+  "requirements": [
+    "DESIGN-COMPLETE-01",
+    "DESIGN-COMPLETE-02",
+    "HOME-SUBTITLE-01",
+    "HOME-SUBTITLE-02",
+    "HOME-SUBTITLE-03",
+    "TOKENS-01",
+    "UI-01"
+  ],
+  "additionalRequirements": [
+    "EXTRA-STRICTMODE-HOME",
+    "EXTRA-THEME-NO-STORAGE",
+    "EXTRA-OFFLINE-FIRST-PAINT",
+    "EXTRA-PERFORMANCE-FLOWS",
+    "EXTRA-OFFLINE-ARTIFACT"
+  ],
+  "gates": [
+    {
+      "id": "typecheck",
+      "kind": "nonvisual",
+      "command": "npm run typecheck",
+      "required": true
+    },
+    {
+      "id": "lint",
+      "kind": "nonvisual",
+      "command": "npm run lint",
+      "required": true
+    },
+    {
+      "id": "unit",
+      "kind": "nonvisual",
+      "command": "npm run test:unit",
+      "required": true
+    },
+    {
+      "id": "component",
+      "kind": "nonvisual",
+      "command": "npm run test:component",
+      "required": true
+    },
+    {
+      "id": "build",
+      "kind": "nonvisual",
+      "command": "npm run build",
+      "required": true
+    },
+    {
+      "id": "portable",
+      "kind": "browser",
+      "command": "npm run check:portable",
+      "required": true
+    },
+    {
+      "id": "bundle",
+      "kind": "nonvisual",
+      "command": "npm run measure:bundle",
+      "required": true
+    },
+    {
+      "id": "offline-theme",
+      "kind": "browser",
+      "command": "npm run test:e2e -- offline-theme.spec.ts",
+      "required": true
+    },
+    {
+      "id": "first-paint",
+      "kind": "visual",
+      "command": "Inspección documentada de filmstrip y fuentes/temas sobre el artefacto final",
+      "required": true
+    },
+    {
+      "id": "audit-total",
+      "kind": "nonvisual",
+      "command": "npm audit --include=dev --json",
+      "required": true
+    },
+    {
+      "id": "audit-runtime",
+      "kind": "nonvisual",
+      "command": "npm audit --omit=dev --json",
+      "required": true
+    }
+  ],
+  "requiredReviews": [
+    "spec",
+    "quality"
+  ],
+  "visualBoundary": "No browser, visual, AT/device or host PASS from DOM/static checks.",
+  "handoffStatus": "STOP: falta autorización G0 y rama real; navegador bloqueado en este entorno.",
+  "riskMapFile": "docs/migration-v6/migration-risks.json",
+  "migrationControlScope": "1A: shell startup/theme/bundle only. Full product flows measured in 7A. Offline file cold/reload with new demo/session theme; HTTP document server remains available.",
+  "deferredRequirements": [
+    {
+      "requirementId": "DESIGN-AUDIT-09",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "DESIGN-AUDIT-11",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "DESIGN-COMPLETE-08",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "DESIGN-COMPLETE-09",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "DESIGN-COMPLETE-11",
+      "closureTask": "6A"
+    },
+    {
+      "requirementId": "TOKENS-02",
+      "closureTask": "3A"
+    },
+    {
+      "requirementId": "UI-14",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "UI-40",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "UI-41",
+      "closureTask": "4A"
+    },
+    {
+      "requirementId": "VIEWPORT-07",
+      "closureTask": "4A"
+    }
+  ],
+  "requirementScope": "requirements contiene solo identidades que pueden cerrarse en 1A. deferredRequirements conserva obligaciones de integración futuras, todas planned; un harness del shell no las cierra."
+}

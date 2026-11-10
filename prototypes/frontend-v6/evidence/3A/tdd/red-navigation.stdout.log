@@ -1,0 +1,21 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism navigation
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-3a-isolated/prototypes/frontend-v6
+
+ ❯ |component| tests/component/navigation.test.tsx (7 tests | 7 failed) 87ms
+     × TOKENS-02 · marca accesible, Home estable y un único main 63ms
+     × DESIGN-AUDIT-02 · checkbox label nativo no activa botón de fila y UI-18 usa fallo real 5ms
+     × DESIGN-COMPLETE-03/04/05 · disclosure no modal con controles, Escape y click destino conectado 3ms
+     × INTERFACE-SKILLS-17 · Demo solo dentro de Más opciones, arma fallo del puerto real 3ms
+     × INTERFACE-SKILLS-18 · scroll cue solo si queda contenido inferior 3ms
+     × UI-12 · Escape cierra navegación móvil, sin cerrar capa inferior al salir de Más opciones 3ms
+     × EXTRA-NATIVE-EDIT · retorno rechaza trigger oculto/ancestro oculto 6ms
+
+ Test Files  1 failed (1)
+      Tests  7 failed (7)
+   Start at  10:50:48
+   Duration  1.19s (transform 83ms, setup 119ms, import 114ms, tests 87ms, environment 697ms)
+
