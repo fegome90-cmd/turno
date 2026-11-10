@@ -9,7 +9,7 @@ Estado: **experimental** en rama `feature/opencode-secure-config`. No hay despli
 - Otros proveedores de Strands se eligen con `TURNO_AI_PROVIDER`: OpenAI, Anthropic, Google, Bedrock, OpenRouter, Fireworks, Nebius, OVHcloud, Crusoe y OrcaRouter. Ver [`PROVIDERS.md`](PROVIDERS.md). No se descargan ni ejecutan modelos locales.
 - **Vercel Decision API** mediante `microsoft/microsoft-decision-1` es el clasificador remoto opcional para categorías cerradas. **No** es Strands Decider de AWS, que requeriría infraestructura propia; solo imitamos su patrón de evaluación en paralelo.
 - Reglas deterministas identifican problemas verificables de camas/fechas/horarios, sin invocar modelos.
-- No se expone una ruta HTTP; este módulo se integrará detrás del backend autenticado de Turno cuando exista su contrato.
+- El servicio interno `node:http` se arranca con `npm run serve`. Expone eventos y captura firmados con HMAC, solo sobre fixtures sintéticas del servidor; no debe llamarlo el navegador. Contrato, variables y límites: [`ENDPOINT.md`](ENDPOINT.md). La conexión al backend real sigue pendiente.
 
 ## API keys seguras
 
