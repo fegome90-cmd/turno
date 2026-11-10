@@ -69,6 +69,7 @@ export async function analyzeAmbientEvent({
   if (await isAuthorized(event) !== true) throw new Error('Acceso no autorizado.');
   const snapshot = await getAuthorizedSnapshot(event);
   if (!snapshot || snapshot.shiftId !== event.shiftId) throw new Error('Snapshot ajeno al turno.');
+  if (snapshot.synthetic !== true) throw new Error('Fuente de datos no acreditada como sintética.');
   if (event.type !== 'note_saved') {
     return { status:'proposed', suggestions: inspectDrafts({
       shiftId: event.shiftId, drafts: snapshot.drafts,
