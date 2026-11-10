@@ -37,6 +37,10 @@ test('rechaza lectura no autorizada y snapshot de otro turno',async()=>{
   await assert.rejects(analyzeAmbientEvent({event,settings,isAuthorized:async()=>false,getAuthorizedSnapshot}),/no autorizado/);
   await assert.rejects(analyzeAmbientEvent({event,settings,isAuthorized,getAuthorizedSnapshot:async()=>({...base,shiftId:'other'})}),/ajeno/);
 });
+test('rechaza un snapshot no acreditado como sintético por el backend',async()=>{
+  await assert.rejects(analyzeAmbientEvent({event,settings,isAuthorized,
+    getAuthorizedSnapshot:async()=>({...base,synthetic:false})}),/no acreditada como sintética/);
+});
 test('eventos de propuestas no invocan modelos',async()=>{
   const actual=await analyzeAmbientEvent({event,settings,isAuthorized,getAuthorizedSnapshot,
     classifyWithGateway:()=>{throw new Error('LLM no permitido');}});
