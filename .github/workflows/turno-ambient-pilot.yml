@@ -2,6 +2,7 @@ name: Turno ambient pilot (synthetic only)
 on:
   push:
     branches: [feature/opencode-secure-config]
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: read
@@ -16,6 +17,9 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '22'
+      - name: Secret scan (no .env files or key-shaped strings in tracked files)
+        working-directory: server
+        run: node scripts/check-secrets.mjs
       - name: Check syntax and synthetic tests (no secrets)
         working-directory: server
         env:

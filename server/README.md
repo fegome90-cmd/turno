@@ -58,3 +58,20 @@ Referencias: [Strands VercelModel](https://strandsagents.com/docs/user-guide/sdk
 Se separó `@ai-sdk/gateway@3` (compatible con la interfaz LanguageModelV3 de `VercelModel`) de `ai@7` (Decision API remota, con proveedor Gateway V4 interno). El grafo reproducible está fijado en `package-lock.json`. Se actualizó Zod a 4.6.7 por una alerta alta de seguridad.
 
 Verificado en Mac con `npm ci`: **29/29 tests PASS**, `npm run check` PASS y `npm audit --omit=dev --audit-level=high` reporta **0 vulnerabilidades**. Estas pruebas no ejecutan inferencia remota ni prueban un servicio desplegado.
+
+## Resguardos de seguridad (secretos)
+
+Ninguna clave va al repositorio. Las credenciales viven en el gestor de secretos del servidor, en el Llavero de macOS o en el panel de Vercel (BYOK). Para que eso no dependa de acordarse, hay cuatro resguardos:
+
+1. **Escáner** (`npm run check:secrets`): revisa los archivos versionados. Falla si encuentra un `.env` real (solo se permite `.env.example`), una variable de credencial con valor en `.env.example` o texto con forma de clave (OpenAI, Anthropic, Vercel, AWS, Google, GitHub, Slack, claves privadas, tokens Bearer, `*_API_KEY=` con valor literal). Nunca imprime el valor: solo el archivo, la línea y el tipo.
+2. **Test**: `tests/no-secrets.test.mjs` corre el escáner dentro de `npm test`.
+3. **CI**: el workflow lo ejecuta antes de instalar dependencias, también en cada pull request.
+4. **Hook de pre-commit** (opcional, por clon): bloquea el commit antes de que la clave llegue a GitHub.
+
+   ```sh
+   git config core.hooksPath .githooks
+   ```
+
+Además, los errores que guarda la evaluación (`eval/results/`) se limpian de claves y URLs antes de escribirse.
+
+Si una clave llegó a subirse, borrarla del archivo no basta: hay que **revocarla** en el panel del proveedor y crear otra.

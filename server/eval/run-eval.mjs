@@ -17,6 +17,7 @@ import { createRemoteDecisionClassifier } from '../decision-provider.mjs';
 import { classifySignal } from '../decision-switch.mjs';
 import { CLASSIFIER_CASES, CAPTURE_CASES, BEDS, setOf } from './dataset.mjs';
 import { PROMPT_VERSION, DECISION_PROMPT_VERSION } from '../prompts.mjs';
+import { redactSecrets } from '../scripts/check-secrets.mjs';
 
 const RESULTS_DIR = fileURLToPath(new URL('./results/', import.meta.url));
 
@@ -72,7 +73,8 @@ export function errorDetail(error) {
     names.push(e.name || 'Error');
     last = String(e.message || '');
   }
-  return names.join(' > ') + ': ' + last.replace(/\s+/g, ' ').slice(0, 160);
+  // Se guarda en eval/results (versionado): sin claves ni URLs.
+  return redactSecrets(names.join(' > ') + ': ' + last.replace(/\s+/g, ' ').slice(0, 160));
 }
 
 async function withRateLimitRetry(fn, { maxRetries = 6, log }) {

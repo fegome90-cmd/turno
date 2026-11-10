@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check gateway-config.mjs && node --check gateway-provider.mjs && node --check decision-provider.mjs && node --check decision-switch.mjs && node --check ambient-engine.mjs && node --check capture-review.mjs && node --check gateway-capture.mjs && node --check live-smoke.mjs && node --check live-background.mjs && node --check model-providers.mjs && node --check model-factory.mjs && node --check eval/dataset.mjs && node --check eval/run-eval.mjs && node --check eval/report.mjs && node --check prompts.mjs",
+    "check": "node --check gateway-config.mjs && node --check gateway-provider.mjs && node --check decision-provider.mjs && node --check decision-switch.mjs && node --check ambient-engine.mjs && node --check capture-review.mjs && node --check gateway-capture.mjs && node --check live-smoke.mjs && node --check live-background.mjs && node --check model-providers.mjs && node --check model-factory.mjs && node --check eval/dataset.mjs && node --check eval/run-eval.mjs && node --check eval/report.mjs && node --check prompts.mjs && node --check scripts/check-secrets.mjs",
     "demo": "node synthetic-demo.mjs",
     "smoke:preflight": "node live-smoke.mjs --preflight",
     "smoke:live:keychain": "node live-smoke.mjs --live --from-keychain",
@@ -15,7 +15,8 @@
     "smoke:background:env": "node live-background.mjs --live --from-env",
     "smoke:background:keychain": "node live-background.mjs --live --from-keychain",
     "eval:live": "node eval/run-eval.mjs --live",
-    "eval:report": "node eval/report.mjs"
+    "eval:report": "node eval/report.mjs",
+    "check:secrets": "node scripts/check-secrets.mjs"
   },
   "dependencies": {
     "@ai-sdk/gateway": "3.0.232",
