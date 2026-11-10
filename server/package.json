@@ -12,8 +12,9 @@
   },
   "dependencies": {
     "@strands-agents/sdk": "1.24.0",
-    "@ai-sdk/gateway": "4.0.136",
+    "@ai-sdk/gateway": "3.0.232",
     "ai": "7.0.128",
-    "zod": "4.6.7"
+    "zod": "4.6.7",
+    "@ai-sdk/provider": "3.0.19"
   }
 }
