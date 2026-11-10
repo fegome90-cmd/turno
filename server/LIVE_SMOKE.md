@@ -56,7 +56,7 @@ Para un entorno que ya inyecta `AI_GATEWAY_API_KEY` como secreto:
 npm run smoke:live:env
 ```
 
-**Gate obligatorio antes de `--live`:** verificar en el panel Vercel una clave exclusiva de Turno con presupuesto por clave, período de renovación y cuenta/plan correctos; revisar recarga automática de saldo y si hay claves BYOK o fallback habilitados. El presupuesto de Gateway es un **límite blando**: la petición que lo cruza todavía puede completarse y el gasto BYOK se factura aparte. Si no puedes verificar estas opciones, no ejecutes el comando. **Jamás pasar la clave como argumento de consola.**
+**Gate obligatorio antes de `--live`:** verificar en el panel Vercel una clave exclusiva de Turno con presupuesto por clave, período de renovación, fecha de expiración y cuenta/plan correctos; revisar recarga automática de saldo y si hay claves BYOK o fallback habilitados. Una clave nueva o un presupuesto recién editado puede tardar en aplicarse: **confirmar que el presupuesto figure activo en Vercel antes de ejecutar la prueba**. El presupuesto de Gateway es un **límite blando**: la petición que lo cruza todavía puede completarse y el gasto BYOK se factura aparte. Si no puedes verificar estas opciones, no ejecutes el comando. **Jamás pasar la clave como argumento de consola.**
 
 ## Qué debe devolver
 
