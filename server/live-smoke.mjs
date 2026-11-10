@@ -80,13 +80,18 @@ export function evaluateSyntheticReview(result) {
   const a = byTitle.get('revisar tarea pendiente a');
   const b = byTitle.get('revisar tarea pendiente b');
   const c = byTitle.get('completar informe');
-  // El modelo conserva la grafía de la nota («cama 4»); la cama no se vincula sola.
-  const bed4 = p => typeof p.bedLabel === 'string' && p.bedLabel.trim().toLowerCase() === 'cama 4';
+  const timedTaskCorrect = p =>
+    p && p.time === '15:00' && p.bedLabel?.trim().toLowerCase() === 'cama 4' &&
+    p.date === null && p.bedId === null && p.beforeClose === false &&
+    p.reviewFlags?.includes('resolve_bed') && p.reviewFlags?.includes('confirm_date');
   return Object.freeze({
     exactlyThree: proposals.length === 3,
-    aCorrect: Boolean(a && a.time === '15:00' && bed4(a) && a.date === null && a.bedId === null),
-    bCorrect: Boolean(b && b.time === '15:00' && bed4(b) && b.date === null && b.bedId === null),
-    closeCorrect: Boolean(c && c.beforeClose && !c.time && c.date === null),
+    aCorrect: Boolean(timedTaskCorrect(a)),
+    bCorrect: Boolean(timedTaskCorrect(b)),
+    closeCorrect: Boolean(
+      c && c.beforeClose === true && c.time === null && c.date === null &&
+      c.bedLabel === null && c.bedId === null && c.reviewFlags?.length === 0
+    ),
     allNeedHumanReview: proposals.length === 3 && proposals.every(p => p.status === 'requires_human_review'),
   });
 }
@@ -114,10 +119,20 @@ export async function main(args = process.argv.slice(2)) {
       ? { [PROVIDERS[provider].keyEnv[0]]: 'public-preflight-placeholder-not-a-secret' } : {};
     const preflightEnv = { ...process.env, TURNO_AI_ENABLED: '1', TURNO_SYNTHETIC_ONLY: '1', ...placeholder };
     const configuration = readGatewaySettings(preflightEnv);
-    // Construye el agente y carga el paquete del proveedor; no hace solicitudes.
+    // Construye el agente y carga el paquete del proveedor; no hace solicitudes
+    // ni comprueba credenciales.
     await createStrandsCapture({ env: preflightEnv });
-    console.log(JSON.stringify({ stage: 'preflight', provider: configuration.provider, modelId: configuration.modelId,
-      mode: 'server-only', requests: 0, requiresKeyForLive: true, ready: true }, null, 2));
+    console.log(JSON.stringify({
+      stage: 'preflight',
+      provider: configuration.provider,
+      modelId: configuration.modelId,
+      localSdkWiring: 'PASS',
+      credentialsChecked: false,
+      remoteModelVerified: false,
+      requests: 0,
+      requiresKeyForLive: true,
+      verdict: 'OFFLINE_CHECKS_ONLY',
+    }, null, 2));
     return 0;
   }
 

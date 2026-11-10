@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import { FIXTURE, evaluateSyntheticReview } from '../live-smoke.mjs';
 
 const fixtureProposals = [
-  {title:'Revisar tarea pendiente A',time:'15:00',bedLabel:'Cama 4',bedId:null,date:null,status:'requires_human_review',beforeClose:false},
-  {title:'Revisar tarea pendiente B',time:'15:00',bedLabel:'Cama 4',bedId:null,date:null,status:'requires_human_review',beforeClose:false},
-  {title:'Completar informe',time:null,bedLabel:null,bedId:null,date:null,status:'requires_human_review',beforeClose:true},
+  {title:'Revisar tarea pendiente A',time:'15:00',bedLabel:'Cama 4',bedId:null,date:null,status:'requires_human_review',beforeClose:false,reviewFlags:['resolve_bed','confirm_date']},
+  {title:'Revisar tarea pendiente B',time:'15:00',bedLabel:'Cama 4',bedId:null,date:null,status:'requires_human_review',beforeClose:false,reviewFlags:['resolve_bed','confirm_date']},
+  {title:'Completar informe',time:null,bedLabel:null,bedId:null,date:null,status:'requires_human_review',beforeClose:true,reviewFlags:[]},
 ];
 
 test('la prueba LIVE usa exactamente el texto sintético aprobado', () => {
@@ -50,7 +50,12 @@ test('preflight ejecutable no consume API ni requiere credenciales', () => {
   assert.equal(p.status,0,p.stderr);
   const report=JSON.parse(p.stdout);
   assert.equal(report.requests,0);
-  assert.equal(report.ready,true);
+  assert.equal(report.localSdkWiring,'PASS');
+  assert.equal(report.remoteModelVerified,false);
+  assert.equal(report.credentialsChecked,false);
+  assert.equal(report.verdict,'OFFLINE_CHECKS_ONLY');
+  assert.equal('ready' in report,false);
+
 });
 
 test('live sin credenciales falla cerrado antes de hacer una petición', () => {
@@ -70,4 +75,19 @@ test('live requiere argumentos explícitos para habilitar inferencia', () => {
   });
   assert.equal(p.status,2);
   assert.match(p.stderr,/Uso:/);
+});
+
+test('rechaza una cama inventada para el informe', () => {
+  const bad = structuredClone(fixtureProposals);
+  bad[2].bedLabel='Cama 8';
+  assert.equal(evaluateSyntheticReview({proposals:bad}).closeCorrect,false);
+});
+
+test('rechaza revisión incompleta aunque los títulos coincidan', () => {
+  const bad = structuredClone(fixtureProposals);
+  bad[0].reviewFlags=['confirm_date'];
+  bad[1].beforeClose=true;
+  const result=evaluateSyntheticReview({proposals:bad});
+  assert.equal(result.aCorrect,false);
+  assert.equal(result.bCorrect,false);
 });

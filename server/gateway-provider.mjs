@@ -1,6 +1,7 @@
 import { readGatewaySettings, assertSyntheticEvent } from './gateway-config.mjs';
 import { createStrandsModel } from './model-factory.mjs';
 import { CLASSIFIER_PROMPT } from './prompts.mjs';
+import { assertUsableStructuredOutput } from './gateway-capture.mjs';
 
 /**
  * Strands es el agente principal. El proveedor (Vercel AI Gateway por defecto)
@@ -29,7 +30,8 @@ export async function createStrandsClassifier({ env = process.env, onMetrics } =
         cancelSignal: AbortSignal.timeout(20_000),
         limits: { turns: 1, outputTokens: 1200, totalTokens: 3000, structuredOutputAttempts: 1 },
       });
-      if (result.stopReason === 'cancelled') throw new Error('Inferencia cancelada por tiempo o límites.');
+      // Igual que la captura: cancelado, filtrado o sin salida estructurada = fallo (el motor se abstiene).
+      const structuredOutput = assertUsableStructuredOutput(result);
       if (typeof onMetrics === 'function') {
         const usage = result.metrics?.toJSON?.()?.accumulatedUsage;
         try {
@@ -39,7 +41,7 @@ export async function createStrandsClassifier({ env = process.env, onMetrics } =
           }));
         } catch { /* Observability cannot change the model result. */ }
       }
-      return schema.parse(result.structuredOutput);
+      return schema.parse(structuredOutput);
     } finally {
       await agent.shutdown();
     }

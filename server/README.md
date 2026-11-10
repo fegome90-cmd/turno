@@ -57,7 +57,7 @@ Referencias: [Strands VercelModel](https://strandsagents.com/docs/user-guide/sdk
 
 Se separó `@ai-sdk/gateway@3` (compatible con la interfaz LanguageModelV3 de `VercelModel`) de `ai@7` (Decision API remota, con proveedor Gateway V4 interno). El grafo reproducible está fijado en `package-lock.json`. Se actualizó Zod a 4.6.7 por una alerta alta de seguridad.
 
-Verificado en Mac con `npm ci`: **29/29 tests PASS**, `npm run check` PASS y `npm audit --omit=dev --audit-level=high` reporta **0 vulnerabilidades**. Estas pruebas no ejecutan inferencia remota ni prueban un servicio desplegado.
+Después, desde la nube y con inferencia real: **72/72 tests PASS** en Node 22.23.4 y pruebas reales PASS (ver `DECIDER.md` y el anexo de la auditoría). Antes, verificado en Mac (10 de noviembre de 2026): **40/40 tests PASS** en Node 26.12.1 y Node 22.23.4; `npm run check` PASS; preflight `OFFLINE_CHECKS_ONLY`; `npm audit --omit=dev --audit-level=high` reportó **0 vulnerabilidades** en la instalación probada. Estas pruebas NO verifican credenciales, conectividad al modelo ni inferencia remota; tampoco prueban un servicio desplegado. La auditoría adversarial y los gates restantes están en [docs/live-smoke-audit-2026-11-10.md](../docs/live-smoke-audit-2026-11-10.md).
 
 ## Resguardos de seguridad (secretos)
 

@@ -10,6 +10,21 @@ import { prepareCaptureReview, validateCaptureInput } from './capture-review.mjs
  * - Only synthetic inputs; never writes to Turno
  * - Credentials come from the server environment only
  */
+const SUCCESS_STOP_REASONS = new Set(['toolUse', 'endTurn', 'stopSequence']);
+
+/**
+ * A cancelled, filtered or budget-exhausted run must never be considered a
+ * successful extraction, even if the SDK carried partial structured output.
+ * Strands returns 'toolUse' when its structured-output tool succeeds.
+ */
+export function assertUsableStructuredOutput(result) {
+  if (!result || !SUCCESS_STOP_REASONS.has(result.stopReason) ||
+      result.structuredOutput === undefined) {
+    throw new Error('Strands no completó una salida estructurada válida.');
+  }
+  return result.structuredOutput;
+}
+
 export async function createStrandsCapture({ env = process.env, onMetrics } = {}) {
   const config = readGatewaySettings(env);
   if (!config.enabled) throw new Error('Captura inteligente desactivada (TURNO_AI_ENABLED=0).');
@@ -49,9 +64,7 @@ export async function createStrandsCapture({ env = process.env, onMetrics } = {}
               structuredOutputAttempts: 1,
             },
           });
-          if (result.stopReason === 'cancelled') {
-            throw new Error('Inferencia cancelada por tiempo o límites.');
-          }
+          const structuredOutput = assertUsableStructuredOutput(result);
           if (typeof onMetrics === 'function') {
             const m = result.metrics?.toJSON?.();
             const usage = m?.accumulatedUsage;
@@ -63,7 +76,7 @@ export async function createStrandsCapture({ env = process.env, onMetrics } = {}
               }));
             } catch { /* Observability cannot change the model result. */ }
           }
-          return schema.parse(result.structuredOutput);
+          return schema.parse(structuredOutput);
         } finally {
           await agent.shutdown();
         }
