@@ -87,7 +87,7 @@ export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreate
     const request = {origin, revision: current.draftRevision, selection: current.selection};
     queueMicrotask(() => restoreActionFocus(request));
   };
-  const setTask = (field: 'reason'|'priority'|'completed', value: string|boolean) => {
+  const setTask = (field: 'reason'|'priority'|'completed'|'beforeClose', value: string|boolean) => {
     if (locked || store.getState().busy) return;
     beforeEdit?.(); state.setTaskField(field, value);
   };
@@ -119,6 +119,7 @@ export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreate
         <span className="metadata-context">{state.snapshot?.beds.find((bed) => bed.id === task?.bedId)?.label ?? 'Sin lista'}</span>
         <label className="metadata-field" htmlFor="reason"><span>Motivo</span><input id="reason" name="reason" data-focus-key="field-reason" value={draft.reason} placeholder="Ej.: Exámenes" maxLength={80} readOnly={locked} onChange={(event) => setTask('reason', event.currentTarget.value)}/></label>
         <label className="metadata-field priority-field" htmlFor="priority"><span>Prioridad</span><select id="priority" name="priority" data-focus-key="field-priority" value={draft.priority} disabled={locked} onChange={(event) => setTask('priority', event.currentTarget.value)}><option value="normal">Normal</option><option value="high">Alta</option><option value="low">Baja</option></select></label>
+        <label className="before-close-control" htmlFor="editor-before-close"><input id="editor-before-close" type="checkbox" checked={draft.beforeClose} disabled={locked} onChange={(event) => setTask('beforeClose', event.currentTarget.checked)}/><span>Antes del cierre</span></label>
       </div> : <p className="note-caption">Una nota independiente de tus turnos y listas.</p>}
       <Field.Root name="body" invalid={!!state.errors.body} className="body-field">
         <Field.Label className="notes-heading" htmlFor="body">{note ? 'Texto de la nota' : 'Notas de la tarea'}</Field.Label>
