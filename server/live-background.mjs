@@ -11,7 +11,7 @@
 import { analyzeAmbientEvent } from './ambient-engine.mjs';
 import { createStrandsClassifier } from './gateway-provider.mjs';
 import { readGatewaySettings } from './gateway-config.mjs';
-import { secretFromKeychain, sanitizedFailure } from './live-smoke.mjs';
+import { prepareLiveCredential, missingCredentialMessage, sanitizedFailure } from './live-smoke.mjs';
 
 const BEDS = Object.freeze([{ id: 'bed-1', label: 'Cama 1' }, { id: 'bed-2', label: 'Cama 2' }]);
 const DRAFTS = Object.freeze([
@@ -55,19 +55,18 @@ export async function main(args = process.argv.slice(2)) {
     console.error('Uso: node live-background.mjs --live --from-env | --live --from-keychain');
     return 2;
   }
-  const fromKeychain = args[1] === '--from-keychain';
+  let cleanup = null;
   try {
-    const secret = fromKeychain ? secretFromKeychain() : process.env.AI_GATEWAY_API_KEY;
-    if (!secret && !process.env.VERCEL_OIDC_TOKEN) {
-      console.error('No hay credencial disponible. Configura AI_GATEWAY_API_KEY en el servidor o Keychain.');
+    cleanup = prepareLiveCredential(args[1] === '--from-keychain');
+    if (!cleanup) {
+      console.error(missingCredentialMessage());
       return 2;
     }
-    if (fromKeychain) process.env.AI_GATEWAY_API_KEY = secret;
     const env = { ...process.env, TURNO_AI_ENABLED: '1', TURNO_SYNTHETIC_ONLY: '1', TURNO_DECISION_MODE: 'GATEWAY' };
     const settings = readGatewaySettings(env);
     const classify = await createStrandsClassifier({ env });
-    // Modelos gratuitos de Gateway: ~5 solicitudes/minuto. Espaciar las llamadas.
-    const paceMs = Number(process.env.TURNO_LIVE_PACE_MS ?? (settings.modelId.endsWith('-free') ? 13_000 : 0));
+    // Modelos gratuitos (Gateway «-free», OpenRouter «:free»): pocas solicitudes/minuto. Espaciar las llamadas.
+    const paceMs = Number(process.env.TURNO_LIVE_PACE_MS ?? (/[-:]free$/.test(settings.modelId) ? 13_000 : 0));
     const results = [];
     let llmCalls = 0;
     for (const s of SCENARIOS) {
@@ -95,7 +94,7 @@ export async function main(args = process.argv.slice(2)) {
       });
     }
     const passed = results.every(r => r.ok);
-    console.log(JSON.stringify({ stage: 'live-background', modelId: settings.modelId,
+    console.log(JSON.stringify({ stage: 'live-background', provider: settings.provider, modelId: settings.modelId,
       providerOnly: settings.providerOnly, writes: 0, saved: false, results,
       verdict: passed ? 'PASS' : 'REVIEW_REQUIRED' }, null, 2));
     return passed ? 0 : 3;
@@ -103,7 +102,7 @@ export async function main(args = process.argv.slice(2)) {
     console.error(sanitizedFailure(error));
     return 4;
   } finally {
-    if (fromKeychain) delete process.env.AI_GATEWAY_API_KEY;
+    cleanup?.();
   }
 }
 

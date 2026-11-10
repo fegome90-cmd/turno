@@ -61,6 +61,10 @@ npm run smoke:live:env
 
 No llamar `--live` sin haber configurado presupuesto/credencial. **Jamás pasar la clave como argumento de consola.**
 
+## Otros proveedores
+
+Las pruebas usan el proveedor de `TURNO_AI_PROVIDER` y su clave, por ejemplo `TURNO_AI_PROVIDER=openrouter OPENROUTER_API_KEY=… npm run smoke:background:env`. En Mac: `npm run smoke:background:keychain` con el servicio `turno-<proveedor>`. Ver [`PROVIDERS.md`](PROVIDERS.md).
+
 ## 4. Prueba del agente de fondo (background)
 
 ```sh
