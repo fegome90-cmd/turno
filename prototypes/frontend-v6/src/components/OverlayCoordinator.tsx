@@ -4,7 +4,7 @@ import {createContext, useContext, useMemo, useReducer, type ReactNode} from 're
 import {useStore} from 'zustand';
 import type {TurnoStore} from '../app/store';
 
-export type OverlayKind = 'navigation' | 'time' | 'more' | 'confirm' | 'create' | 'rename' | 'demo';
+export type OverlayKind = 'navigation' | 'time' | 'more' | 'confirm' | 'create' | 'rename' | 'demo' | 'assistance';
 export type OverlayLayer = {id: string; kind: OverlayKind; returnFocusKey: string | null};
 export type OverlayState = {layers: OverlayLayer[]};
 export type OverlayAction = {type: 'open'; layer: OverlayLayer} | {type: 'close'; id: string} | {type: 'closeTop'};
@@ -16,7 +16,7 @@ export type OverlayApi = {
 };
 
 const POPOVER_KINDS: readonly OverlayKind[] = ['time', 'more'];
-const MODAL_KINDS: readonly OverlayKind[] = ['navigation', 'confirm', 'create', 'rename', 'demo'];
+const MODAL_KINDS: readonly OverlayKind[] = ['navigation', 'confirm', 'create', 'rename', 'demo', 'assistance'];
 
 export const EMPTY_OVERLAYS: OverlayState = {layers: []};
 
