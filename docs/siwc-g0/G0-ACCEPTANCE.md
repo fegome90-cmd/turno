@@ -17,6 +17,15 @@
 | OAuth/plan ChatGPT de usuarios | No instalado, autorizado ni promocionado como disponible | VERIFICADO |
 | Solicitud de acceso OpenAI | No enviada | G1 PENDIENTE |
 
+## Verificación ejecutada (Mac, 10-11-2026)
+
+- Captura obtenida mediante Chrome headless desde el frontend React v6 del PR #5, usando exclusivamente los tres títulos sintéticos del brief. El build visual se ejecutó con Node 26.12.1, **fuera del rango Node 24 que declara ese paquete**; la captura acredita la interfaz mostrada, no sustituye las pruebas de producto en el motor soportado.
+- Archivo PNG verificado: 1440 × 900; imagen visible con decodificación correcta en Chrome de escritorio (1440 px) y móvil (390 px).
+- `node docs/siwc-g0/check-g0.mjs`: PASS; verificó rutas HTML locales, enlaces internos, ausencia de scripts/analítica en la página estática y estado de gate bloqueado. No hizo solicitudes de red.
+- Chrome escritorio 1440×900 y móvil 390×844: sin errores JavaScript registrados, sin solicitudes externas y sin desbordamiento horizontal.
+- `axe-core` sobre páginas `index.html` y `privacy.html` en viewport móvil: **0 infracciones automáticas WCAG 2 A/AA y 2.1 A/AA** tras corregir contrastes. El resultado no equivale a certificación integral de accesibilidad ni prueba con lector de pantalla.
+- No se probó el sitio mediante HTTPS ni se ejercitó autenticación real; esos puntos siguen pendientes.
+
 ## Pendientes que requieren decisión del dueño
 
 **Titularidad y contacto.** Determinar si el solicitante es una persona física o entidad jurídica, su nombre correcto y rol en el proyecto, y un correo de contacto verificable. No tomar datos del perfil personal del mantenedor sin aprobación.
