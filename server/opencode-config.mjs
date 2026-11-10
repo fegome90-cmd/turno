@@ -21,13 +21,5 @@ export function readOpenCodeSettings(env = process.env) {
     throw new Error('Configura OPENCODE_MODEL_ID en el servidor.');
   }
 
-  if (mode === 'go') {
-    const sessionId = (env.OPENCODE_SESSION_ID || '').trim();
-    if (!sessionId) {
-      throw new Error('OpenCode Go requiere OPENCODE_SESSION_ID en el servidor.');
-    }
-    return Object.freeze({ mode, modelId, sessionId });
-  }
-
   return Object.freeze({ mode, modelId });
 }
