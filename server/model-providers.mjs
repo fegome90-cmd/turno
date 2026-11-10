@@ -7,8 +7,10 @@
  */
 export const PROVIDERS = Object.freeze({
   // Vercel AI Gateway (VercelModel + @ai-sdk/gateway). OIDC en Vercel o API key.
+  // Elegido por la evaluación real (eval/RESULTS.md): 100 % en clasificación y captura,
+  // 100 % de consistencia y p95 de 1,6 s dentro del techo de precio.
   vercel: { kind: 'vercel', keyEnv: ['AI_GATEWAY_API_KEY'], host: 'ai-gateway.vercel.sh',
-    defaultModel: 'nvidia/nemotron-3.5-lightning-free' },
+    defaultModel: 'anthropic/claude-haiku-5.5' },
   // Primera parte en el SDK.
   openai: { kind: 'openai', keyEnv: ['OPENAI_API_KEY'], host: 'api.openai.com',
     defaultModel: 'gpt-5-mini' },

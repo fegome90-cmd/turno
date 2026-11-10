@@ -25,7 +25,7 @@ test('un criterio por etiqueta, con NO_ACTION como opción «ninguna»', () => {
 });
 
 test('umbral configurable y validado', () => {
-  assert.equal(readGatewaySettings({}).decisionMinConfidence, 0.9);
+  assert.equal(readGatewaySettings({}).decisionMinConfidence, 0); // ajustado con la corrida DUAL
   assert.equal(readGatewaySettings({ TURNO_DECISION_MIN_CONFIDENCE: '0.8' }).decisionMinConfidence, 0.8);
   assert.throws(() => readGatewaySettings({ TURNO_DECISION_MIN_CONFIDENCE: '1.5' }), /MIN_CONFIDENCE/);
   assert.throws(() => readGatewaySettings({ TURNO_DECISION_MIN_CONFIDENCE: 'alto' }), /MIN_CONFIDENCE/);

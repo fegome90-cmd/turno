@@ -9,7 +9,7 @@ TURNO_AI_PROVIDER=openrouter OPENROUTER_API_KEY=... TURNO_AI_MODEL_ID=openai/gpt
 
 | `TURNO_AI_PROVIDER` | Clase Strands | Variable de clave | Host | Modelo por defecto |
 |---|---|---|---|---|
-| `vercel` (defecto) | `VercelModel` + `@ai-sdk/gateway` | `AI_GATEWAY_API_KEY` (u OIDC en Vercel) | ai-gateway.vercel.sh | `nvidia/nemotron-3.5-lightning-free` |
+| `vercel` (defecto) | `VercelModel` + `@ai-sdk/gateway` | `AI_GATEWAY_API_KEY` (u OIDC en Vercel) | ai-gateway.vercel.sh | `anthropic/claude-haiku-5.5` (respaldo: `deepseek/deepseek-v4.1-flash`) |
 | `openai` | `OpenAIModel` (`api: 'chat'`) | `OPENAI_API_KEY` | api.openai.com | `gpt-5-mini` |
 | `anthropic` | `AnthropicModel` | `ANTHROPIC_API_KEY` | api.anthropic.com | `claude-haiku-4-5` |
 | `google` | `GoogleModel` | `GOOGLE_API_KEY` o `GEMINI_API_KEY` | generativelanguage.googleapis.com | `gemini-2.5-flash` |
@@ -38,6 +38,6 @@ TURNO_AI_PROVIDER=openrouter OPENROUTER_API_KEY=... TURNO_AI_MODEL_ID=openai/gpt
 
 ## Estado de verificación (10 nov 2026)
 
-- **Inferencia real:** solo `vercel`. Funcionan `nvidia/nemotron-3.5-lightning-free` y `openai/gpt-5-mini`. El modelo gratuito no siempre devuelve el mismo resultado: una corrida de captura dio `REVIEW_REQUIRED` y la siguiente, `PASS`.
+- **Inferencia real:** solo a través de `vercel`, incluidos los modelos con BYOK (DeepSeek, Meta, TypeSafe AI). La comparación completa y el modelo elegido están en [`DECIDER.md`](DECIDER.md).
 - **Resto de proveedores:** probado sin red. Construcción del modelo con clave de relleno (`tests/model-providers.test.mjs`), `smoke:preflight` y fallo cerrado sin clave. **Falta la prueba real** con la clave de cada servicio.
 - **Antes de una prueba real en un entorno con lista de hosts permitidos:** autorizar el host de la tabla.

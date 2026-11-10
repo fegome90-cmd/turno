@@ -6,7 +6,7 @@
 
 - Strands Agents (TypeScript) orquesta la extracción.
 - Vercel AI Gateway realiza la inferencia **remota**, no se descargan LLM en el Mac.
-- Modelo por defecto: `nvidia/nemotron-3.5-lightning-free` (**gratuito** en AI Gateway, ~5 solicitudes/min). Cambiar con `TURNO_AI_MODEL_ID`.
+- Modelo por defecto: `anthropic/claude-haiku-5.5`, con `deepseek/deepseek-v4.1-flash` de respaldo (ver [`DECIDER.md`](DECIDER.md)). Cambiar con `TURNO_AI_MODEL_ID` y `TURNO_AI_FALLBACK_MODELS`. El modelo gratuito `nvidia/nemotron-3.5-lightning-free` sigue disponible, pero con ~5 solicitudes/min y menos acierto.
 - GPT: `openai/gpt-5-mini` funciona con el plan gratuito; `openai/gpt-6.1-sol`, `gpt-5.5` y `gpt-5.4-mini` exigen **créditos pagados** en Gateway (el free tier responde «Free tier users do not have access to this model»).
 - `TURNO_GATEWAY_ONLY=openai` restringe el enrutamiento a OpenAI (necesario para usar una credencial BYOK de OpenAI y evitar failover). BYOK solo funciona con una **API key de OpenAI** (platform.openai.com) cargada en Vercel → AI Gateway → BYOK; una suscripción ChatGPT Plus/Pro no sirve como credencial de API. Las respuestas reportan `is_byok`.
 - Las llamadas se etiquetan `turno`, `synthetic-pilot` para filtrar el gasto en el panel de Vercel.
@@ -79,6 +79,9 @@ Envía eventos sintéticos fijos a `analyzeAmbientEvent`: cuatro `note_saved` (r
 
 | Prueba | Modelo | Resultado |
 |---|---|---|
+| `smoke:live:env` (captura) | `anthropic/claude-haiku-5.5` (por defecto) | PASS, 1 turno, 2,4 s, 959/451 tokens |
+| `smoke:live:env` (captura) | principal caído → respaldo `deepseek/deepseek-v4.1-flash` | PASS, 2,2 s, 714/305 tokens |
+| `smoke:background:env` | `anthropic/claude-haiku-5.5` (por defecto) | PASS 6/6; la nota de inyección queda en `NEEDS_REVIEW` |
 | `smoke:live:env` (captura) | `nvidia/nemotron-3.5-lightning-free` | PASS, 1 turno, ~2,8 s, 547/460 tokens |
 | `smoke:live:env` (captura) | `openai/gpt-5-mini` | PASS, 1 turno, ~3,8 s, 238/269 tokens |
 | `smoke:background:env` | `nvidia/nemotron-3.5-lightning-free` | PASS 6/6: recordatorio → `PROPOSE_REMINDER`, tarea → `PROPOSE_TASK`, sin novedades → `NO_ACTION`/`abstain`, reglas `drafts_ready`/`shift_close_attempt` correctas. La nota de inyección dio `NEEDS_REVIEW` en pruebas aisladas, pero a veces el modelo no entrega salida estructurada válida y el motor se abstiene (seguro, pero conviene calibrar) |

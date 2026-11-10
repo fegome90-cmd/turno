@@ -13,8 +13,14 @@ const MODES = new Set(['GATEWAY', 'DUAL', 'DECISION']);
 const EFFORTS = new Set(['none', 'minimal', 'low', 'medium', 'high']);
 const REGION = /^[a-z]{2}(-[a-z]+)+-\d$/;
 export const DEFAULT_PROVIDER = 'vercel';
-// Modelo gratuito de Vercel AI Gateway que pasa la prueba estructurada.
 export const DEFAULT_MODEL_ID = PROVIDERS.vercel.defaultModel;
+// Respaldo si el principal falla o no está disponible (Gateway: providerOptions.gateway.models).
+// DeepSeek v4.1 Flash también tuvo 100 % en la evaluación; va por la clave BYOK de DeepSeek.
+export const DEFAULT_FALLBACK_MODELS = Object.freeze(['deepseek/deepseek-v4.1-flash']);
+// Decider del sistema de Strands/Amazon. Umbral 0: en la corrida DUAL las respuestas de baja
+// confianza de Jev eran correctas y el umbral 0,90 solo lo hacía abstenerse (eval/results/*.dual.json).
+export const DEFAULT_DECISION_MODEL_ID = 'typesafe-ai/jev';
+export const DEFAULT_DECISION_MIN_CONFIDENCE = 0;
 
 function readProviderOnly(raw) {
   // Opcional (solo Vercel): restringe el enrutamiento (p. ej. 'openai' para usar
@@ -26,6 +32,17 @@ function readProviderOnly(raw) {
     throw new Error('TURNO_GATEWAY_ONLY inválido; usa slugs separados por coma (p. ej. openai).');
   }
   return Object.freeze(slugs);
+}
+
+function readFallbackModels(raw, provider, modelId) {
+  // Solo Vercel AI Gateway hace respaldo entre modelos. Vacío = sin respaldo.
+  if (provider !== 'vercel') return Object.freeze([]);
+  if (raw === undefined) return DEFAULT_FALLBACK_MODELS.filter(m => m !== modelId);
+  const list = raw.split(',').map(s => s.trim()).filter(Boolean);
+  if (list.length > 3 || !list.every(m => GATEWAY_MODEL.test(m))) {
+    throw new Error('TURNO_AI_FALLBACK_MODELS inválido; hasta 3 modelos proveedor/modelo separados por coma.');
+  }
+  return Object.freeze(list.filter(m => m !== modelId));
 }
 
 function readAuthMode(provider, env) {
@@ -45,18 +62,19 @@ export function readGatewaySettings(env = process.env) {
     throw new Error('TURNO_AI_PROVIDER inválido; usa: ' + PROVIDER_NAMES.join(', ') + '.');
   }
   const modelId = (env.TURNO_AI_MODEL_ID || PROVIDERS[provider].defaultModel).trim();
-  const decisionModelId = (env.TURNO_DECISION_MODEL_ID || 'microsoft/microsoft-decision-1').trim();
+  const decisionModelId = (env.TURNO_DECISION_MODEL_ID || DEFAULT_DECISION_MODEL_ID).trim();
   const decisionMode = (env.TURNO_DECISION_MODE || 'GATEWAY').trim().toUpperCase();
   const modelPattern = provider === 'vercel' ? GATEWAY_MODEL : GENERIC_MODEL;
   if (!modelPattern.test(modelId) || !GATEWAY_MODEL.test(decisionModelId)) throw new Error('Modelo de AI Gateway inválido.');
   if (!MODES.has(decisionMode)) throw new Error('Modo de decisión inválido.');
   const providerOnly = readProviderOnly(env.TURNO_GATEWAY_ONLY);
+  const fallbackModels = readFallbackModels(env.TURNO_AI_FALLBACK_MODELS, provider, modelId);
   const reasoningEffort = (env.TURNO_AI_REASONING_EFFORT || 'low').trim().toLowerCase();
   if (!EFFORTS.has(reasoningEffort)) throw new Error('TURNO_AI_REASONING_EFFORT inválido.');
   const region = provider === 'bedrock' ? (env.AWS_REGION || env.AWS_DEFAULT_REGION || 'us-east-1').trim() : null;
   if (region !== null && !REGION.test(region)) throw new Error('AWS_REGION inválida.');
   const rawThreshold = (env.TURNO_DECISION_MIN_CONFIDENCE ?? '').trim();
-  const decisionMinConfidence = rawThreshold === '' ? 0.9 : Number(rawThreshold);
+  const decisionMinConfidence = rawThreshold === '' ? DEFAULT_DECISION_MIN_CONFIDENCE : Number(rawThreshold);
   if (!Number.isFinite(decisionMinConfidence) || decisionMinConfidence < 0 || decisionMinConfidence > 1) {
     throw new Error('TURNO_DECISION_MIN_CONFIDENCE debe estar entre 0 y 1.');
   }
@@ -71,18 +89,20 @@ export function readGatewaySettings(env = process.env) {
         (PROVIDERS[provider].awsChain ? ' o credenciales AWS' : '') + '.');
   }
   return Object.freeze({ provider, modelId, decisionModelId, decisionMode, decisionMinConfidence, enabled, syntheticOnly,
-    providerOnly, reasoningEffort, region, authMode, keyEnv });
+    providerOnly, fallbackModels, reasoningEffort, region, authMode, keyEnv });
 }
 
 /**
  * Opciones por llamada para Vercel AI Gateway (sin secretos).
  * - gateway.only: enruta solo a los proveedores permitidos (BYOK de OpenAI).
+ * - gateway.models: modelos de respaldo en orden si el principal falla.
  * - gateway.tags: permite filtrar el gasto del piloto en el panel de Vercel.
  * - openai.reasoningEffort: acota tokens de razonamiento en modelos GPT-5+/o*.
  */
 export function gatewayProviderOptions(settings) {
   const gateway = { tags: ['turno', 'synthetic-pilot'] };
   if (settings.providerOnly) gateway.only = [...settings.providerOnly];
+  if (settings.fallbackModels?.length) gateway.models = [...settings.fallbackModels];
   const options = { gateway };
   if (isOpenAIReasoningModel('vercel', settings.modelId)) {
     options.openai = { reasoningEffort: settings.reasoningEffort };

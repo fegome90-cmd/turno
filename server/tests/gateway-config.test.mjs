@@ -24,12 +24,26 @@ test('ID de modelo válido y chequeo de evento',()=>{
   assert.throws(()=>assertSyntheticEvent({id:'a',synthetic:false},s),/sintéticos/);
   assert.doesNotThrow(()=>assertSyntheticEvent({id:'a',synthetic:true},s));
 });
-test('modelo por defecto gratuito y GPT configurable',()=>{
-  assert.equal(readGatewaySettings({}).modelId,'nvidia/nemotron-3.5-lightning-free');
+test('modelo por defecto: Haiku 5.5, con DeepSeek v4.1 Flash de respaldo; GPT configurable',()=>{
+  const d=readGatewaySettings({});
+  assert.equal(d.modelId,'anthropic/claude-haiku-5.5');
+  assert.deepEqual([...d.fallbackModels],['deepseek/deepseek-v4.1-flash']);
+  assert.equal(d.decisionModelId,'typesafe-ai/jev');
   assert.equal(readGatewaySettings({TURNO_AI_MODEL_ID:'openai/gpt-6.1-sol'}).modelId,'openai/gpt-6.1-sol');
+  // El respaldo no se repite si ya es el principal, y se puede desactivar.
+  assert.deepEqual([...readGatewaySettings({TURNO_AI_MODEL_ID:'deepseek/deepseek-v4.1-flash'}).fallbackModels],[]);
+  assert.deepEqual([...readGatewaySettings({TURNO_AI_FALLBACK_MODELS:''}).fallbackModels],[]);
+  assert.deepEqual([...readGatewaySettings({TURNO_AI_FALLBACK_MODELS:'openai/gpt-6-luna, deepseek/deepseek-v4.1-flash'}).fallbackModels],
+    ['openai/gpt-6-luna','deepseek/deepseek-v4.1-flash']);
+  assert.throws(()=>readGatewaySettings({TURNO_AI_FALLBACK_MODELS:'https://x/y'}),/FALLBACK/);
+  assert.throws(()=>readGatewaySettings({TURNO_AI_FALLBACK_MODELS:'a/b,c/d,e/f,g/h'}),/FALLBACK/);
+  // Otros proveedores no tienen respaldo entre modelos del Gateway.
+  assert.deepEqual([...readGatewaySettings({TURNO_AI_PROVIDER:'openai'}).fallbackModels],[]);
 });
-test('opciones de Gateway: enrutamiento opcional, tags y razonamiento solo en GPT',()=>{
-  const free=gatewayProviderOptions(readGatewaySettings({}));
+test('opciones de Gateway: respaldo, enrutamiento opcional, tags y razonamiento solo en GPT',()=>{
+  const def=gatewayProviderOptions(readGatewaySettings({}));
+  assert.deepEqual(def,{gateway:{tags:['turno','synthetic-pilot'],models:['deepseek/deepseek-v4.1-flash']}});
+  const free=gatewayProviderOptions(readGatewaySettings({TURNO_AI_FALLBACK_MODELS:''}));
   assert.deepEqual(free,{gateway:{tags:['turno','synthetic-pilot']}});
   const gpt=gatewayProviderOptions(readGatewaySettings({TURNO_AI_MODEL_ID:'openai/gpt-6.1-sol',TURNO_GATEWAY_ONLY:'openai'}));
   assert.deepEqual(gpt.gateway.only,['openai']);
