@@ -38,3 +38,19 @@ El paquete de terceros `@guru.prasath/model-opencode` está fijado en versión `
 Configura `OPENCODE_API_KEY` como **secreto del servicio backend** o de su gestor de secretos. No uses prefijos públicos como `VITE_` ni `NEXT_PUBLIC_`, no incrustes credenciales en JavaScript descargable por el navegador y no transmitas la clave desde el frontend. GitHub Actions Secrets solo sirven para un workflow que realmente los necesite, no sustituyen los secretos del runtime.
 
 La captura inteligente seguirá el contrato: entrada -> propuesta -> revisión humana -> validación/guardado por Turno. Este módulo no escribe tareas. El asistente ambiental propuesto está documentado en `../docs/assistant-background-v0.1.md`.
+
+## Agente ambiental / modo de comparación (sin despliegue)
+
+El patrón del caso Amazon (Strands Decider) está especificado en [docs/assistant-background-v0.1.md](../docs/assistant-background-v0.1.md).
+`decision-switch.mjs` implementa **solo** la lógica de selección de clasificadores. Aún no contiene un worker Strands operativo, conexión al endpoint Decider, modelo descargado ni notificaciones UI.
+
+`TURNO_DECISION_MODE=OPENCODE` es el valor inicial del ejemplo; `DUAL` ejecutará OpenCode como fuente activa y Decider como candidato en sombra; `DECIDER` permitirá estudiar solo decisiones semánticas cerradas después de validar calibración y errores. Ninguno de estos modos escribe tareas ni muestra toasts por sí mismo.
+
+Validación sintética de la lógica:
+
+```sh
+cd server
+npm test
+```
+
+Las pruebas usan adaptadores simulados; no hacen inferencia, llamadas a OpenCode ni descargas. No desplegar el módulo como servicio ni enviar datos clínicos reales sin el contrato de permisos, evaluación de seguridad y comprobación de los modelos.
