@@ -21,7 +21,7 @@ test('captura literal: fecha obligatoria, revisión y sugerencias por tareas rea
   const first=dialog.locator('fieldset.assist-review-card').first();
   await expect(dialog.locator('fieldset.assist-review-card')).toHaveCount(2);
   await first.getByRole('combobox',{name:'Lista'}).selectOption('bed-1');
-  await first.getByLabel('Hora').fill('15:00');
+  await first.getByLabel('Hora',{exact:true}).fill('15:00');
   await first.getByRole('button',{name:'Aprobar y guardar'}).click();
   await expect(first.getByRole('alert')).toContainText('Confirma una fecha');
   await first.getByLabel('Fecha').fill('2026-11-07');
@@ -30,7 +30,7 @@ test('captura literal: fecha obligatoria, revisión y sugerencias por tareas rea
   const second=dialog.locator('fieldset.assist-review-card').first();
   await second.getByRole('combobox',{name:'Lista'}).selectOption('bed-1');
   await second.getByLabel('Fecha').fill('2026-11-07');
-  await second.getByLabel('Hora').fill('15:00');
+  await second.getByLabel('Hora',{exact:true}).fill('15:00');
   await second.getByRole('button',{name:'Aprobar y guardar'}).click();
   await expect(dialog.locator('fieldset.assist-review-card')).toHaveCount(0);
   await dialog.getByRole('tab',{name:/Sugerencias/}).click();
