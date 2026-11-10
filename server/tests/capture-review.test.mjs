@@ -43,3 +43,29 @@ test('no acepta inventar hora para cierre ni tiempos inválidos', () => {
 test('sin invocador, no intenta guardar ni ejecutar', async () => {
   await assert.rejects(prepareCaptureReview(input,{}),/Strands/);
 });
+
+import { assertUsableStructuredOutput } from '../gateway-capture.mjs';
+
+test('Strands: acepta toolUse con salida estructurada completada', () => {
+  const parsed={ proposals: [] };
+  assert.equal(assertUsableStructuredOutput({stopReason:'toolUse',structuredOutput:parsed}),parsed);
+});
+
+test('Strands: descarta salidas incompletas aunque vengan con JSON parcial', () => {
+  const partial={ proposals: [] };
+  for (const stopReason of [
+    'cancelled','limitTurns','limitTotalTokens','limitOutputTokens',
+    'limitStructuredOutputAttempts','contentFiltered','guardrailIntervened',
+    'refusal','interrupt','checkpoint','unknown',
+  ]) {
+    assert.throws(
+      () => assertUsableStructuredOutput({stopReason,structuredOutput:partial}),
+      /no completó/,
+      stopReason,
+    );
+  }
+  assert.throws(
+    () => assertUsableStructuredOutput({stopReason:'toolUse',structuredOutput:undefined}),
+    /no completó/,
+  );
+});
