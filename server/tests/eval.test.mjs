@@ -32,6 +32,7 @@ test('errores: límite de solicitudes con espera, plan gratuito y tiempo', () =>
   assert.equal(classifyError(new Error('Free tier users do not have access')).type, 'forbidden');
   assert.equal(classifyError(Object.assign(new Error('x'), { name: 'TimeoutError' })).type, 'timeout');
   assert.equal(classifyError(new Error('schema')).type, 'model_or_schema');
+  assert.equal(classifyError(new Error('x', { cause: Object.assign(new Error('Model reached maximum token limit.'), { name: 'MaxTokensError' }) })).type, 'max_tokens');
 });
 
 test('puntaje del clasificador: aceptación, estricto, consistencia y prohibidas', () => {

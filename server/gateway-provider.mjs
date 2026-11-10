@@ -17,7 +17,7 @@ export async function createStrandsClassifier({ env = process.env } = {}) {
     }
     // Agent por invocación: sin conversación o historial entre turnos.
     const agent = new Agent({
-      model: await createStrandsModel(settings, { maxTokens: 400, env }),
+      model: await createStrandsModel(settings, { maxTokens: 1200, env }),
       systemPrompt: [
         'Clasifica una nota personal sintética de un gestor de tareas.',
         'Usa una sola etiqueta: NO_ACTION, PROPOSE_TASK, PROPOSE_REMINDER, NEEDS_REVIEW.',
@@ -31,7 +31,7 @@ export async function createStrandsClassifier({ env = process.env } = {}) {
     try {
       const result = await agent.invoke(JSON.stringify({ text: event.text }), {
         cancelSignal: AbortSignal.timeout(20_000),
-        limits: { turns: 1, outputTokens: 400, totalTokens: 2000, structuredOutputAttempts: 1 },
+        limits: { turns: 1, outputTokens: 1200, totalTokens: 3000, structuredOutputAttempts: 1 },
       });
       if (result.stopReason === 'cancelled') throw new Error('Inferencia cancelada por tiempo o límites.');
       return schema.parse(result.structuredOutput);

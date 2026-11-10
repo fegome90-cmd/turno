@@ -48,6 +48,7 @@ export function classifyError(error) {
       return { type: 'rate_limit', retryAfterMs: m ? Number(m[1]) * 1000 : 20_000 };
     }
     if (/free tier/i.test(msg)) return { type: 'forbidden' };
+    if (e.name === 'MaxTokensError' || /maximum token limit/i.test(msg)) return { type: 'max_tokens' };
     if (e.name === 'TimeoutError' || e.name === 'AbortError' || /cancelada|timed? ?out/i.test(msg)) return { type: 'timeout' };
   }
   return { type: 'model_or_schema' };
