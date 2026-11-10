@@ -10,7 +10,7 @@ import type {StoreApi} from 'zustand';
 import type {TurnoPort} from '../adapters/turno-port';
 import {createTemporalDraft, applyTemporalDraft} from '../domain/draft-state';
 import {validateEditor} from '../domain/validation';
-import type {Bed, FieldErrors, Priority, QuickNote, Selection, Shift, Snapshot, Task, TemporalDraft} from '../domain/types';
+import type {Bed, FieldErrors, Priority, QuickNote, ReviewedTaskInput, Selection, Shift, Snapshot, Task, TemporalDraft} from '../domain/types';
 import type {NotificationStore} from '../notifications/notification-store';
 
 export type EditDraft = {id: string; kind: 'task'; title: string; body: string; reason: string; priority: Priority; completed: boolean}
@@ -67,6 +67,7 @@ export type TurnoState = {
   saveNote(): Promise<SaveResult>;
   createNote(title: string): Promise<DomainResult<QuickNote>>;
   createTask(title: string, bedId?: string | null): Promise<DomainResult<Task>>;
+  createReviewedTask(input: ReviewedTaskInput): Promise<DomainResult<Task>>;
   createBed(label: string): Promise<DomainResult<Bed>>;
   renameBed(id: string, label: string): Promise<DomainResult<Bed>>;
   closeShift(id: string): Promise<DomainResult<Shift>>;
@@ -362,6 +363,21 @@ export function createTurnoStore(port: TurnoPort, notifications: NotificationSto
         const failure = nameFailure(title, 'title', 'Título'); if (failure) return failure;
         return persist(
           () => port.createTask(title, bedId),
+          (task) => patchSnapshot((current) => ({...current, tasks: [...current.tasks, task]})),
+        );
+      },
+
+      async createReviewedTask(input) {
+        const snapshot = get().snapshot;
+        const shift = snapshot?.shifts.find((item) => item.id === snapshot.activeShiftId && item.status === 'open');
+        if (!shift || get().archiveId || input.shiftId !== shift.id) {
+          return {status: 'error', message: 'La revisión ya no pertenece a un turno abierto.'};
+        }
+        if (input.bedId && !snapshot?.beds.some((bed) => bed.id === input.bedId && bed.shiftId === shift.id)) {
+          return {status: 'error', message: 'La lista no pertenece al turno activo.'};
+        }
+        return persist(
+          () => port.createReviewedTask(input),
           (task) => patchSnapshot((current) => ({...current, tasks: [...current.tasks, task]})),
         );
       },
