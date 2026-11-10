@@ -25,3 +25,10 @@ jobs:
           npm run check
           npm test
           npm run demo
+      - name: Frontend v5 baseline (unmodified preview)
+        working-directory: prototypes/frontend-v5
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm test
+          python3 scripts/build_preview.py
+          node scripts/check_portable.mjs
