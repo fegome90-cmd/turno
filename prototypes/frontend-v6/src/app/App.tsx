@@ -1,6 +1,6 @@
 // Local 4A product integration; phase acceptance still requires fresh browser evidence and independent review.
 import {useStore} from 'zustand';
-import {useLayoutEffect, useRef, useState} from 'react';
+import {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import type {AppSession} from './create-session';
 import {AppShell} from '../components/AppShell';
 import {Navigation} from '../components/Navigation';
@@ -19,6 +19,8 @@ import {Archive} from 'lucide-react';
 import {displayDate} from '../domain/format';
 import type {DomainResult} from './store';
 import {ProductNotifications} from '../notifications/ProductNotifications';
+import {AssistanceDialog, type AssistanceTab} from '../components/AssistanceDialog';
+import {collectAmbientSuggestions} from '../ambient/review';
 
 type CloseRequest = {key: number; shiftId: string; origin: string | null};
 type NameKind = 'task' | 'bed' | 'note' | 'shift' | 'rename';
@@ -38,6 +40,19 @@ export function App({session}: {session: AppSession}) {
 function ProductApp({session}: {session: AppSession}) {
   const state = useStore(session.store);
   const overlays = useOverlays();
+  const [assistanceTab, setAssistanceTab] = useState<AssistanceTab>('capture');
+  const [dismissedSuggestions, setDismissedSuggestions] = useState<string[]>([]);
+  const allSuggestions = collectAmbientSuggestions(state.snapshot);
+  const visibleSuggestions = allSuggestions.filter((suggestion) => !dismissedSuggestions.includes(suggestion.id));
+  const previousSuggestionIds = useRef<string[] | null>(null);
+  useEffect(() => {
+    if (!state.snapshot) return;
+    const ids = collectAmbientSuggestions(state.snapshot).map((suggestion) => suggestion.id);
+    if (previousSuggestionIds.current !== null && ids.some((id) => !previousSuggestionIds.current!.includes(id))) {
+      session.notifications.notify('Hay una nueva sugerencia de organización para revisar.', 'status');
+    }
+    previousSuggestionIds.current = ids;
+  }, [state.snapshot, session.notifications]);
   const [nameRequest, setNameRequest] = useState<NameRequest | null>(null);
   const [closeRequest, setCloseRequest] = useState<CloseRequest | null>(null), [closeError, setCloseError] = useState('');
   const closeCurrent = useRef<CloseRequest | null>(null);
@@ -73,6 +88,12 @@ function ProductApp({session}: {session: AppSession}) {
     } else queueMicrotask(focusPending);
   };
   const navigation = useProductNavigation(session.store, {onInvalid: () => focusInvalid(), onNewIntent: () => {invalid.current = null;}});
+  const openAssistance = (tab: AssistanceTab, origin: string) => {
+    navigation.requestAction(() => {
+      setAssistanceTab(tab);
+      overlays.open({id: 'assistance', kind: 'assistance', returnFocusKey: origin});
+    }, origin);
+  };
   const requestName = (kind: NameKind, bedId: string | null = null, focusKey: string | null = null) => {
     const layers = session.store.getState().overlays.layers;
     const origin = layers.some((layer) => layer.id === 'navigation') ? 'open-nav' : layers.some((layer) => layer.id === 'time') ? 'open-time' : focusKey;
@@ -153,7 +174,7 @@ function ProductApp({session}: {session: AppSession}) {
   const title = state.view === 'home' ? '' : state.view === 'archive' ? 'Turnos anteriores' : state.view === 'notes' ? 'Notas rápidas' : selectedTask ? `${selectedList} / ${selectedTask.reason || 'Tareas'}` : shownShift?.label ?? 'Turno';
   const workspace = state.view === 'archive' ? <main id="main" tabIndex={-1} className="archive-view"><h1>Turnos anteriores</h1><p className="muted">Consulta de solo lectura. Los pendientes se conservan.</p><div className="archive-list">{state.snapshot?.shifts.filter((shift) => shift.status === 'closed').map((shift) => <button key={shift.id} type="button" className="archive-link" onClick={() => navigation.openArchive(shift.id)}><Archive size={20} aria-hidden="true"/><span>{shift.label} · {displayDate(shift.date)}</span></button>)}{!state.snapshot?.shifts.some((shift) => shift.status === 'closed') && <p className="empty">Todavía no hay turnos cerrados.</p>}</div></main> : state.draft?.kind === 'task' ? <TaskEditor key={state.draft.id} store={session.store} focusFirstInvalid={focusInvalid} beforeEdit={navigation.beforeEdit} onCreateTask={() => createTask(undefined, 'create-task-inline')}/> : state.draft?.kind === 'note' ? <NoteEditor key={state.draft.id} store={session.store} focusFirstInvalid={focusInvalid} beforeEdit={navigation.beforeEdit}/> : <main id="main" tabIndex={-1} className="editor-slot"><h1>{title || 'Turno'}</h1><p>{state.view === 'notes' ? 'Selecciona una nota o crea una nueva.' : 'Selecciona una tarea o agrega la primera.'}</p></main>;
   return <>
-    <AppShell closeShift={{available: !!active, busy: state.busy, onClick: requestClose}} navigation={<Navigation store={session.store} actions={{...navigation, openShift, createTask, createBed: () => requestName('bed', null, 'create-bed'), renameBed: (id) => requestName('rename', id, 'rename-' + id), createNote: () => requestName('note', null, 'create-note')}}/>} view={state.view} title={title} inspectorHidden={state.inspectorHidden} onInspectorHidden={state.setInspectorHidden}
+    <AppShell assistance={{onCapture: () => openAssistance('capture', 'open-capture'), onSuggestions: () => openAssistance('suggestions', 'open-suggestions'), suggestionCount: visibleSuggestions.length}} closeShift={{available: !!active, busy: state.busy, onClick: requestClose}} navigation={<Navigation store={session.store} actions={{...navigation, openShift, createTask, createBed: () => requestName('bed', null, 'create-bed'), renameBed: (id) => requestName('rename', id, 'rename-' + id), createNote: () => requestName('note', null, 'create-note')}}/>} view={state.view} title={title} inspectorHidden={state.inspectorHidden} onInspectorHidden={state.setInspectorHidden}
       editor={state.view === 'home' ? <Home preferredName={session.preferredName} subtitle={session.homeSubtitle} summary={{message: active ? `${active.label} · ${pending} ${pending === 1 ? 'pendiente' : 'pendientes'}` : 'No hay un turno abierto.', actionLabel: active ? 'Ir al turno actual' : 'Iniciar turno'}} onOpenShift={() => openShift('home-primary')}/> : workspace}
       timePanel={<TimePanel store={session.store} beforeEdit={navigation.beforeEdit} agenda={<Agenda store={session.store} onSelect={(id) => navigation.select({kind: 'task', id})} onCreateTask={() => createTask(null, 'create-task-agenda')}/>}/>} timePanelOwnsHeading onTimeOpenComplete={focusPending} timeInitialFocus={requestedFocus} onPanelCloseComplete={navigation.panelClosed}/>
     {nameRequest && <DomainNameDialog {...NAME_CONFIG[nameRequest.kind]} initial={nameRequest.initial} rename={nameRequest.kind === 'rename'} requestKey={nameRequest.key} busy={state.busy}
@@ -163,6 +184,13 @@ function ProductApp({session}: {session: AppSession}) {
     {closeRequest && <CloseShiftDialog shiftName={state.snapshot?.shifts.find((shift) => shift.id === closeRequest.shiftId)?.label ?? 'Turno'} open={state.overlays.layers.some((layer) => layer.id === 'domain-dialog')} pending={state.snapshot?.tasks.filter((task) => task.shiftId === closeRequest.shiftId && !task.completed).length ?? 0} busy={state.busy} error={closeError}
       onConfirm={() => {void submitClose(closeRequest);}} onCancel={() => navigation.dismissDomain(closeRequest.origin)}
       onClosed={() => {setCloseRequest((current) => current?.key === closeRequest.key ? null : current); navigation.panelClosed('domain-dialog');}}/>}
+    <AssistanceDialog store={session.store} notifications={session.notifications}
+      open={state.overlays.layers.some((layer) => layer.id === 'assistance')} tab={assistanceTab}
+      returnFocusKey={state.overlays.layers.find((layer) => layer.id === 'assistance')?.returnFocusKey ?? null}
+      suggestions={visibleSuggestions} onTabChange={setAssistanceTab}
+      onDismissSuggestion={(id) => setDismissedSuggestions((current) => current.includes(id) ? current : [...current, id])}
+      onClose={() => overlays.close('assistance')}
+      onSelectTask={(id) => {overlays.close('assistance'); navigation.select({kind: 'task', id});}}/>
     <DemoDialog port={session.port}/>
     <UnsavedChangesDialog open={state.overlays.layers.some((layer) => layer.id === 'unsaved-changes')} busy={state.busy} onCancel={navigation.cancel} onDiscard={navigation.discard} onSave={() => {void navigation.save();}} onClosed={navigation.dialogClosed}/>
   </>;
