@@ -1,36 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { randomBytes } from 'node:crypto';
-import { PassThrough } from 'node:stream';
+import { IncomingMessage, ServerResponse } from 'node:http';
+import { Duplex } from 'node:stream';
 import { createHttpHandler, signRequest } from '../http/transport.mjs';
+import { invoke, secret, now } from './http-test-support.mjs';
 
-const secret = randomBytes(32).toString('hex');
-const now = 1_800_000_000_000;
 const path = '/v1/agent/events';
-
-// Exercise the public request listener using streams, without binding a socket.
-export async function invoke(handler, { body = '{}', url = path, method = 'POST', headers = {}, signed = true, timestamp = String(now / 1000) } = {}) {
-  const req = new PassThrough();
-  req.method = method;
-  req.url = url;
-  req.headers = { 'content-type': 'application/json', ...headers };
-  if (signed) {
-    req.headers['x-turno-timestamp'] ??= timestamp;
-    req.headers['x-turno-signature'] ??= signRequest({ secret, timestamp, method, path: url, body });
-  }
-  let resolve;
-  const result = new Promise(r => { resolve = r; });
-  const res = {
-    writableEnded: false,
-    writeHead(status, responseHeaders) { this.status = status; this.headers = responseHeaders; },
-    end(data) { this.writableEnded = true; resolve({ status: this.status, headers: this.headers, body: JSON.parse(data) }); },
-  };
-  const work = handler(req, res);
-  req.end(body);
-  const response = await result;
-  await work;
-  return response;
-}
 
 function setup(options = {}) {
   let calls = 0;
@@ -84,6 +59,38 @@ for (const [name, options, status, error] of [
     assert.equal(s.calls(), 0);
   });
 }
+
+test('oversized chunked body still produces a wire-level 413 without destroying its socket early', async () => {
+  const chunks = [];
+  const socket = new Duplex({ read() {}, write(chunk, encoding, done) { chunks.push(Buffer.from(chunk)); done(); } });
+  const req = new IncomingMessage(socket);
+  req.method = 'POST'; req.url = path; req.headers = { 'content-type': 'application/json' };
+  const res = new ServerResponse(req);
+  res.assignSocket(socket);
+  const s = setup();
+  const work = s.handler(req, res);
+  req.complete = true;
+  req.push(Buffer.alloc(16 * 1024 + 1)); req.push(null);
+  await work;
+  await new Promise(r => setImmediate(r));
+  assert.match(Buffer.concat(chunks).toString(), /413/);
+  assert.match(Buffer.concat(chunks).toString(), /body_too_large/);
+  assert.equal(s.calls(), 0);
+  socket.destroy();
+});
+
+test('incomplete bodies receive a wire-level 408 at the deadline', async () => {
+  const chunks = [];
+  const socket = new Duplex({ read() {}, write(chunk, encoding, done) { chunks.push(Buffer.from(chunk)); done(); } });
+  const req = new IncomingMessage(socket);
+  req.method = 'POST'; req.url = path; req.headers = { 'content-type': 'application/json' };
+  const res = new ServerResponse(req); res.assignSocket(socket);
+  await setup({ timeoutMs: 5 }).handler(req, res);
+  await new Promise(r => setImmediate(r));
+  assert.match(Buffer.concat(chunks).toString(), /408/);
+  assert.match(Buffer.concat(chunks).toString(), /request_timeout/);
+  socket.destroy();
+});
 
 test('health is model-free, no CORS/preflight, no mutation routes', async () => {
   const s = setup();

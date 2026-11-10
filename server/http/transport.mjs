@@ -33,25 +33,34 @@ async function readBody(req, signal) {
     throw new HttpError(415, 'unsupported_media_type');
   }
   if (Number(req.headers['content-length']) > MAX_BODY_BYTES) throw new HttpError(413, 'body_too_large');
-  const chunks = [];
-  let length = 0;
-  const onAbort = () => req.destroy();
-  signal.addEventListener('abort', onAbort, { once: true });
-  try {
-    for await (const chunk of req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    let length = 0;
+    const finish = (error) => {
+      req.off('data', onData); req.off('end', onEnd);
+      req.off('error', onError); req.off('aborted', onAbort);
+      signal.removeEventListener('abort', onAbort);
+      req.pause();
+      if (error) reject(error); else resolve(Buffer.concat(chunks));
+    };
+    const onData = chunk => {
       length += chunk.length;
-      if (length > MAX_BODY_BYTES) throw new HttpError(413, 'body_too_large');
-      chunks.push(chunk);
-    }
-    return Buffer.concat(chunks);
-  } finally {
-    signal.removeEventListener('abort', onAbort);
-  }
+      if (length > MAX_BODY_BYTES) finish(new HttpError(413, 'body_too_large'));
+      else chunks.push(chunk);
+    };
+    const onEnd = () => finish();
+    const onError = () => finish(new HttpError(400, 'invalid_request'));
+    const onAbort = () => finish(new HttpError(408, 'request_timeout'));
+    req.on('data', onData); req.once('end', onEnd);
+    req.once('error', onError); req.once('aborted', onAbort);
+    signal.addEventListener('abort', onAbort, { once: true });
+    if (signal.aborted) onAbort();
+  });
 }
 
 function send(res, status, body) {
   if (res.writableEnded || res.destroyed) return;
-  res.writeHead(status, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+  res.writeHead(status, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', connection: 'close' });
   res.end(JSON.stringify(body));
 }
 
