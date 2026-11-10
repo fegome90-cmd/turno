@@ -5,7 +5,7 @@ Estado: **experimental** en rama `feature/opencode-secure-config`. No hay despli
 ## Arquitectura
 
 - **Strands Agents SDK TypeScript** es el orquestador generativo.
-- **Vercel AI Gateway** es el proveedor de inferencia remota (por defecto `anthropic/claude-haiku-4.5`). No se descargan ni ejecutan modelos locales.
+- **Vercel AI Gateway** es el proveedor de inferencia remota (por defecto `nvidia/nemotron-3.5-lightning-free`, gratuito; GPT vía `TURNO_AI_MODEL_ID=openai/...`, ver `LIVE_SMOKE.md`). No se descargan ni ejecutan modelos locales.
 - **Vercel Decision API** mediante `microsoft/microsoft-decision-1` es el clasificador remoto opcional para categorías cerradas. **No** es Strands Decider de AWS, que requeriría infraestructura propia; solo imitamos su patrón de evaluación en paralelo.
 - Reglas deterministas identifican problemas verificables de camas/fechas/horarios, sin invocar modelos.
 - No se expone una ruta HTTP; este módulo se integrará detrás del backend autenticado de Turno cuando exista su contrato.

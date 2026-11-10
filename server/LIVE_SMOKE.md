@@ -6,7 +6,10 @@
 
 - Strands Agents (TypeScript) orquesta la extracción.
 - Vercel AI Gateway realiza la inferencia **remota**, no se descargan LLM en el Mac.
-- Modelo inicial: `anthropic/claude-haiku-4.5` (cambiar en `TURNO_AI_MODEL_ID` si es necesario).
+- Modelo por defecto: `nvidia/nemotron-3.5-lightning-free` (**gratuito** en AI Gateway, ~5 solicitudes/min). Cambiar con `TURNO_AI_MODEL_ID`.
+- GPT: `openai/gpt-5-mini` funciona con el plan gratuito; `openai/gpt-6.1-sol`, `gpt-5.5` y `gpt-5.4-mini` exigen **créditos pagados** en Gateway (el free tier responde «Free tier users do not have access to this model»).
+- `TURNO_GATEWAY_ONLY=openai` restringe el enrutamiento a OpenAI (necesario para usar una credencial BYOK de OpenAI y evitar failover). BYOK solo funciona con una **API key de OpenAI** (platform.openai.com) cargada en Vercel → AI Gateway → BYOK; una suscripción ChatGPT Plus/Pro no sirve como credencial de API. Las respuestas reportan `is_byok`.
+- Las llamadas se etiquetan `turno`, `synthetic-pilot` para filtrar el gasto en el panel de Vercel.
 - Un único turno Strands (`limits.turns=1`), máximo 600 tokens de salida, 3000 tokens totales y 30 segundos de espera; no hay tools y el agente no tiene acceso de escritura.
 - `DUAL` / Decision API no participa. Gateway puede tener políticas internas de failover; el límite de un turno Strands no garantiza exactamente una solicitud a proveedores upstream. Activar presupuesto/límite de gasto en Vercel antes de llamar.
 
@@ -57,6 +60,25 @@ npm run smoke:live:env
 ```
 
 No llamar `--live` sin haber configurado presupuesto/credencial. **Jamás pasar la clave como argumento de consola.**
+
+## 4. Prueba del agente de fondo (background)
+
+```sh
+npm run smoke:background:env        # o smoke:background:keychain en Mac
+```
+
+Envía eventos sintéticos fijos a `analyzeAmbientEvent`: cuatro `note_saved` (recordatorio, tarea, sin acción e intento de inyección de instrucciones) que sí llaman al modelo, y `drafts_ready` / `shift_close_attempt`, que se resuelven con reglas deterministas sin modelo. Verifica la etiqueta, el estado (`proposed`/`abstain`) y que toda sugerencia sea solo `review`/`dismiss` con aprobación humana. Con modelos `-free` espacia las llamadas 13 s (`TURNO_LIVE_PACE_MS` para cambiarlo). Si el modelo falla, el motor se abstiene (fail-closed).
+
+**Detrás de un proxy HTTPS** (p. ej. sandbox en la nube): el `fetch` de Node no usa `HTTPS_PROXY` por defecto; ejecutar con `NODE_USE_ENV_PROXY=1` (Node ≥ 22.21).
+
+### Resultado verificado (10 nov 2026, inferencia real, solo sintético)
+
+| Prueba | Modelo | Resultado |
+|---|---|---|
+| `smoke:live:env` (captura) | `nvidia/nemotron-3.5-lightning-free` | PASS, 1 turno, ~2,8 s, 547/460 tokens |
+| `smoke:live:env` (captura) | `openai/gpt-5-mini` | PASS, 1 turno, ~3,8 s, 238/269 tokens |
+| `smoke:background:env` | `nvidia/nemotron-3.5-lightning-free` | PASS 6/6: recordatorio → `PROPOSE_REMINDER`, tarea → `PROPOSE_TASK`, sin novedades → `NO_ACTION`/`abstain`, reglas `drafts_ready`/`shift_close_attempt` correctas. La nota de inyección dio `NEEDS_REVIEW` en pruebas aisladas, pero a veces el modelo no entrega salida estructurada válida y el motor se abstiene (seguro, pero conviene calibrar) |
+| cualquier prueba | `openai/gpt-6.1-sol` | bloqueado en free tier (requiere créditos pagados) |
 
 ## Qué debe devolver
 

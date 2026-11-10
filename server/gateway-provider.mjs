@@ -1,4 +1,4 @@
-import { readGatewaySettings, assertSyntheticEvent } from './gateway-config.mjs';
+import { readGatewaySettings, assertSyntheticEvent, gatewayProviderOptions } from './gateway-config.mjs';
 
 /**
  * Strands es el agente principal. Vercel AI Gateway solo suministra inferencia
@@ -21,7 +21,8 @@ export async function createStrandsClassifier({ env = process.env } = {}) {
     }
     // Agent por invocación: sin conversación o historial entre turnos.
     const agent = new Agent({
-      model: new VercelModel({ provider: gateway(settings.modelId), maxTokens: 180 }),
+      model: new VercelModel({ provider: gateway(settings.modelId), maxTokens: 400,
+        providerOptions: gatewayProviderOptions(settings) }),
       systemPrompt: [
         'Clasifica una nota personal sintética de un gestor de tareas.',
         'Usa una sola etiqueta: NO_ACTION, PROPOSE_TASK, PROPOSE_REMINDER, NEEDS_REVIEW.',
@@ -32,7 +33,15 @@ export async function createStrandsClassifier({ env = process.env } = {}) {
       tools: [],
       printer: false,
     });
-    const result = await agent.invoke(JSON.stringify({ text: event.text }));
-    return schema.parse(result.structuredOutput);
+    try {
+      const result = await agent.invoke(JSON.stringify({ text: event.text }), {
+        cancelSignal: AbortSignal.timeout(20_000),
+        limits: { turns: 1, outputTokens: 400, totalTokens: 2000, structuredOutputAttempts: 1 },
+      });
+      if (result.stopReason === 'cancelled') throw new Error('Inferencia cancelada por tiempo o límites.');
+      return schema.parse(result.structuredOutput);
+    } finally {
+      await agent.shutdown();
+    }
   };
 }

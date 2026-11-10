@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readGatewaySettings, assertSyntheticEvent } from '../gateway-config.mjs';
+import { readGatewaySettings, assertSyntheticEvent, gatewayProviderOptions } from '../gateway-config.mjs';
 test('predeterminado desactivado y sintético',()=>{
   const x=readGatewaySettings({});
   assert.equal(x.enabled,false);assert.equal(x.syntheticOnly,true);assert.equal(x.authMode,'missing');
@@ -23,4 +23,19 @@ test('ID de modelo válido y chequeo de evento',()=>{
   const s={enabled:true,syntheticOnly:true};
   assert.throws(()=>assertSyntheticEvent({id:'a',synthetic:false},s),/sintéticos/);
   assert.doesNotThrow(()=>assertSyntheticEvent({id:'a',synthetic:true},s));
+});
+test('modelo por defecto gratuito y GPT configurable',()=>{
+  assert.equal(readGatewaySettings({}).modelId,'nvidia/nemotron-3.5-lightning-free');
+  assert.equal(readGatewaySettings({TURNO_AI_MODEL_ID:'openai/gpt-6.1-sol'}).modelId,'openai/gpt-6.1-sol');
+});
+test('opciones de Gateway: enrutamiento opcional, tags y razonamiento solo en GPT',()=>{
+  const free=gatewayProviderOptions(readGatewaySettings({}));
+  assert.deepEqual(free,{gateway:{tags:['turno','synthetic-pilot']}});
+  const gpt=gatewayProviderOptions(readGatewaySettings({TURNO_AI_MODEL_ID:'openai/gpt-6.1-sol',TURNO_GATEWAY_ONLY:'openai'}));
+  assert.deepEqual(gpt.gateway.only,['openai']);
+  assert.equal(gpt.openai.reasoningEffort,'low');
+  assert.equal(gatewayProviderOptions(readGatewaySettings({TURNO_AI_MODEL_ID:'openai/gpt-4.1-mini'})).openai,undefined);
+  assert.equal(readGatewaySettings({TURNO_GATEWAY_ONLY:'*'}).providerOnly,null);
+  assert.throws(()=>readGatewaySettings({TURNO_GATEWAY_ONLY:'openai,https://x'}),/TURNO_GATEWAY_ONLY/);
+  assert.throws(()=>readGatewaySettings({TURNO_AI_REASONING_EFFORT:'max'}),/REASONING/);
 });

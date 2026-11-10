@@ -22,7 +22,7 @@ const BEDS = Object.freeze([
   Object.freeze({ id: 'bed-2', label: 'Cama 2' }),
 ]);
 
-function secretFromKeychain() {
+export function secretFromKeychain() {
   if (process.platform !== 'darwin') throw new Error('La ruta Keychain requiere macOS.');
   try {
     // All arguments are identifiers, never the secret itself.
@@ -52,20 +52,30 @@ export function evaluateSyntheticReview(result) {
   const a = byTitle.get('revisar tarea pendiente a');
   const b = byTitle.get('revisar tarea pendiente b');
   const c = byTitle.get('completar informe');
+  // El modelo conserva la grafía de la nota («cama 4»); la cama no se vincula sola.
+  const bed4 = p => typeof p.bedLabel === 'string' && p.bedLabel.trim().toLowerCase() === 'cama 4';
   return Object.freeze({
     exactlyThree: proposals.length === 3,
-    aCorrect: Boolean(a && a.time === '15:00' && a.bedLabel === 'Cama 4' && a.date === null && a.bedId === null),
-    bCorrect: Boolean(b && b.time === '15:00' && b.bedLabel === 'Cama 4' && b.date === null && b.bedId === null),
+    aCorrect: Boolean(a && a.time === '15:00' && bed4(a) && a.date === null && a.bedId === null),
+    bCorrect: Boolean(b && b.time === '15:00' && bed4(b) && b.date === null && b.bedId === null),
     closeCorrect: Boolean(c && c.beforeClose && !c.time && c.date === null),
     allNeedHumanReview: proposals.length === 3 && proposals.every(p => p.status === 'requires_human_review'),
   });
 }
 
-function sanitizedFailure(error) {
+function isRateLimit(error) {
+  for (let e = error, i = 0; e && i < 5; e = e.cause, i++) {
+    if (e.name === 'GatewayRateLimitError' || e.statusCode === 429) return true;
+  }
+  return false;
+}
+
+export function sanitizedFailure(error) {
   if (error?.message === 'No se pudo obtener el secreto de macOS Keychain. Revisa el servicio turno-ai-gateway.') return error.message;
   if (error?.message === 'La ruta Keychain requiere macOS.') return error.message;
   if (error?.message?.includes('captura') || error?.message?.includes('Captura')) return 'Fallo en la validación de propuestas; no se guardó nada.';
   if (error?.name === 'AbortError' || error?.name === 'TimeoutError') return 'Se agotó el tiempo de inferencia; no se guardó nada.';
+  if (isRateLimit(error)) return 'Límite de solicitudes del modelo en AI Gateway (los modelos gratuitos admiten pocas por minuto). Espera y reintenta; no se guardó nada.';
   return 'No se completó la inferencia o el esquema estructurado. Revisa la configuración del proveedor sin imprimir credenciales ni payloads.';
 }
 
@@ -74,7 +84,7 @@ export async function main(args = process.argv.slice(2)) {
     const configuration = readGatewaySettings({
       TURNO_AI_ENABLED: '1',
       TURNO_SYNTHETIC_ONLY: '1',
-      TURNO_AI_MODEL_ID: process.env.TURNO_AI_MODEL_ID || 'anthropic/claude-haiku-4.5',
+      ...(process.env.TURNO_AI_MODEL_ID && { TURNO_AI_MODEL_ID: process.env.TURNO_AI_MODEL_ID }),
       AI_GATEWAY_API_KEY: 'public-preflight-placeholder-not-a-secret',
     });
     await createStrandsCapture({ env: {
