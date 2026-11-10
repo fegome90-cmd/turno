@@ -376,17 +376,73 @@ describe('G1B-NOTIFY · pila propia (D12)', () => {
     expect(store.getState().items).toHaveLength(1);
   });
 
-  it('G1B-NOTIFY-09 · Alt+T enfoca el aviso más reciente sin mover el foco al llegar', async () => {
-    const user = userEvent.setup();
+  it.each([
+    ['t lógico sin code', 't', ''],
+    ['T lógico en otra posición', 'T', 'KeyY'],
+    ['Option transforma el carácter', '†', 'KeyT'],
+    ['posición física con otro carácter', 'ø', 'KeyT'],
+  ])('G1B-NOTIFY-09 · %s enfoca el último cierre y cancela la acción por defecto', (_label, key, code) => {
     const store = createNotificationStore();
-    render(<NotificationStack store={store} />);
+    render(<><textarea aria-label="Borrador" defaultValue="Texto pendiente" /><NotificationStack store={store} /></>);
+    const editor = screen.getByRole('textbox', {name: 'Borrador'});
+    editor.focus();
     act(() => {
       store.notify('Uno', 'status');
       store.notify('Dos', 'error');
     });
-    expect(document.activeElement).toBe(document.body);
-    await user.keyboard('{Alt>}t{/Alt}');
-    expect(document.activeElement).toBe(document.querySelectorAll<HTMLButtonElement>('[data-close-notice]')[1]);
+    const closes = screen.getAllByRole('button', {name: 'Cerrar aviso'});
+    expect(closes).toHaveLength(2);
+    expect(editor).toHaveFocus();
+    const event = new KeyboardEvent('keydown', {key, code, altKey: true, bubbles: true, cancelable: true});
+    fireEvent(editor, event);
+    expect.soft(event.defaultPrevented).toBe(true);
+    expect.soft(closes[1]).toHaveFocus();
+    // JSDOM no inserta texto por defecto: la supresión real de † requiere Safari nativo.
+    expect(editor).toHaveValue('Texto pendiente');
+    expect(store.getState().items).toHaveLength(2);
+  });
+
+  it.each([
+    ['sin Alt', {altKey: false}],
+    ['Ctrl', {ctrlKey: true}],
+    ['Meta', {metaKey: true}],
+    ['Shift', {shiftKey: true}],
+    ['otra tecla', {key: 'ø', code: 'KeyY'}],
+    ['composición', {isComposing: true}],
+    ['evento consumido', {}],
+  ])('G1B-NOTIFY-09 · %s no roba foco ni consume el evento', (label, overrides) => {
+    const store = createNotificationStore();
+    render(<><textarea aria-label="Borrador" defaultValue="Texto pendiente" /><NotificationStack store={store} /></>);
+    act(() => {store.notify('Uno', 'error');});
+    expect(screen.getByRole('button', {name: 'Cerrar aviso'})).toBeVisible();
+    const editor = screen.getByRole('textbox', {name: 'Borrador'});
+    editor.focus();
+    const event = new KeyboardEvent('keydown', {key: 't', code: 'KeyT', altKey: true, bubbles: true, cancelable: true, ...overrides});
+    if (label === 'evento consumido') event.preventDefault();
+    fireEvent(editor, event);
+    expect.soft(editor).toHaveFocus();
+    expect.soft(event.defaultPrevented).toBe(label === 'evento consumido');
+    expect(editor).toHaveValue('Texto pendiente');
+    expect(store.getState().items).toHaveLength(1);
+  });
+
+  it.each(['vacía', 'suspendida'])('G1B-NOTIFY-09 · pila %s no roba foco ni consume Option+T', (state) => {
+    const store = createNotificationStore();
+    render(<><textarea aria-label="Borrador" defaultValue="Texto pendiente" /><NotificationStack store={store} /></>);
+    if (state === 'suspendida') {
+      act(() => {store.notify('Uno', 'error'); store.setSuspended(true);});
+      expect(document.querySelector('[data-close-notice]')).toBeInTheDocument();
+      expect(document.querySelector('[data-notification-root]')).toHaveAttribute('inert');
+    } else {
+      expect(document.querySelector('[data-close-notice]')).not.toBeInTheDocument();
+    }
+    const editor = screen.getByRole('textbox', {name: 'Borrador'});
+    editor.focus();
+    const event = new KeyboardEvent('keydown', {key: '†', code: 'KeyT', altKey: true, bubbles: true, cancelable: true});
+    fireEvent(editor, event);
+    expect(editor).toHaveFocus();
+    expect(event.defaultPrevented).toBe(false);
+    expect(editor).toHaveValue('Texto pendiente');
   });
 
   it('G1B-NOTIFY-10 · el texto del aviso es literal: no se interpreta como HTML', () => {

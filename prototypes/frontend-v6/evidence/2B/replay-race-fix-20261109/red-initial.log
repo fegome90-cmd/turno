@@ -1,0 +1,188 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-fix/prototypes/frontend-v6
+
+ ❯ |component| tests/component/history-harness.test.tsx (6 tests | 2 failed) 2990ms
+     × a fresh edit after approved discard and before replay delivery keeps the new draft and source 1255ms
+     × a fresh edit after approved save and before replay delivery keeps the new draft and source 1122ms
+ ❯ |component| tests/component/history-lifecycle.test.tsx (3 tests | 2 failed) 183ms
+     × React-batched navigation keeps the latest intent without duplicate entries: last-home 73ms
+     × React-batched navigation keeps the latest intent without duplicate entries: duplicate-task 10ms
+ ❯ |unit| tests/unit/history-controller.test.ts (27 tests | 2 failed) 23ms
+     × opposite traversal interrupts approved replay -1 and does not strand the next push 10ms
+     × opposite traversal interrupts approved replay 1 and does not strand the next push 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > opposite traversal interrupts approved replay -1 and does not strand the next push
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > opposite traversal interrupts approved replay 1 and does not strand the next push
+AssertionError: expected { view: 'workspace', …(2) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+    "selected": {
+-     "id": "after-interruption",
++     "id": "task-1",
+      "kind": "task",
+    },
+    "view": "workspace",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:79:23
+     77|     expect(ctx.browser.entries).toHaveLength(3);
+     78|     ctx.guard(() => 'allow'); ctx.controller.push(task('after-interrup…
+     79|     expect(ctx.route).toEqual(task('after-interruption'));
+       |                       ^
+     80|     expect(ctx.browser.history.state).toMatchObject({idx: 2, selected:…
+     81|     ctx.browser.move(-1); ctx.browser.flush(); expect(ctx.route).toEqu…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  |component| tests/component/history-harness.test.tsx > G2B · technical guard harness (simulated history, not browser evidence) > a fresh edit after approved discard and before replay delivery keeps the new draft and source
+ FAIL  |component| tests/component/history-harness.test.tsx > G2B · technical guard harness (simulated history, not browser evidence) > a fresh edit after approved save and before replay delivery keeps the new draft and source
+AssertionError: expected +0 to be 1 // Object.is equality
+
+Ignored nodes: comments, script, style
+[36m<html[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<head>[39m
+    [36m<title>[39m
+      [0mInicio · Turno[0m
+    [36m</title>[39m
+  [36m</head>[39m
+  [36m<body[39m
+    [33mstyle[39m=[32m""[39m
+  [36m>[39m
+    [36m<div>[39m
+      [36m<main[39m
+        [33mstyle[39m=[32m"max-width: 850px; margin: 2rem auto; padding: 1rem;"[39m
+      [36m>[39m
+        [36m<h1>[39m
+          [0mHistorial y guardas · harness técnico 2B[0m
+        [36m</h1>[39m
+        [36m<p>[39m
+          [0mNo es el producto integrado. Solo datos sintéticos, en memoria.[0m
+        [36m</p>[39m
+        [36m<nav[39m
+          [33maria-label[39m=[32m"Rutas de prueba"[39m
+        [36m>[39m
+          [36m<button>[39m
+            [0mInicio[0m
+          [36m</button>[39m
+          [36m<button>[39m
+            [0mTarea 1[0m
+          [36m</button>[39m
+          [36m<button>[39m
+            [0mTarea 2[0m
+          [36m</button>[39m
+        [36m</nav>[39m
+        [36m<p[39m
+          [33mdata-testid[39m=[32m"route"[39m
+        [36m>[39m
+          [0mhome[0m
+          [0m:[0m
+        [36m</p>[39m
+        [36m<p[39m
+          [33mdata-testid[39m=[32m"index"[39m
+        [36m>[39m
+          [0m0[0m
+        [36m</p>[39m
+        [36m<h2>[39m
+          [0mInicio[0m
+        [36m</h2>[39m
+        [36m<button[39m
+          [33mdata-focus-key[39m=[32m"history-more"[39m
+        [36m>[39m
+          [0mMás opciones de prueba[0m
+        [36m</button>[39m
+        [36m<button>[39m
+          [0mAlternar busy[0m
+        [36m</button>[39m
+        [36m<button>[39m
+          [0mRender sin navegar[0m
+        [36m</button>[39m
+        [36m<output[39m
+          [33maria-label[39m=[32m"Estado"[39m
+        [36m>[39m
+          [0mclean[0m
+          [0m:[0m
+          [0m0[0m
+        [36m</output>[39m
+        [36m<p[39m
+          [33mrole[39m=[32m"alert"[39m
+        [36m/>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/component/history-harness.test.tsx:57:45
+     55|     fireEvent.change(screen.getByRole('textbox', {name: 'Borrador'}), …
+     56|     await act(async () => { ctx.release(); });
+     57|     await waitFor(() => expect(ctx.index()).toBe(1));
+       |                                             ^
+     58|     expect(screen.getByTestId('route')).toHaveTextContent('workspace:t…
+     59|     expect(screen.getByRole('textbox', {name: 'Borrador'})).toHaveValu…
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  |component| tests/component/history-lifecycle.test.tsx > G2B · hook effect lifecycle > React-batched navigation keeps the latest intent without duplicate entries: last-home
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  home
+Received:
+  workspace
+ ❯ tests/component/history-lifecycle.test.tsx:30:40
+     28|     fireEvent.click(screen.getByRole('button', {name: 'Navegar dos vec…
+     29|     const expected = mode === 'last-home' ? home : task;
+     30|     expect(screen.getByRole('status')).toHaveTextContent(expected.view…
+       |                                        ^
+     31|     expect(document.title).toBe(`${expected.view} · Turno`);
+     32|     expect(entries).toHaveLength(mode === 'last-home' ? 3 : 2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  |component| tests/component/history-lifecycle.test.tsx > G2B · hook effect lifecycle > React-batched navigation keeps the latest intent without duplicate entries: duplicate-task
+AssertionError: expected [ { view: 'home', …(4) }, …(2) ] to have a length of 2 but got 3
+
+- Expected
++ Received
+
+- 2
++ 3
+
+ ❯ tests/component/history-lifecycle.test.tsx:32:21
+     30|     expect(screen.getByRole('status')).toHaveTextContent(expected.view…
+     31|     expect(document.title).toBe(`${expected.view} · Turno`);
+     32|     expect(entries).toHaveLength(mode === 'last-home' ? 3 : 2);
+       |                     ^
+     33|     expect(history.state).toMatchObject({...expected, idx: mode === 'l…
+     34|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  6 failed | 30 passed (36)
+   Start at  06:20:01
+   Duration  5.73s (transform 111ms, setup 223ms, import 283ms, tests 3.20s, environment 1.57s)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

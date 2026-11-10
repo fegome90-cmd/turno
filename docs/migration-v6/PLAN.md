@@ -1,6 +1,6 @@
 # Turno React Base UI Implementation Plan
 
-> **Propuesta auditada del 08/11/2026, sin ejecución de producto.** Leer primero el [estado de preparación](PREFLIGHT.md). G0 sigue pendiente; publicar estos documentos no acepta las precisiones ni inicia la migración. Los pasos usan casillas para seguimiento.
+> **Plan auditado del 08/11/2026, con estado de ejecución actualizado el 09/11/2026.** El texto de preparación y las casillas conservan el contrato inicial; no son un tablero automático. G0 consta aprobado en su registro. Ya existe v6 parcial y la corrección 2B `76943e5` tiene auditoría y Chromium Mac PASS, pero APPROVE_PHASE sigue pendiente. Leer [estado vigente y gates](STATUS-2B.md) antes de avanzar. Publicar documentación no autoriza merge, despliegue ni ampliar el PR #2.
 
 **Goal:** Migrar el prototipo de Turno a React y Base UI sin perder comportamiento, identidad, accesibilidad ni movimiento, con una prueba y un gate verificables para cada objetivo.
 
@@ -12,7 +12,7 @@
 
 **Spec:** `prototypes/frontend-v5/docs/MIGRACION_REACT.md` en [HEAD 0f534df](https://github.com/fegome90-cmd/turno/blob/0f534df9bd5b012b4ec21c202a055e1e913bcab5/prototypes/frontend-v5/docs/MIGRACION_REACT.md), contrastado con `turno-v6-plan-standalone.html` de referencia y con el código vigente. Las precisiones D1–D9 de la sección 2 fueron aceptadas por el dueño el 08/11/2026 ([ACCEPTANCE](phase-0/ACCEPTANCE.md)); el plan fue firmado por el dueño el 08/11/2026 (G0 aprobado; ver [G0-RECORD](phase-0/G0-RECORD.md)).
 
-**Estado de esta entrega documental:** el plan y su preparación se incorporan al PR #2; no se crea frontend-v6 ni se instala tooling en el producto. La instalación y los ensayos anteriores fueron de un fixture aislado, resumidos en PREFLIGHT.md. No se hace merge ni despliegue. La ejecución del producto queda tras resolver G0 y aceptar las decisiones pendientes. El backend se desarrolla por separado: su disponibilidad no se presume ni bloquea la demo aislada.
+**Corte histórico de la preparación:** entonces el plan y el fixture de PREFLIGHT no creaban frontend-v6. Esa limitación no describe ya el árbol candidato: hoy contiene Home mínimo, dominio/store y harness de historial. El [estado vigente](STATUS-2B.md) distingue fuente ejecutada, gates técnicos y aceptación pendiente. El backend sigue separado; su disponibilidad no se presume ni bloquea la demo aislada.
 
 ## Global Constraints
 
@@ -84,7 +84,7 @@ Dependencias: `0 → 1A → 1B → 2A → 2B → 3A → 4A → 4B → 5A → 6A 
 
 ### Preparación temprana y cierre integrado
 
-En la matriz, `preparationTask` identifica el ensayo inicial; `task` es el primer cierre posible de la identidad fuente completa. `integrationTasks` enumera las fases que deben estar presentes y `closureEvidenceKinds` fija la clase mínima de evidencia. El anexo B reproduce esos campos y destinos, comprobados por `check_docs.py`. El brief 1A contiene exactamente sus siete identidades cerrables; las otras diez originales figuran diferidas y siguen planned. G0 continúa STOP.
+En la matriz, `preparationTask` identifica el ensayo inicial; `task` es el primer cierre posible de la identidad fuente completa. `integrationTasks` enumera las fases que deben estar presentes y `closureEvidenceKinds` fija la clase mínima de evidencia. El anexo B reproduce esos campos y destinos, comprobados por `check_docs.py`. El brief 1A contiene exactamente sus siete identidades cerrables; las otras diez originales figuran diferidas y siguen planned. El STOP citado pertenece a la preparación inicial; la aprobación posterior consta en [G0-RECORD](phase-0/G0-RECORD.md).
 
 Un harness de 1B/2B/3A puede probar su contrato técnico/EXTRA y permitir terminar esa tarea, sin marcar verificados requisitos de UI que dependen de producto posterior. No introducir mocks de Agenda, editor, archivo o avisos para fingir su integración. Las siete identidades 1A cubren tema/default/fallback, catálogo/sorteo, tokens y Home mínimo; sus datos/actions pueden ser props estáticas, sin demostrar TurnoPort ni flujos futuros.
 
@@ -266,6 +266,8 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 - [ ] `npm run test:unit -- history-controller && npm run test:e2e -- history.spec.ts`: PASS en file y HTTP; historial externo preservado, entradas propias identificadas. Error al guardar mantiene vista y borrador.
 - [ ] Revisión y commit `feat(v6): preserve indexed history and draft guards`.
 
+**Estado 09/11/2026:** el [candidato `76943e5`](STATUS-2B.md) añade `cancelPending(): void` al contrato del controlador. Toda nueva edición revoca sincrónicamente una decisión anterior antes de actualizar el borrador; los futuros consumidores 4A/4B deben repetir las regresiones sobre UI integrada. 111 unit, 81 componentes y 60 E2E Chromium Mac PASS; revisión formal/APPROVE_PHASE pendientes. La evidencia técnica no marca HISTORY verified.
+
 **Gate G2B:** en el harness del controlador, no pérdida de Forward, no doble navegación ni título desfasado. HISTORY-01–05/07–09 permanecen planned hasta integración 4A; HISTORY-06 espera BedDialogs/rename de 4B. `EXTRA-LIFECYCLE-ASYNC` sí se evalúa aquí en ese alcance técnico explícito. El historial en sandbox del host queda fuera de la afirmación de este gate.
 
 ### Fase 3A · Layout, navegación y overlays responsivos
@@ -286,7 +288,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 - [ ] `npm run test:component -- navigation && npm run test:e2e -- responsive.spec.ts overlays.spec.ts`. Inspección real de foco, no solo document.activeElement simulado.
 - [ ] Revisar y commit `feat(v6): migrate responsive shell and navigation`.
 
-**Gate G3:** sus 17 identidades de navegación/layout disponibles y el contrato técnico con harness son verificables. La conservación del editor/Tiempo/Agenda, archivo y suspensión de avisos sigue planned hasta 4A/4B/5A según matriz; no exigirlos como producto final aquí ni cerrarlos con slots. Repetir responsive/overlays tras cada integración. Fullscreen/resize del harness no demuestra los componentes futuros. Fullscreen API denegada/ausente es fallback seguro y se informa como escenario distinto de fullscreen real.
+**Gate G3:** sus 16 identidades íntegramente disponibles de navegación/layout y el contrato técnico con harness son verificables. DESIGN-AUDIT-02 se prepara parcialmente en Navigation, pero permanece planned hasta 4A: su test fuente también exige #editor-completed del TaskEditor real. La conservación del editor/Tiempo/Agenda, archivo y suspensión de avisos sigue planned hasta 4A/4B/5A según matriz; no exigirlos como producto final aquí ni cerrarlos con slots. Repetir responsive/overlays tras cada integración. Fullscreen/resize del harness no demuestra los componentes futuros. Fullscreen API denegada/ausente es fallback seguro y se informa como escenario distinto de fullscreen real.
 
 ### Fase 4A · Editor, notas y validación
 
@@ -306,6 +308,7 @@ Dependencias de test/config a fijar en lockfile: TypeScript, Vite, @vitejs/plugi
 - [ ] Simular fallo/conflicto/latencia y doble click: una operación, draft conservado, checkbox confirmado restaurado, insignia solo cambia tras éxito y respuesta antigua no roba foco a un nuevo campo. Cancelar restaura todos los controles y feedback.
 - [ ] Integrar y ejecutar Home → Tiempo/Agenda → turno/tarea → Home con UI-14/UI-40/UI-41/VIEWPORT-07; mismo nodo/sorteo/saludo, resumen real y sin reinicios al cambiar tema/ancho. Ejecutar UI-25 completando una tarea real, filtrar pendientes y observar Agenda independiente. Repetir historial 01–05/07–09 y responsive/overlays sobre componentes reales, sin sustituir TimePanel/Agenda/editor por harness.
 - [ ] `npm run test:component -- editor time-panel agenda && npm run test:e2e -- editor.spec.ts history.spec.ts responsive.spec.ts overlays.spec.ts`. IME por eventos/CDP es emulación; verificar además composición manual real en G7B.
+- [ ] Completar DESIGN-AUDIT-02 sobre los checkbox reales de Navigation y TaskEditor: label nativo envolvente de 44 px con un único input y ninguna acción adyacente, nombre accesible y apariencia nativa en forced-colors. Repetir responsive/overlays y editor; el ensayo parcial de 3A no cierra esta identidad.
 - [ ] Revisar y commit `feat(v6): port editors validation and agenda`.
 
 **Gate G4A:** integración real de Home, editor/notas, TemporalField, Tiempo/Agenda, navegación e historial/guardas. No cerrar aquí los requisitos de archivo de 4B, avisos de 5A ni animación de 6A; sus partes funcionales se ensayan y quedan planned. Las reglas de dominio y presentación son coherentes; no datos perdidos, falsas confirmaciones ni duplicados. Texto literal se renderiza como texto; sin dangerouslySetInnerHTML.
@@ -479,11 +482,11 @@ Fuentes versionadas:
   Destino: `tests/component/domain-dialogs.test.tsx`, `tests/e2e/shift-lifecycle.spec.ts`.
   Preparación: 4B; integración: 1A, 1B, 2A, 2B, 3A, 4A, 4B; evidencia de cierre: browser.
   Dependencia: La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado.
-- **DESIGN-AUDIT-02 · tarea 3A · planned**
+- **DESIGN-AUDIT-02 · tarea 4A · planned**
   Fuente: checkbox target is a native wrapping label with no adjacent action in its 44px target
-  Destino: `tests/component/navigation.test.tsx`, `tests/e2e/responsive.spec.ts`, `tests/e2e/overlays.spec.ts`.
-  Preparación: 3A; integración: 1A, 1B, 2A, 2B, 3A; evidencia de cierre: browser.
-  Dependencia: La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado.
+  Destino: `tests/component/navigation.test.tsx`, `tests/e2e/responsive.spec.ts`, `tests/e2e/overlays.spec.ts`, `tests/component/editor.test.tsx`, `tests/e2e/editor.spec.ts`.
+  Preparación: 3A; integración: 1A, 1B, 2A, 2B, 3A, 4A; evidencia de cierre: browser.
+  Dependencia: El test fuente exige el checkbox de Navigation y #editor-completed. 3A prepara y prueba Navigation; el cierre íntegro requiere ambos controles reales, incluido TaskEditor integrado en 4A. Un slot técnico no sustituye el editor.
 - **DESIGN-AUDIT-03 · tarea 4A · planned**
   Fuente: high priority is text plus a decorative icon in both tree and Agenda
   Destino: `tests/component/editor.test.tsx`, `tests/component/time-panel.test.tsx`, `tests/component/agenda.test.tsx`, `tests/e2e/editor.spec.ts`.

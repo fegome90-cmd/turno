@@ -1,8 +1,10 @@
 # Migración propuesta de Turno a React y Base UI
 
-Estado al 08/11/2026: **G0 aprobado; fase 0 cerrada; sin implementación de producto v6** (la fase 1A requiere una orden nueva). Publicar este paquete en el PR #2 no aprueba G0 ni las precisiones pendientes del plan. V5 conserva su código, pruebas y assets. No se integra backend, no se hace merge ni se despliega.
+Estado consolidado al 10/11/2026: **frontend v6 con 4A/4B integrado y correcciones posteriores en el candidato de código `ed374be`; regresión Chromium Mac 226/226 y dos auditorías BLOCKED. La decisión formal sigue STOP; no se declaran G4A ni G4B aprobados.** Consultar el [estado actual, evidencia y siguiente paso](STATUS-4B.md) antes de ejecutar una fase. La presencia de documentos no aprueba gates, merge ni despliegue. V5 conserva su referencia aprobada; no se integra backend.
 
 ## Leer en este orden
+
+El índice siguiente conserva el itinerario histórico de preparación. Sus menciones a STOP, bloqueos y ausencia de v6 describen aquel corte, no el estado consolidado actual. El [estado actual 4B](STATUS-4B.md) separa implementación, evidencia y aprobación formal. El [estado 2B](STATUS-2B.md) y el [registro 3A](../../prototypes/frontend-v6/docs/EXECUTION-3A.md) son históricos.
 
 1. [Paquete para iniciar fase 0](FASE_0.md): runbook, roles, tareas/tests/gates y borradores de ADR, aceptación, frontera host y registro G0 STOP. No ejecuta la fase ni crea v6.
 2. [Preparación y bloqueos](PREFLIGHT.md): último recorrido completo v5 **210/212**, auditoría con **10 moderadas dev** y navegador **BLOCKED** en la preparación. Después: B0 corregido como delta aprobado de pruebas (3 corridas 212/212) y vía Chromium verificada; detalle en [G0-RECORD](phase-0/G0-RECORD.md).
@@ -14,7 +16,7 @@ Estado al 08/11/2026: **G0 aprobado; fase 0 cerrada; sin implementación de prod
 8. [Glosario](GLOSARIO.md) y [auditoría con el router de diseño](design-audit/README.md): producto general, vocabulario y decisiones D7–D9.
 9. [Casos reales de migración y riesgos derivados](CASOS_REALES.md): fuentes de Slack, Preply, Heap, HackerRank, Trello, GitHub y Base UI. No atribuyen incidentes ajenos al prototipo.
 
-## Qué cambió documentalmente
+## Qué cambió documentalmente en la preparación histórica
 
 - Se separan ensayo temprano y cierre integrado para las 212 identidades: Home/Tiempo/Agenda, historial, archivo, avisos y movimiento se cierran cuando están presentes sus componentes reales. NumberField se prueba en 1B y se repite integrado en 4A.
 - Se añaden gates de auditoría total/runtime y tests de rechazo de cierres prematuros o evidencia de clase incorrecta; la aceptación de riesgo no promociona FAIL a PASS en este MVP.
@@ -42,4 +44,4 @@ python3 docs/migration-v6/agent-contracts/contract_gate.py --baseline docs/migra
 
 El primer comando comprueba JSON, enlaces locales, coincidencia de 212 nombres fuente y ausencia de modificaciones al código/tests/assets v5 frente al manifiesto de referencia. Los otros validan el checker y el formato de un STOP. **No ejecutan Turno React, no certifican paridad ni cierran G0.** No se han añadido workflows ni estados de CI mediante estos documentos.
 
-Antes de ejecutar producto: resolver o acordar el rebaseline, tratar el riesgo de dependencias, aceptar las precisiones pendientes y disponer de rama/entorno autorizados con una vía de navegador permitida.
+Antes de avanzar desde el candidato actual: revisar el [estado 4B](STATUS-4B.md) y resolver las auditorías pendientes y la aceptación formal sobre fuente/evidencia exactas. El siguiente alcance previsto es 5A, avisos persistentes de interfaz y D12. La preparación anterior no sustituye esos gates ni reabre por sí sola decisiones ya registradas.

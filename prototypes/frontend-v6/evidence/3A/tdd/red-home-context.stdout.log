@@ -1,0 +1,15 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism navigation
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-3a-isolated/prototypes/frontend-v6
+
+ ❯ |component| tests/component/navigation.test.tsx (11 tests | 1 failed) 1300ms
+     × Inicio omite contexto de la tarea seleccionada sin descartar selección ni draft 103ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 passed (11)
+   Start at  11:01:57
+   Duration  2.82s (transform 192ms, setup 132ms, import 477ms, tests 1.30s, environment 771ms)
+

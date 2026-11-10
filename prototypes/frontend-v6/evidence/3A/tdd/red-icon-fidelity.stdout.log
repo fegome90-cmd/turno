@@ -1,0 +1,20 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism navigation
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-3a-isolated/prototypes/frontend-v6
+
+ ❯ |component| tests/component/navigation.test.tsx (22 tests | 6 failed) 1956ms
+     × I1 · prioridad conserva flecha ascendente14 y texto Prioridad Alta 79ms
+     × I4 · acción de fila Lista 1 conserva glifo20 45ms
+     × I4 · acción de fila Editar nombre de Lista 1 conserva glifo20 39ms
+     × I4 · acción de fila Agregar tarea a Lista 1 conserva glifo20 37ms
+     × I4 · Demo usa engranaje20 sin alterar footer16 49ms
+     × I2 · cierre de drawer muestra X20 decorativa con nombre accesible específico 31ms
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 16 passed (22)
+   Start at  12:00:26
+   Duration  3.57s (transform 197ms, setup 134ms, import 521ms, tests 1.96s, environment 772ms)
+

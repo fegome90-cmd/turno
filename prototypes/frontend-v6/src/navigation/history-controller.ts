@@ -14,7 +14,13 @@ export type HistoryOptions = {
   guardNavigation(target: Route, resume: () => void): 'allow' | 'blocked' | 'pending';
   setTitle(route: Route): void;
 };
-export type HistoryController = {start(): void; push(route: Route): void; dispose(): void};
+export type HistoryController = {
+  start(): void;
+  push(route: Route): void;
+  // Consumers must call this synchronously on every new draft or title edit.
+  cancelPending(): void;
+  dispose(): void;
+};
 
 type Entry = Route & {idx: number; __turnoHistory: string};
 type Pending = {id: number; route: Route; target: Entry | null; decided: boolean; approved: boolean};
@@ -30,10 +36,33 @@ function validRoute(value: unknown): value is Route {
     && (r.selected === null || (!!r.selected && ['task', 'note'].includes(r.selected.kind) && typeof r.selected.id === 'string'));
 }
 
+// This is an ownership namespace, not a credential. Crypto separates browser lifetimes;
+// the monotonic suffix also separates instances/segments when entropy is unavailable or repeated.
+let ownerSequence = 0n;
+function newHistoryOwner(previous: unknown): string {
+  let entropy = 'local';
+  try {
+    const crypto = globalThis.crypto;
+    try {if (typeof crypto?.randomUUID === 'function') entropy = crypto.randomUUID();} catch { /* Try the other public crypto API below. */ }
+    if (entropy === 'local' && typeof crypto?.getRandomValues === 'function') {
+      entropy = Array.from(crypto.getRandomValues(new Uint32Array(4)), (value) => value.toString(16).padStart(8, '0')).join('');
+    }
+  } catch { /* Restricted/absent crypto must not prevent in-memory navigation. */ }
+  let existing: unknown = null;
+  try {if (previous && typeof previous === 'object') existing = (previous as Partial<Entry>).__turnoHistory;} catch { /* Host-owned state may expose inaccessible properties. */ }
+  let owner: string;
+  do {owner = `turno-v6-${Date.now().toString(36)}-${(++ownerSequence).toString(36)}-${entropy}`;} while (owner === existing);
+  return owner;
+}
+
 // No window/document access here. The browser adapter and the guard are separate authorities.
 export function createHistoryController(options: HistoryOptions): HistoryController {
   const {history, readRoute, applyRoute, guardNavigation, setTitle} = options;
-  const newOwner = () => `turno-v6-${Math.random().toString(36).slice(2)}`;
+  const newOwner = () => {
+    let previous: unknown;
+    try {previous = history.state;} catch { /* An unavailable history has no readable owner to avoid. */ }
+    return newHistoryOwner(previous);
+  };
   let owner = newOwner();
   let initialized = false;
   let unsubscribe: (() => void) | null = null;
@@ -42,11 +71,12 @@ export function createHistoryController(options: HistoryOptions): HistoryControl
   let pending: Pending | null = null;
   let returning: Entry | null = null;
   let replay: Entry | null = null;
+  let replayCancelled = false;
   let queuedPush: Route | null = null;
 
   const owned = (value: unknown): value is Entry => validRoute(value)
     && (value as Entry).__turnoHistory === owner && Number.isSafeInteger((value as Entry).idx) && (value as Entry).idx >= 0;
-  const invalidate = () => { revision++; pending = null; replay = null; };
+  const invalidate = () => { revision++; pending = null; replay = null; replayCancelled = false; };
   const readState = (): unknown => { try { return history.state; } catch { return null; } };
   const apply = (route: Route) => {
     applyRoute(copyRoute(route));
@@ -129,13 +159,19 @@ export function createHistoryController(options: HistoryOptions): HistoryControl
     if (replay && target.idx === replay.idx) {
       // A newer intent cancels the replay, not its in-flight browser event. Return to the source
       // before branching so the original source entry and its Forward stack stay consistent.
-      if (queuedPush && current) {
-        replay = null; returning = current; traverse(current.idx - target.idx); return;
+      if ((queuedPush || replayCancelled) && current) {
+        replay = null; replayCancelled = false; returning = current; traverse(current.idx - target.idx); return;
       }
       replay = null; current = target; apply(target); return;
     }
+    if (current && target.idx === current.idx) {
+      // An opposite traversal can supersede a replay before its event is delivered. Reaching
+      // the visible source settles that replay, even when its destination event was stale.
+      const route = queuedPush; queuedPush = null; invalidate();
+      if (route && !sameRoute(readRoute(), route)) request(route, null);
+      return;
+    }
     queuedPush = null;
-    if (current && target.idx === current.idx) return;
     request(target, target);
   };
 
@@ -176,6 +212,19 @@ export function createHistoryController(options: HistoryOptions): HistoryControl
       if (!owned(actual)) current = null;
       if (sameRoute(readRoute(), next)) { setTitle(copyRoute(readRoute())); return; }
       request(next, null);
+    },
+    cancelPending() {
+      if (!unsubscribe) return;
+      // Draft authority belongs to the consumer. Every new edit revokes the previous
+      // decision, including a replay already handed to the browser, without branching.
+      const inFlightReplay = replay;
+      invalidate(); queuedPush = null;
+      replay = inFlightReplay; replayCancelled = !!inFlightReplay;
+      if (returning || replay) return;
+      const actual = readState();
+      if (current && owned(actual) && actual.idx !== current.idx) {
+        returning = current; traverse(current.idx - actual.idx);
+      }
     },
     dispose() {
       unsubscribe?.(); unsubscribe = null;

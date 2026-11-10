@@ -1,4 +1,4 @@
-import {describe, expect, it} from 'vitest';
+import {afterEach, describe, expect, it, vi} from 'vitest';
 import {createHistoryController, type HistoryOptions, type HistoryPort} from '../../src/navigation/history-controller';
 import type {Route} from '../../src/domain/types';
 
@@ -68,6 +68,43 @@ function threeEntries() {
 }
 
 describe('G2B · indexed history contract (technical harness, not product parity)', () => {
+  it.each([-1, 1])('cancelPending invalidates an old decision before resume %i without changing the route or Forward entries', (direction) => {
+    const ctx = threeEntries(); ctx.guard(() => 'pending');
+    ctx.browser.move(direction); ctx.browser.flush(); const oldResume = ctx.getResume();
+    const title = ctx.titles.at(-1); const calls = ctx.browser.calls.length;
+    ctx.controller.cancelPending(); ctx.controller.cancelPending(); oldResume(); ctx.browser.flush();
+    expect(ctx.browser.calls).toHaveLength(calls);
+    expect(ctx.route).toEqual(task()); expect(ctx.browser.index).toBe(1);
+    expect(ctx.titles.at(-1)).toBe(title); expect(ctx.browser.entries).toHaveLength(3);
+    ctx.guard(() => 'allow'); ctx.browser.move(1); ctx.browser.flush();
+    expect(ctx.route).toEqual(task('task-2'));
+    ctx.controller.dispose(); expect(() => ctx.controller.cancelPending()).not.toThrow();
+  });
+
+  it.each([-1, 1])('cancelPending after approved replay %i restores the visible source without applying or pushing', (direction) => {
+    const ctx = threeEntries(); ctx.guard(() => 'pending');
+    ctx.browser.move(direction); ctx.browser.flush(); ctx.resume();
+    const applied = ctx.applied.length; const pushes = ctx.browser.calls.filter((call) => call.kind === 'push').length;
+    ctx.controller.cancelPending(); ctx.controller.cancelPending(); ctx.browser.flush();
+    expect(ctx.route).toEqual(task()); expect(ctx.browser.index).toBe(1);
+    expect(ctx.applied).toHaveLength(applied); expect(ctx.browser.entries).toHaveLength(3);
+    expect(ctx.browser.calls.filter((call) => call.kind === 'push')).toHaveLength(pushes);
+    ctx.guard(() => 'allow'); ctx.browser.move(1); ctx.browser.flush(); expect(ctx.route).toEqual(task('task-2'));
+  });
+
+  it.each([-1, 1])('opposite traversal interrupts approved replay %i and does not strand the next push', (direction) => {
+    const ctx = threeEntries(); ctx.guard(() => 'pending');
+    ctx.browser.move(direction); ctx.browser.flush(); ctx.resume();
+    // Browser has moved, but the approved replay event is still queued.
+    ctx.browser.move(-direction); ctx.browser.flush();
+    expect(ctx.route).toEqual(task()); expect(ctx.browser.index).toBe(1);
+    expect(ctx.browser.entries).toHaveLength(3);
+    ctx.guard(() => 'allow'); ctx.controller.push(task('after-interruption')); ctx.browser.flush();
+    expect(ctx.route).toEqual(task('after-interruption'));
+    expect(ctx.browser.history.state).toMatchObject({idx: 2, selected: {id: 'after-interruption'}});
+    ctx.browser.move(-1); ctx.browser.flush(); expect(ctx.route).toEqual(task());
+  });
+
   it('initial load replaces once, never pushes, keeps foreign state and synchronizes the title', () => {
     const ctx = setup({hostKey: 'preserved'});
     ctx.controller.start(); ctx.controller.start();
@@ -287,5 +324,55 @@ describe('G2B · indexed history contract (technical harness, not product parity
     ctx.controller.start(); ctx.guard(() => 'pending'); ctx.controller.push(task());
     ctx.controller.dispose(); ctx.resume(); ctx.browser.flush();
     expect(ctx.route).toEqual(home); expect(ctx.browser.entries).toHaveLength(1);
+  });
+});
+
+
+afterEach(() => {vi.restoreAllMocks(); vi.unstubAllGlobals();});
+describe('4A owner namespace integration', () => {
+  it('never consumes product Math.random and ignores repeated crypto entropy across instances', () => {
+    vi.stubGlobal('crypto', {randomUUID: () => 'fixed'});
+    const random = vi.spyOn(Math, 'random');
+    const contexts = Array.from({length: 100}, () => setup());
+    contexts.forEach((ctx) => ctx.controller.start());
+    expect(new Set(contexts.map((ctx) => (ctx.browser.history.state as {__turnoHistory: string}).__turnoHistory)).size).toBe(100);
+    expect(random).not.toHaveBeenCalled();
+    contexts.forEach((ctx) => ctx.controller.dispose());
+  });
+
+  it('avoids a colliding persisted owner even with a repeated clock and crypto value', () => {
+    vi.spyOn(Date, 'now').mockReturnValue(0); vi.stubGlobal('crypto', {randomUUID: () => 'fixed'});
+    const first = setup(); first.controller.start();
+    const firstOwner = (first.browser.history.state as {__turnoHistory: string}).__turnoHistory;
+    const counter = firstOwner.match(/^turno-v6-0-([0-9a-z]+)-fixed$/)![1]!;
+    const collision = `turno-v6-0-${(BigInt(parseInt(counter, 36)) + 1n).toString(36)}-fixed`;
+    const next = setup({__turnoHistory: collision, hostKey: 'kept'}); next.controller.start();
+    expect(next.browser.history.state).toMatchObject({hostKey: 'kept'});
+    expect((next.browser.history.state as {__turnoHistory: string}).__turnoHistory).not.toBe(collision);
+    first.controller.dispose(); next.controller.dispose();
+  });
+
+  it('tolerates a readable host state whose ownership getter throws', () => {
+    const previous = Object.defineProperty({}, '__turnoHistory', {enumerable: true, get() {throw new Error('host owner inaccessible');}});
+    expect(() => {const ctx = setup(previous); ctx.controller.start(); ctx.controller.dispose();}).not.toThrow();
+  });
+
+  it('uses getRandomValues when randomUUID is unavailable or throws', () => {
+    const getRandomValues = vi.fn((values: Uint32Array) => values.fill(123));
+    vi.stubGlobal('crypto', {randomUUID() {throw new Error('unavailable');}, getRandomValues});
+    const ctx = setup(); ctx.controller.start(); expect(getRandomValues).toHaveBeenCalledTimes(1);
+    expect((ctx.browser.history.state as {__turnoHistory: string}).__turnoHistory).toContain('0000007b'.repeat(4));
+    ctx.controller.dispose();
+  });
+
+  it.each(['absent', 'throwing-method', 'throwing-getter'] as const)('keeps owners distinct with crypto %s and a fixed clock', (mode) => {
+    vi.spyOn(Date, 'now').mockReturnValue(0);
+    if (mode === 'absent') vi.stubGlobal('crypto', undefined);
+    else if (mode === 'throwing-method') vi.stubGlobal('crypto', {randomUUID() {throw new Error('unavailable');}, getRandomValues() {throw new Error('unavailable');}});
+    else vi.stubGlobal('crypto', Object.defineProperty({}, 'randomUUID', {get() {throw new Error('unavailable');}}));
+    const contexts = Array.from({length: 100}, () => setup());
+    contexts.forEach((ctx) => ctx.controller.start());
+    expect(new Set(contexts.map((ctx) => (ctx.browser.history.state as {__turnoHistory: string}).__turnoHistory)).size).toBe(100);
+    contexts.forEach((ctx) => ctx.controller.dispose());
   });
 });

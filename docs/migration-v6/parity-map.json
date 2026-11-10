@@ -36,11 +36,13 @@
     "sourceFile": "prototypes/frontend-v5/tests/design-audit.test.mjs",
     "sourceTest": "checkbox target is a native wrapping label with no adjacent action in its 44px target",
     "requirementId": "DESIGN-AUDIT-02",
-    "task": "3A",
+    "task": "4A",
     "targetTests": [
       "tests/component/navigation.test.tsx",
       "tests/e2e/responsive.spec.ts",
-      "tests/e2e/overlays.spec.ts"
+      "tests/e2e/overlays.spec.ts",
+      "tests/component/editor.test.tsx",
+      "tests/e2e/editor.spec.ts"
     ],
     "status": "planned",
     "targetBehavior": "checkbox target is a native wrapping label with no adjacent action in its 44px target",
@@ -55,12 +57,13 @@
       "1B",
       "2A",
       "2B",
-      "3A"
+      "3A",
+      "4A"
     ],
     "closureEvidenceKinds": [
       "browser"
     ],
-    "integrationRationale": "La fase de cierre conserva el contrato fuente completo; cualquier ensayo anterior solo acredita su alcance declarado."
+    "integrationRationale": "El test fuente exige el checkbox de Navigation y #editor-completed. 3A prepara y prueba Navigation; el cierre íntegro requiere ambos controles reales, incluido TaskEditor integrado en 4A. Un slot técnico no sustituye el editor."
   },
   {
     "sourceSha": "0f534df9bd5b012b4ec21c202a055e1e913bcab5",

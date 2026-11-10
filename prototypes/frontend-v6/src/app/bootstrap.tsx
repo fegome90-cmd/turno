@@ -2,7 +2,7 @@ import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import {AppProviders} from './AppProviders';
 import {createSession} from './create-session';
-import {Home} from '../components/Home';
+import {App} from './App';
 
 export type StartAppOptions = {random: () => number};
 
@@ -12,15 +12,11 @@ export function startApp(container: HTMLElement | null, {random}: StartAppOption
   if (!container) throw new Error('Falta el contenedor #root');
   const session = createSession({random});
   const root = createRoot(container);
+  void session.store.getState().load();
   root.render(
     <StrictMode>
       <AppProviders>
-        <Home
-          preferredName={session.preferredName}
-          subtitle={session.homeSubtitle}
-          summary={{message: 'Turno de día · 4 pendientes', actionLabel: 'Ir al turno actual'}}
-          onOpenShift={() => {}}
-        />
+        <App session={session}/>
       </AppProviders>
     </StrictMode>,
   );

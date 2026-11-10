@@ -1,0 +1,16 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism navigation
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-3a-isolated/prototypes/frontend-v6
+
+ ❯ |component| tests/component/navigation.test.tsx (9 tests | 2 failed) 3009ms
+     × abrir navegación 390→700→390 elimina capa al dockear y no reabre drawer 1048ms
+     × Tiempo workspace999→1000→999 no resucita; Inicio sigue overlay en ancho 1095ms
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 7 passed (9)
+   Start at  11:00:03
+   Duration  4.58s (transform 166ms, setup 137ms, import 480ms, tests 3.01s, environment 785ms)
+

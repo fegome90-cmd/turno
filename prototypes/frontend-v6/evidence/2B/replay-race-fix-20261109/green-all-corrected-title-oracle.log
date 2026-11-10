@@ -1,0 +1,10 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-fix/prototypes/frontend-v6
+
+
+ Test Files  16 passed (16)
+      Tests  189 passed (189)
+   Start at  06:24:34
+   Duration  14.80s (transform 323ms, setup 767ms, import 1.08s, tests 5.27s, environment 5.48s)
+

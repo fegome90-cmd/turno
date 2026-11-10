@@ -1,0 +1,74 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · fidelidad iconográfica auditada > I1 · prioridad conserva flecha ascendente14 y texto Prioridad Alta
+Error: expect(element).toHaveAttribute("width", "14") // element.getAttribute("width") === "14"
+
+Expected the element to have attribute:
+  width="14"
+Received:
+  width="12"
+ ❯ tests/component/navigation.test.tsx:270:19
+    268|     const glyph = badge.querySelector('svg')!;
+    269|     expect(glyph).toHaveAttribute('aria-hidden','true');
+    270|     expect(glyph).toHaveAttribute('width','14');
+       |                   ^
+    271|     expect(glyph).toHaveAttribute('height','14');
+    272|     expect(glyph.querySelector('path')).toHaveAttribute('d','M12 19V5m…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · fidelidad iconográfica auditada > I4 · acción de fila Lista 1 conserva glifo20
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · fidelidad iconográfica auditada > I4 · acción de fila Editar nombre de Lista 1 conserva glifo20
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · fidelidad iconográfica auditada > I4 · acción de fila Agregar tarea a Lista 1 conserva glifo20
+Error: expect(element).toHaveAttribute("width", "20") // element.getAttribute("width") === "20"
+
+Expected the element to have attribute:
+  width="20"
+Received:
+  width="16"
+ ❯ tests/component/navigation.test.tsx:280:19
+    278|     await user.click(nav.getByRole('button', {name: 'Ir al turno actua…
+    279|     const glyph = nav.getByRole('button', {name}).querySelector('svg');
+    280|     expect(glyph).toHaveAttribute('width','20');
+       |                   ^
+    281|     expect(glyph).toHaveAttribute('height','20');
+    282|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · fidelidad iconográfica auditada > I4 · Demo usa engranaje20 sin alterar footer16
+Error: expect(element).toHaveAttribute("width", "20") // element.getAttribute("width") === "20"
+
+Expected the element to have attribute:
+  width="20"
+Received:
+  width="18"
+ ❯ tests/component/navigation.test.tsx:287:99
+    285|     const {user} = await setup();
+    286|     await user.click(screen.getByRole('button',{name:'Más opciones'}));
+    287|     expect(screen.getByRole('button',{name:'Demo local: datos sintétic…
+       |                                                                                                   ^
+    288|   });
+    289|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · fidelidad iconográfica auditada > I2 · cierre de drawer muestra X20 decorativa con nombre accesible específico
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  /^$/
+Received:
+  Cerrar
+ ❯ tests/component/navigation.test.tsx:294:19
+    292|     await user.click(screen.getByRole('button',{name:'Abrir navegación…
+    293|     const close = screen.getByRole('button',{name:'Cerrar navegación'}…
+    294|     expect(close).toHaveTextContent(/^$/);
+       |                   ^
+    295|     expect(close.querySelector('svg')).toHaveAttribute('width','20');
+    296|     expect(close.querySelector('svg')).toHaveAttribute('aria-hidden','…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+

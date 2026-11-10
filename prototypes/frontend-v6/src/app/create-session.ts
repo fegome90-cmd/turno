@@ -7,7 +7,7 @@ import {createTurnoStore, type TurnoStore} from './store';
 
 export type HomeSession = {preferredName: string; homeSubtitle: string};
 
-export type AppSession = HomeSession & {port: PreviewPort; store: TurnoStore; dispose(): void};
+export type AppSession = HomeSession & {port: PreviewPort; store: TurnoStore; notifications: NotificationStore; dispose(): void};
 
 export type CreateSessionOptions = {
   random?: () => number;
@@ -25,12 +25,14 @@ export function createSession({
 }: CreateSessionOptions = {}): AppSession {
   const homeSubtitle = chooseHomeSubtitle(random);
   const adapter = port ?? createPreviewAdapter({preferredName});
-  const store = createTurnoStore(adapter, notifications ?? createNotificationStore());
+  const notices = notifications ?? createNotificationStore();
+  const store = createTurnoStore(adapter, notices);
   return {
     preferredName,
     homeSubtitle,
     port: adapter,
     store,
+    notifications: notices,
     dispose: () => store.dispose(),
   };
 }

@@ -1,26 +1,31 @@
-# Turno v6 · estado de la migración
+# Turno v6 · candidato integrado 4A/4B
 
-Aplicación React aislada, sólo con datos sintéticos y memoria de sesión. No conecta backend, autenticación, persistencia ni host ChatGPT.
+Aplicación React con datos sintéticos y memoria de sesión. Sin backend, autenticación, almacenamiento persistente ni host ChatGPT. La presencia del candidato no acredita una release ni un despliegue.
 
-La referencia de planificación y sus contratos canónicos viven en `../../docs/migration-v6/`. Son documentos históricos y de contrato, no una matriz de ejecución actualizada automáticamente.
+## Estado
 
-Registros actuales:
+El candidato de código `ed374bed7116d413fa3450d72b61cad4866319a4` conserva la integración 4A/4B de `3495144`: editores y notas, Tiempo/Agenda, guardas, historial y acciones de crear tareas/listas/notas, renombrar listas y cerrar/abrir turnos, con archivo de sólo lectura. Añade las correcciones posteriores de acciones y avisos, incluido Option/Alt+T. Los datos demo se pierden al recargar.
 
-- [Reconciliación de 2A](docs/EXECUTION-2A-RECONCILIATION.md): dominio, adaptador y store; 30 requisitos no visuales trazados.
-- [Ejecución de 2B](docs/EXECUTION-2B.md): controlador/hook de historial y harness técnico de rutas/guardas/capas.
-- [Matriz de ejecución](docs/parity-map.json): conserva 212 identidades y contratos canónicos; 30 verified no visuales de 2A y 182 planned. HISTORY continúa planned hasta integración 4A/4B.
-- [Evidencia 2A reconciliada](evidence/2A/reconciliation-20261109/) y [evidencia 2B](evidence/2B/).
+El [estado actual 4B](../../docs/migration-v6/STATUS-4B.md) registra para `ed374be` 162 pruebas unitarias, 319 de componentes y 226/226 Chromium Mac PASS, además de portable PASS. El atajo tiene una comprobación manual acotada de Safari macOS, con procedencia indirecta y sin capturas archivadas. Las dos auditorías siguen BLOCKED y la decisión formal STOP; no se declaran G4A, G4B ni 5A aprobados.
+
+El [registro 3A](docs/EXECUTION-3A.md) y los registros 2B conservan sus resultados históricos. La matriz de ejecución/canon no se modifica desde la implementación: las 27 identidades de cierre 4B siguen `planned`; UI-36 sólo prepara 5A. Las 212 identidades fuente se mantienen intactas.
 
 ## Uso y pruebas
 
-Node 24.22.1 y dependencias fijadas por package-lock. Instalar con `npm ci` y ejecutar `npm run typecheck`, `npm run lint`, `npm run test:unit` y `npm run test:component`.
+Build comprobado con Node 24.22.1 y lock exacto; regresión nativa con Node 24.18.0. Para una instalación nueva, usar `npm ci`; después `npm run typecheck`, `npm run lint`, `npm run test:unit`, `npm run test:component`.
 
-`npm run build` genera `dist/preview.html`, el producto Home mínimo. `node scripts/build-history-harness.mjs` genera aparte `dist-history/history-harness.html`; el harness no se importa desde el producto.
+- `npm run build`: `dist/preview.html`, producto demo integrado 4A/4B.
+- `node scripts/build-history-harness.mjs`: `dist-history/history-harness.html`, controlador técnico 2B, no producto integrado.
+- `node scripts/build-layout-harness.mjs`: `dist-layout/layout-harness.html`, slots técnicos EXTRA-NATIVE-EDIT. La variante `?fixture=product-long` monta el mismo App real con sesión/store/puerto e inyección sintética de nombres de 300 caracteres; no usa esos slots.
+- `npm run test:e2e -- responsive.spec.ts overlays.spec.ts`: subconjunto de navegación y overlays, no toda la evidencia 4A/4B.
+- `npm run test:e2e`: suite completa, workers 1 y retries 0. Configuración versionada Chromium Linux; QA Mac usa adaptación externa sólo para seleccionar el ejecutable/servidor, sin cambiar escenarios ni umbrales.
+- `npm run check:portable`: HTML exacto y Chromium real sin dependencias externas. Una inspección estática no cierra el gate.
+- `npm audit --include=dev --json` y `npm audit --omit=dev --json`: auditorías total/runtime por separado. En este trabajo siguen bloqueadas; no reintentarlas sin resolver el permiso pendiente de enviar nombres y versiones a `registry.npmjs.org`.
 
-`npm run test:e2e -- history.spec.ts` ejecuta el historial técnico. La suite completa se ejecuta con `npm run test:e2e`. La configuración versionada selecciona Chromium Linux; QA Mac usó un adaptador externo incluido en su evidencia para elegir Chrome instalado. No se cambiaron escenarios ni timeouts.
+## Límites
 
-La portabilidad de un HTML autónomo, la integración de editores y la integración real del host son entregables distintos. Las pruebas simuladas no acreditan foco nativo, lector de pantalla, IME real ni dispositivo. El cierre de fase requiere revisión independiente y el checker de contrato sobre el snapshot final; pasar ese checker sólo valida metadatos e integridad.
+Las pruebas del App real se distinguen de los harnesses técnicos y los eventos sintéticos. Chromium y tamaños emulados no certifican iPhone físico, Safari iOS, tecnologías de asistencia integrales, IME físico ni una nueva validación de zoom nativo. La comprobación manual del atajo en Safari macOS no cubre esos límites. Fullscreen real se distingue del fallback con API ausente/denegada.
 
-## Fuera del cierre actual
+Las auditorías de dependencias no se han ejecutado por restricción de acceso. No hay resultado npm ni conclusión sobre vulnerabilidades; BLOCKED no equivale a PASS ni a FAIL.
 
-No se certifica producto integrado, Firefox/WebKit, lector de pantalla, IME real, revisión visual manual independiente ni host. `check:parity` y el smoke de otros motores siguen pendientes de sus fases: no se presentan como gates verdes. No hay merge ni despliegue autorizado por estos registros.
+Los ajustes de estos textos de estado no alteran código, pruebas, dependencias, v5 ni canon respecto de `ed374be`. La incorporación por el plugin GitHub es un snapshot nuevo sobre la historia remota de `fd777bf`; la historia local original queda respaldada por separado. Sin backend, autenticación, persistencia, colaboración ni host ChatGPT. Este estado no acredita push, merge ni despliegue. Las regresiones completas se repiten después de cualquier integración posterior.

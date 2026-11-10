@@ -1,5 +1,7 @@
 # Ejecución técnica de 2B
 
+**Revisión posterior:** los resultados de este registro son históricos de `72459f5`. La corrección `76943e5` y su contrato están en [REPLAY-RACE-FIX-2B.md](REPLAY-RACE-FIX-2B.md). La [consolidación vigente](../../../docs/migration-v6/STATUS-2B.md) registra auditoría independiente y 60/60 E2E reales en Chromium Mac del candidato corregido. No se heredan los conteos antiguos ni se declara APPROVE_PHASE.
+
 Fecha: 09/11/2026. Fuente ejecutada final: `72459f5ffc3c48db4202792208370b4ca92d5426`, base `e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b`. El cierre se limita al controlador/hook y su harness. El producto Home no se conecta todavía a navegación de workspace.
 
 ## Contrato implementado

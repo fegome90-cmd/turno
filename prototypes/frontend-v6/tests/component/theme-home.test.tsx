@@ -255,3 +255,15 @@ describe('EXTRA-THEME-NO-STORAGE · cero storage y cero red al cambiar tema', ()
   });
 });
 
+
+describe('4A theme-color follows the effective theme', () => {
+  it('updates the existing browser chrome color for explicit and system preferences', () => {
+    const system = installMatchMedia(false), meta = document.createElement('meta'); meta.name = 'theme-color'; meta.content = '#ffffff'; document.head.append(meta);
+    try {
+      const api = mountTheme(); act(() => api().setPreference('dark')); expect(meta.content).toBe('#171817');
+      act(() => system.setSystemDark(false)); expect(meta.content).toBe('#171817');
+      act(() => api().setPreference('system')); expect(meta.content).toBe('#ffffff');
+      act(() => system.setSystemDark(true)); expect(meta.content).toBe('#171817');
+    } finally {meta.remove();}
+  });
+});

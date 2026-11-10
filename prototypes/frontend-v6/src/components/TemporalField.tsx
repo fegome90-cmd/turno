@@ -16,10 +16,13 @@ export type TemporalFieldProps = {
   value: string;
   onValueChange: (raw: string) => void;
   hint?: ReactNode;
+  error?: string | null;
+  disabled?: boolean;
+  placeholder?: string;
 };
 
-export function TemporalField({id, label, kind, value, onValueChange, hint}: TemporalFieldProps) {
-  const error = validateTemporal(kind, label, value);
+export function TemporalField({id, label, kind, value, onValueChange, hint, error: presented, disabled, placeholder}: TemporalFieldProps) {
+  const error = presented === undefined ? validateTemporal(kind, label, value) : presented;
   return (
     <Field.Root id={`${id}-field`} invalid={error !== null} className="temporal-field">
       <Field.Label htmlFor={id}>{label}</Field.Label>
@@ -28,12 +31,16 @@ export function TemporalField({id, label, kind, value, onValueChange, hint}: Tem
         type="text"
         inputMode="numeric"
         autoComplete="off"
+        name={id}
+        disabled={disabled}
+        placeholder={placeholder}
+        data-focus-key={`field-${id}`}
         value={value}
         onChange={(event) => onValueChange(event.currentTarget.value)}
         aria-describedby={hint ? `${id}-hint` : undefined}
       />
       {hint ? <Field.Description id={`${id}-hint`}>{hint}</Field.Description> : null}
-      {error ? <Field.Error match={true}>{error}</Field.Error> : null}
+      {error ? <Field.Error match={true} id={`field-error-${id}`} className="field-error error">{error}</Field.Error> : null}
     </Field.Root>
   );
 }

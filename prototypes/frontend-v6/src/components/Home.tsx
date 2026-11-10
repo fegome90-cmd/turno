@@ -12,7 +12,7 @@ export type HomeProps = {
 export function Home({preferredName, subtitle, summary, onOpenShift}: HomeProps) {
   const name = preferredName.trim();
   const greeting = name ? `Hola, ${name}.` : 'Hola.';
-  const iconStyle = {maskImage: `url(${playIcon})`, WebkitMaskImage: `url(${playIcon})`};
+  const iconStyle = {maskImage: `url(${JSON.stringify(playIcon)})`, WebkitMaskImage: `url(${JSON.stringify(playIcon)})`};
   return (
     <main id="main" tabIndex={-1} className="home">
       <div className="greeting">
@@ -20,7 +20,7 @@ export function Home({preferredName, subtitle, summary, onOpenShift}: HomeProps)
         <p>{subtitle}</p>
         <div className="home-summary">
           <p>{summary.message}</p>
-          <button type="button" className="primary" onClick={onOpenShift}>
+          <button type="button" className="primary" data-focus-key="home-primary" onClick={onOpenShift}>
             <i className="icon" aria-hidden="true" style={iconStyle} />
             <span>{summary.actionLabel}</span>
           </button>

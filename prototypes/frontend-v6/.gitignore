@@ -3,3 +3,5 @@ dist/
 dist-history/
 test-results/
 playwright-report/
+
+dist-layout/

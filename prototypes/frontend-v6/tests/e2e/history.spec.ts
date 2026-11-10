@@ -256,5 +256,60 @@ for (const protocol of ['file', 'http'] as const) {
       await expect(page).toHaveTitle('Revisar insumos · Turno'); expect(await index(page)).toBe(2);
       await traverse(page, -1); await expect(page).toHaveTitle('Tarea 1 · Turno');
     });
+
+    for (const direction of [-1, 1]) {
+      test(`opposite traversal interrupts approved replay ${direction} and the next navigation remains usable`, async ({page}) => {
+        await delayedDelivery(page); await middle(page); const size = await length(page);
+        await page.getByRole('textbox', {name: 'Borrador'}).fill('Anterior');
+        await traverse(page, direction); await expect.poll(() => index(page)).toBe(1);
+        await holdDelivery(page);
+        await page.getByRole('button', {name: 'Descartar', exact: true}).click();
+        await waitForHeldMove(page, 1 + direction);
+        await page.evaluate((delta) => history.go(delta), -direction);
+        await expect.poll(() => index(page)).toBe(1);
+        await expect.poll(() => page.evaluate(() => window.__historyDelivery.pending.length)).toBeGreaterThan(1);
+        await releaseDelivery(page);
+        await expect(page.getByTestId('route')).toHaveText('workspace:task-1');
+        expect(await length(page)).toBe(size);
+        await page.getByRole('button', {name: 'Tarea 2', exact: true}).click();
+        await expect(page.getByTestId('route')).toHaveText('workspace:task-2');
+        await expect(page).toHaveTitle('Revisar insumos · Turno');
+        expect(await index(page)).toBe(2); expect(await length(page)).toBe(size);
+        await traverse(page, -1); await expect(page).toHaveTitle('Tarea 1 · Turno');
+      });
+
+      for (const decision of ['discard', 'save']) {
+        for (const field of ['Borrador', 'Título']) {
+          test(`fresh ${field} edit after approved ${decision} ${direction} revokes the held replay`, async ({page}) => {
+            await delayedDelivery(page); await middle(page); const size = await length(page);
+            await page.getByRole('textbox', {name: 'Borrador'}).fill('Anterior');
+            await traverse(page, direction); await expect.poll(() => index(page)).toBe(1);
+            await holdDelivery(page);
+            if (decision === 'discard') await page.getByRole('button', {name: 'Descartar', exact: true}).click();
+            else {
+              await page.getByRole('button', {name: 'Guardar y continuar'}).click();
+              await page.getByRole('button', {name: 'Resolver éxito'}).click();
+            }
+            await waitForHeldMove(page, 1 + direction);
+            await expect(page.getByRole('dialog')).toHaveCount(0);
+            await page.getByRole('textbox', {name: field}).fill('Texto nuevo exacto  ');
+            await releaseDelivery(page);
+            await expect.poll(() => index(page)).toBe(1);
+            await expect(page.getByTestId('route')).toHaveText('workspace:task-1');
+            await expect(page.getByRole('textbox', {name: field})).toHaveValue('Texto nuevo exacto  ');
+            await expect(page.getByRole('textbox', {name: field})).toBeFocused();
+            await expect(page.getByRole('status')).toContainText('dirty');
+            await expect(page).toHaveTitle(field === 'Título' ? 'Texto nuevo exacto · Turno' : 'Tarea 1 · Turno');
+            expect(await length(page)).toBe(size);
+            await traverse(page, direction); await expect.poll(() => index(page)).toBe(1);
+            await expect(page.getByRole('dialog', {name: 'Cambios sin guardar'})).toBeVisible();
+            await page.getByRole('button', {name: 'Descartar', exact: true}).click();
+            await expect.poll(() => index(page)).toBe(1 + direction);
+            await expect(page).toHaveTitle(direction < 0 ? 'Inicio · Turno' : 'Revisar insumos · Turno');
+            expect(await length(page)).toBe(size);
+          });
+        }
+      }
+    }
   });
 }

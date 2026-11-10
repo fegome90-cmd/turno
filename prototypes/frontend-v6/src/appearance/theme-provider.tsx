@@ -56,6 +56,7 @@ export function ThemeProvider({children}: {children: ReactNode}) {
     const root = document.documentElement;
     root.dataset.theme = effective;
     root.dataset.themePreference = preference;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', effective === 'dark' ? '#171817' : '#ffffff');
   }, [effective, preference]);
 
   const setPreference = useCallback((value: ThemePreference): boolean => {

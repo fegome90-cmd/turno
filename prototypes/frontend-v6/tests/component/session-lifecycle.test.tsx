@@ -72,7 +72,7 @@ describe('EXTRA-LIFECYCLE-ASYNC · arranque repetido', () => {
     expect(removes).toBe(adds);
   });
 
-  it('EXTRA-LIFECYCLE-ASYNC · 20 ciclos del arranque real: cada montaje suma una suscripción al notification-store y el desmontaje la libera', () => {
+  it('EXTRA-LIFECYCLE-ASYNC · 20 ciclos del arranque real: store y pila tienen tres suscripciones vivas y el desmontaje libera todas', () => {
     const startTotal = subscriptions.total;
     for (let cycle = 0; cycle < 20; cycle++) {
       const container = document.createElement('div');
@@ -81,11 +81,15 @@ describe('EXTRA-LIFECYCLE-ASYNC · arranque repetido', () => {
       act(() => {
         stop = startApp(container, {random: () => 0});
       });
-      expect(subscriptions.active).toBe(1);
+      // Store count mirror + stack render + live announcements. StrictMode
+      // replays UI effects, but only these three owners may remain mounted.
+      expect(subscriptions.active).toBe(3);
       act(() => stop());
       expect(subscriptions.active).toBe(0);
       container.remove();
     }
-    expect(subscriptions.total - startTotal).toBe(20);
+    // Each cycle creates one store subscription and two stack subscriptions,
+    // with the latter mounted twice by StrictMode (1 + 2 × 2).
+    expect(subscriptions.total - startTotal).toBe(20 * 5);
   });
 });

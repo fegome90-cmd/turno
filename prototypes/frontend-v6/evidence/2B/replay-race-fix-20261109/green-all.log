@@ -1,0 +1,57 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-fix/prototypes/frontend-v6
+
+ ❯ |component| tests/component/history-harness.test.tsx (12 tests | 4 failed) 1654ms
+     × a fresh 'Título' edit after approved 'discard' -1 and before replay delivery keeps the new draft and source 118ms
+     × a fresh 'Título' edit after approved 'save' -1 and before replay delivery keeps the new draft and source 99ms
+     × a fresh 'Título' edit after approved 'discard' 1 and before replay delivery keeps the new draft and source 103ms
+     × a fresh 'Título' edit after approved 'save' 1 and before replay delivery keeps the new draft and source 98ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/history-harness.test.tsx > G2B · technical guard harness (simulated history, not browser evidence) > a fresh 'Título' edit after approved 'discard' -1 and before replay delivery keeps the new draft and source
+ FAIL  |component| tests/component/history-harness.test.tsx > G2B · technical guard harness (simulated history, not browser evidence) > a fresh 'Título' edit after approved 'save' -1 and before replay delivery keeps the new draft and source
+ FAIL  |component| tests/component/history-harness.test.tsx > G2B · technical guard harness (simulated history, not browser evidence) > a fresh 'Título' edit after approved 'save' 1 and before replay delivery keeps the new draft and source
+AssertionError: expected 'Nuevo texto exacto · Turno' to be 'Nuevo texto exacto   · Turno' // Object.is equality
+
+Expected: "Nuevo texto exacto   · Turno"
+Received: "Nuevo texto exacto · Turno"
+
+ ❯ tests/component/history-harness.test.tsx:64:28
+     62|     expect(screen.getByRole('textbox', {name: field})).toHaveValue('Nu…
+     63|     expect(screen.getByRole('status')).toHaveTextContent('dirty');
+     64|     expect(document.title).toBe(field === 'Título' ? 'Nuevo texto exac…
+       |                            ^
+     65|     ctx.history.go(direction);
+     66|     await screen.findByRole('dialog', {name: 'Cambios sin guardar'});
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |component| tests/component/history-harness.test.tsx > G2B · technical guard harness (simulated history, not browser evidence) > a fresh 'Título' edit after approved 'discard' 1 and before replay delivery keeps the new draft and source
+AssertionError: expected 'Nuevo texto exacto · Turno' to be 'Nuevo texto exacto   · Turno' // Object.is equality
+
+Expected: "Nuevo texto exacto   · Turno"
+Received: "Nuevo texto exacto · Turno"
+
+ ❯ tests/component/history-harness.test.tsx:64:28
+     62|     expect(screen.getByRole('textbox', {name: field})).toHaveValue('Nu…
+     63|     expect(screen.getByRole('status')).toHaveTextContent('dirty');
+     64|     expect(document.title).toBe(field === 'Título' ? 'Nuevo texto exac…
+       |                            ^
+     65|     ctx.history.go(direction);
+     66|     await screen.findByRole('dialog', {name: 'Cambios sin guardar'});
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+
+ Test Files  1 failed | 15 passed (16)
+      Tests  4 failed | 185 passed (189)
+   Start at  06:23:56
+   Duration  14.74s (transform 298ms, setup 754ms, import 1.04s, tests 5.32s, environment 5.39s)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

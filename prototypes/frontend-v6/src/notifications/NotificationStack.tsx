@@ -52,10 +52,13 @@ export function NotificationStack({
     };
   }, []);
 
-  // Alt+T: foco al aviso más reciente, sin foco automático al llegar.
+  // Alt/Option+T: T lógico o posición física KeyT (Option puede cambiar el carácter).
+  // Foco al aviso más reciente, sin foco automático al llegar.
   useEffect(() => {
     const onShortcut = (event: KeyboardEvent) => {
-      if (!event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.key.toLowerCase() !== 't') return;
+      if (event.defaultPrevented || event.isComposing) return;
+      if (!event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      if (event.key.toLowerCase() !== 't' && event.code !== 'KeyT') return;
       const current = store.getState();
       if (current.suspended || current.items.length === 0) return;
       const buttons = document.querySelectorAll<HTMLButtonElement>('[data-close-notice]');

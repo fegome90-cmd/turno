@@ -98,8 +98,8 @@ export function HistoryHarness() {
     <p data-testid="route">{route.view}:{route.selected?.id ?? ''}</p>
     <p data-testid="index">{typeof window.history.state?.idx === 'number' ? window.history.state.idx : 'exterior'}</p>
     {route.view === 'home' ? <h2>Inicio</h2> : <section aria-label="Edición técnica">
-      <label>Título<input value={title} onChange={(e) => { revision.current++; setTitle(e.target.value); setDirty(true); }} /></label>
-      <label>Borrador<textarea data-focus-key="history-body" value={body} onChange={(e) => { revision.current++; setBody(e.target.value); setDirty(true); }} /></label>
+      <label>Título<input value={title} onChange={(e) => { controller.cancelPending(); revision.current++; setTitle(e.target.value); setDirty(true); }} /></label>
+      <label>Borrador<textarea data-focus-key="history-body" value={body} onChange={(e) => { controller.cancelPending(); revision.current++; setBody(e.target.value); setDirty(true); }} /></label>
     </section>}
     <button data-focus-key="history-more" onClick={() => overlays.open({id: 'history-more', kind: 'more', returnFocusKey: 'history-more'})}>Más opciones de prueba</button>
     <button onClick={() => setBusy((value) => !value)}>Alternar busy</button>

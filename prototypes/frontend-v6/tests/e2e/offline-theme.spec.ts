@@ -154,16 +154,37 @@ test('EXTRA-OFFLINE-FIRST-PAINT · file:// primer paint y frames capturados sin 
     await page.waitForTimeout(400);
     await cdp.send('Page.stopScreencast');
     expect(frames.length).toBeGreaterThan(0);
+    // 3A adds a real sidebar at (2,2). Keep those original samples for the
+    // no-flash oracle, and locate a point inside Home's actual canvas for its
+    // unchanged exact token assertion. Do not paint around a test coordinate.
+    const canvasPoint = await page.evaluate(() => {
+      const main = document.querySelector<HTMLElement>('main.home');
+      if (!main) throw new Error('Missing Home canvas');
+      const rect = main.getBoundingClientRect();
+      const x = Math.floor(rect.left + 4), y = Math.floor(rect.top + 4);
+      const hit = document.elementFromPoint(x, y);
+      return {x, y, viewportWidth: window.innerWidth, viewportHeight: window.innerHeight,
+        inHome: Boolean(hit?.closest('main.home')), owner: hit?.tagName ?? null};
+    });
+    expect(canvasPoint.inHome).toBe(true);
     const samples = frames.map((frame, index) => {
       fs.writeFileSync(path.join(FIRST_PAINT_DIR, `frame-${String(index).padStart(3, '0')}.png`), frame.buffer);
       const pixel = readPngPixel(frame.buffer, 2, 2);
-      return {index, r: pixel.r, g: pixel.g, b: pixel.b, width: pixel.width, height: pixel.height};
+      const canvas = readPngPixel(frame.buffer,
+        Math.floor(canvasPoint.x * pixel.width / canvasPoint.viewportWidth),
+        Math.floor(canvasPoint.y * pixel.height / canvasPoint.viewportHeight));
+      return {index, r: pixel.r, g: pixel.g, b: pixel.b, width: pixel.width, height: pixel.height,
+        canvas: [canvas.r, canvas.g, canvas.b]};
     });
-    fs.writeFileSync(path.join(FIRST_PAINT_DIR, 'samples.json'), JSON.stringify(samples, null, 2));
-    info.annotations.push({type: 'frames', description: `${frames.length} frames ${JSON.stringify(samples.map((x) => [x.r, x.g, x.b]))}`});
-    // No light flash: every captured frame is dark, and the last one is exactly the token canvas.
-    for (const sample of samples) expect(Math.max(sample.r, sample.g, sample.b)).toBeLessThanOrEqual(64);
-    expect([samples.at(-1)!.r, samples.at(-1)!.g, samples.at(-1)!.b]).toEqual(DARK_CANVAS_RGB);
+    fs.writeFileSync(path.join(FIRST_PAINT_DIR, 'samples.json'), JSON.stringify({canvasPoint, samples}, null, 2));
+    info.annotations.push({type: 'frames', description: `${frames.length} frames ${JSON.stringify(samples.map((x) => [x.r, x.g, x.b]))}; canvas ${JSON.stringify(canvasPoint)}`});
+    // Same threshold and exact canvas token as 1A, on explicitly identified surfaces.
+    for (const sample of samples) {
+      expect(Math.max(sample.r, sample.g, sample.b)).toBeLessThanOrEqual(64);
+      expect(Math.max(...sample.canvas)).toBeLessThanOrEqual(64);
+    }
+    expect(samples.at(-1)!.canvas).toEqual(DARK_CANVAS_RGB);
+    expect([samples.at(-1)!.r, samples.at(-1)!.g, samples.at(-1)!.b]).toEqual([32, 33, 32]); // sidebar #202120
     expect(external).toEqual([]);
   } finally {
     await context.close();
