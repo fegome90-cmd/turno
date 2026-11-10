@@ -21,7 +21,7 @@ cp server/.env.example server/.env
 chmod 600 server/.env
 # En tu Mac edita server/.env, nunca lo publiques ni lo pegues en chat.
 cd server
-npm install --ignore-scripts
+npm ci --ignore-scripts
 npm run check
 npm test
 npm run demo
@@ -41,7 +41,7 @@ Variables configuradas en `server/.env.example`:
 
 `ambient-engine.mjs` exporta `analyzeAmbientEvent({ event, settings, isAuthorized, getAuthorizedSnapshot, ...classifiers })`. El consumidor backend debe comprobar la identidad antes de entregar un snapshot autoritativo del turno; nunca confiar en una lista de tareas enviada por el navegador. Solo se aceptan los eventos `drafts_ready`, `note_saved`, `shift_close_attempt`. Además de la marca del evento, el snapshot debe estar identificado como sintético por el backend (`snapshot.synthetic === true`). Es una barrera de prueba, no detección automática de datos clínicos. Una nota enviada al clasificador se limita a 500 caracteres sintéticos.
 
-El motor devuelve objetos `suggestions` con `actions: ['review','dismiss']`; no tiene acceso a una función `saveTask`. Para la captura libre se debe añadir después un extractor de borradores de tareas con Zod y revisión explícita; este paso no debe mezclar inferencia con persistencia. El frontend v5 disponible en la rama sigue siendo un prototipo aislado.
+El motor devuelve objetos `suggestions` con `actions: ['review','dismiss']`; no tiene acceso a una función `saveTask`. Para la captura libre ya existe el extractor `gateway-capture.mjs`, que construye un agente Strands independiente con salida estructurada. El módulo `capture-review.mjs` valida las propuestas y obliga a revisión humana; **no guarda tareas**. La fecha permanece sin completar hasta que el usuario la confirme y las camas solo se vinculan por coincidencia única. El frontend v5 disponible en la rama sigue siendo un prototipo aislado.
 
 ## Validación
 
@@ -51,3 +51,9 @@ El motor devuelve objetos `suggestions` con `actions: ['review','dismiss']`; no 
 **Pendiente:** revisión efectiva de dependencias instaladas en CI, integración en backend autenticado de Turno, toasts accesibles, calibración y prueba facturable mínima con una credencial guardada por el usuario. No se ha probado inferencia real.
 
 Referencias: [Strands VercelModel](https://strandsagents.com/docs/user-guide/sdk/model-providers/vercel/), [Vercel Decision API](https://vercel.com/i/ai-gateway-decision-api-use-cases), [AWS pattern](https://strandsagents.com/blog/amazon-saves-millions-replacing-sonnet-with-strands-decider/).
+
+## Revisión de dependencias (10 de noviembre de 2026)
+
+Se separó `@ai-sdk/gateway@3` (compatible con la interfaz LanguageModelV3 de `VercelModel`) de `ai@7` (Decision API remota, con proveedor Gateway V4 interno). El grafo reproducible está fijado en `package-lock.json`. Se actualizó Zod a 4.6.7 por una alerta alta de seguridad.
+
+Verificado en Mac con `npm ci`: **29/29 tests PASS**, `npm run check` PASS y `npm audit --omit=dev --audit-level=high` reporta **0 vulnerabilidades**. Estas pruebas no ejecutan inferencia remota ni prueban un servicio desplegado.
