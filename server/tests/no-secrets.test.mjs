@@ -64,3 +64,9 @@ test('los errores que guarda la evaluación no llevan claves ni URLs', () => {
   assert.match(detail, /\[url\]/);
   assert.equal(redactSecrets('sin secretos'), 'sin secretos');
 });
+
+test('detecta claves JSON en camelCase con valor literal', () => {
+  assert.equal(scanText('cfg.json', `{"apiKey": "${fake('', 24)}"}`).length, 1);
+  assert.equal(scanText('cfg.json', `{"client_secret": "${fake('', 24)}"}`).length, 1);
+  assert.deepEqual(scanText('cfg.json', '{"apiKey": ""}'), []);
+});

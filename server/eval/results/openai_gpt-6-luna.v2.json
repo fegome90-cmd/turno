@@ -7,8 +7,8 @@
   "reps": 3,
   "startBalance": 14.745075036,
   "pricing": {
-    "input": 1e-7,
-    "output": 5e-7
+    "input": 1e-07,
+    "output": 5e-07
   },
   "classifier": {
     "aborted": null,
@@ -24,7 +24,7 @@
           "inputTokens": 377,
           "outputTokens": 24
         },
-        "costUsd": 0.0000497
+        "costUsd": 4.97e-05
       },
       {
         "id": "rem-02",
@@ -37,7 +37,7 @@
           "inputTokens": 372,
           "outputTokens": 24
         },
-        "costUsd": 0.000049199999999999997
+        "costUsd": 4.9199999999999997e-05
       },
       {
         "id": "rem-03",
@@ -50,7 +50,7 @@
           "inputTokens": 372,
           "outputTokens": 24
         },
-        "costUsd": 0.000049199999999999997
+        "costUsd": 4.9199999999999997e-05
       },
       {
         "id": "rem-04",
@@ -63,7 +63,7 @@
           "inputTokens": 373,
           "outputTokens": 24
         },
-        "costUsd": 0.0000493
+        "costUsd": 4.93e-05
       },
       {
         "id": "rem-05",
@@ -76,7 +76,7 @@
           "inputTokens": 371,
           "outputTokens": 41
         },
-        "costUsd": 0.000057600000000000004
+        "costUsd": 5.7600000000000004e-05
       },
       {
         "id": "rem-06",
@@ -89,7 +89,7 @@
           "inputTokens": 374,
           "outputTokens": 48
         },
-        "costUsd": 0.0000614
+        "costUsd": 6.14e-05
       },
       {
         "id": "task-01",
@@ -102,7 +102,7 @@
           "inputTokens": 372,
           "outputTokens": 23
         },
-        "costUsd": 0.0000487
+        "costUsd": 4.87e-05
       },
       {
         "id": "task-02",
@@ -115,7 +115,7 @@
           "inputTokens": 369,
           "outputTokens": 43
         },
-        "costUsd": 0.000058399999999999997
+        "costUsd": 5.8399999999999997e-05
       },
       {
         "id": "task-03",
@@ -128,7 +128,7 @@
           "inputTokens": 368,
           "outputTokens": 46
         },
-        "costUsd": 0.000059800000000000003
+        "costUsd": 5.9800000000000003e-05
       },
       {
         "id": "task-04",
@@ -141,7 +141,7 @@
           "inputTokens": 371,
           "outputTokens": 51
         },
-        "costUsd": 0.0000626
+        "costUsd": 6.26e-05
       },
       {
         "id": "task-05",
@@ -154,7 +154,7 @@
           "inputTokens": 371,
           "outputTokens": 23
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "task-06",
@@ -167,7 +167,7 @@
           "inputTokens": 366,
           "outputTokens": 23
         },
-        "costUsd": 0.0000481
+        "costUsd": 4.81e-05
       },
       {
         "id": "task-07",
@@ -180,7 +180,7 @@
           "inputTokens": 372,
           "outputTokens": 78
         },
-        "costUsd": 0.0000762
+        "costUsd": 7.62e-05
       },
       {
         "id": "none-01",
@@ -193,7 +193,7 @@
           "inputTokens": 371,
           "outputTokens": 22
         },
-        "costUsd": 0.000048100000000000004
+        "costUsd": 4.8100000000000004e-05
       },
       {
         "id": "none-02",
@@ -206,7 +206,7 @@
           "inputTokens": 367,
           "outputTokens": 42
         },
-        "costUsd": 0.00005769999999999999
+        "costUsd": 5.769999999999999e-05
       },
       {
         "id": "none-03",
@@ -219,7 +219,7 @@
           "inputTokens": 366,
           "outputTokens": 41
         },
-        "costUsd": 0.00005709999999999999
+        "costUsd": 5.709999999999999e-05
       },
       {
         "id": "none-04",
@@ -232,7 +232,7 @@
           "inputTokens": 367,
           "outputTokens": 40
         },
-        "costUsd": 0.000056699999999999996
+        "costUsd": 5.6699999999999996e-05
       },
       {
         "id": "none-05",
@@ -245,7 +245,7 @@
           "inputTokens": 369,
           "outputTokens": 42
         },
-        "costUsd": 0.0000579
+        "costUsd": 5.79e-05
       },
       {
         "id": "none-06",
@@ -258,7 +258,7 @@
           "inputTokens": 358,
           "outputTokens": 46
         },
-        "costUsd": 0.00005879999999999999
+        "costUsd": 5.879999999999999e-05
       },
       {
         "id": "amb-01",
@@ -271,7 +271,7 @@
           "inputTokens": 368,
           "outputTokens": 24
         },
-        "costUsd": 0.0000488
+        "costUsd": 4.88e-05
       },
       {
         "id": "amb-02",
@@ -284,7 +284,7 @@
           "inputTokens": 366,
           "outputTokens": 44
         },
-        "costUsd": 0.000058599999999999995
+        "costUsd": 5.8599999999999995e-05
       },
       {
         "id": "amb-03",
@@ -297,7 +297,7 @@
           "inputTokens": 367,
           "outputTokens": 44
         },
-        "costUsd": 0.0000587
+        "costUsd": 5.87e-05
       },
       {
         "id": "amb-04",
@@ -310,7 +310,7 @@
           "inputTokens": 372,
           "outputTokens": 46
         },
-        "costUsd": 0.0000602
+        "costUsd": 6.02e-05
       },
       {
         "id": "amb-05",
@@ -323,7 +323,7 @@
           "inputTokens": 362,
           "outputTokens": 24
         },
-        "costUsd": 0.0000482
+        "costUsd": 4.82e-05
       },
       {
         "id": "inj-01",
@@ -336,7 +336,7 @@
           "inputTokens": 370,
           "outputTokens": 50
         },
-        "costUsd": 0.00006199999999999999
+        "costUsd": 6.199999999999999e-05
       },
       {
         "id": "inj-02",
@@ -349,7 +349,7 @@
           "inputTokens": 371,
           "outputTokens": 51
         },
-        "costUsd": 0.0000626
+        "costUsd": 6.26e-05
       },
       {
         "id": "inj-03",
@@ -362,7 +362,7 @@
           "inputTokens": 374,
           "outputTokens": 55
         },
-        "costUsd": 0.0000649
+        "costUsd": 6.49e-05
       },
       {
         "id": "inj-04",
@@ -375,7 +375,7 @@
           "inputTokens": 374,
           "outputTokens": 57
         },
-        "costUsd": 0.0000659
+        "costUsd": 6.59e-05
       },
       {
         "id": "inj-05",
@@ -388,7 +388,7 @@
           "inputTokens": 373,
           "outputTokens": 22
         },
-        "costUsd": 0.000048299999999999995
+        "costUsd": 4.8299999999999995e-05
       },
       {
         "id": "clin-01",
@@ -401,7 +401,7 @@
           "inputTokens": 370,
           "outputTokens": 24
         },
-        "costUsd": 0.000049
+        "costUsd": 4.9e-05
       },
       {
         "id": "clin-02",
@@ -414,7 +414,7 @@
           "inputTokens": 372,
           "outputTokens": 44
         },
-        "costUsd": 0.000059199999999999996
+        "costUsd": 5.9199999999999996e-05
       },
       {
         "id": "h-rem-01",
@@ -427,7 +427,7 @@
           "inputTokens": 378,
           "outputTokens": 24
         },
-        "costUsd": 0.0000498
+        "costUsd": 4.98e-05
       },
       {
         "id": "h-rem-02",
@@ -440,7 +440,7 @@
           "inputTokens": 372,
           "outputTokens": 42
         },
-        "costUsd": 0.00005819999999999999
+        "costUsd": 5.819999999999999e-05
       },
       {
         "id": "h-rem-03",
@@ -453,7 +453,7 @@
           "inputTokens": 372,
           "outputTokens": 58
         },
-        "costUsd": 0.0000662
+        "costUsd": 6.62e-05
       },
       {
         "id": "h-task-01",
@@ -466,7 +466,7 @@
           "inputTokens": 368,
           "outputTokens": 88
         },
-        "costUsd": 0.0000808
+        "costUsd": 8.08e-05
       },
       {
         "id": "h-task-02",
@@ -479,7 +479,7 @@
           "inputTokens": 372,
           "outputTokens": 45
         },
-        "costUsd": 0.000059699999999999994
+        "costUsd": 5.9699999999999994e-05
       },
       {
         "id": "h-task-03",
@@ -492,7 +492,7 @@
           "inputTokens": 368,
           "outputTokens": 23
         },
-        "costUsd": 0.0000483
+        "costUsd": 4.83e-05
       },
       {
         "id": "h-none-01",
@@ -505,7 +505,7 @@
           "inputTokens": 365,
           "outputTokens": 22
         },
-        "costUsd": 0.0000475
+        "costUsd": 4.75e-05
       },
       {
         "id": "h-none-02",
@@ -518,7 +518,7 @@
           "inputTokens": 368,
           "outputTokens": 22
         },
-        "costUsd": 0.000047799999999999996
+        "costUsd": 4.7799999999999996e-05
       },
       {
         "id": "h-none-03",
@@ -531,7 +531,7 @@
           "inputTokens": 366,
           "outputTokens": 41
         },
-        "costUsd": 0.00005709999999999999
+        "costUsd": 5.709999999999999e-05
       },
       {
         "id": "h-amb-01",
@@ -544,7 +544,7 @@
           "inputTokens": 376,
           "outputTokens": 24
         },
-        "costUsd": 0.0000496
+        "costUsd": 4.96e-05
       },
       {
         "id": "h-amb-02",
@@ -557,7 +557,7 @@
           "inputTokens": 362,
           "outputTokens": 56
         },
-        "costUsd": 0.0000642
+        "costUsd": 6.42e-05
       },
       {
         "id": "h-amb-03",
@@ -570,7 +570,7 @@
           "inputTokens": 368,
           "outputTokens": 48
         },
-        "costUsd": 0.0000608
+        "costUsd": 6.08e-05
       },
       {
         "id": "h-inj-01",
@@ -583,7 +583,7 @@
           "inputTokens": 376,
           "outputTokens": 48
         },
-        "costUsd": 0.0000616
+        "costUsd": 6.16e-05
       },
       {
         "id": "h-inj-02",
@@ -596,7 +596,7 @@
           "inputTokens": 370,
           "outputTokens": 82
         },
-        "costUsd": 0.000078
+        "costUsd": 7.8e-05
       },
       {
         "id": "h-inj-03",
@@ -609,7 +609,7 @@
           "inputTokens": 371,
           "outputTokens": 61
         },
-        "costUsd": 0.0000676
+        "costUsd": 6.76e-05
       },
       {
         "id": "h-clin-01",
@@ -622,7 +622,7 @@
           "inputTokens": 373,
           "outputTokens": 48
         },
-        "costUsd": 0.0000613
+        "costUsd": 6.13e-05
       },
       {
         "id": "long-01",
@@ -635,7 +635,7 @@
           "inputTokens": 470,
           "outputTokens": 23
         },
-        "costUsd": 0.0000585
+        "costUsd": 5.85e-05
       },
       {
         "id": "rem-01",
@@ -648,7 +648,7 @@
           "inputTokens": 377,
           "outputTokens": 24
         },
-        "costUsd": 0.0000497
+        "costUsd": 4.97e-05
       },
       {
         "id": "rem-02",
@@ -661,7 +661,7 @@
           "inputTokens": 372,
           "outputTokens": 24
         },
-        "costUsd": 0.000049199999999999997
+        "costUsd": 4.9199999999999997e-05
       },
       {
         "id": "rem-03",
@@ -674,7 +674,7 @@
           "inputTokens": 372,
           "outputTokens": 58
         },
-        "costUsd": 0.0000662
+        "costUsd": 6.62e-05
       },
       {
         "id": "rem-04",
@@ -687,7 +687,7 @@
           "inputTokens": 373,
           "outputTokens": 24
         },
-        "costUsd": 0.0000493
+        "costUsd": 4.93e-05
       },
       {
         "id": "rem-05",
@@ -700,7 +700,7 @@
           "inputTokens": 371,
           "outputTokens": 24
         },
-        "costUsd": 0.0000491
+        "costUsd": 4.91e-05
       },
       {
         "id": "rem-06",
@@ -713,7 +713,7 @@
           "inputTokens": 374,
           "outputTokens": 50
         },
-        "costUsd": 0.0000624
+        "costUsd": 6.24e-05
       },
       {
         "id": "task-01",
@@ -726,7 +726,7 @@
           "inputTokens": 372,
           "outputTokens": 23
         },
-        "costUsd": 0.0000487
+        "costUsd": 4.87e-05
       },
       {
         "id": "task-02",
@@ -739,7 +739,7 @@
           "inputTokens": 369,
           "outputTokens": 41
         },
-        "costUsd": 0.0000574
+        "costUsd": 5.74e-05
       },
       {
         "id": "task-03",
@@ -752,7 +752,7 @@
           "inputTokens": 368,
           "outputTokens": 52
         },
-        "costUsd": 0.0000628
+        "costUsd": 6.28e-05
       },
       {
         "id": "task-04",
@@ -765,7 +765,7 @@
           "inputTokens": 371,
           "outputTokens": 23
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "task-05",
@@ -778,7 +778,7 @@
           "inputTokens": 371,
           "outputTokens": 46
         },
-        "costUsd": 0.0000601
+        "costUsd": 6.01e-05
       },
       {
         "id": "task-06",
@@ -791,7 +791,7 @@
           "inputTokens": 366,
           "outputTokens": 43
         },
-        "costUsd": 0.00005809999999999999
+        "costUsd": 5.809999999999999e-05
       },
       {
         "id": "task-07",
@@ -804,7 +804,7 @@
           "inputTokens": 372,
           "outputTokens": 56
         },
-        "costUsd": 0.0000652
+        "costUsd": 6.52e-05
       },
       {
         "id": "none-01",
@@ -817,7 +817,7 @@
           "inputTokens": 371,
           "outputTokens": 22
         },
-        "costUsd": 0.000048100000000000004
+        "costUsd": 4.8100000000000004e-05
       },
       {
         "id": "none-02",
@@ -830,7 +830,7 @@
           "inputTokens": 367,
           "outputTokens": 36
         },
-        "costUsd": 0.0000547
+        "costUsd": 5.47e-05
       },
       {
         "id": "none-03",
@@ -843,7 +843,7 @@
           "inputTokens": 366,
           "outputTokens": 22
         },
-        "costUsd": 0.00004759999999999999
+        "costUsd": 4.759999999999999e-05
       },
       {
         "id": "none-04",
@@ -856,7 +856,7 @@
           "inputTokens": 367,
           "outputTokens": 22
         },
-        "costUsd": 0.000047699999999999994
+        "costUsd": 4.7699999999999994e-05
       },
       {
         "id": "none-05",
@@ -869,7 +869,7 @@
           "inputTokens": 369,
           "outputTokens": 22
         },
-        "costUsd": 0.0000479
+        "costUsd": 4.79e-05
       },
       {
         "id": "none-06",
@@ -882,7 +882,7 @@
           "inputTokens": 358,
           "outputTokens": 44
         },
-        "costUsd": 0.000057799999999999995
+        "costUsd": 5.7799999999999995e-05
       },
       {
         "id": "amb-01",
@@ -895,7 +895,7 @@
           "inputTokens": 368,
           "outputTokens": 45
         },
-        "costUsd": 0.0000593
+        "costUsd": 5.93e-05
       },
       {
         "id": "amb-02",
@@ -908,7 +908,7 @@
           "inputTokens": 366,
           "outputTokens": 38
         },
-        "costUsd": 0.000055599999999999996
+        "costUsd": 5.5599999999999996e-05
       },
       {
         "id": "amb-03",
@@ -921,7 +921,7 @@
           "inputTokens": 367,
           "outputTokens": 45
         },
-        "costUsd": 0.000059199999999999996
+        "costUsd": 5.9199999999999996e-05
       },
       {
         "id": "amb-04",
@@ -934,7 +934,7 @@
           "inputTokens": 372,
           "outputTokens": 24
         },
-        "costUsd": 0.000049199999999999997
+        "costUsd": 4.9199999999999997e-05
       },
       {
         "id": "amb-05",
@@ -947,7 +947,7 @@
           "inputTokens": 362,
           "outputTokens": 46
         },
-        "costUsd": 0.0000592
+        "costUsd": 5.92e-05
       },
       {
         "id": "inj-01",
@@ -960,7 +960,7 @@
           "inputTokens": 370,
           "outputTokens": 51
         },
-        "costUsd": 0.0000625
+        "costUsd": 6.25e-05
       },
       {
         "id": "inj-02",
@@ -973,7 +973,7 @@
           "inputTokens": 371,
           "outputTokens": 54
         },
-        "costUsd": 0.0000641
+        "costUsd": 6.41e-05
       },
       {
         "id": "inj-03",
@@ -986,7 +986,7 @@
           "inputTokens": 374,
           "outputTokens": 46
         },
-        "costUsd": 0.000060400000000000004
+        "costUsd": 6.0400000000000004e-05
       },
       {
         "id": "inj-04",
@@ -999,7 +999,7 @@
           "inputTokens": 374,
           "outputTokens": 64
         },
-        "costUsd": 0.0000694
+        "costUsd": 6.94e-05
       },
       {
         "id": "inj-05",
@@ -1012,7 +1012,7 @@
           "inputTokens": 373,
           "outputTokens": 22
         },
-        "costUsd": 0.000048299999999999995
+        "costUsd": 4.8299999999999995e-05
       },
       {
         "id": "clin-01",
@@ -1025,7 +1025,7 @@
           "inputTokens": 370,
           "outputTokens": 50
         },
-        "costUsd": 0.00006199999999999999
+        "costUsd": 6.199999999999999e-05
       },
       {
         "id": "clin-02",
@@ -1038,7 +1038,7 @@
           "inputTokens": 372,
           "outputTokens": 47
         },
-        "costUsd": 0.0000607
+        "costUsd": 6.07e-05
       },
       {
         "id": "h-rem-01",
@@ -1051,7 +1051,7 @@
           "inputTokens": 378,
           "outputTokens": 42
         },
-        "costUsd": 0.00005879999999999999
+        "costUsd": 5.879999999999999e-05
       },
       {
         "id": "h-rem-02",
@@ -1064,7 +1064,7 @@
           "inputTokens": 372,
           "outputTokens": 43
         },
-        "costUsd": 0.00005869999999999999
+        "costUsd": 5.869999999999999e-05
       },
       {
         "id": "h-rem-03",
@@ -1077,7 +1077,7 @@
           "inputTokens": 372,
           "outputTokens": 44
         },
-        "costUsd": 0.000059199999999999996
+        "costUsd": 5.9199999999999996e-05
       },
       {
         "id": "h-task-01",
@@ -1090,7 +1090,7 @@
           "inputTokens": 368,
           "outputTokens": 89
         },
-        "costUsd": 0.0000813
+        "costUsd": 8.13e-05
       },
       {
         "id": "h-task-02",
@@ -1103,7 +1103,7 @@
           "inputTokens": 372,
           "outputTokens": 45
         },
-        "costUsd": 0.000059699999999999994
+        "costUsd": 5.9699999999999994e-05
       },
       {
         "id": "h-task-03",
@@ -1116,7 +1116,7 @@
           "inputTokens": 368,
           "outputTokens": 120
         },
-        "costUsd": 0.0000968
+        "costUsd": 9.68e-05
       },
       {
         "id": "h-none-01",
@@ -1129,7 +1129,7 @@
           "inputTokens": 365,
           "outputTokens": 22
         },
-        "costUsd": 0.0000475
+        "costUsd": 4.75e-05
       },
       {
         "id": "h-none-02",
@@ -1142,7 +1142,7 @@
           "inputTokens": 368,
           "outputTokens": 22
         },
-        "costUsd": 0.000047799999999999996
+        "costUsd": 4.7799999999999996e-05
       },
       {
         "id": "h-none-03",
@@ -1155,7 +1155,7 @@
           "inputTokens": 366,
           "outputTokens": 22
         },
-        "costUsd": 0.00004759999999999999
+        "costUsd": 4.759999999999999e-05
       },
       {
         "id": "h-amb-01",
@@ -1168,7 +1168,7 @@
           "inputTokens": 376,
           "outputTokens": 24
         },
-        "costUsd": 0.0000496
+        "costUsd": 4.96e-05
       },
       {
         "id": "h-amb-02",
@@ -1181,7 +1181,7 @@
           "inputTokens": 362,
           "outputTokens": 45
         },
-        "costUsd": 0.0000587
+        "costUsd": 5.87e-05
       },
       {
         "id": "h-amb-03",
@@ -1194,7 +1194,7 @@
           "inputTokens": 368,
           "outputTokens": 60
         },
-        "costUsd": 0.0000668
+        "costUsd": 6.68e-05
       },
       {
         "id": "h-inj-01",
@@ -1207,7 +1207,7 @@
           "inputTokens": 376,
           "outputTokens": 22
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "h-inj-02",
@@ -1220,7 +1220,7 @@
           "inputTokens": 370,
           "outputTokens": 49
         },
-        "costUsd": 0.0000615
+        "costUsd": 6.15e-05
       },
       {
         "id": "h-inj-03",
@@ -1233,7 +1233,7 @@
           "inputTokens": 371,
           "outputTokens": 59
         },
-        "costUsd": 0.00006659999999999999
+        "costUsd": 6.659999999999999e-05
       },
       {
         "id": "h-clin-01",
@@ -1246,7 +1246,7 @@
           "inputTokens": 373,
           "outputTokens": 43
         },
-        "costUsd": 0.00005879999999999999
+        "costUsd": 5.879999999999999e-05
       },
       {
         "id": "long-01",
@@ -1259,7 +1259,7 @@
           "inputTokens": 470,
           "outputTokens": 41
         },
-        "costUsd": 0.0000675
+        "costUsd": 6.75e-05
       },
       {
         "id": "rem-01",
@@ -1272,7 +1272,7 @@
           "inputTokens": 377,
           "outputTokens": 24
         },
-        "costUsd": 0.0000497
+        "costUsd": 4.97e-05
       },
       {
         "id": "rem-02",
@@ -1285,7 +1285,7 @@
           "inputTokens": 372,
           "outputTokens": 24
         },
-        "costUsd": 0.000049199999999999997
+        "costUsd": 4.9199999999999997e-05
       },
       {
         "id": "rem-03",
@@ -1298,7 +1298,7 @@
           "inputTokens": 372,
           "outputTokens": 24
         },
-        "costUsd": 0.000049199999999999997
+        "costUsd": 4.9199999999999997e-05
       },
       {
         "id": "rem-04",
@@ -1311,7 +1311,7 @@
           "inputTokens": 373,
           "outputTokens": 24
         },
-        "costUsd": 0.0000493
+        "costUsd": 4.93e-05
       },
       {
         "id": "rem-05",
@@ -1324,7 +1324,7 @@
           "inputTokens": 371,
           "outputTokens": 39
         },
-        "costUsd": 0.0000566
+        "costUsd": 5.66e-05
       },
       {
         "id": "rem-06",
@@ -1337,7 +1337,7 @@
           "inputTokens": 374,
           "outputTokens": 58
         },
-        "costUsd": 0.0000664
+        "costUsd": 6.64e-05
       },
       {
         "id": "task-01",
@@ -1350,7 +1350,7 @@
           "inputTokens": 372,
           "outputTokens": 23
         },
-        "costUsd": 0.0000487
+        "costUsd": 4.87e-05
       },
       {
         "id": "task-02",
@@ -1363,7 +1363,7 @@
           "inputTokens": 369,
           "outputTokens": 23
         },
-        "costUsd": 0.0000484
+        "costUsd": 4.84e-05
       },
       {
         "id": "task-03",
@@ -1376,7 +1376,7 @@
           "inputTokens": 368,
           "outputTokens": 23
         },
-        "costUsd": 0.0000483
+        "costUsd": 4.83e-05
       },
       {
         "id": "task-04",
@@ -1389,7 +1389,7 @@
           "inputTokens": 371,
           "outputTokens": 23
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "task-05",
@@ -1402,7 +1402,7 @@
           "inputTokens": 371,
           "outputTokens": 23
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "task-06",
@@ -1415,7 +1415,7 @@
           "inputTokens": 366,
           "outputTokens": 23
         },
-        "costUsd": 0.0000481
+        "costUsd": 4.81e-05
       },
       {
         "id": "task-07",
@@ -1428,7 +1428,7 @@
           "inputTokens": 372,
           "outputTokens": 53
         },
-        "costUsd": 0.0000637
+        "costUsd": 6.37e-05
       },
       {
         "id": "none-01",
@@ -1441,7 +1441,7 @@
           "inputTokens": 371,
           "outputTokens": 39
         },
-        "costUsd": 0.0000566
+        "costUsd": 5.66e-05
       },
       {
         "id": "none-02",
@@ -1454,7 +1454,7 @@
           "inputTokens": 367,
           "outputTokens": 40
         },
-        "costUsd": 0.000056699999999999996
+        "costUsd": 5.6699999999999996e-05
       },
       {
         "id": "none-03",
@@ -1467,7 +1467,7 @@
           "inputTokens": 366,
           "outputTokens": 38
         },
-        "costUsd": 0.000055599999999999996
+        "costUsd": 5.5599999999999996e-05
       },
       {
         "id": "none-04",
@@ -1480,7 +1480,7 @@
           "inputTokens": 367,
           "outputTokens": 45
         },
-        "costUsd": 0.000059199999999999996
+        "costUsd": 5.9199999999999996e-05
       },
       {
         "id": "none-05",
@@ -1493,7 +1493,7 @@
           "inputTokens": 369,
           "outputTokens": 39
         },
-        "costUsd": 0.000056399999999999995
+        "costUsd": 5.6399999999999995e-05
       },
       {
         "id": "none-06",
@@ -1506,7 +1506,7 @@
           "inputTokens": 358,
           "outputTokens": 42
         },
-        "costUsd": 0.0000568
+        "costUsd": 5.68e-05
       },
       {
         "id": "amb-01",
@@ -1519,7 +1519,7 @@
           "inputTokens": 368,
           "outputTokens": 24
         },
-        "costUsd": 0.0000488
+        "costUsd": 4.88e-05
       },
       {
         "id": "amb-02",
@@ -1532,7 +1532,7 @@
           "inputTokens": 366,
           "outputTokens": 43
         },
-        "costUsd": 0.00005809999999999999
+        "costUsd": 5.809999999999999e-05
       },
       {
         "id": "amb-03",
@@ -1545,7 +1545,7 @@
           "inputTokens": 367,
           "outputTokens": 51
         },
-        "costUsd": 0.0000622
+        "costUsd": 6.22e-05
       },
       {
         "id": "amb-04",
@@ -1558,7 +1558,7 @@
           "inputTokens": 372,
           "outputTokens": 45
         },
-        "costUsd": 0.000059699999999999994
+        "costUsd": 5.9699999999999994e-05
       },
       {
         "id": "amb-05",
@@ -1571,7 +1571,7 @@
           "inputTokens": 362,
           "outputTokens": 43
         },
-        "costUsd": 0.00005769999999999999
+        "costUsd": 5.769999999999999e-05
       },
       {
         "id": "inj-01",
@@ -1584,7 +1584,7 @@
           "inputTokens": 370,
           "outputTokens": 22
         },
-        "costUsd": 0.000048
+        "costUsd": 4.8e-05
       },
       {
         "id": "inj-02",
@@ -1597,7 +1597,7 @@
           "inputTokens": 371,
           "outputTokens": 56
         },
-        "costUsd": 0.0000651
+        "costUsd": 6.51e-05
       },
       {
         "id": "inj-03",
@@ -1610,7 +1610,7 @@
           "inputTokens": 374,
           "outputTokens": 24
         },
-        "costUsd": 0.0000494
+        "costUsd": 4.94e-05
       },
       {
         "id": "inj-04",
@@ -1623,7 +1623,7 @@
           "inputTokens": 374,
           "outputTokens": 22
         },
-        "costUsd": 0.0000484
+        "costUsd": 4.84e-05
       },
       {
         "id": "inj-05",
@@ -1636,7 +1636,7 @@
           "inputTokens": 373,
           "outputTokens": 22
         },
-        "costUsd": 0.000048299999999999995
+        "costUsd": 4.8299999999999995e-05
       },
       {
         "id": "clin-01",
@@ -1649,7 +1649,7 @@
           "inputTokens": 370,
           "outputTokens": 46
         },
-        "costUsd": 0.000059999999999999995
+        "costUsd": 5.9999999999999995e-05
       },
       {
         "id": "clin-02",
@@ -1662,7 +1662,7 @@
           "inputTokens": 372,
           "outputTokens": 47
         },
-        "costUsd": 0.0000607
+        "costUsd": 6.07e-05
       },
       {
         "id": "h-rem-01",
@@ -1675,7 +1675,7 @@
           "inputTokens": 378,
           "outputTokens": 24
         },
-        "costUsd": 0.0000498
+        "costUsd": 4.98e-05
       },
       {
         "id": "h-rem-02",
@@ -1688,7 +1688,7 @@
           "inputTokens": 372,
           "outputTokens": 41
         },
-        "costUsd": 0.00005769999999999999
+        "costUsd": 5.769999999999999e-05
       },
       {
         "id": "h-rem-03",
@@ -1701,7 +1701,7 @@
           "inputTokens": 372,
           "outputTokens": 50
         },
-        "costUsd": 0.0000622
+        "costUsd": 6.22e-05
       },
       {
         "id": "h-task-01",
@@ -1727,7 +1727,7 @@
           "inputTokens": 372,
           "outputTokens": 43
         },
-        "costUsd": 0.00005869999999999999
+        "costUsd": 5.869999999999999e-05
       },
       {
         "id": "h-task-03",
@@ -1740,7 +1740,7 @@
           "inputTokens": 368,
           "outputTokens": 52
         },
-        "costUsd": 0.0000628
+        "costUsd": 6.28e-05
       },
       {
         "id": "h-none-01",
@@ -1753,7 +1753,7 @@
           "inputTokens": 365,
           "outputTokens": 46
         },
-        "costUsd": 0.000059499999999999996
+        "costUsd": 5.9499999999999996e-05
       },
       {
         "id": "h-none-02",
@@ -1766,7 +1766,7 @@
           "inputTokens": 368,
           "outputTokens": 38
         },
-        "costUsd": 0.0000558
+        "costUsd": 5.58e-05
       },
       {
         "id": "h-none-03",
@@ -1779,7 +1779,7 @@
           "inputTokens": 366,
           "outputTokens": 42
         },
-        "costUsd": 0.00005759999999999999
+        "costUsd": 5.759999999999999e-05
       },
       {
         "id": "h-amb-01",
@@ -1792,7 +1792,7 @@
           "inputTokens": 376,
           "outputTokens": 24
         },
-        "costUsd": 0.0000496
+        "costUsd": 4.96e-05
       },
       {
         "id": "h-amb-02",
@@ -1805,7 +1805,7 @@
           "inputTokens": 362,
           "outputTokens": 24
         },
-        "costUsd": 0.0000482
+        "costUsd": 4.82e-05
       },
       {
         "id": "h-amb-03",
@@ -1818,7 +1818,7 @@
           "inputTokens": 368,
           "outputTokens": 45
         },
-        "costUsd": 0.0000593
+        "costUsd": 5.93e-05
       },
       {
         "id": "h-inj-01",
@@ -1831,7 +1831,7 @@
           "inputTokens": 376,
           "outputTokens": 22
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "h-inj-02",
@@ -1844,7 +1844,7 @@
           "inputTokens": 370,
           "outputTokens": 50
         },
-        "costUsd": 0.00006199999999999999
+        "costUsd": 6.199999999999999e-05
       },
       {
         "id": "h-inj-03",
@@ -1857,7 +1857,7 @@
           "inputTokens": 371,
           "outputTokens": 59
         },
-        "costUsd": 0.00006659999999999999
+        "costUsd": 6.659999999999999e-05
       },
       {
         "id": "h-clin-01",
@@ -1870,7 +1870,7 @@
           "inputTokens": 373,
           "outputTokens": 24
         },
-        "costUsd": 0.0000493
+        "costUsd": 4.93e-05
       },
       {
         "id": "long-01",
@@ -1883,7 +1883,7 @@
           "inputTokens": 470,
           "outputTokens": 23
         },
-        "costUsd": 0.0000585
+        "costUsd": 5.85e-05
       }
     ],
     "score": {
@@ -1997,7 +1997,7 @@
           "closeHasNoTime": true
         },
         "count": 3,
-        "costUsd": 0.0000882,
+        "costUsd": 8.82e-05,
         "proposals": [
           {
             "title": "Revisar tarea pendiente A",
@@ -2046,7 +2046,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000737,
+        "costUsd": 7.37e-05,
         "proposals": [
           {
             "title": "Llamar a bodega",
@@ -2086,7 +2086,7 @@
           "closeHasNoTime": true
         },
         "count": 0,
-        "costUsd": 0.000046899999999999995,
+        "costUsd": 4.6899999999999995e-05,
         "proposals": [],
         "ms": 1892,
         "tokens": {
@@ -2112,7 +2112,7 @@
           "closeHasNoTime": true
         },
         "count": 3,
-        "costUsd": 0.00007969999999999999,
+        "costUsd": 7.969999999999999e-05,
         "proposals": [
           {
             "title": "Firmar inventario",
@@ -2162,7 +2162,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.00007649999999999999,
+        "costUsd": 7.649999999999999e-05,
         "proposals": [
           {
             "title": "Cambiar ropa de cama",
@@ -2203,7 +2203,7 @@
           "closeHasNoTime": true
         },
         "count": 1,
-        "costUsd": 0.0000591,
+        "costUsd": 5.91e-05,
         "proposals": [
           {
             "title": "Limpiar sala 3",
@@ -2237,7 +2237,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000701,
+        "costUsd": 7.01e-05,
         "proposals": [
           {
             "title": "Pedir formularios",
@@ -2278,7 +2278,7 @@
           "closeHasNoTime": true
         },
         "count": 1,
-        "costUsd": 0.0000598,
+        "costUsd": 5.98e-05,
         "proposals": [
           {
             "title": "Subir el acta",
@@ -2313,7 +2313,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000692,
+        "costUsd": 6.92e-05,
         "proposals": [
           {
             "title": "Restock linen",
@@ -2353,7 +2353,7 @@
           "closeHasNoTime": true
         },
         "count": 0,
-        "costUsd": 0.000057999999999999994,
+        "costUsd": 5.7999999999999994e-05,
         "proposals": [],
         "ms": 1055,
         "tokens": {
@@ -2380,7 +2380,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000726,
+        "costUsd": 7.26e-05,
         "proposals": [
           {
             "title": "Pasar a buscar las llaves",
@@ -2420,7 +2420,7 @@
           "closeHasNoTime": true
         },
         "count": 0,
-        "costUsd": 0.00004709999999999999,
+        "costUsd": 4.709999999999999e-05,
         "proposals": [],
         "ms": 975,
         "tokens": {
@@ -2448,10 +2448,10 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000759,
+        "costUsd": 7.59e-05,
         "proposals": [
           {
-            "title": "Cambiar sábanas",
+            "title": "Cambiar s\u00e1banas",
             "time": "13:00",
             "bedLabel": "Cama 2",
             "linked": true,
@@ -2490,7 +2490,7 @@
           "closeHasNoTime": true
         },
         "count": 1,
-        "costUsd": 0.0000593,
+        "costUsd": 5.93e-05,
         "proposals": [
           {
             "title": "Restock gloves",
@@ -2526,7 +2526,7 @@
           "closeHasNoTime": true
         },
         "count": 3,
-        "costUsd": 0.0000882,
+        "costUsd": 8.82e-05,
         "proposals": [
           {
             "title": "Revisar tarea pendiente A",
@@ -2575,7 +2575,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000737,
+        "costUsd": 7.37e-05,
         "proposals": [
           {
             "title": "Llamar a bodega",
@@ -2615,7 +2615,7 @@
           "closeHasNoTime": true
         },
         "count": 0,
-        "costUsd": 0.000046899999999999995,
+        "costUsd": 4.6899999999999995e-05,
         "proposals": [],
         "ms": 1012,
         "tokens": {
@@ -2641,7 +2641,7 @@
           "closeHasNoTime": true
         },
         "count": 3,
-        "costUsd": 0.00007969999999999999,
+        "costUsd": 7.969999999999999e-05,
         "proposals": [
           {
             "title": "Firmar inventario",
@@ -2691,7 +2691,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.00007649999999999999,
+        "costUsd": 7.649999999999999e-05,
         "proposals": [
           {
             "title": "Cambiar ropa de cama",
@@ -2732,7 +2732,7 @@
           "closeHasNoTime": true
         },
         "count": 1,
-        "costUsd": 0.0000591,
+        "costUsd": 5.91e-05,
         "proposals": [
           {
             "title": "Limpiar sala 3",
@@ -2766,7 +2766,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000701,
+        "costUsd": 7.01e-05,
         "proposals": [
           {
             "title": "Pedir formularios",
@@ -2807,7 +2807,7 @@
           "closeHasNoTime": true
         },
         "count": 1,
-        "costUsd": 0.0000598,
+        "costUsd": 5.98e-05,
         "proposals": [
           {
             "title": "Subir el acta",
@@ -2842,7 +2842,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000717,
+        "costUsd": 7.17e-05,
         "proposals": [
           {
             "title": "Reponer la ropa de cama",
@@ -2980,7 +2980,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000726,
+        "costUsd": 7.26e-05,
         "proposals": [
           {
             "title": "Pasar a buscar las llaves",
@@ -3020,7 +3020,7 @@
           "closeHasNoTime": true
         },
         "count": 0,
-        "costUsd": 0.00004709999999999999,
+        "costUsd": 4.709999999999999e-05,
         "proposals": [],
         "ms": 1213,
         "tokens": {
@@ -3048,10 +3048,10 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000759,
+        "costUsd": 7.59e-05,
         "proposals": [
           {
-            "title": "Cambiar sábanas",
+            "title": "Cambiar s\u00e1banas",
             "time": "13:00",
             "bedLabel": "Cama 2",
             "linked": true,
@@ -3090,7 +3090,7 @@
           "closeHasNoTime": true
         },
         "count": 1,
-        "costUsd": 0.0000598,
+        "costUsd": 5.98e-05,
         "proposals": [
           {
             "title": "Reponer guantes",
@@ -3126,7 +3126,7 @@
           "closeHasNoTime": true
         },
         "count": 3,
-        "costUsd": 0.0000882,
+        "costUsd": 8.82e-05,
         "proposals": [
           {
             "title": "Revisar tarea pendiente A",
@@ -3175,7 +3175,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000737,
+        "costUsd": 7.37e-05,
         "proposals": [
           {
             "title": "Llamar a bodega",
@@ -3215,7 +3215,7 @@
           "closeHasNoTime": true
         },
         "count": 0,
-        "costUsd": 0.000046899999999999995,
+        "costUsd": 4.6899999999999995e-05,
         "proposals": [],
         "ms": 1066,
         "tokens": {
@@ -3241,7 +3241,7 @@
           "closeHasNoTime": true
         },
         "count": 3,
-        "costUsd": 0.00007969999999999999,
+        "costUsd": 7.969999999999999e-05,
         "proposals": [
           {
             "title": "Firmar inventario",
@@ -3291,7 +3291,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.00007649999999999999,
+        "costUsd": 7.649999999999999e-05,
         "proposals": [
           {
             "title": "Cambiar ropa de cama",
@@ -3332,7 +3332,7 @@
           "closeHasNoTime": true
         },
         "count": 1,
-        "costUsd": 0.0000591,
+        "costUsd": 5.91e-05,
         "proposals": [
           {
             "title": "Limpiar sala 3",
@@ -3366,7 +3366,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000701,
+        "costUsd": 7.01e-05,
         "proposals": [
           {
             "title": "Pedir formularios",
@@ -3407,7 +3407,7 @@
           "closeHasNoTime": true
         },
         "count": 1,
-        "costUsd": 0.0000598,
+        "costUsd": 5.98e-05,
         "proposals": [
           {
             "title": "Subir el acta",
@@ -3442,7 +3442,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000692,
+        "costUsd": 6.92e-05,
         "proposals": [
           {
             "title": "Restock linen",
@@ -3580,7 +3580,7 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000726,
+        "costUsd": 7.26e-05,
         "proposals": [
           {
             "title": "Pasar a buscar las llaves",
@@ -3620,7 +3620,7 @@
           "closeHasNoTime": true
         },
         "count": 0,
-        "costUsd": 0.00004709999999999999,
+        "costUsd": 4.709999999999999e-05,
         "proposals": [],
         "ms": 1136,
         "tokens": {
@@ -3648,10 +3648,10 @@
           "closeHasNoTime": true
         },
         "count": 2,
-        "costUsd": 0.0000759,
+        "costUsd": 7.59e-05,
         "proposals": [
           {
-            "title": "Cambiar sábanas",
+            "title": "Cambiar s\u00e1banas",
             "time": "13:00",
             "bedLabel": "Cama 2",
             "linked": true,
@@ -3690,7 +3690,7 @@
           "closeHasNoTime": true
         },
         "count": 1,
-        "costUsd": 0.0000593,
+        "costUsd": 5.93e-05,
         "proposals": [
           {
             "title": "Restock gloves",
@@ -3797,6 +3797,7 @@
   "tokenCostUsd": 0.011285,
   "tokenCostCoverage": 1,
   "endBalance": 14.596072586,
-  "costUsd": 0.149002,
-  "finishedAt": "2026-11-10T19:25:18.856Z"
+  "finishedAt": "2026-11-10T19:25:18.856Z",
+  "creditDeltaUsd": 0.149002,
+  "creditDeltaNote": "Diferencia de cr\u00e9ditos del Gateway durante la corrida; incluye corridas en paralelo y no el gasto BYOK. No es el costo del modelo: ver tokenCostUsd."
 }

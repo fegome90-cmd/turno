@@ -10,14 +10,16 @@
  * On Gateway's free tier every model is limited per model; use --pace-ms 12500.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createStrandsClassifier } from '../gateway-provider.mjs';
 import { createStrandsCapture } from '../gateway-capture.mjs';
 import { createRemoteDecisionClassifier } from '../decision-provider.mjs';
 import { classifySignal } from '../decision-switch.mjs';
+import { readGatewaySettings } from '../gateway-config.mjs';
 import { CLASSIFIER_CASES, CAPTURE_CASES, BEDS, setOf } from './dataset.mjs';
 import { PROMPT_VERSION, DECISION_PROMPT_VERSION } from '../prompts.mjs';
 import { redactSecrets } from '../scripts/check-secrets.mjs';
+import { resolve } from 'node:path';
 
 const RESULTS_DIR = fileURLToPath(new URL('./results/', import.meta.url));
 
@@ -39,6 +41,7 @@ export function parseArgs(argv) {
     else if (a === '--tag') opts.tag = next();
     else if (a === '--set') opts.set = next();
     else if (a === '--decider') opts.decider = next();
+    else if (a === '--threshold') opts.threshold = Number(next());
     else throw new Error('Argumento desconocido: ' + a);
   }
   if (!Number.isInteger(opts.reps) || opts.reps < 1 || opts.reps > 10) throw new Error('--reps entre 1 y 10.');
@@ -46,6 +49,7 @@ export function parseArgs(argv) {
   if (!opts.suites.every(s => ['classifier', 'capture', 'decision', 'dual'].includes(s))) throw new Error('--suites inválido.');
   if (opts.tag && !/^[a-z0-9-]{1,30}$/.test(opts.tag)) throw new Error('--tag inválido.');
   if (!['all', 'dev', 'holdout'].includes(opts.set)) throw new Error('--set inválido; usa all, dev u holdout.');
+  if (opts.threshold !== undefined && !(opts.threshold >= 0 && opts.threshold <= 1)) throw new Error('--threshold entre 0 y 1.');
   return opts;
 }
 
@@ -117,13 +121,13 @@ export function callCost(tokens, pricing) {
   return tokens.inputTokens * pricing.input + tokens.outputTokens * pricing.output;
 }
 
-// Same threshold the agent uses in DECISION mode (decision-switch.mjs minConfidence).
+// Threshold used before it was tuned; runs pass the agent's configured value (or --threshold).
 export const DECISION_THRESHOLD = 0.9;
 
 /** What the agent does with a decision: below the threshold it abstains (= no action). */
-export function effectiveDecisionLabel(result) {
+export function effectiveDecisionLabel(result, threshold = DECISION_THRESHOLD) {
   if (!result || typeof result.label !== 'string') return null;
-  if (!Number.isFinite(result.confidence) || result.confidence < DECISION_THRESHOLD) return 'NO_ACTION';
+  if (!Number.isFinite(result.confidence) || result.confidence < threshold) return 'NO_ACTION';
   return result.label;
 }
 
@@ -241,6 +245,7 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
     throw new Error(`Saldo ${startBalance} bajo el mínimo ${opts.minBalance}; no se ejecuta ${modelId}.`);
   }
   const pool = { concurrency: opts.concurrency, paceMs: opts.paceMs ?? (isFree ? opts.freePaceMs : 0), budgetCheck, log };
+  const threshold = opts.threshold ?? readGatewaySettings(env).decisionMinConfidence;
   const pricing = await readPricing(modelId);
   const inSet = c => opts.set === 'all' || setOf(c) === opts.set;
   const report = { modelId, tag: opts.tag || null, promptVersion: PROMPT_VERSION, decisionPromptVersion: DECISION_PROMPT_VERSION, set: opts.set,
@@ -293,7 +298,7 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
           try {
             const { value, retries } = await withRateLimitRetry(
               () => decide({ id: c.id + '-' + rep, synthetic: true, text: c.text }), { log });
-            const label = effectiveDecisionLabel(value);
+            const label = effectiveDecisionLabel(value, threshold);
             log(`${modelId} dec ${c.id}#${rep} ${label} (${value.label} ${value.confidence}) ${c.accept.includes(label) ? 'ok' : 'MISS'}`);
             return { id: c.id, set: setOf(c), rep, label, rawLabel: value.label ?? null, confidence: value.confidence ?? null,
               ms: Math.round(performance.now() - t), retries };
@@ -308,7 +313,7 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
     }
     const { records, aborted } = await runPool(jobs, pool);
     const raw = records.map(r => ({ ...r, label: r.rawLabel ?? r.label }));
-    report.decision = { aborted, threshold: DECISION_THRESHOLD, records,
+    report.decision = { aborted, threshold, records,
       score: scoreClassifier(records), scoreBySet: {
         dev: scoreClassifier(records.filter(r => r.set === 'dev')),
         holdout: scoreClassifier(records.filter(r => r.set === 'holdout')) },
@@ -331,7 +336,7 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
           const classify = await createStrandsClassifier({ env, onMetrics: m => { tokens = m; } });
           const event = { id: c.id + '-' + rep, synthetic: true, text: c.text };
           const { value: active, retries } = await withRateLimitRetry(() => classifySignal({
-            event, mode: 'DUAL', minConfidence: DECISION_THRESHOLD,
+            event, mode: 'DUAL', minConfidence: threshold,
             classifyWithGateway: classify,
             classifyWithDecision: async e => { shadowRaw = await decide(e); return shadowRaw; },
             recordComparison: rec => { comparison = rec; },
@@ -353,7 +358,7 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
       active: r.label, shadow: r.shadowLabel, shadowRaw: r.shadowRawLabel, confidence: r.shadowConfidence,
       rightOne: r.activeOk && !r.shadowOk ? 'activo' : !r.activeOk && r.shadowOk ? 'sombra' : r.activeOk ? 'ambos' : 'ninguno',
     }));
-    report.dual = { decider: opts.decider, threshold: DECISION_THRESHOLD, aborted, records, disagreements,
+    report.dual = { decider: opts.decider, threshold, aborted, records, disagreements,
       active: scoreClassifier(records),
       shadow: scoreClassifier(records.map(r => ({ ...r, label: r.shadowLabel }))),
       agreement: records.length ? records.filter(r => r.agree).length / records.length : null };
@@ -402,7 +407,9 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
   report.tokenCostUsd = priced.length ? Math.round(priced.reduce((a, r) => a + r.costUsd, 0) * 1e6) / 1e6 : null;
   report.tokenCostCoverage = calls.length ? priced.length / calls.length : null;
   report.endBalance = await readCredits(env);
-  report.costUsd = report.startBalance !== null && report.endBalance !== null
+  // Diferencia de créditos del Gateway: incluye corridas en paralelo y no ve el gasto BYOK,
+  // así que no es el costo de este modelo. El costo es tokenCostUsd.
+  report.creditDeltaUsd = report.startBalance !== null && report.endBalance !== null
     ? Math.round((report.startBalance - report.endBalance) * 1e6) / 1e6 : null;
   report.finishedAt = new Date().toISOString();
   return report;
@@ -435,6 +442,6 @@ export async function main(argv = process.argv.slice(2)) {
   return 0;
 }
 
-if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   process.exitCode = await main();
 }

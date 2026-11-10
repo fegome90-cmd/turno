@@ -88,8 +88,16 @@ export function readGatewaySettings(env = process.env) {
       : 'Sin autenticación para ' + provider + ' en el servidor: configura ' + PROVIDERS[provider].keyEnv.join(' o ') +
         (PROVIDERS[provider].awsChain ? ' o credenciales AWS' : '') + '.');
   }
+  // El decider (DUAL / DECISION) siempre va por Vercel AI Gateway, aunque el LLM use otro
+  // proveedor. Sin credencial del Gateway cada decisión fallaría y el agente se abstendría
+  // en silencio, así que se rechaza la configuración antes de llamar a nada.
+  const decisionAuthMode = decisionMode === 'GATEWAY' ? null : readAuthMode('vercel', env).authMode;
+  if (enabled && decisionAuthMode === 'missing') {
+    throw new Error('TURNO_DECISION_MODE=' + decisionMode + ' usa el decider de Vercel AI Gateway: ' +
+      'configura AI_GATEWAY_API_KEY o despliega con OIDC en Vercel.');
+  }
   return Object.freeze({ provider, modelId, decisionModelId, decisionMode, decisionMinConfidence, enabled, syntheticOnly,
-    providerOnly, fallbackModels, reasoningEffort, region, authMode, keyEnv });
+    providerOnly, fallbackModels, reasoningEffort, region, authMode, keyEnv, decisionAuthMode });
 }
 
 /**

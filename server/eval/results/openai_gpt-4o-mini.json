@@ -1892,6 +1892,7 @@
     }
   },
   "endBalance": 4.80145015,
-  "costUsd": 0.185005,
-  "finishedAt": "2026-11-10T18:47:42.688Z"
+  "finishedAt": "2026-11-10T18:47:42.688Z",
+  "creditDeltaUsd": 0.185005,
+  "creditDeltaNote": "Diferencia de cr\u00e9ditos del Gateway durante la corrida; incluye corridas en paralelo y no el gasto BYOK. No es el costo del modelo: ver tokenCostUsd."
 }

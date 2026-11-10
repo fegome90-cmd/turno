@@ -102,6 +102,10 @@ test('modelo de decisión: bajo el umbral el agente se abstiene', () => {
   assert.equal(effectiveDecisionLabel({ label: 'PROPOSE_REMINDER', confidence: 0.5 }), 'NO_ACTION');
   assert.equal(effectiveDecisionLabel({ label: 'PROPOSE_TASK', confidence: null }), 'NO_ACTION');
   assert.equal(effectiveDecisionLabel({}), null);
+  // Con el umbral ajustado (0) se aplica la respuesta aunque la confianza sea baja.
+  assert.equal(effectiveDecisionLabel({ label: 'PROPOSE_TASK', confidence: 0.46 }, 0), 'PROPOSE_TASK');
+  assert.deepEqual(parseArgs(['--threshold', '0']).threshold, 0);
+  assert.throws(() => parseArgs(['--threshold', '2']), /threshold/);
   assert.deepEqual(parseArgs(['--suites', 'decision']).suites, ['decision']);
   assert.deepEqual(parseArgs(['--suites', 'dual', '--decider', 'liquid/d1']).decider, 'liquid/d1');
 });

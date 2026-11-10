@@ -12,6 +12,8 @@ import { analyzeAmbientEvent } from './ambient-engine.mjs';
 import { createStrandsClassifier } from './gateway-provider.mjs';
 import { readGatewaySettings } from './gateway-config.mjs';
 import { prepareLiveCredential, missingCredentialMessage, sanitizedFailure } from './live-smoke.mjs';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
 
 const BEDS = Object.freeze([{ id: 'bed-1', label: 'Cama 1' }, { id: 'bed-2', label: 'Cama 2' }]);
 const DRAFTS = Object.freeze([
@@ -66,7 +68,10 @@ export async function main(args = process.argv.slice(2)) {
     const settings = readGatewaySettings(env);
     const classify = await createStrandsClassifier({ env });
     // Modelos gratuitos (Gateway «-free», OpenRouter «:free»): pocas solicitudes/minuto. Espaciar las llamadas.
-    const paceMs = Number(process.env.TURNO_LIVE_PACE_MS ?? (/[-:]free$/.test(settings.modelId) ? 13_000 : 0));
+    const defaultPace = /[-:]free$/.test(settings.modelId) ? 13_000 : 0;
+    const requestedPace = Number(process.env.TURNO_LIVE_PACE_MS);
+    const paceMs = process.env.TURNO_LIVE_PACE_MS !== undefined && Number.isFinite(requestedPace) && requestedPace >= 0
+      ? requestedPace : defaultPace;
     const results = [];
     let llmCalls = 0;
     for (const s of SCENARIOS) {
@@ -106,6 +111,6 @@ export async function main(args = process.argv.slice(2)) {
   }
 }
 
-if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   process.exitCode = await main();
 }

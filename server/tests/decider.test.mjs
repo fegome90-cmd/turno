@@ -43,3 +43,16 @@ test('el motor aplica el umbral configurado en modo DECISION', async () => {
   assert.equal((await run('0.8')).status, 'proposed');
   assert.equal((await run('0.9')).status, 'abstain');
 });
+
+test('DUAL y DECISION exigen credencial del Gateway aunque el LLM use otro proveedor', () => {
+  const base = { TURNO_AI_ENABLED: '1', TURNO_AI_PROVIDER: 'openai', OPENAI_API_KEY: 'x' };
+  // Solo el LLM: basta la clave del proveedor elegido.
+  assert.equal(readGatewaySettings({ ...base, TURNO_DECISION_MODE: 'GATEWAY' }).decisionAuthMode, null);
+  for (const mode of ['DUAL', 'DECISION']) {
+    assert.throws(() => readGatewaySettings({ ...base, TURNO_DECISION_MODE: mode }), /AI_GATEWAY_API_KEY/);
+    assert.equal(readGatewaySettings({ ...base, TURNO_DECISION_MODE: mode, AI_GATEWAY_API_KEY: 'y' }).decisionAuthMode, 'api-key');
+    assert.equal(readGatewaySettings({ ...base, TURNO_DECISION_MODE: mode, VERCEL: '1' }).decisionAuthMode, 'oidc');
+  }
+  // Apagado no exige nada.
+  assert.doesNotThrow(() => readGatewaySettings({ TURNO_AI_PROVIDER: 'openai', TURNO_DECISION_MODE: 'DECISION' }));
+});
