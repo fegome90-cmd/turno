@@ -44,3 +44,7 @@
 .note-editor .title-field{grid-column:1}
 .note-caption{margin:12px 0 24px}
 @media(max-width:699px){.editor{--editor-gutter:54px;padding-top:12px}.title-line{column-gap:10px}.metadata{margin-bottom:20px}.editor #body{min-height:17.5rem;height:clamp(17.5rem,35vh,24rem)}.note-editor{--editor-gutter:0px}}
+
+/* Una condición operacional explícita, nunca un horario inferido. */
+.editor .metadata .before-close-control{display:inline-flex;align-items:center;gap:9px;padding:9px 12px;min-height:44px;font-size:var(--type-small);font-weight:600;cursor:pointer}
+.editor .metadata .before-close-control input{width:18px;min-width:18px;max-width:18px;height:18px;min-height:18px;padding:0;margin:0;accent-color:var(--ink)}
