@@ -14,14 +14,15 @@ import { fileURLToPath } from 'node:url';
 import { createStrandsClassifier } from '../gateway-provider.mjs';
 import { createStrandsCapture } from '../gateway-capture.mjs';
 import { createRemoteDecisionClassifier } from '../decision-provider.mjs';
+import { classifySignal } from '../decision-switch.mjs';
 import { CLASSIFIER_CASES, CAPTURE_CASES, BEDS, setOf } from './dataset.mjs';
-import { PROMPT_VERSION } from '../prompts.mjs';
+import { PROMPT_VERSION, DECISION_PROMPT_VERSION } from '../prompts.mjs';
 
 const RESULTS_DIR = fileURLToPath(new URL('./results/', import.meta.url));
 
 export function parseArgs(argv) {
   const opts = { live: false, models: [], reps: 1, suites: ['classifier', 'capture'], minBalance: 3,
-    concurrency: 4, freePaceMs: 12_500, paceMs: null, only: null, tag: '', set: 'all' };
+    concurrency: 4, freePaceMs: 12_500, paceMs: null, only: null, tag: '', set: 'all', decider: 'typesafe-ai/jev' };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const next = () => argv[++i];
@@ -36,11 +37,12 @@ export function parseArgs(argv) {
     else if (a === '--only') opts.only = new Set(next().split(','));
     else if (a === '--tag') opts.tag = next();
     else if (a === '--set') opts.set = next();
+    else if (a === '--decider') opts.decider = next();
     else throw new Error('Argumento desconocido: ' + a);
   }
   if (!Number.isInteger(opts.reps) || opts.reps < 1 || opts.reps > 10) throw new Error('--reps entre 1 y 10.');
   if (!Number.isFinite(opts.minBalance) || opts.minBalance < 0) throw new Error('--min-balance inválido.');
-  if (!opts.suites.every(s => ['classifier', 'capture', 'decision'].includes(s))) throw new Error('--suites inválido.');
+  if (!opts.suites.every(s => ['classifier', 'capture', 'decision', 'dual'].includes(s))) throw new Error('--suites inválido.');
   if (opts.tag && !/^[a-z0-9-]{1,30}$/.test(opts.tag)) throw new Error('--tag inválido.');
   if (!['all', 'dev', 'holdout'].includes(opts.set)) throw new Error('--set inválido; usa all, dev u holdout.');
   return opts;
@@ -239,7 +241,7 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
   const pool = { concurrency: opts.concurrency, paceMs: opts.paceMs ?? (isFree ? opts.freePaceMs : 0), budgetCheck, log };
   const pricing = await readPricing(modelId);
   const inSet = c => opts.set === 'all' || setOf(c) === opts.set;
-  const report = { modelId, tag: opts.tag || null, promptVersion: PROMPT_VERSION, set: opts.set,
+  const report = { modelId, tag: opts.tag || null, promptVersion: PROMPT_VERSION, decisionPromptVersion: DECISION_PROMPT_VERSION, set: opts.set,
     startedAt: new Date().toISOString(), reps: opts.reps, startBalance, pricing };
 
   if (opts.suites.includes('classifier')) {
@@ -311,6 +313,50 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
       rawScore: scoreClassifier(raw) };
   }
 
+  if (opts.suites.includes('dual')) {
+    // Blog's DUAL: both called in parallel through the agent's own switch; the LLM
+    // result is applied, the decider's is only compared. Every disagreement is kept.
+    const denv = { ...env, TURNO_DECISION_MODEL_ID: opts.decider };
+    const decide = await createRemoteDecisionClassifier({ env: denv });
+    const jobs = [];
+    for (let rep = 1; rep <= opts.reps; rep++) {
+      for (const c of CLASSIFIER_CASES) {
+        if (opts.only && !opts.only.has(c.id)) continue;
+        if (!inSet(c)) continue;
+        jobs.push(async () => {
+          const t = performance.now();
+          let tokens = null; let shadowRaw = null; let comparison = null;
+          const classify = await createStrandsClassifier({ env, onMetrics: m => { tokens = m; } });
+          const event = { id: c.id + '-' + rep, synthetic: true, text: c.text };
+          const { value: active, retries } = await withRateLimitRetry(() => classifySignal({
+            event, mode: 'DUAL', minConfidence: DECISION_THRESHOLD,
+            classifyWithGateway: classify,
+            classifyWithDecision: async e => { shadowRaw = await decide(e); return shadowRaw; },
+            recordComparison: rec => { comparison = rec; },
+          }), { log });
+          const activeOk = c.accept.includes(active.status === 'abstain' ? null : active.label);
+          const shadowLabel = comparison?.shadowStatus === 'abstain' ? 'NO_ACTION' : comparison?.shadowLabel ?? null;
+          const shadowOk = c.accept.includes(shadowLabel);
+          log(`${modelId}+${opts.decider} dual ${c.id}#${rep} activo=${active.label} sombra=${shadowLabel} ${comparison?.agree ? 'igual' : 'DESACUERDO'}`);
+          return { id: c.id, set: setOf(c), rep, label: active.status === 'abstain' ? null : active.label,
+            activeStatus: active.status, shadowLabel, shadowRawLabel: shadowRaw?.label ?? null,
+            shadowConfidence: shadowRaw?.confidence ?? null, agree: comparison?.agree ?? null,
+            activeOk, shadowOk, ms: Math.round(performance.now() - t), retries, tokens, costUsd: callCost(tokens, pricing) };
+        });
+      }
+    }
+    const { records, aborted } = await runPool(jobs, pool);
+    const disagreements = records.filter(r => r.agree === false).map(r => ({
+      id: r.id, set: r.set, rep: r.rep, text: CLASSIFIER_CASES.find(c => c.id === r.id).text,
+      active: r.label, shadow: r.shadowLabel, shadowRaw: r.shadowRawLabel, confidence: r.shadowConfidence,
+      rightOne: r.activeOk && !r.shadowOk ? 'activo' : !r.activeOk && r.shadowOk ? 'sombra' : r.activeOk ? 'ambos' : 'ninguno',
+    }));
+    report.dual = { decider: opts.decider, threshold: DECISION_THRESHOLD, aborted, records, disagreements,
+      active: scoreClassifier(records),
+      shadow: scoreClassifier(records.map(r => ({ ...r, label: r.shadowLabel }))),
+      agreement: records.length ? records.filter(r => r.agree).length / records.length : null };
+  }
+
   if (opts.suites.includes('capture')) {
     const jobs = [];
     for (let rep = 1; rep <= opts.reps; rep++) {
@@ -349,7 +395,7 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
       holdout: scoreCapture(records.filter(r => r.set === 'holdout')) } };
   }
 
-  const calls = [...(report.classifier?.records ?? []), ...(report.capture?.records ?? []), ...(report.decision?.records ?? [])];
+  const calls = [...(report.classifier?.records ?? []), ...(report.capture?.records ?? []), ...(report.decision?.records ?? []), ...(report.dual?.records ?? [])];
   const priced = calls.filter(r => Number.isFinite(r.costUsd));
   report.tokenCostUsd = priced.length ? Math.round(priced.reduce((a, r) => a + r.costUsd, 0) * 1e6) / 1e6 : null;
   report.tokenCostCoverage = calls.length ? priced.length / calls.length : null;

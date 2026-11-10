@@ -1,4 +1,5 @@
 import { readGatewaySettings, assertSyntheticEvent } from './gateway-config.mjs';
+import { DECISION_INSTRUCTIONS, DECISION_CRITERIA, sortKeysDeep } from './prompts.mjs';
 
 /** Decisión cerrada REMOTA mediante Vercel AI Gateway (no Strands Decider local). */
 export async function createRemoteDecisionClassifier({ env = process.env } = {}) {
@@ -12,19 +13,14 @@ export async function createRemoteDecisionClassifier({ env = process.env } = {})
     }
     const result = await decide({
       model: gateway.decisionModel(settings.decisionModelId),
-      state: { text: event.text },
-      questions: {
+      state: sortKeysDeep({ text: event.text }),
+      questions: sortKeysDeep({
         signal: {
           type: 'choice',
-          instructions: 'Clasifica una nota personal sintética de un gestor de tareas. No diagnostiques, ni actúes. Si es ambiguo, elige NEEDS_REVIEW.',
-          criteria: {
-            NO_ACTION: 'No expresa ninguna tarea ni solicitud de recordatorio.',
-            PROPOSE_TASK: 'Expresa una tarea pendiente sin solicitar notificación.',
-            PROPOSE_REMINDER: 'Solicita explícitamente un recordatorio o aviso.',
-            NEEDS_REVIEW: 'Contenido ambiguo, condicional, negado o insuficiente.',
-          },
+          instructions: DECISION_INSTRUCTIONS,
+          criteria: DECISION_CRITERIA,
         },
-      },
+      }),
       maxRetries: 0,
       abortSignal: AbortSignal.timeout(20_000),
     });

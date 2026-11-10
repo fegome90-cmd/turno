@@ -103,4 +103,5 @@ test('modelo de decisión: bajo el umbral el agente se abstiene', () => {
   assert.equal(effectiveDecisionLabel({ label: 'PROPOSE_TASK', confidence: null }), 'NO_ACTION');
   assert.equal(effectiveDecisionLabel({}), null);
   assert.deepEqual(parseArgs(['--suites', 'decision']).suites, ['decision']);
+  assert.deepEqual(parseArgs(['--suites', 'dual', '--decider', 'liquid/d1']).decider, 'liquid/d1');
 });

@@ -55,6 +55,11 @@ export function readGatewaySettings(env = process.env) {
   if (!EFFORTS.has(reasoningEffort)) throw new Error('TURNO_AI_REASONING_EFFORT inválido.');
   const region = provider === 'bedrock' ? (env.AWS_REGION || env.AWS_DEFAULT_REGION || 'us-east-1').trim() : null;
   if (region !== null && !REGION.test(region)) throw new Error('AWS_REGION inválida.');
+  const rawThreshold = (env.TURNO_DECISION_MIN_CONFIDENCE ?? '').trim();
+  const decisionMinConfidence = rawThreshold === '' ? 0.9 : Number(rawThreshold);
+  if (!Number.isFinite(decisionMinConfidence) || decisionMinConfidence < 0 || decisionMinConfidence > 1) {
+    throw new Error('TURNO_DECISION_MIN_CONFIDENCE debe estar entre 0 y 1.');
+  }
   const enabled = env.TURNO_AI_ENABLED === '1';
   if (env.TURNO_SYNTHETIC_ONLY === '0') throw new Error('El piloto no autoriza datos reales.');
   const syntheticOnly = true;
@@ -65,7 +70,7 @@ export function readGatewaySettings(env = process.env) {
       : 'Sin autenticación para ' + provider + ' en el servidor: configura ' + PROVIDERS[provider].keyEnv.join(' o ') +
         (PROVIDERS[provider].awsChain ? ' o credenciales AWS' : '') + '.');
   }
-  return Object.freeze({ provider, modelId, decisionModelId, decisionMode, enabled, syntheticOnly,
+  return Object.freeze({ provider, modelId, decisionModelId, decisionMode, decisionMinConfidence, enabled, syntheticOnly,
     providerOnly, reasoningEffort, region, authMode, keyEnv });
 }
 
