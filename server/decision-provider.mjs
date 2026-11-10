@@ -4,9 +4,7 @@ import { readGatewaySettings, assertSyntheticEvent } from './gateway-config.mjs'
 export async function createRemoteDecisionClassifier({ env = process.env } = {}) {
   const settings = readGatewaySettings(env);
   if (!settings.enabled) throw new Error('TURNO_AI_ENABLED debe ser 1 para crear el clasificador.');
-  const [{ experimental_decide: decide }, { gateway }] = await Promise.all([
-    import('ai'), import('@ai-sdk/gateway'),
-  ]);
+  const { experimental_decide: decide, gateway } = await import('ai');
   return async function classifyWithDecision(event) {
     assertSyntheticEvent(event, settings);
     if (typeof event.text !== 'string' || event.text.length < 1 || event.text.length > 500) {
