@@ -97,3 +97,10 @@ test('una hora ilegible queda vacía y su texto original se muestra para confirm
   const [q] = proposalsForReview({proposals:[{title:'B',bedLabel:null,time:'9:30',beforeClose:false}]});
   assert.equal(q.timeText, null);
 });
+
+test('el texto de una hora ilegible se conserva hasta el límite de títulos', () => {
+  const long = 'a primera hora cuando llegue el turno de la mañana y se desocupe la sala';
+  const [p] = proposalsForReview({proposals:[{title:'A',bedLabel:null,time:long,beforeClose:false}]});
+  assert.equal(p.time, null);
+  assert.equal(p.timeText, long);
+});

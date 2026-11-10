@@ -18,10 +18,20 @@ const pct = x => (x === null || x === undefined ? '—' : Math.round(x * 100) + 
 const sec = ms => (ms === null || ms === undefined ? '—' : (ms / 1000).toFixed(1) + ' s');
 const usd = x => (x === null || x === undefined ? '—' : '$' + x.toFixed(4));
 
+/** Original phase (v1): no tag, prompt v1 (or unrecorded), dev set only, LLM suites only. */
+export function isOriginalPhase(r) {
+  if (!r || r.tag) return false;
+  if (r.promptVersion && r.promptVersion !== 'v1') return false;
+  if (r.set && r.set !== 'dev') return false;
+  return Boolean(r.classifier || r.capture) && !r.decision && !r.dual;
+}
+
 export function loadReports() {
   // Fase original (v1): resultados sin etiqueta. v2, decider y DUAL se resumen en DECIDER.md.
-  return readdirSync(dir).filter(f => /^[^.]+(\.[^.]+)*\.json$/.test(f) && !/\.(v2|d2|dual)\.json$/.test(f)).sort()
-    .map(f => JSON.parse(readFileSync(dir + f, 'utf8')));
+  // Selected by recorded metadata: legacy v1 results carry no tag, prompt version or set.
+  return readdirSync(dir).filter(f => f.endsWith('.json')).sort()
+    .map(f => JSON.parse(readFileSync(dir + f, 'utf8')))
+    .filter(isOriginalPhase);
 }
 
 export function buildMarkdown(reports) {

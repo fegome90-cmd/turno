@@ -14,9 +14,11 @@ export async function createStrandsModel(settings, { maxTokens, env = process.en
 
   switch (spec.kind) {
     case 'vercel': {
-      const [{ VercelModel }, { gateway }] = await Promise.all([
+      const [{ VercelModel }, { gateway: defaultGateway, createGateway }] = await Promise.all([
         import('@strands-agents/sdk/models/vercel'), import('@ai-sdk/gateway'),
       ]);
+      // The key comes from the validated env (not only process.env); without one, OIDC via the default provider.
+      const gateway = key ? createGateway({ apiKey: key }) : defaultGateway;
       return new VercelModel({ provider: gateway(settings.modelId), maxTokens,
         providerOptions: gatewayProviderOptions(settings) });
     }

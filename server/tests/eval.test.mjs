@@ -109,3 +109,13 @@ test('modelo de decisión: bajo el umbral el agente se abstiene', () => {
   assert.deepEqual(parseArgs(['--suites', 'decision']).suites, ['decision']);
   assert.deepEqual(parseArgs(['--suites', 'dual', '--decider', 'liquid/d1']).decider, 'liquid/d1');
 });
+
+test('el reporte v1 se elige por los metadatos guardados, no por el nombre', async () => {
+  const { isOriginalPhase } = await import('../eval/report.mjs');
+  assert.equal(isOriginalPhase({ classifier: {}, capture: {} }), true); // v1 sin metadatos
+  assert.equal(isOriginalPhase({ classifier: {}, tag: 'trial' }), false);
+  assert.equal(isOriginalPhase({ classifier: {}, promptVersion: 'v2' }), false);
+  assert.equal(isOriginalPhase({ classifier: {}, promptVersion: 'v1', set: 'all' }), false);
+  assert.equal(isOriginalPhase({ decision: {} }), false);
+  assert.equal(isOriginalPhase({ dual: {} }), false);
+});

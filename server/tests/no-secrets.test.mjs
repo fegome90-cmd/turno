@@ -70,3 +70,13 @@ test('detecta claves JSON en camelCase con valor literal', () => {
   assert.equal(scanText('cfg.json', `{"client_secret": "${fake('', 24)}"}`).length, 1);
   assert.deepEqual(scanText('cfg.json', '{"apiKey": ""}'), []);
 });
+
+test('redacción conserva los indicadores del patrón y detecta relleno y «!»', () => {
+  const camel = `{"apiKey": "${fake('', 24)}"}`;
+  assert.equal(scanText('cfg.json', camel).length, 1);
+  assert.equal(redactSecrets(camel).includes(fake('', 24)), false, 'la clave camelCase debe redactarse');
+  const padded = `{"apiKey":"${fake('', 22)}=="}`;
+  assert.equal(scanText('cfg.json', padded).length, 1);
+  assert.equal(redactSecrets(padded).includes(fake('', 22)), false);
+  assert.equal(scanText('cfg.json', `{"password":"${fake('', 16)}!x"}`).length, 1);
+});
