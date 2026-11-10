@@ -1,56 +1,53 @@
-# Turno / OpenCode: configuración privada
+# Turno: piloto de agente ambiental remoto (sin chatbot)
 
-Esta carpeta **prepara**, pero todavía no implementa ni despliega, la integración de Turno con Strands Agents y el proveedor comunitario [model-opencode](https://github.com/aprasadh/model-opencode). No existe aquí un endpoint HTTP público, persistencia ni conexión con datos clínicos. Ninguna API key está incluida en GitHub.
+Estado: **experimental** en rama `feature/opencode-secure-config`. No hay despliegue, backend clínico ni persistencia conectada. El motor de sugerencias no crea, elimina, completa ni cambia tareas; tampoco envía recordatorios. El análisis recibe eventos **solo después de autorización en el backend** y devuelve propuestas para una futura bandeja o toast.
 
-## Configuración local (Mac)
+## Arquitectura
 
-Desde la raíz del repositorio:
+- **Strands Agents SDK TypeScript** es el orquestador generativo.
+- **Vercel AI Gateway** es el proveedor de inferencia remota (por defecto `anthropic/claude-haiku-4.5`). No se descargan ni ejecutan modelos locales.
+- **Vercel Decision API** mediante `microsoft/microsoft-decision-1` es el clasificador remoto opcional para categorías cerradas. **No** es Strands Decider de AWS, que requeriría infraestructura propia; solo imitamos su patrón de evaluación en paralelo.
+- Reglas deterministas identifican problemas verificables de camas/fechas/horarios, sin invocar modelos.
+- No se expone una ruta HTTP; este módulo se integrará detrás del backend autenticado de Turno cuando exista su contrato.
+
+## API keys seguras
+
+En un despliegue propio de **Vercel**, preferir **OIDC automático**. No configurar `AI_GATEWAY_API_KEY` en ese caso; el SDK usa el token de proyecto. Fuera de Vercel, crear una clave de AI Gateway limitada para el piloto, con presupuesto y posibilidad de revocación, y guardarla como **Secret** del backend. Nunca usar `VITE_` ni `NEXT_PUBLIC_` para una clave, ni exponerla al navegador o a un repositorio.
+
+Para ejecución local del **servidor** (no inferencia local):
 
 ```sh
 cp server/.env.example server/.env
 chmod 600 server/.env
-```
-
-Edita **solo en tu computador** el archivo `server/.env` y pega la clave en `OPENCODE_API_KEY=`. No la envíes por chat ni la incluyas en commits, capturas o logs. El archivo `.env` y sus variantes están excluidos por `.gitignore` en todas las carpetas.
-
-```sh
+# En tu Mac edita server/.env, nunca lo publiques ni lo pegues en chat.
 cd server
-node --env-file=.env check-config.mjs
+npm install --ignore-scripts
+npm run check
 npm test
+npm run demo
 ```
 
-El chequeo **no hace peticiones a OpenCode ni muestra la clave**. También puedes verificar desde la raíz con `git check-ignore server/.env`: debe responder `server/.env`.
+El comando `demo` y los tests usan **datos sintéticos y no hacen peticiones facturables**. `npm install` sí descarga dependencias npm. `node --env-file=.env` permite cargar configuración al ejecutar un programa del servidor; no hace falta hacerlo para `test` ni `demo`.
 
-## Proveedor y modelo
+Variables configuradas en `server/.env.example`:
+- `TURNO_AI_ENABLED=0`: apagado por defecto. Cambiar a 1 solo para pruebas sintéticas explícitas con autenticación del backend.
+- `TURNO_SYNTHETIC_ONLY=1`: obligatorio, el piloto rechaza configurarlo en 0 y rechaza eventos no sintéticos.
+- `TURNO_AI_MODEL_ID` y `TURNO_DECISION_MODEL_ID`: modelos remotos mediante Gateway.
+- `TURNO_DECISION_MODE=GATEWAY` (inferencia Strands), `DUAL` (Strands activo, Decision API solo sombra), o `DECISION` (clasificador remoto activo con abstención bajo confianza desconocida o baja).
 
-El archivo `opencode-provider.mjs` expone `createOpenCodeModel({ sessionId? })`, un constructor exclusivo del servidor que importa `@guru.prasath/model-opencode`. Para usarlo en una integración posterior hay que instalar las dependencias, revisar el paquete y verificar compatibilidad con el endpoint y modelo elegidos. No se instaló ni ejecutó una llamada de inferencia con credenciales reales.
+**Atención a costos:** `DUAL` puede generar dos solicitudes facturables por nota. Las reglas deterministas no necesitan modelos. Usar un presupuesto por proyecto o clave y mantener `TURNO_AI_ENABLED=0` en producción hasta validar.
 
-- `OPENCODE_MODE=zen`: usa OpenCode Zen.
-- `OPENCODE_MODE=go`: usa OpenCode Go, exige `sessionId` proporcionado por el backend, estable dentro de un contexto y distinto entre turnos/usuarios.
-- `OPENCODE_MODEL_ID`: modelo elegido (el ejemplo es ilustrativo; debe verificarse disponibilidad).
+## Entradas y salidas
 
-No pongas una sesión global compartida en `.env`. No aceptes sin validar un `sessionId` arbitrario del navegador. El servicio backend tendrá que generar y asociar el identificador al contexto autorizado de Turno.
+`ambient-engine.mjs` exporta `analyzeAmbientEvent({ event, settings, isAuthorized, getAuthorizedSnapshot, ...classifiers })`. El consumidor backend debe comprobar la identidad antes de entregar un snapshot autoritativo del turno; nunca confiar en una lista de tareas enviada por el navegador. Solo se aceptan los eventos `drafts_ready`, `note_saved`, `shift_close_attempt`. Una nota enviada al clasificador se limita a 500 caracteres sintéticos.
 
-El paquete de terceros `@guru.prasath/model-opencode` está fijado en versión `0.1.0` y **no es un componente oficial de Turno ni de OpenCode**. Sus versiones y endpoints se deben revisar antes de habilitarlo, en particular las URL de OpenCode Console actuales frente a las URL Zen codificadas por el adaptador.
+El motor devuelve objetos `suggestions` con `actions: ['review','dismiss']`; no tiene acceso a una función `saveTask`. Para la captura libre se debe añadir después un extractor de borradores de tareas con Zod y revisión explícita; este paso no debe mezclar inferencia con persistencia. El frontend v5 disponible en la rama sigue siendo un prototipo aislado.
 
-## Despliegue futuro
+## Validación
 
-Configura `OPENCODE_API_KEY` como **secreto del servicio backend** o de su gestor de secretos. No uses prefijos públicos como `VITE_` ni `NEXT_PUBLIC_`, no incrustes credenciales en JavaScript descargable por el navegador y no transmitas la clave desde el frontend. GitHub Actions Secrets solo sirven para un workflow que realmente los necesite, no sustituyen los secretos del runtime.
+`npm test`: reglas y contrato de autorización, interruptor de doble ejecución y construcción de Strands/Vercel SDK sin peticiones remotas.
+`npm run demo`: imprime alertas basadas en tres tareas sintéticas: falta confirmar fecha para las 15:00; cama 4 no está vinculada al turno de demostración; coincidencia de horario; informe pendiente al cerrar. Ninguna advertencia supone duplicación ni inventa una hora.
 
-La captura inteligente seguirá el contrato: entrada -> propuesta -> revisión humana -> validación/guardado por Turno. Este módulo no escribe tareas. El asistente ambiental propuesto está documentado en `../docs/assistant-background-v0.1.md`.
+**Pendiente:** revisión efectiva de dependencias instaladas en CI, integración en backend autenticado de Turno, toasts accesibles, calibración y prueba facturable mínima con una credencial guardada por el usuario. No se ha probado inferencia real.
 
-## Agente ambiental / modo de comparación (sin despliegue)
-
-El patrón del caso Amazon (Strands Decider) está especificado en [docs/assistant-background-v0.1.md](../docs/assistant-background-v0.1.md).
-`decision-switch.mjs` implementa **solo** la lógica de selección de clasificadores. Aún no contiene un worker Strands operativo, conexión al endpoint Decider, modelo descargado ni notificaciones UI.
-
-`TURNO_DECISION_MODE=OPENCODE` es el valor inicial del ejemplo; `DUAL` ejecutará OpenCode como fuente activa y Decider como candidato en sombra; `DECIDER` permitirá estudiar solo decisiones semánticas cerradas después de validar calibración y errores. Ninguno de estos modos escribe tareas ni muestra toasts por sí mismo.
-
-Validación sintética de la lógica:
-
-```sh
-cd server
-npm test
-```
-
-Las pruebas usan adaptadores simulados; no hacen inferencia, llamadas a OpenCode ni descargas. No desplegar el módulo como servicio ni enviar datos clínicos reales sin el contrato de permisos, evaluación de seguridad y comprobación de los modelos.
+Referencias: [Strands VercelModel](https://strandsagents.com/docs/user-guide/sdk/model-providers/vercel/), [Vercel Decision API](https://vercel.com/i/ai-gateway-decision-api-use-cases), [AWS pattern](https://strandsagents.com/blog/amazon-saves-millions-replacing-sonnet-with-strands-decider/).
