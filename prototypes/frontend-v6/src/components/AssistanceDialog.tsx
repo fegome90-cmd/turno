@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react';
+import {useRef, useState, type KeyboardEvent} from 'react';
 import {useStore} from 'zustand';
 import {Dialog} from '@base-ui/react/dialog';
 import {Check, Lightbulb, Plus, X} from 'lucide-react';
@@ -92,6 +92,15 @@ export function AssistanceDialog({
     }
   };
 
+  const onTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    const next = event.key === 'ArrowRight' || event.key === 'End' ? 'suggestions'
+      : event.key === 'ArrowLeft' || event.key === 'Home' ? 'capture' : null;
+    if (!next) return;
+    event.preventDefault();
+    onTabChange(next);
+    requestAnimationFrame(() => document.getElementById(next === 'capture' ? 'assist-capture-tab' : 'assist-suggestions-tab')?.focus());
+  };
+
   return <Dialog.Root open={open} onOpenChange={(next, details) => {
     if (!next) {if (inFlight.current || globallyBusy) details.cancel(); else close();}
   }}>
@@ -103,8 +112,8 @@ export function AssistanceDialog({
           <button type="button" className="icon-button" aria-label="Cerrar captura y sugerencias" disabled={!!pendingSave} onClick={close}><X size={20} aria-hidden="true"/></button>
         </div>
         <div className="assist-tabs" role="tablist" aria-label="Asistencia de Turno">
-          <button role="tab" id="assist-capture-tab" aria-selected={tab === 'capture'} aria-controls="assist-capture-panel" tabIndex={tab === 'capture' ? 0 : -1} onClick={() => onTabChange('capture')}>Captura</button>
-          <button role="tab" id="assist-suggestions-tab" aria-selected={tab === 'suggestions'} aria-controls="assist-suggestions-panel" tabIndex={tab === 'suggestions' ? 0 : -1} onClick={() => onTabChange('suggestions')}>Sugerencias ({suggestions.length})</button>
+          <button role="tab" id="assist-capture-tab" onKeyDown={onTabKeyDown} aria-selected={tab === 'capture'} aria-controls="assist-capture-panel" tabIndex={tab === 'capture' ? 0 : -1} onClick={() => onTabChange('capture')}>Captura</button>
+          <button role="tab" id="assist-suggestions-tab" onKeyDown={onTabKeyDown} aria-selected={tab === 'suggestions'} aria-controls="assist-suggestions-panel" tabIndex={tab === 'suggestions' ? 0 : -1} onClick={() => onTabChange('suggestions')}>Sugerencias ({suggestions.length})</button>
         </div>
         <section id="assist-capture-panel" role="tabpanel" aria-labelledby="assist-capture-tab" hidden={tab !== 'capture'}>
           <div className="assist-info"><strong>Captura manual disponible</strong><p>Escribe una tarea literal por línea. No interpretaremos horarios, camas ni instrucciones: completarás esos campos durante la revisión. La interpretación con Strands se conectará después.</p></div>
