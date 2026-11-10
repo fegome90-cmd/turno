@@ -1,5 +1,5 @@
 // Puerto de dominio (PLAN §4). Ningún SDK de backend: la demo en memoria lo implementa.
-import type {Bed, QuickNote, Shift, Snapshot, Task} from '../domain/types';
+import type {Bed, QuickNote, ReviewedTaskInput, Shift, Snapshot, Task} from '../domain/types';
 
 export type TurnoPort = {
   load(): Promise<Snapshot>;
@@ -9,6 +9,7 @@ export type TurnoPort = {
   createBed(label: string): Promise<Bed>;
   renameBed(id: string, label: string): Promise<Bed>;
   createTask(title: string, bedId?: string | null): Promise<Task>;
+  createReviewedTask(input: ReviewedTaskInput): Promise<Task>;
   closeShift(id: string): Promise<Shift>;
   openShift(label: string): Promise<Shift>;
 };
