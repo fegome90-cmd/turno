@@ -16,7 +16,7 @@ test('habilitado requiere clave u OIDC y nunca expone la clave',()=>{
 });
 test('modo remoto permitido, sin clasificador local',()=>{
   for(const mode of ['GATEWAY','DUAL','DECISION']) assert.equal(readGatewaySettings({TURNO_DECISION_MODE:mode}).decisionMode,mode);
-  assert.throws(()=>readGatewaySettings({TURNO_DECISION_MODE:'DECIDER'}),/modo/);
+  assert.throws(()=>readGatewaySettings({TURNO_DECISION_MODE:'DECIDER'}),/Modo/);
 });
 test('ID de modelo válido y chequeo de evento',()=>{
   assert.throws(()=>readGatewaySettings({TURNO_AI_MODEL_ID:'https://localhost/secret'}),/Modelo/);
