@@ -1,0 +1,17 @@
+{
+  "name": "turno-opencode-server-adapter",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check:config": "node --env-file=.env check-config.mjs"
+  },
+  "dependencies": {
+    "@guru.prasath/model-opencode": "0.1.0",
+    "@strands-agents/sdk": "1.19.0",
+    "openai": "6.49.0"
+  }
+}
