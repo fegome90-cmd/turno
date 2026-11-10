@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { inspectDrafts, analyzeAmbientEvent } from '../ambient-engine.mjs';
 
 const base = {
-  shiftId:'shift-1',
+  shiftId:'shift-1', synthetic:true,
   beds:[{id:'bed-1',label:'Cama 1'}, {id:'bed-2',label:'Cama 2'}],
   drafts:[
     {id:'a',title:'Revisar tarea pendiente A',bedLabel:'Cama 4',bedId:null,time:'15:00',date:null},
