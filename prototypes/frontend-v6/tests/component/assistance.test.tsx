@@ -1,11 +1,12 @@
 // Integración del frontend React v6, puerto existente y revisión humana; no se simula un LLM.
-import {cleanup, fireEvent, render, screen, waitFor, within} from '@testing-library/react';
+import {act, cleanup, fireEvent, render, screen, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {afterEach, expect, it} from 'vitest';
 import {App} from '../../src/app/App';
 import {AppProviders} from '../../src/app/AppProviders';
 import {createSession} from '../../src/app/create-session';
 import {createPreviewAdapter} from '../../src/adapters/preview-adapter';
+import {collectAmbientSuggestions} from '../../src/ambient/review';
 const sessions: ReturnType<typeof createSession>[] = [];
 afterEach(()=>{cleanup(); sessions.splice(0).forEach((session)=>session.dispose());});
 
@@ -65,4 +66,33 @@ it('el diálogo protege los borradores no guardados',async()=>{
   await user.click(within(dialog).getByRole('button',{name:'Cerrar captura y sugerencias'}));
   await user.click(within(dialog).getByRole('button',{name:'Descartar y cerrar'}));
   await waitFor(()=>expect(screen.queryByRole('dialog',{name:'Captura y sugerencias'})).not.toBeInTheDocument());
+});
+
+it('dos tareas en la misma lista y horario generan una sugerencia sin aviso global',async()=>{
+  const {session,user,dialog}=await open();
+  const noticesBefore=session.notifications.getState().items.length;
+  await act(async()=>{
+    await session.port.createReviewedTask({shiftId:'demo-shift-1',title:'Revisar tarea A',bedId:'bed-1',date:'2026-11-07',time:'15:00',beforeClose:false});
+    await session.port.createReviewedTask({shiftId:'demo-shift-1',title:'Revisar tarea B',bedId:'bed-1',date:'2026-11-07',time:'15:00',beforeClose:false});
+    await session.store.getState().load();
+  });
+  expect(collectAmbientSuggestions(session.store.getState().snapshot!).map((suggestion)=>suggestion.kind)).toContain('shared-slot');
+  await user.click(within(dialog).getByRole('tab',{name:/Sugerencias/}));
+  expect(within(dialog).getByText('Tareas en el mismo horario')).toBeInTheDocument();
+  expect(session.notifications.getState().items.some((item)=>/nueva sugerencia/i.test(item.message))).toBe(false);
+  expect(session.notifications.getState().items).toHaveLength(noticesBefore);
+});
+
+it('un error real al guardar la revisión sigue anunciándose como error',async()=>{
+  const {session,user,dialog}=await open();
+  await user.type(within(dialog).getByRole('textbox',{name:'Tareas para revisar'}),'Revisar tarea con error');
+  await user.click(within(dialog).getByRole('button',{name:'Pasar a revisión'}));
+  const card=within(dialog).getByRole('group',{name:/Tarea 1 · Pendiente de aprobación/});
+  await user.selectOptions(within(card).getByRole('combobox',{name:'Lista'}),'bed-1');
+  fireEvent.change(within(card).getByLabelText('Fecha'),{target:{value:'2026-11-07'}});
+  fireEvent.change(within(card).getByLabelText('Hora'),{target:{value:'15:00'}});
+  session.port.failNext('error');
+  await user.click(within(card).getByRole('button',{name:'Aprobar y guardar'}));
+  await waitFor(()=>expect(session.notifications.getState().items.some((item)=>item.kind==='error'&&/Fallo simulado/.test(item.message))).toBe(true));
+  expect(session.store.getState().snapshot!.tasks.some((task)=>task.title==='Revisar tarea con error')).toBe(false);
 });

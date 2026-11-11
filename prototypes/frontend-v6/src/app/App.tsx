@@ -1,6 +1,6 @@
 // Local 4A product integration; phase acceptance still requires fresh browser evidence and independent review.
 import {useStore} from 'zustand';
-import {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {useLayoutEffect, useRef, useState} from 'react';
 import type {AppSession} from './create-session';
 import {AppShell} from '../components/AppShell';
 import {Navigation} from '../components/Navigation';
@@ -44,15 +44,6 @@ function ProductApp({session}: {session: AppSession}) {
   const [dismissedSuggestions, setDismissedSuggestions] = useState<string[]>([]);
   const allSuggestions = collectAmbientSuggestions(state.snapshot);
   const visibleSuggestions = allSuggestions.filter((suggestion) => !dismissedSuggestions.includes(suggestion.id));
-  const previousSuggestionIds = useRef<string[] | null>(null);
-  useEffect(() => {
-    if (!state.snapshot) return;
-    const ids = collectAmbientSuggestions(state.snapshot).map((suggestion) => suggestion.id);
-    if (previousSuggestionIds.current !== null && ids.some((id) => !previousSuggestionIds.current!.includes(id))) {
-      session.notifications.notify('Hay una nueva sugerencia de organización para revisar.', 'status');
-    }
-    previousSuggestionIds.current = ids;
-  }, [state.snapshot, session.notifications]);
   const [nameRequest, setNameRequest] = useState<NameRequest | null>(null);
   const [closeRequest, setCloseRequest] = useState<CloseRequest | null>(null), [closeError, setCloseError] = useState('');
   const closeCurrent = useRef<CloseRequest | null>(null);
