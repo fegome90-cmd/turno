@@ -622,12 +622,12 @@ Acción siguiente: <una sola, sin promoción implícita>
 | Etapa 0 — inferencia real | Hecha, pendiente de integrar (D1) | PR #6 aprobado e integrado |
 | G0 — preflight | `PASS` (11-11-2026, ver §27) | SHA, baseline corrido, decisión `READY` |
 | R1a — eliminar aviso global | `PASS` (11-11-2026, ver §27; integrado en la rama del PR #5, `4603785`) | Pruebas focalizadas, E2E, error conservado, diff mínimo |
-| R0 — integración de interfaz | `PENDING` | Tipos y puerto, suites completas, replay de captura y archivo |
+| R0 — integración de interfaz | `PASS` (11-11-2026, ver §27; PR #5 con base `main`) | Tipos y puerto, suites completas, replay de captura y archivo |
 | R1b — identidad y caducidad | `PENDING` | Deduplicación, descarte y caducidad en pruebas y en la interfaz |
 | R2 — antes del cierre | `PENDING` | Enlace correcto, cierre no bloqueado, solo código |
 | R3 — continuidad | `PENDING` | Pendientes accesibles sin transferencias ni modelo |
 | R4 — repetición exacta | `DEFERRED` | Evidencia de frecuencia antes de ejecutar |
-| G1 — PR #6 y PR #8 | `IN_PROGRESS` (D1 y D2 decididas el 11-11-2026) | PR #8 sobre PR #6, tres verificaciones de G1-T03, CI en verde |
+| G1 — PR #6 y PR #8 | `PASS` (11-11-2026, ver §27) | PR #8 sobre PR #6, tres verificaciones de G1-T03, CI en verde |
 | R5 — nota semántica | `PENDING` (con puerta; depende de C2, C3, C4) | 18 casos, comparación con el flujo manual, autorización sintética |
 | R6 — extensiones | `DEFERRED` | Valor demostrado y baseline convencional insuficiente |
 | Paquete F3 | No definido (solo si C1 = A) | — |
@@ -694,5 +694,39 @@ LLM: 0 llamadas.
 Riesgos/pendientes: el foco después de guardar queda igual que antes del cambio (contenedor del modal); no se comprobó con lector de pantalla. No hay un E2E nuevo para el escenario de horario compartido. El commit se integró en la rama del PR #5 por decisión de la persona dueña.
 Veredicto: GO a revisión.
 Acción siguiente: R0, con aprobación.
+```
+
+### REPLY — Turno Ambient | G1/T01–T04 | 11-11-2026
+
+```markdown
+Estado: PASS
+Base -> HEAD: feature/opencode-secure-config 44d7099 -> a55b405
+Cambio: T01, PR #6 integrado (f3f6b92). T02, PR #8 actualizado sobre el PR #6 (67f92ed, cbbb02c) e integrado con aprobación (a55b405). T04, main unido a la rama del PR #4 (9e30cd0) y base del PR #4 cambiada a main. Sin reescribir historial; nada integrado a main.
+Archivos: solo merges. Único conflicto: .gitignore (add/add), resuelto conservando las reglas de las dos ramas.
+VALIDATE: T03 en el PR #8: la evaluación lee el umbral del decider de la configuración; el decider pasa la clave validada con createGateway; la redacción de secretos conserva las banderas de cada patrón.
+TEST: escáner de secretos, npm run check, servidor 78/78 (120/120 con el endpoint), demo, smoke:preflight (OFFLINE_CHECKS_ONLY), frontend v5 212/212 y check_portable. CI `tests` en verde en cada head; Vercel turno-v5 y turno-v6 listos en el PR #4.
+FIX: ninguno.
+REPLAY: no aplica (integración sin cambios de comportamiento).
+LLM: 0 llamadas.
+Riesgos/pendientes: A-05 (presupuesto de la clave en Vercel) y npm run smoke:live:keychain en el Mac de la persona dueña, para cerrar el PR #4. La descripción del PR #4 está desactualizada.
+Veredicto: GO a revisión.
+Acción siguiente: R1b.
+```
+
+### REPLY — Turno Ambient | R0/T01–T05 | 11-11-2026
+
+```markdown
+Estado: PASS
+Base -> HEAD: main dbb5824 -> feature/turno-capture-review-ui-v6 74d8b41 (PR #5, base cambiada a main)
+Cambio: el candidato es la rama del PR #5 sobre main: 30 commits, 20 archivos de captura y revisión (+682/-18), sin cambios ajenos. La casilla «antes del cierre» del editor normal pertenece a la función y la reutiliza R2. Único commit nuevo: docs/ambient-ui-v6.md actualizado (base main, R1a, check:portable, orden de typecheck).
+Archivos: docs/ambient-ui-v6.md.
+VALIDATE: contrato con evidencia en código: ReviewedTaskInput y createReviewedTask atómico, hora exige fecha, «antes del cierre» excluye fecha y hora, lista del turno activo, nada se guarda sin «Aprobar y guardar». collectAmbientSuggestions es puro sobre el Snapshot; sin store paralelo; R1a presente.
+TEST: lint, typecheck, unitarias 165/165, componentes 324/324, E2E 231/231, check:portable PASS, en dos instalaciones separadas (worker y tester). Un fallo TS7016 del worker se reprodujo como carrera con npm ci todavía instalando; no es un defecto del repositorio.
+FIX: ninguno en código.
+REPLAY: recorrido de 14 pasos (abrir turno, crear, editar, guardar, completar, capturar 2 tarjetas, guardar una, descartar otra, archivar, abrir archivo en solo lectura, abrir jornada nueva) en 1440×900 y 390×844, claro y oscuro: 56/56 pasos sin errores de página ni peticiones externas; repetido por el tester en 1440×900 oscuro con el mismo resultado.
+LLM: 0 llamadas.
+Riesgos/pendientes: sin prueba del editor normal con «antes del cierre» y fecha u hora (el código lo rechaza; lo cubre R2), de una lista de un turno cerrado (el código lo rechaza) ni de un borrador al cerrar el diálogo por fuera y reabrirlo. Firefox y WebKit no se probaron. No se comparó contra un baseline sin captura.
+Veredicto: GO a revisión.
+Acción siguiente: R1b.
 ```
 
