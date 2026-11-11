@@ -6,6 +6,16 @@ const HHMM = /^([01]\d|2[0-3]):[0-5]\d$/;
 const TITLE_LIMIT = 300;
 const INPUT_LIMIT = 2500;
 
+/** Accepts HH:MM or H:MM (24 h). Anything else returns null. */
+export function normalizeTime(value) {
+  if (typeof value !== 'string') return null;
+  const m = value.trim().match(/^(\d{1,2}):([0-5]\d)$/);
+  if (!m) return null;
+  const hh = m[1].padStart(2, '0');
+  const out = hh + ':' + m[2];
+  return HHMM.test(out) ? out : null;
+}
+
 export function validateCaptureInput(input) {
   if (!input || input.synthetic !== true) throw new Error('Piloto limitado a datos sintéticos.');
   if (typeof input.text !== 'string' || !input.text.trim() || input.text.length > INPUT_LIMIT) {
@@ -27,11 +37,13 @@ export function proposalsForReview(raw, context) {
     if (p.bedLabel != null && (typeof p.bedLabel !== 'string' || p.bedLabel.length > 100)) {
       throw new Error('Etiqueta de cama inválida.');
     }
-    if (p.time != null && (typeof p.time !== 'string' || !HHMM.test(p.time))) {
-      throw new Error('Horario inválido.');
-    }
+    if (p.time != null && typeof p.time !== 'string') throw new Error('Horario inválido.');
+    // «9:00» -> «09:00». Una hora que no se entiende no tumba la captura: queda
+    // vacía y marcada para confirmar. Nunca se inventa una hora.
+    const time = normalizeTime(p.time);
+    const timeUnclear = typeof p.time === 'string' && p.time.trim() !== '' && time === null;
     if (p.beforeClose !== true && p.beforeClose !== false) throw new Error('Condición de cierre inválida.');
-    if (p.beforeClose && p.time) throw new Error('No atribuir hora a «antes del cierre».');
+    if (p.beforeClose && time) throw new Error('No atribuir hora a «antes del cierre».');
     const bedLabel = p.bedLabel?.trim() || null;
     const matching = bedLabel ? beds.filter(b => b.label === bedLabel) : [];
     const linkedBedId = matching.length === 1 ? matching[0].id : null;
@@ -40,14 +52,17 @@ export function proposalsForReview(raw, context) {
       title: p.title.trim(),
       bedLabel,
       bedId: linkedBedId,
-      time: p.time || null,
+      time,
+      // Texto original de una hora ilegible, solo para que la persona la confirme; nunca se usa como hora.
+      timeText: timeUnclear ? p.time.trim().slice(0, TITLE_LIMIT) : null,
       date: null, // Never infer the date from time or today's clock.
       beforeClose: p.beforeClose,
       completed: false,
       status: 'requires_human_review',
       reviewFlags: Object.freeze([
         ...(bedLabel && !linkedBedId ? ['resolve_bed'] : []),
-        ...(p.time ? ['confirm_date'] : []),
+        ...(time ? ['confirm_date'] : []),
+        ...(timeUnclear ? ['confirm_time'] : []),
       ]),
     });
   }));

@@ -7,6 +7,8 @@
 
 ## Evidencia ejecutada
 
+> **Histórico:** esta sección describe el estado antes de la primera inferencia real (modelo `anthropic/claude-haiku-4.5`, 40/40 tests, sin `--live`). El estado actual está en el anexo al final.
+
 - Mac conectado, Node.js **26.12.1**: `npm run check`, `npm test` (**40/40**), `npm run smoke:preflight`, `npm audit --omit=dev --audit-level=high` (**0 vulnerabilidades reportadas**).
 - Mac conectado, Node.js **22.23.4**: `node --test tests/*.test.mjs` (**40/40**).
 - El preflight devuelve `OFFLINE_CHECKS_ONLY`, `credentialsChecked:false`, `remoteModelVerified:false`, `requests:0`.
@@ -59,3 +61,28 @@
 - Vercel AI Gateway budget policy: https://vercel.com/docs/ai-gateway/observability-and-spend/budgets
 - Vercel budget nuances (BYOK and crossing request): https://vercel.com/academy/ai-gateway/set-a-budget
 - Test operator runbook: [server/LIVE_SMOKE.md](../server/LIVE_SMOKE.md)
+
+## Anexo: inferencia real desde una sesión en la nube (misma fecha, más tarde)
+
+Ejecutado desde una sesión de Claude Code en la nube, con la clave de AI Gateway guardada como **secreto de red del entorno**: el proxy la inyecta en cada pedido a `ai-gateway.vercel.sh`, y no queda en archivos, comandos, GitHub ni la salida de consola. El acceso de red estuvo limitado a ese host.
+
+| Ref | Estado tras el anexo |
+|---|---|
+| A-06 | **Parcial.** Se verificaron peticiones remotas reales y el cobro en Gateway (`/v1/credits`: unos US$0,50 en toda la evaluación). La ruta Keychain en el Mac (`smoke:live:keychain`) **no** se ejecutó; solo puede hacerlo el dueño en su equipo. |
+| A-05 | **Abierto.** No se verificó desde aquí la configuración de presupuesto, recarga automática ni límites de la clave en el panel de Vercel. Los modelos BYOK (DeepSeek, Meta, TypeSafe AI) se cobran en esas cuentas, fuera del presupuesto del Gateway. |
+| A-07 | **Sin cambios (HOLD).** Todo se ejecutó con datos sintéticos fijos. |
+
+Evidencia (ver `server/DECIDER.md` y `server/eval/results/`):
+
+- `smoke:live:env` y `smoke:background:env` con el modelo por defecto `anthropic/claude-haiku-5.5`: **PASS**, también con los criterios estrictos de A-02.
+- Respaldo `deepseek/deepseek-v4.1-flash` verificado con el modelo principal caído: **PASS**.
+- Evaluación de 48 notas y 14 textos sintéticos, con 3 repeticiones y un set de control no usado para ajustar. Corrida `DUAL` con el decider `typesafe-ai/jev`.
+- La salida estructurada parcial (A-03) se rechaza también en el clasificador, no solo en la captura.
+- Resguardos contra secretos en el repositorio: escáner, test, paso de CI y hook de pre-commit.
+
+Gates actualizados:
+
+- [x] Inferencia real verificada con datos sintéticos (desde la nube, con secreto de entorno).
+- [ ] Verificación del presupuesto de la clave de Turno en el panel de Vercel (A-05).
+- [ ] Ejecución de `npm run smoke:live:keychain` en el Mac del dueño.
+- [ ] Integración al producto: autenticación, snapshot autorizado, privacidad y QA de interfaz.

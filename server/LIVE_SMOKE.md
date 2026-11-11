@@ -6,8 +6,11 @@
 
 - Strands Agents (TypeScript) orquesta la extracción.
 - Vercel AI Gateway realiza la inferencia **remota**, no se descargan LLM en el Mac.
-- Modelo inicial: `anthropic/claude-haiku-4.5` (cambiar en `TURNO_AI_MODEL_ID` si es necesario).
-- Un único ciclo de agente Strands (`limits.turns=1`), máximo configurado de 600 tokens de salida, 3000 tokens totales y cancelación a los 30 segundos. Strands utiliza internamente una herramienta para salida estructurada; **no** hay herramientas de acceso a datos, red personalizada ni escritura de tareas. Los límites no garantizan una sola petición al proveedor ni una duración total absoluta.
+- Modelo por defecto: `anthropic/claude-haiku-5.5`, con `deepseek/deepseek-v4.1-flash` de respaldo (ver [`DECIDER.md`](DECIDER.md)). Cambiar con `TURNO_AI_MODEL_ID` y `TURNO_AI_FALLBACK_MODELS`. El modelo gratuito `nvidia/nemotron-3.5-lightning-free` sigue disponible, pero con ~5 solicitudes/min y menos acierto.
+- GPT: `openai/gpt-5-mini` funciona con el plan gratuito; `openai/gpt-6.1-sol`, `gpt-5.5` y `gpt-5.4-mini` exigen **créditos pagados** en Gateway (el free tier responde «Free tier users do not have access to this model»).
+- `TURNO_GATEWAY_ONLY=openai` restringe el enrutamiento a OpenAI (necesario para usar una credencial BYOK de OpenAI y evitar failover). BYOK solo funciona con una **API key de OpenAI** (platform.openai.com) cargada en Vercel → AI Gateway → BYOK; una suscripción ChatGPT Plus/Pro no sirve como credencial de API. Las respuestas reportan `is_byok`.
+- Las llamadas se etiquetan `turno`, `synthetic-pilot` para filtrar el gasto en el panel de Vercel.
+- Un único ciclo de agente Strands (`limits.turns=1`). Captura: máximo configurado de 1200 tokens de salida, 4000 tokens totales y cancelación a los 30 segundos; clasificación: 1200 / 3000 tokens y 20 segundos. Strands utiliza internamente una herramienta para salida estructurada; **no** hay herramientas de acceso a datos, red personalizada ni escritura de tareas. Los límites no garantizan una sola petición al proveedor ni una duración total absoluta.
 - `DUAL` / Decision API no participa. Gateway puede tener políticas internas de failover; el límite de un turno Strands no garantiza exactamente una solicitud a proveedores upstream. Activar presupuesto/límite de gasto en Vercel antes de llamar.
 
 ## 1. Comprobar sin API key ni costo
@@ -57,6 +60,32 @@ npm run smoke:live:env
 ```
 
 **Gate obligatorio antes de `--live`:** verificar en el panel Vercel una clave exclusiva de Turno con presupuesto por clave, período de renovación, fecha de expiración y cuenta/plan correctos; revisar recarga automática de saldo y si hay claves BYOK o fallback habilitados. Una clave nueva o un presupuesto recién editado puede tardar en aplicarse: **confirmar que el presupuesto figure activo en Vercel antes de ejecutar la prueba**. El presupuesto de Gateway es un **límite blando**: la petición que lo cruza todavía puede completarse y el gasto BYOK se factura aparte. Si no puedes verificar estas opciones, no ejecutes el comando. **Jamás pasar la clave como argumento de consola.**
+
+## Otros proveedores
+
+Las pruebas usan el proveedor de `TURNO_AI_PROVIDER` y su clave, por ejemplo `TURNO_AI_PROVIDER=openrouter OPENROUTER_API_KEY=… npm run smoke:background:env`. En Mac: `npm run smoke:background:keychain` con el servicio `turno-<proveedor>`. Ver [`PROVIDERS.md`](PROVIDERS.md).
+
+## 4. Prueba del agente de fondo (background)
+
+```sh
+npm run smoke:background:env        # o smoke:background:keychain en Mac
+```
+
+Envía eventos sintéticos fijos a `analyzeAmbientEvent`: cuatro `note_saved` (recordatorio, tarea, sin acción e intento de inyección de instrucciones) que sí llaman al modelo, y `drafts_ready` / `shift_close_attempt`, que se resuelven con reglas deterministas sin modelo. Verifica la etiqueta, el estado (`proposed`/`abstain`) y que toda sugerencia sea solo `review`/`dismiss` con aprobación humana. Con modelos `-free` espacia las llamadas 13 s (`TURNO_LIVE_PACE_MS` para cambiarlo). Si el modelo falla, el motor se abstiene (fail-closed).
+
+**Detrás de un proxy HTTPS** (p. ej. sandbox en la nube): el `fetch` de Node no usa `HTTPS_PROXY` por defecto; ejecutar con `NODE_USE_ENV_PROXY=1` (Node ≥ 22.21).
+
+### Resultado verificado (10 nov 2026, inferencia real, solo sintético, instrucciones `v2` / criterios del decider `d2`)
+
+| Prueba | Modelo | Resultado |
+|---|---|---|
+| `smoke:live:env` (captura) | `anthropic/claude-haiku-5.5` (por defecto) | PASS, 1 turno, 2,4 s, 959/451 tokens |
+| `smoke:live:env` (captura) | principal caído → respaldo `deepseek/deepseek-v4.1-flash` | PASS, 2,2 s, 714/305 tokens |
+| `smoke:background:env` | `anthropic/claude-haiku-5.5` (por defecto) | PASS 6/6; la nota de inyección queda en `NEEDS_REVIEW` |
+| `smoke:live:env` (captura) | `nvidia/nemotron-3.5-lightning-free` | PASS, 1 turno, ~2,8 s, 547/460 tokens |
+| `smoke:live:env` (captura) | `openai/gpt-5-mini` | PASS, 1 turno, ~3,8 s, 238/269 tokens |
+| `smoke:background:env` | `nvidia/nemotron-3.5-lightning-free` | PASS 6/6: recordatorio → `PROPOSE_REMINDER`, tarea → `PROPOSE_TASK`, sin novedades → `NO_ACTION`/`abstain`, reglas `drafts_ready`/`shift_close_attempt` correctas. La nota de inyección dio `NEEDS_REVIEW` en pruebas aisladas, pero a veces el modelo no entrega salida estructurada válida y el motor se abstiene (seguro, pero conviene calibrar) |
+| cualquier prueba | `openai/gpt-6.1-sol` | bloqueado en free tier (requiere créditos pagados) |
 
 ## Qué debe devolver
 

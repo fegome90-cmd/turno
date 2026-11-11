@@ -5,8 +5,9 @@ Estado: **experimental** en rama `feature/opencode-secure-config`. No hay despli
 ## Arquitectura
 
 - **Strands Agents SDK TypeScript** es el orquestador generativo.
-- **Vercel AI Gateway** es el proveedor de inferencia remota (por defecto `anthropic/claude-haiku-4.5`). No se descargan ni ejecutan modelos locales.
-- **Vercel Decision API** mediante `microsoft/microsoft-decision-1` es el clasificador remoto opcional para categorías cerradas. **No** es Strands Decider de AWS, que requeriría infraestructura propia; solo imitamos su patrón de evaluación en paralelo.
+- **Vercel AI Gateway** es el proveedor de inferencia remota por defecto: `anthropic/claude-haiku-5.5`, con `deepseek/deepseek-v4.1-flash` de respaldo y `typesafe-ai/jev` como decider. Fueron elegidos en la evaluación real; ver [`DECIDER.md`](DECIDER.md).
+- Otros proveedores de Strands se eligen con `TURNO_AI_PROVIDER`: OpenAI, Anthropic, Google, Bedrock, OpenRouter, Fireworks, Nebius, OVHcloud, Crusoe y OrcaRouter. Ver [`PROVIDERS.md`](PROVIDERS.md). No se descargan ni ejecutan modelos locales.
+- **Vercel Decision API** mediante `typesafe-ai/jev` es el decider remoto opcional para categorías cerradas (modos `DUAL` y `DECISION`; ver `DECIDER.md`). **No** es Strands Decider de AWS, que requeriría infraestructura propia; solo imitamos su patrón de evaluación en paralelo.
 - Reglas deterministas identifican problemas verificables de camas/fechas/horarios, sin invocar modelos.
 - No se expone una ruta HTTP; este módulo se integrará detrás del backend autenticado de Turno cuando exista su contrato.
 
@@ -32,7 +33,8 @@ El comando `demo` y los tests usan **datos sintéticos y no hacen peticiones fac
 Variables configuradas en `server/.env.example`:
 - `TURNO_AI_ENABLED=0`: apagado por defecto. Cambiar a 1 solo para pruebas sintéticas explícitas con autenticación del backend.
 - `TURNO_SYNTHETIC_ONLY=1`: obligatorio, el piloto rechaza configurarlo en 0 y rechaza eventos no sintéticos.
-- `TURNO_AI_MODEL_ID` y `TURNO_DECISION_MODEL_ID`: modelos remotos mediante Gateway.
+- `TURNO_AI_MODEL_ID`: modelo del LLM. Con `TURNO_AI_PROVIDER=vercel` (defecto) usa el formato del Gateway (`proveedor/modelo`, p. ej. `anthropic/claude-haiku-5.5`). Con un proveedor directo se envía tal cual a ese proveedor, así que va su propio id (p. ej. `gpt-5-mini` con `openai`). Ver `PROVIDERS.md`.
+- `TURNO_DECISION_MODEL_ID`: modelo de decisión, siempre por Vercel AI Gateway (formato del Gateway), en los modos `DUAL` y `DECISION`.
 - `TURNO_DECISION_MODE=GATEWAY` (inferencia Strands), `DUAL` (Strands activo, Decision API solo sombra), o `DECISION` (clasificador remoto activo con abstención bajo confianza desconocida o baja).
 
 **Atención a costos:** `DUAL` puede generar dos solicitudes facturables por nota. Las reglas deterministas no necesitan modelos. Usar un presupuesto por proyecto o clave y mantener `TURNO_AI_ENABLED=0` en producción hasta validar.
@@ -48,7 +50,7 @@ El motor devuelve objetos `suggestions` con `actions: ['review','dismiss']`; no 
 `npm test`: reglas y contrato de autorización, interruptor de doble ejecución y construcción de Strands/Vercel SDK sin peticiones remotas.
 `npm run demo`: imprime alertas basadas en tres tareas sintéticas: falta confirmar fecha para las 15:00; cama 4 no está vinculada al turno de demostración; coincidencia de horario; informe pendiente al cerrar. Ninguna advertencia supone duplicación ni inventa una hora.
 
-**Pendiente:** revisión efectiva de dependencias instaladas en CI, integración en backend autenticado de Turno, toasts accesibles, calibración y prueba facturable mínima con una credencial guardada por el usuario. No se ha probado inferencia real.
+**Pendiente:** integración en backend autenticado de Turno, toasts accesibles y la prueba `smoke:live:keychain` en el Mac del dueño. La inferencia real ya se probó con datos sintéticos desde la nube (ver `DECIDER.md` y el anexo de la auditoría).
 
 Referencias: [Strands VercelModel](https://strandsagents.com/docs/user-guide/sdk/model-providers/vercel/), [Vercel Decision API](https://vercel.com/i/ai-gateway-decision-api-use-cases), [AWS pattern](https://strandsagents.com/blog/amazon-saves-millions-replacing-sonnet-with-strands-decider/).
 
@@ -56,4 +58,21 @@ Referencias: [Strands VercelModel](https://strandsagents.com/docs/user-guide/sdk
 
 Se separó `@ai-sdk/gateway@3` (compatible con la interfaz LanguageModelV3 de `VercelModel`) de `ai@7` (Decision API remota, con proveedor Gateway V4 interno). El grafo reproducible está fijado en `package-lock.json`. Se actualizó Zod a 4.6.7 por una alerta alta de seguridad.
 
-Verificado nuevamente en Mac (10 de noviembre de 2026): **40/40 tests PASS** en Node 26.12.1 y Node 22.23.4; `npm run check` PASS; preflight `OFFLINE_CHECKS_ONLY`; `npm audit --omit=dev --audit-level=high` reportó **0 vulnerabilidades** en la instalación probada. Estas pruebas NO verifican credenciales, conectividad al modelo ni inferencia remota; tampoco prueban un servicio desplegado. La auditoría adversarial y los gates restantes están en [docs/live-smoke-audit-2026-11-10.md](../docs/live-smoke-audit-2026-11-10.md).
+Después, desde la nube y con inferencia real: **72/72 tests PASS** en Node 22.23.4 y pruebas reales PASS (ver `DECIDER.md` y el anexo de la auditoría). Antes, verificado en Mac (10 de noviembre de 2026): **40/40 tests PASS** en Node 26.12.1 y Node 22.23.4; `npm run check` PASS; preflight `OFFLINE_CHECKS_ONLY`; `npm audit --omit=dev --audit-level=high` reportó **0 vulnerabilidades** en la instalación probada. Esas pruebas sin red de la Mac NO verifican credenciales, conectividad al modelo ni inferencia remota; tampoco prueban un servicio desplegado. La auditoría adversarial y los gates restantes están en [docs/live-smoke-audit-2026-11-10.md](../docs/live-smoke-audit-2026-11-10.md).
+
+## Resguardos de seguridad (secretos)
+
+Ninguna clave va al repositorio. Las credenciales viven en el gestor de secretos del servidor, en el Llavero de macOS o en el panel de Vercel (BYOK). Para que eso no dependa de acordarse, hay cuatro resguardos:
+
+1. **Escáner** (`npm run check:secrets`): revisa los archivos versionados. Falla si encuentra un `.env` real (solo se permite `.env.example`), una variable de credencial con valor en `.env.example` o texto con forma de clave (OpenAI, Anthropic, Vercel, AWS, Google, GitHub, Slack, claves privadas, tokens Bearer, `*_API_KEY=` con valor literal). Nunca imprime el valor: solo el archivo, la línea y el tipo.
+2. **Test**: `tests/no-secrets.test.mjs` corre el escáner dentro de `npm test`.
+3. **CI**: el workflow lo ejecuta antes de instalar dependencias, también en cada pull request.
+4. **Hook de pre-commit** (opcional, por clon): bloquea el commit antes de que la clave llegue a GitHub.
+
+   ```sh
+   git config core.hooksPath .githooks
+   ```
+
+Además, los errores que guarda la evaluación (`eval/results/`) se limpian de claves y URLs antes de escribirse.
+
+Si una clave llegó a subirse, borrarla del archivo no basta: hay que **revocarla** en el panel del proveedor y crear otra.

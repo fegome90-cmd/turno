@@ -83,6 +83,7 @@ export async function analyzeAmbientEvent({
   const classification = await classifySignal({
     event: { id:event.id, text, synthetic:true },
     mode: settings.decisionMode, classifyWithGateway, classifyWithDecision, recordComparison,
+    ...(Number.isFinite(settings.decisionMinConfidence) && { minConfidence: settings.decisionMinConfidence }),
   });
   if (classification.status !== 'candidate') return { status:'abstain', suggestions:[] };
   return { status:'proposed', suggestions:[suggestion(

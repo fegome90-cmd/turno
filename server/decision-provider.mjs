@@ -1,10 +1,14 @@
 import { readGatewaySettings, assertSyntheticEvent } from './gateway-config.mjs';
+import { DECISION_INSTRUCTIONS, DECISION_CRITERIA, sortKeysDeep } from './prompts.mjs';
 
 /** Decisión cerrada REMOTA mediante Vercel AI Gateway (no Strands Decider local). */
 export async function createRemoteDecisionClassifier({ env = process.env } = {}) {
   const settings = readGatewaySettings(env);
   if (!settings.enabled) throw new Error('TURNO_AI_ENABLED debe ser 1 para crear el clasificador.');
-  const { experimental_decide: decide, gateway } = await import('ai');
+  const { experimental_decide: decide, gateway: defaultGateway, createGateway } = await import('ai');
+  // Use the key from the validated env, not only process.env; without a key, OIDC via the default provider.
+  const key = typeof env.AI_GATEWAY_API_KEY === 'string' ? env.AI_GATEWAY_API_KEY.trim() : '';
+  const gateway = key ? createGateway({ apiKey: key }) : defaultGateway;
   return async function classifyWithDecision(event) {
     assertSyntheticEvent(event, settings);
     if (typeof event.text !== 'string' || event.text.length < 1 || event.text.length > 500) {
@@ -12,19 +16,14 @@ export async function createRemoteDecisionClassifier({ env = process.env } = {})
     }
     const result = await decide({
       model: gateway.decisionModel(settings.decisionModelId),
-      state: { text: event.text },
-      questions: {
+      state: sortKeysDeep({ text: event.text }),
+      questions: sortKeysDeep({
         signal: {
           type: 'choice',
-          instructions: 'Clasifica una nota personal sintética de un gestor de tareas. No diagnostiques, ni actúes. Si es ambiguo, elige NEEDS_REVIEW.',
-          criteria: {
-            NO_ACTION: 'No expresa ninguna tarea ni solicitud de recordatorio.',
-            PROPOSE_TASK: 'Expresa una tarea pendiente sin solicitar notificación.',
-            PROPOSE_REMINDER: 'Solicita explícitamente un recordatorio o aviso.',
-            NEEDS_REVIEW: 'Contenido ambiguo, condicional, negado o insuficiente.',
-          },
+          instructions: DECISION_INSTRUCTIONS,
+          criteria: DECISION_CRITERIA,
         },
-      },
+      }),
       maxRetries: 0,
       abortSignal: AbortSignal.timeout(20_000),
     });

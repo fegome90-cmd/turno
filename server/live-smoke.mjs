@@ -11,6 +11,9 @@
 import { execFileSync } from 'node:child_process';
 import { createStrandsCapture } from './gateway-capture.mjs';
 import { readGatewaySettings } from './gateway-config.mjs';
+import { PROVIDERS } from './model-providers.mjs';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
 
 export const FIXTURE = Object.freeze({
   shiftId: 'demo-shift',
@@ -22,16 +25,45 @@ const BEDS = Object.freeze([
   Object.freeze({ id: 'bed-2', label: 'Cama 2' }),
 ]);
 
-function secretFromKeychain() {
+export function keychainService(provider) {
+  return provider === 'vercel' ? 'turno-ai-gateway' : 'turno-' + provider;
+}
+
+export function secretFromKeychain(provider = 'vercel') {
   if (process.platform !== 'darwin') throw new Error('La ruta Keychain requiere macOS.');
+  const service = keychainService(provider);
   try {
     // All arguments are identifiers, never the secret itself.
     return execFileSync('/usr/bin/security', [
-      'find-generic-password', '-a', 'turno', '-s', 'turno-ai-gateway', '-w',
+      'find-generic-password', '-a', 'turno', '-s', service, '-w',
     ], { encoding: 'utf8', timeout: 10000, stdio: ['ignore', 'pipe', 'ignore'] }).trim();
   } catch {
-    throw new Error('No se pudo obtener el secreto de macOS Keychain. Revisa el servicio turno-ai-gateway.');
+    throw new Error('No se pudo obtener el secreto de macOS Keychain. Revisa el servicio ' + service + '.');
   }
+}
+
+/**
+ * Prepara la credencial del proveedor elegido (TURNO_AI_PROVIDER) sin imprimirla.
+ * Devuelve null si no hay credencial; si no, una función que limpia lo cargado.
+ */
+export function prepareLiveCredential(fromKeychain) {
+  const probe = readGatewaySettings({ ...process.env, TURNO_AI_ENABLED: '0' });
+  const keyEnv = PROVIDERS[probe.provider].keyEnv[0];
+  if (fromKeychain) {
+    const secret = secretFromKeychain(probe.provider);
+    if (!secret) throw new Error('Keychain vacío.');
+    const had = Object.prototype.hasOwnProperty.call(process.env, keyEnv);
+    const previous = process.env[keyEnv];
+    process.env[keyEnv] = secret; // El SDK lo lee del proceso; nunca se registra.
+    return () => { if (had) process.env[keyEnv] = previous; else delete process.env[keyEnv]; };
+  }
+  return probe.authMode === 'missing' ? null : () => {};
+}
+
+export function missingCredentialMessage() {
+  const provider = readGatewaySettings({ ...process.env, TURNO_AI_ENABLED: '0' }).provider;
+  return 'No hay credencial disponible para ' + provider + '. Configura ' + PROVIDERS[provider].keyEnv.join(' o ') +
+    ' como secreto del servidor o guárdala en Keychain (servicio ' + keychainService(provider) + ').';
 }
 
 function summarizeReview(proposals) {
@@ -68,30 +100,41 @@ export function evaluateSyntheticReview(result) {
   });
 }
 
-function sanitizedFailure(error) {
-  if (error?.message === 'No se pudo obtener el secreto de macOS Keychain. Revisa el servicio turno-ai-gateway.') return error.message;
+function isRateLimit(error) {
+  for (let e = error, i = 0; e && i < 5; e = e.cause, i++) {
+    if (e.name === 'GatewayRateLimitError' || e.statusCode === 429) return true;
+  }
+  return false;
+}
+
+export function sanitizedFailure(error) {
+  if (error?.message?.startsWith('No se pudo obtener el secreto de macOS Keychain.')) return error.message;
   if (error?.message === 'La ruta Keychain requiere macOS.') return error.message;
   if (error?.message?.includes('captura') || error?.message?.includes('Captura')) return 'Fallo en la validación de propuestas; no se guardó nada.';
   if (error?.name === 'AbortError' || error?.name === 'TimeoutError') return 'Se agotó el tiempo de inferencia; no se guardó nada.';
+  if (isRateLimit(error)) return 'Límite de solicitudes del modelo en AI Gateway (los modelos gratuitos admiten pocas por minuto). Espera y reintenta; no se guardó nada.';
   return 'No se completó la inferencia o el esquema estructurado. Revisa la configuración del proveedor sin imprimir credenciales ni payloads.';
 }
 
 export async function main(args = process.argv.slice(2)) {
   if (args.length === 0 || (args.length === 1 && args[0] === '--preflight')) {
-    const configuration = readGatewaySettings({
-      TURNO_AI_ENABLED: '1',
-      TURNO_SYNTHETIC_ONLY: '1',
-      TURNO_AI_MODEL_ID: process.env.TURNO_AI_MODEL_ID || 'anthropic/claude-haiku-4.5',
-      AI_GATEWAY_API_KEY: 'public-preflight-placeholder-not-a-secret',
-    });
-    await createStrandsCapture({ env: {
-      ...process.env,
-      TURNO_AI_ENABLED: '1',
-      TURNO_SYNTHETIC_ONLY: '1',
-      AI_GATEWAY_API_KEY: 'public-preflight-placeholder-not-a-secret',
-    } });
+    const provider = (process.env.TURNO_AI_PROVIDER || 'vercel').trim().toLowerCase();
+    const placeholder = PROVIDERS[provider]
+      ? { [PROVIDERS[provider].keyEnv[0]]: 'public-preflight-placeholder-not-a-secret' } : {};
+    const preflightEnv = { ...process.env, TURNO_AI_ENABLED: '1', TURNO_SYNTHETIC_ONLY: '1', ...placeholder };
+    let configuration;
+    try {
+      configuration = readGatewaySettings(preflightEnv);
+      // Valida la configuración y carga el SDK del proveedor; el Agent se crea recién al
+      // proponer. No hace solicitudes ni comprueba credenciales.
+      await createStrandsCapture({ env: preflightEnv });
+    } catch (error) {
+      console.error(error?.message?.startsWith('TURNO_') ? error.message : sanitizedFailure(error));
+      return 2;
+    }
     console.log(JSON.stringify({
       stage: 'preflight',
+      provider: configuration.provider,
       modelId: configuration.modelId,
       localSdkWiring: 'PASS',
       credentialsChecked: false,
@@ -110,18 +153,15 @@ export async function main(args = process.argv.slice(2)) {
 
   // A LIVE run requires an explicit CLI flag. The secret stays in memory.
   // No .env file, GitHub action, browser, Turno database, or public endpoint.
-  let suppliedSecret;
+  let cleanup = null;
   const fromKeychain = args[1] === '--from-keychain';
   try {
-    suppliedSecret = fromKeychain ? secretFromKeychain() : process.env.AI_GATEWAY_API_KEY;
-    if (fromKeychain && !suppliedSecret) throw new Error('Keychain vacío.');
-    if (!suppliedSecret && !process.env.VERCEL_OIDC_TOKEN) {
-      console.error('No hay credencial disponible. Crea una API key en Gateway y guárdala en Keychain o como secreto del backend.');
+    cleanup = prepareLiveCredential(fromKeychain);
+    if (!cleanup) {
+      console.error(missingCredentialMessage());
       return 2;
     }
 
-    // The Gateway SDK reads process.env, but never logs this value.
-    if (fromKeychain) process.env.AI_GATEWAY_API_KEY = suppliedSecret;
     const env = {
       ...process.env,
       TURNO_AI_ENABLED: '1',
@@ -142,6 +182,7 @@ export async function main(args = process.argv.slice(2)) {
     console.log(JSON.stringify({
       stage: 'live',
       inference: 'remote',
+      provider: cfg.provider,
       modelId: cfg.modelId,
       durationMs: Math.round(performance.now() - started),
       observedTokens: metrics,
@@ -156,12 +197,11 @@ export async function main(args = process.argv.slice(2)) {
     console.error(sanitizedFailure(error));
     return 4;
   } finally {
-    if (fromKeychain) delete process.env.AI_GATEWAY_API_KEY;
-    suppliedSecret = undefined;
+    cleanup?.();
   }
 }
 
-if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const status = await main();
   process.exitCode = status;
 }
