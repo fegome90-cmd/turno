@@ -1,6 +1,6 @@
 # Turno · Captura y revisión v6 — UI antes de inferencia
 
-**Estado:** implementación en rama aislada `feature/turno-capture-review-ui-v6`, con base en la interfaz React del PR #3 (`work/react-v6-ed374be`). **No es una release.**
+**Estado:** implementación en la rama `feature/turno-capture-review-ui-v6` (PR #5), con base en `main` (interfaz React integrada por el PR #3). **No es una release.**
 
 ## Decisión explícita
 
@@ -16,6 +16,7 @@ Primero se prepara y prueba el recorrido completo de interfaz y estado. **No se 
 - Los borradores sin guardar no se descartan al cerrar accidentalmente el diálogo.
 - Las sugerencias muestran **únicamente hechos verificables en el snapshot actual**: varias tareas pendientes en la misma lista, fecha y hora; o tareas pendientes marcadas «antes del cierre». Una coincidencia no demuestra duplicación.
 - Se puede revisar una tarea, descartar la sugerencia en la sesión actual y usar el panel en escritorio y móvil.
+- Las sugerencias no se anuncian con un aviso global: quedan en el acceso voluntario «Sugerencias», con su contador. Los errores reales de guardado sí se siguen anunciando (paquete R1a de la hoja de ruta del agente).
 - Se reutilizan el store de Zustand, navegación, sistema de capas, tema y avisos ya existentes.
 
 ## Lo que deliberadamente NO hace
@@ -44,6 +45,6 @@ Cuando **toda la UI** esté aprobada, un worker Strands Agents remoto podrá sol
 - Unitarias: validación de fecha/hora/cama, condición de cierre, persistencia atómica del adaptador y sugerencias derivadas de tareas del puerto.
 - Componentes: interacción React real, no creación sin aprobación, campos incompletos, confirmación y descarte.
 - Chromium: recorrido completo desktop y móvil en el HTML construido, con bloqueo de peticiones externas; prueba sin acceso a modelos.
-- Ejecutar desde `prototypes/frontend-v6`: `npm run typecheck`, `npm run lint`, `npm run test:unit`, `npm run test:component`, `npm run build:e2e` y `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=<Chrome> npx playwright test --project=chromium --workers=1`.
+- Ejecutar desde `prototypes/frontend-v6`: `npm run typecheck`, `npm run lint`, `npm run test:unit`, `npm run test:component`, `npm run build:e2e`, `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=<Chrome> npx playwright test --project=chromium --workers=1` y, con `dist/` ya construido, `npm run check:portable`. Correr `typecheck` solo después de que `npm ci` haya terminado: si coincide con la instalación aparecen errores TS7016 falsos.
 
 El control de cierre es un **gate de interfaz**, no aprobación para activar inferencia ni datos clínicos.
