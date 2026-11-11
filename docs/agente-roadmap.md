@@ -621,7 +621,7 @@ Acción siguiente: <una sola, sin promoción implícita>
 |---|---|---|
 | Etapa 0 — inferencia real | Hecha, pendiente de integrar (D1) | PR #6 aprobado e integrado |
 | G0 — preflight | `PASS` (11-11-2026, ver §27) | SHA, baseline corrido, decisión `READY` |
-| R1a — eliminar aviso global | `PASS` (11-11-2026, ver §27; commit local sin integrar) | Pruebas focalizadas, E2E, error conservado, diff mínimo |
+| R1a — eliminar aviso global | `PASS` (11-11-2026, ver §27; integrado en la rama del PR #5, `4603785`) | Pruebas focalizadas, E2E, error conservado, diff mínimo |
 | R0 — integración de interfaz | `PENDING` | Tipos y puerto, suites completas, replay de captura y archivo |
 | R1b — identidad y caducidad | `PENDING` | Deduplicación, descarte y caducidad en pruebas y en la interfaz |
 | R2 — antes del cierre | `PENDING` | Enlace correcto, cierre no bloqueado, solo código |
@@ -683,7 +683,7 @@ Acción siguiente: R1a, con aprobación.
 
 ```markdown
 Estado: PASS
-Base -> HEAD: 82c6eedd731348b13846df14952487e6abed4648 -> 4603785 (rama local r1a/silence-ambient-toast; sin push)
+Base -> HEAD: 82c6eedd731348b13846df14952487e6abed4648 -> 4603785 (integrado en feature/turno-capture-review-ui-v6, PR #5)
 Cambio: se quitó solo el useEffect que anunciaba «Hay una nueva sugerencia de organización para revisar.», su ref y el import useEffect sin uso. No cambian collectAmbientSuggestions, visibleSuggestions, el contador, el botón «Sugerencias», NotificationStack, el store de avisos ni server/.
 Archivos: prototypes/frontend-v6/src/app/App.tsx; prototypes/frontend-v6/tests/component/assistance.test.tsx (+32/-11).
 VALIDATE: typecheck y lint sin errores; diff limitado a los dos archivos.
@@ -691,8 +691,8 @@ TEST: prueba nueva de horario compartido sin aviso: FAIL en 82c6eed, PASS en el 
 FIX: ninguno.
 REPLAY: Chromium, 1440×900 y 390×844, sobre la build compilada. Crear A y B en la misma lista, fecha y hora → sin aviso de sugerencia (antes del cambio aparecía al cerrar el diálogo) → «Sugerencias» muestra «Tareas en el mismo horario» → «Descartar» la quita. Error de guardado simulado («Simular fallo» de la demo) → el error se ve en el diálogo y el aviso «No se pudo completar» aparece al cerrarlo. Capturas guardadas fuera del repositorio.
 LLM: 0 llamadas.
-Riesgos/pendientes: el foco después de guardar queda igual que antes del cambio (contenedor del modal); no se comprobó con lector de pantalla. No hay un E2E nuevo para el escenario de horario compartido. El commit no está en ninguna rama remota.
+Riesgos/pendientes: el foco después de guardar queda igual que antes del cambio (contenedor del modal); no se comprobó con lector de pantalla. No hay un E2E nuevo para el escenario de horario compartido. El commit se integró en la rama del PR #5 por decisión de la persona dueña.
 Veredicto: GO a revisión.
-Acción siguiente: decidir dónde se integra el commit (rama del PR #5 o rama nueva) y después R0.
+Acción siguiente: R0, con aprobación.
 ```
 
