@@ -7,7 +7,8 @@
   },
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check gateway-config.mjs && node --check gateway-provider.mjs && node --check decision-provider.mjs && node --check decision-switch.mjs && node --check ambient-engine.mjs && node --check capture-review.mjs && node --check gateway-capture.mjs && node --check live-smoke.mjs && node --check live-background.mjs && node --check model-providers.mjs && node --check model-factory.mjs && node --check eval/dataset.mjs && node --check eval/run-eval.mjs && node --check eval/report.mjs && node --check prompts.mjs && node --check scripts/check-secrets.mjs",
+    "check": "node --check gateway-config.mjs && node --check gateway-provider.mjs && node --check decision-provider.mjs && node --check decision-switch.mjs && node --check ambient-engine.mjs && node --check capture-review.mjs && node --check gateway-capture.mjs && node --check live-smoke.mjs && node --check live-background.mjs && node --check model-providers.mjs && node --check model-factory.mjs && node --check eval/dataset.mjs && node --check eval/run-eval.mjs && node --check eval/report.mjs && node --check prompts.mjs && node --check scripts/check-secrets.mjs && node --check http/transport.mjs && node --check http/server.mjs && node --check http/snapshots.mjs && node --check http/serve.mjs",
+    "serve": "node http/serve.mjs",
     "demo": "node synthetic-demo.mjs",
     "smoke:preflight": "node live-smoke.mjs --preflight",
     "smoke:live:keychain": "node live-smoke.mjs --live --from-keychain",
