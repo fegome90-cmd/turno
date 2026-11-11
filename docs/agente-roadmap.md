@@ -231,7 +231,7 @@ npm run lint
 npm run test:unit
 npm run test:component
 npm run test:e2e          # ejecuta pretest:e2e / build:e2e
-npm run check:portable    # sobre dist/preview.html ya compilado
+npm run check:portable    # sobre dist/preview.html ya compilado: correr después de test:e2e o de npm run build
 ```
 
 Prueba focalizada: `npx vitest run --project unit <ruta>` o `--project component <ruta>`. Si el entorno no tiene Playwright/Chromium o no puede instalar paquetes, se reporta `BLOCKED` con la razón exacta; el E2E no se marca `PASS`. `npm run test:smoke:engines` es complementario y requiere Firefox y WebKit.
@@ -620,7 +620,7 @@ Acción siguiente: <una sola, sin promoción implícita>
 | Paquete | Estado | Evidencia para marcar `PASS` |
 |---|---|---|
 | Etapa 0 — inferencia real | Hecha, pendiente de integrar (D1) | PR #6 aprobado e integrado |
-| G0 — preflight | `PENDING` | SHA, baseline corrido, decisión `READY` |
+| G0 — preflight | `PASS` (11-11-2026, ver §27) | SHA, baseline corrido, decisión `READY` |
 | R1a — eliminar aviso global | `PENDING` | Pruebas focalizadas, E2E, error conservado, diff mínimo |
 | R0 — integración de interfaz | `PENDING` | Tipos y puerto, suites completas, replay de captura y archivo |
 | R1b — identidad y caducidad | `PENDING` | Deduplicación, descarte y caducidad en pruebas y en la interfaz |
@@ -659,3 +659,23 @@ Después de G0. Trabajar sobre `feature/turno-capture-review-ui-v6` en una rama 
 - Decider, modelos y costos — [`../server/DECIDER.md`](../server/DECIDER.md)
 - Transporte interno y limitaciones — <https://github.com/fegome90-cmd/turno/blob/feat/internal-agent-http/server/ENDPOINT.md>
 - Dataset de evaluación — `server/eval/dataset.mjs`
+
+## 27. Registro de ejecución
+
+### REPLY — Turno Ambient | G0/T01–T04 | 11-11-2026
+
+```markdown
+Estado: PASS
+Base -> HEAD: 82c6eedd731348b13846df14952487e6abed4648 (feature/turno-capture-review-ui-v6) -> sin cambios
+Cambio: ninguno. G0 no cambia código; no hubo commits en la rama de interfaz.
+Archivos: ninguno modificado.
+VALIDATE: origin/main = dbb5824c41f15f4c911fa39da1b15ee09687913a y rama de interfaz = 82c6eed, iguales a §4.1. Copias de trabajo limpias antes y después.
+TEST: Node v24.22.2, npm ci, typecheck, lint, unitarias 165/165 (12 archivos), componentes 322/322 (21 archivos), E2E Chromium 231/231 (incluye build), check:portable PASS (0 errores de consola o de página, 0 peticiones externas). Corrido dos veces en copias separadas (worker y tester): mismos números, sin pruebas inestables.
+FIX: ninguno.
+REPLAY: no aplica (sin cambios). Alcance de R1a leído en código: App.tsx:47 declara previousSuggestionIds, el useEffect está en 48-56 y la llamada notify('Hay una nueva sugerencia de organización para revisar.', 'status') en la línea 52. Ninguna prueba afirma hoy que ese aviso aparece; assistance.test.tsx no tiene una aserción sobre él, así que R1a-T02 la agrega.
+LLM: 0 llamadas.
+Riesgos/pendientes: check:portable necesita dist/ compilado (correr después de test:e2e o de npm run build). Firefox y WebKit no se corrieron (fuera de G0). El ambiente del sandbox trae Node 22; se usó Node 24.22.2 instalado aparte.
+Veredicto: GO a revisión. Decisión para R1a: READY.
+Acción siguiente: R1a, con aprobación.
+```
+
