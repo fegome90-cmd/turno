@@ -1,0 +1,37 @@
+[
+ [
+  "N25 busy no se libera tras fallo",
+  "CAUGHT",
+  "8 failed | 52 passed (60)",
+  [
+   "EXTRA-LIFECYCLE-ASYNC",
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N26 select conserva errores previos",
+  "SURVIVED",
+  "60 passed (60)",
+  []
+ ],
+ [
+  "N27 codigo SIMULATED_CONFLICT cambiado",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "EMIL-SKILLS-07"
+  ]
+ ],
+ [
+  "N28 select no resetea temporal",
+  "SURVIVED",
+  "60 passed (60)",
+  []
+ ],
+ [
+  "N29 saveNote exito pisa draft siempre",
+  "SURVIVED",
+  "60 passed (60)",
+  []
+ ]
+]

@@ -1,0 +1,33 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/validation.test.ts (8 tests | 1 failed) 9ms
+     × VALIDATION-02 · añadido: título de 1 y 300 caracteres válido; 301 inválido; cuerpo 10.000 válido y 10.001 inválido 4ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:03:20
+   Duration  1.05s (transform 142ms, setup 0ms, import 235ms, tests 113ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-02 · añadido: título de 1 y 300 caracteres válido; 301 inválido; cuerpo 10.000 válido y 10.001 inválido
+AssertionError: expected undefined to be 'Notas: usa como máximo 10.000 caracte…' // Object.is equality
+
+- Expected:
+"Notas: usa como máximo 10.000 caracteres."
+
++ Received:
+undefined
+
+ ❯ tests/unit/validation.test.ts:79:75
+     77|     expect(validateEditor(note('x'.repeat(301), ''), null, true).title…
+     78|     expect(validateEditor(note('t', 'y'.repeat(10000)), null, true)).t…
+     79|     expect(validateEditor(note('t', 'y'.repeat(10001)), null, true).bo…
+       |                                                                           ^
+     80|   });
+     81|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

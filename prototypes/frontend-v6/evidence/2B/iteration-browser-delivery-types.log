@@ -1,0 +1,30 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a typecheck
+> tsc --noEmit -p tsconfig.json
+
+tests/e2e/history.spec.ts(43,6): error TS2352: Conversion of type 'Window & typeof globalThis' to type 'DeliveryWindow' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Property '__historyDelivery' is missing in type 'Window & typeof globalThis' but required in type '{ __historyDelivery: { held: boolean; pending: (() => void)[]; release(): void; }; }'.
+tests/e2e/history.spec.ts(45,47): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(type: keyof WindowEventMap, listener: (this: Window, ev: Event | KeyboardEvent | UIEvent | ErrorEvent | SubmitEvent | ... 27 more ... | StorageEvent) => any, options?: boolean | ... 1 more ... | undefined): void', gave the following error.
+    Argument of type 'string' is not assignable to parameter of type 'keyof WindowEventMap'.
+  Overload 2 of 2, '(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions | undefined): void', gave the following error.
+    Argument of type 'EventListenerOrEventListenerObject | null' is not assignable to parameter of type 'EventListenerOrEventListenerObject'.
+      Type 'null' is not assignable to type 'EventListenerOrEventListenerObject'.
+tests/e2e/history.spec.ts(58,12): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(type: keyof WindowEventMap, listener: (this: Window, ev: Event | KeyboardEvent | UIEvent | ErrorEvent | SubmitEvent | ... 27 more ... | StorageEvent) => any, options?: boolean | ... 1 more ... | undefined): void', gave the following error.
+    Argument of type 'string' is not assignable to parameter of type 'keyof WindowEventMap'.
+  Overload 2 of 2, '(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions | undefined): void', gave the following error.
+    Argument of type 'EventListenerOrEventListenerObject | null' is not assignable to parameter of type 'EventListenerOrEventListenerObject'.
+      Type 'null' is not assignable to type 'EventListenerOrEventListenerObject'.
+tests/e2e/history.spec.ts(64,61): error TS2352: Conversion of type 'Window & typeof globalThis' to type 'DeliveryWindow' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Property '__historyDelivery' is missing in type 'Window & typeof globalThis' but required in type '{ __historyDelivery: { held: boolean; pending: (() => void)[]; release(): void; }; }'.
+tests/e2e/history.spec.ts(65,64): error TS2352: Conversion of type 'Window & typeof globalThis' to type 'DeliveryWindow' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Property '__historyDelivery' is missing in type 'Window & typeof globalThis' but required in type '{ __historyDelivery: { held: boolean; pending: (() => void)[]; release(): void; }; }'.
+tests/e2e/history.spec.ts(68,48): error TS2352: Conversion of type 'Window & typeof globalThis' to type 'DeliveryWindow' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Property '__historyDelivery' is missing in type 'Window & typeof globalThis' but required in type '{ __historyDelivery: { held: boolean; pending: (() => void)[]; release(): void; }; }'.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

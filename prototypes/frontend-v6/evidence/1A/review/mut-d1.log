@@ -1,0 +1,30 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism
+
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-mutants/d1
+
+ ❯ |component| tests/component/theme-home.test.tsx (12 tests | 1 failed) 109ms
+     × EXTRA-STRICTMODE-HOME · bajo StrictMode el subtítulo se sortea una sola vez y se mantiene 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > EXTRA-STRICTMODE-HOME · sorteo una vez por sesión > EXTRA-STRICTMODE-HOME · bajo StrictMode el subtítulo se sortea una sola vez y se mantiene
+AssertionError: expected "vi.fn()" to be called 1 times, but got 2 times
+ ❯ tests/component/theme-home.test.tsx:224:20
+    222|     );
+    223|     const view = render(tree(<Home preferredName="Demo" subtitle={sess…
+    224|     expect(random).toHaveBeenCalledTimes(1);
+       |                    ^
+    225|     expect(screen.getByText('¿En qué te ayudo hoy?')).toBeInTheDocumen…
+    226|     view.rerender(tree(<Home preferredName="Demo" subtitle={session.ho…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  23:36:42
+   Duration  797ms (transform 70ms, setup 116ms, import 67ms, tests 109ms, environment 387ms)
+

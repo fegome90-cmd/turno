@@ -1,0 +1,13 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism
+
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-mutants/d3
+
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  23:37:14
+   Duration  780ms (transform 77ms, setup 122ms, import 58ms, tests 110ms, environment 362ms)
+

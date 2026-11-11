@@ -1,0 +1,218 @@
+[
+ [
+  "N1 parseTime acepta 24:00",
+  "CAUGHT",
+  "2 failed | 58 passed (60)",
+  [
+   "VALIDATION-01",
+   "VALIDATION-02"
+  ]
+ ],
+ [
+  "N1b adaptador acepta 24:00",
+  "SURVIVED",
+  "60 passed (60)",
+  []
+ ],
+ [
+  "N2 limite cuerpo off-by-one (>=10000)",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "PREVIEW-03"
+  ]
+ ],
+ [
+  "N2b limite cuerpo validation off-by-one",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "VALIDATION-02"
+  ]
+ ],
+ [
+  "N3 version no incrementa al guardar",
+  "CAUGHT",
+  "4 failed | 56 passed (60)",
+  [
+   "EXTRA-STATE-AUTHORITY",
+   "PREVIEW-03",
+   "PREVIEW-05"
+  ]
+ ],
+ [
+  "N4 conflicto de version omitido",
+  "CAUGHT",
+  "2 failed | 58 passed (60)",
+  [
+   "EXTRA-STATE-AUTHORITY",
+   "PREVIEW-05"
+  ]
+ ],
+ [
+  "N5 archivo editable (saveTask)",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "PREVIEW-10"
+  ]
+ ],
+ [
+  "N5b renameBed archivo editable",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "PREVIEW-20"
+  ]
+ ],
+ [
+  "N6 renameBed fusiona nombres duplicados (rechaza duplicado)",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "PREVIEW-17"
+  ]
+ ],
+ [
+  "N7 nota guarda shiftId",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "PREVIEW-13"
+  ]
+ ],
+ [
+  "N8 groupAgenda muta el orden de entrada",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "POLISH-10"
+  ]
+ ],
+ [
+  "N9 respuesta tardia sobrescribe seleccion nueva",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N10 fuga suscripcion notification-store",
+  "CAUGHT",
+  "2 failed | 58 passed (60)",
+  [
+   "EXTRA-LIFECYCLE-ASYNC"
+  ]
+ ],
+ [
+  "N11 fallo resetea temporal crudo",
+  "SURVIVED",
+  "60 passed (60)",
+  []
+ ],
+ [
+  "N12 fallo resetea draft al snapshot",
+  "CAUGHT",
+  "3 failed | 57 passed (60)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N13 load devuelve referencia (no clona)",
+  "CAUGHT",
+  "2 failed | 58 passed (60)",
+  [
+   "EXTRA-STATE-AUTHORITY",
+   "PREVIEW-02"
+  ]
+ ],
+ [
+  "N14 createTask acepta cama de otro turno",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "PREVIEW-09"
+  ]
+ ],
+ [
+  "N15 closeShift repetido lanza",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "PREVIEW-15"
+  ]
+ ],
+ [
+  "N16 openShift usa fecha UTC",
+  "SURVIVED",
+  "60 passed (60)",
+  []
+ ],
+ [
+  "N17 persist permite doble mutacion",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N18 minutos aceptan decimales",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "VALIDATION-01"
+  ]
+ ],
+ [
+  "N19 vacio como cero en applyTemporalDraft estimate",
+  "SURVIVED",
+  "60 passed (60)",
+  []
+ ],
+ [
+  "N20 parseDate sin validar dia (31/02 pasa)",
+  "CAUGHT",
+  "4 failed | 56 passed (60)",
+  [
+   "DRAFT-02",
+   "PREVIEW-01",
+   "VALIDATION-02"
+  ]
+ ],
+ [
+  "N21 conflicto en store pisa borrador con snapshot (select)",
+  "CAUGHT",
+  "3 failed | 57 passed (60)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N22 error de renameBed id mutado (regen id)",
+  "CAUGHT",
+  "2 failed | 58 passed (60)",
+  [
+   "PREVIEW-16",
+   "PREVIEW-17"
+  ]
+ ],
+ [
+  "N23 tarea nueva sin version 1 / HTML escapado",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "PREVIEW-03"
+  ]
+ ],
+ [
+  "N24 titulo 300 limite en adapter 299",
+  "CAUGHT",
+  "1 failed | 59 passed (60)",
+  [
+   "PREVIEW-03"
+  ]
+ ]
+]

@@ -1,0 +1,51 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 2 failed) 2431ms
+     × G1B-NOTIFY-03 · estado va a la región cortés y error a la región asertiva; un solo anuncio por aviso 11ms
+     × G1B-NOTIFY-04 · con modal abierto la pila queda inerte y oculta; el anuncio se difiere hasta cerrar 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-03 · estado va a la región cortés y error a la región asertiva; un solo anuncio por aviso
+AssertionError: expected '' to be 'No se pudo guardar' // Object.is equality
+
+- Expected
++ Received
+
+- No se pudo guardar
+
+ ❯ tests/component/primitive-contract.test.tsx:278:36
+    276|       store.notify('No se pudo guardar', 'error');
+    277|     });
+    278|     expect(assertive?.textContent).toBe('No se pudo guardar');
+       |                                    ^
+    279|     expect(polite?.textContent).toBe('');
+    280|     // Un solo anuncio: el texto aparece en exactamente una región viv…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-04 · con modal abierto la pila queda inerte y oculta; el anuncio se difiere hasta cerrar
+AssertionError: expected '' to be 'Mientras modal' // Object.is equality
+
+- Expected
++ Received
+
+- Mientras modal
+
+ ❯ tests/component/primitive-contract.test.tsx:304:64
+    302|     expect(root.hasAttribute('inert')).toBe(false);
+    303|     expect(root.style.visibility).toBe('');
+    304|     expect(document.getElementById('live-error')?.textContent).toBe('M…
+       |                                                                ^
+    305|   });
+    306|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  2 failed | 46 passed (48)
+   Start at  02:01:29
+   Duration  5.08s (transform 244ms, setup 309ms, import 523ms, tests 2.62s, environment 1.23s)
+

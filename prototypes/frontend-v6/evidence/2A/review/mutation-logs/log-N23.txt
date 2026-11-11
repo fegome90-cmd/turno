@@ -1,0 +1,30 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 1 failed) 43ms
+     × PREVIEW-03 · save accepts literal title and increments version 7ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:03:56
+   Duration  982ms (transform 121ms, setup 0ms, import 201ms, tests 106ms, environment 1ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-03 · save accepts literal title and increments version
+AssertionError: expected '&lt;b>Literal&lt;/b>' to be '<b>Literal</b>' // Object.is equality
+
+Expected: "<b>Literal</b>"
+Received: "&lt;b>Literal&lt;/b>"
+
+ ❯ tests/unit/preview.test.ts:51:27
+     49|     const task = await firstTask(adapter);
+     50|     const updated = await adapter.saveTask({...task, title: '<b>Litera…
+     51|     expect(updated.title).toBe('<b>Literal</b>');
+       |                           ^
+     52|     expect(updated.version).toBe(task.version + 1);
+     53|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

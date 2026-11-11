@@ -1,0 +1,16 @@
+
+> turno-frontend-v6@0.1.0-phase1a build
+> tsc --noEmit -p tsconfig.json && vite build
+
+vite v8.3.6 building client environment for production...
+transforming...
+✓ 21 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: preview-BBb2_h4d.js
+[plugin vite:singlefile] Inlining: style-DfJ1hQ-v.css
+computing gzip size...
+dist/preview.html  1,095.60 kB │ gzip: 726.88 kB
+
+✓ built in 185ms

@@ -1,0 +1,11 @@
+{
+  "executionSha": "72459f5ffc3c48db4202792208370b4ca92d5426",
+  "gitTree": "a4a7fe3c5b06f1ac4abcd5d9a7dd6435c73f458e",
+  "sourceArchiveSha256": "c96303ef391a6d0308ca6098d4d8a40d0a85f550229a47919aa823d94e2ee72e",
+  "sourceManifestSha256": "3c64b36e2d4d6ecee45349ed308fe912f9850099c633c7d1fd763565d3ba4036",
+  "gitBlobsCompared": 577,
+  "mismatches": [],
+  "macPackageSha256": "87cd7159b2189f9d4444b8e4145eab7f397b4b4f9619d2030b31fa3562860658",
+  "macPackageLibraryId": "libfile_7ef756ef6e608191b0d7e48679f3e9f1",
+  "note": "Manifest SHA256 is not a Git tree ID. Each source file was compared against its Git blob bytes."
+}

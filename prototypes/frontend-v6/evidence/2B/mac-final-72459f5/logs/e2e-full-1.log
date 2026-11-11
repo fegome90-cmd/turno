@@ -1,0 +1,55 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:e2e
+> playwright test --project=chromium --workers=1 --config /Users/felipe/turno-2b-qa-4f88fca-20261109/v3/playwright.mac-qa.config.ts
+
+[WebServer] (node:14626) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:14627) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 40 tests using 1 worker
+
+(node:14628) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/history.spec.ts:109:5 › G2B · file · controller harness › initial replace, distinct route push, title, rerender and Back/Forward restore without URL changes (635ms)
+  ✓   2 [chromium] › tests/e2e/history.spec.ts:122:5 › G2B · file · controller harness › negative control: external request is intercepted and aborted while the local document stays usable (297ms)
+  ✓   3 [chromium] › tests/e2e/history.spec.ts:136:5 › G2B · file · controller harness › overlay Back returns to the same entry, restores visible focus, and retains Forward (431ms)
+  ✓   4 [chromium] › tests/e2e/history.spec.ts:148:5 › G2B · file · controller harness › busy blocks traversal without truncating Forward (656ms)
+  ✓   5 [chromium] › tests/e2e/history.spec.ts:159:7 › G2B · file · controller harness › cancel and discard repeat original delta -1 once (615ms)
+  ✓   6 [chromium] › tests/e2e/history.spec.ts:159:7 › G2B · file · controller harness › cancel and discard repeat original delta 1 once (602ms)
+  ✓   7 [chromium] › tests/e2e/history.spec.ts:175:5 › G2B · file · controller harness › failed save preserves draft and route; retry success continues original Forward once (609ms)
+  ✓   8 [chromium] › tests/e2e/history.spec.ts:190:5 › G2B · file · controller harness › EXTRA-LIFECYCLE-ASYNC · late response cannot navigate or steal focus from a newer selection (562ms)
+  ✓   9 [chromium] › tests/e2e/history.spec.ts:209:5 › G2B · file · controller harness › cancel during save invalidates its eventual success without another navigation (442ms)
+  ✓  10 [chromium] › tests/e2e/history.spec.ts:222:5 › G2B · file · controller harness › foreign entries without owned idx stay external and are not replaced or bounced (360ms)
+  ✓  11 [chromium] › tests/e2e/history.spec.ts:234:5 › G2B · file · controller harness › new selection during approved replay survives delayed old popstate and branches from the visible source (703ms)
+  ✓  12 [chromium] › tests/e2e/history.spec.ts:250:5 › G2B · file · controller harness › new selection before user popstate delivery cannot be overwritten by the queued route (490ms)
+  ✓  13 [chromium] › tests/e2e/history.spec.ts:109:5 › G2B · http · controller harness › initial replace, distinct route push, title, rerender and Back/Forward restore without URL changes (390ms)
+  ✓  14 [chromium] › tests/e2e/history.spec.ts:122:5 › G2B · http · controller harness › negative control: external request is intercepted and aborted while the local document stays usable (258ms)
+  ✓  15 [chromium] › tests/e2e/history.spec.ts:136:5 › G2B · http · controller harness › overlay Back returns to the same entry, restores visible focus, and retains Forward (412ms)
+  ✓  16 [chromium] › tests/e2e/history.spec.ts:148:5 › G2B · http · controller harness › busy blocks traversal without truncating Forward (446ms)
+  ✓  17 [chromium] › tests/e2e/history.spec.ts:159:7 › G2B · http · controller harness › cancel and discard repeat original delta -1 once (577ms)
+  ✓  18 [chromium] › tests/e2e/history.spec.ts:159:7 › G2B · http · controller harness › cancel and discard repeat original delta 1 once (572ms)
+  ✓  19 [chromium] › tests/e2e/history.spec.ts:175:5 › G2B · http · controller harness › failed save preserves draft and route; retry success continues original Forward once (602ms)
+  ✓  20 [chromium] › tests/e2e/history.spec.ts:190:5 › G2B · http · controller harness › EXTRA-LIFECYCLE-ASYNC · late response cannot navigate or steal focus from a newer selection (562ms)
+  ✓  21 [chromium] › tests/e2e/history.spec.ts:209:5 › G2B · http · controller harness › cancel during save invalidates its eventual success without another navigation (458ms)
+  ✓  22 [chromium] › tests/e2e/history.spec.ts:222:5 › G2B · http · controller harness › foreign entries without owned idx stay external and are not replaced or bounced (341ms)
+  ✓  23 [chromium] › tests/e2e/history.spec.ts:234:5 › G2B · http · controller harness › new selection during approved replay survives delayed old popstate and branches from the visible source (733ms)
+  ✓  24 [chromium] › tests/e2e/history.spec.ts:250:5 › G2B · http · controller harness › new selection before user popstate delivery cannot be overwritten by the queued route (475ms)
+  ✓  25 [chromium] › tests/e2e/offline-theme.spec.ts:88:3 › UI-01 · TOKENS-01 · DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// primera carga · colorScheme light (279ms)
+  ✓  26 [chromium] › tests/e2e/offline-theme.spec.ts:88:3 › UI-01 · TOKENS-01 · DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// primera carga · colorScheme dark (331ms)
+  ✓  27 [chromium] › tests/e2e/offline-theme.spec.ts:115:1 › DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// cambio del sistema sin recarga; recarga vuelve a system sin persistencia (504ms)
+  ✓  28 [chromium] › tests/e2e/offline-theme.spec.ts:135:1 › EXTRA-OFFLINE-FIRST-PAINT · file:// primer paint y frames capturados sin destello claro (819ms)
+  ✓  29 [chromium] › tests/e2e/offline-theme.spec.ts:173:1 › EXTRA-OFFLINE-ARTIFACT · HTTP local disponible, orígenes externos bloqueados; recarga vuelve a system (513ms)
+  ✓  30 [chromium] › tests/e2e/primitive-contract.spec.ts:37:3 › G1B · contratos de primitivas en Chromium › EXTRA-NATIVE-EDIT · un solo nodo de campo, texto crudo y error conservados al cruzar 699↔700 y 999↔1000 (559ms)
+  ✓  31 [chromium] › tests/e2e/primitive-contract.spec.ts:56:3 › G1B · contratos de primitivas en Chromium › EXTRA-NATIVE-EDIT · tema claro, oscuro y sistema con Popover, Dialog y avisos abiertos: tokens y contraste ≥ 4.5:1 (857ms)
+  ✓  32 [chromium] › tests/e2e/primitive-contract.spec.ts:96:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible (607ms)
+  ✓  33 [chromium] › tests/e2e/primitive-contract.spec.ts:110:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Tab sale del Popover de tema (512ms)
+  ✓  34 [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Drawer → Dialog: Escape cierra solo el Dialog con foco en el control del Drawer; otro Escape cierra el Drawer y el foco vuelve al disparador (848ms)
+  ✓  35 [chromium] › tests/e2e/primitive-contract.spec.ts:170:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Popover de tema no modal: Tab sale del Popover y la página no queda inerte (546ms)
+  ✓  36 [chromium] › tests/e2e/primitive-contract.spec.ts:190:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · Alt+T enfoca el botón de cierre del aviso más reciente; Escape cierra solo ese aviso y el foco pasa al siguiente cierre (488ms)
+  ✓  37 [chromium] › tests/e2e/primitive-contract.spec.ts:206:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · la llegada de un aviso nuevo no mueve el foco (459ms)
+  ✓  38 [chromium] › tests/e2e/primitive-contract.spec.ts:215:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · 30 avisos sin expulsión, pila suspendida inerte y descarte por teclado con foco al siguiente cierre (1.1s)
+  ✓  39 [chromium] › tests/e2e/primitive-contract.spec.ts:228:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · descarte por teclado de un aviso intermedio enfoca el cierre siguiente (494ms)
+  ✓  40 [chromium] › tests/e2e/primitive-contract.spec.ts:239:3 › G1B · contratos de primitivas en Chromium › EXTRA-LIFECYCLE-ASYNC · un solo root de React en el documento (441ms)
+
+  40 passed (23.3s)

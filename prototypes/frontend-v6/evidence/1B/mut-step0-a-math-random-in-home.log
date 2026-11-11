@@ -1,0 +1,43 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/mut1B
+
+stderr | tests/component/bootstrap.test.tsx > EXTRA-STRICTMODE-HOME · arranque real (startApp) > EXTRA-STRICTMODE-HOME · random se llama exactamente 1 vez y no se usa Math.random
+The current testing environment is not configured to support act(...)
+
+ ❯ |component| tests/component/bootstrap.test.tsx (4 tests | 1 failed) 41ms
+     × EXTRA-STRICTMODE-HOME · random se llama exactamente 1 vez y no se usa Math.random 26ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/bootstrap.test.tsx > EXTRA-STRICTMODE-HOME · arranque real (startApp) > EXTRA-STRICTMODE-HOME · random se llama exactamente 1 vez y no se usa Math.random
+AssertionError: expected "random" to not be called at all, but actually been called 2 times
+
+Received:
+
+  1st random call:
+
+    Array []
+
+  2nd random call:
+
+    Array []
+
+
+Number of calls: 2
+
+ ❯ tests/component/bootstrap.test.tsx:60:28
+     58|     });
+     59|     expect(random).toHaveBeenCalledTimes(1);
+     60|     expect(mathRandom).not.toHaveBeenCalled();
+       |                            ^
+     61|     expect(root.textContent).toContain('¿En qué te ayudo hoy?');
+     62|     act(() => stop());
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  01:26:29
+   Duration  763ms (transform 85ms, setup 103ms, import 83ms, tests 41ms, environment 401ms)
+

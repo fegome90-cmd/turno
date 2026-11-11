@@ -1,0 +1,5 @@
+
+> turno-frontend-v6@0.1.0-phase1a lint
+> oxlint -c .oxlintrc.json --deny-warnings src tests scripts
+
+tests/unit/store.test.ts:16:7: error eslint(no-unused-vars): Variable 'flush' is declared but never used. Unused variables should start with a '_'. help: Consider removing this declaration.

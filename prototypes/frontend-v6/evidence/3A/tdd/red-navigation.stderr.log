@@ -1,0 +1,153 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · navegación real sobre store/puerto > TOKENS-02 · marca accesible, Home estable y un único main
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Turno"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/navigation.test.tsx:22:19
+     20|   it('TOKENS-02 · marca accesible, Home estable y un único main', asyn…
+     21|     const ctx = await setup();
+     22|     expect(screen.getByRole('button', {name: 'Turno'})).toBeInTheDocum…
+       |                   ^
+     23|     expect(screen.getAllByRole('main')).toHaveLength(1);
+     24|     expect(screen.getByRole('heading', {name: 'Hola, Demo.'})).toBeInT…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · navegación real sobre store/puerto > DESIGN-AUDIT-02 · checkbox label nativo no activa botón de fila y UI-18 usa fallo real
+TestingLibraryElementError: Unable to find an accessible element with the role "checkbox" and name "Completar Tarea 1"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/navigation.test.tsx:33:26
+     31|   it('DESIGN-AUDIT-02 · checkbox label nativo no activa botón de fila …
+     32|     const {session, user} = await setup();
+     33|     const check = screen.getByRole('checkbox', {name: 'Completar Tarea…
+       |                          ^
+     34|     const label = check.closest('label');
+     35|     expect(label).not.toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · navegación real sobre store/puerto > DESIGN-COMPLETE-03/04/05 · disclosure no modal con controles, Escape y click destino conectado
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Más opciones"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/navigation.test.tsx:51:25
+     49|   it('DESIGN-COMPLETE-03/04/05 · disclosure no modal con controles, Es…
+     50|     const {user} = await setup();
+     51|     const more = screen.getByRole('button', {name: 'Más opciones'});
+       |                         ^
+     52|     expect(more).toHaveAttribute('aria-expanded', 'false');
+     53|     expect(screen.queryByLabelText('Apariencia')).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · navegación real sobre store/puerto > INTERFACE-SKILLS-17 · Demo solo dentro de Más opciones, arma fallo del puerto real
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Más opciones"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/navigation.test.tsx:76:29
+     74|     const {session, user} = await setup();
+     75|     expect(screen.queryByRole('button', {name: 'Demostración local'}))…
+     76|     await user.click(screen.getByRole('button', {name: 'Más opciones'}…
+       |                             ^
+     77|     await user.click(screen.getByRole('button', {name: 'Demostración l…
+     78|     const dialog = screen.getByRole('dialog', {name: 'Demostración loc…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · navegación real sobre store/puerto > INTERFACE-SKILLS-18 · scroll cue solo si queda contenido inferior
+TypeError: Object.defineProperties called on non-object
+ ❯ tests/component/navigation.test.tsx:88:12
+     86|     const {container} = await setup();
+     87|     const scroll = container.querySelector('.nav-scroll')!;
+     88|     Object.defineProperties(scroll, {scrollHeight: {value: 500, config…
+       |            ^
+     89|     fireEvent.scroll(scroll);
+     90|     expect(scroll).toHaveClass('has-more');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · navegación real sobre store/puerto > UI-12 · Escape cierra navegación móvil, sin cerrar capa inferior al salir de Más opciones
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Abrir navegación"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/navigation.test.tsx:97:28
+     95|   it('UI-12 · Escape cierra navegación móvil, sin cerrar capa inferior…
+     96|     const {user} = await setup(390);
+     97|     const trigger = screen.getByRole('button', {name: 'Abrir navegació…
+       |                            ^
+     98|     await user.click(trigger);
+     99|     expect(screen.getByRole('dialog', {name: 'Navegación'})).toBeInThe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > 3A · navegación real sobre store/puerto > EXTRA-NATIVE-EDIT · retorno rechaza trigger oculto/ancestro oculto
+AssertionError: expected <button …(2)></button> to be false // Object.is equality
+
+- Expected:
+false
+
++ Received:
+<button
+  data-focus-key="hidden-test"
+  hidden=""
+/>
+
+ ❯ tests/component/navigation.test.tsx:112:47
+    110|     const target = document.createElement('button'); target.dataset.fo…
+    111|     container.append(target); target.hidden = true;
+    112|     expect(resolveReturnFocus('hidden-test')).toBe(false);
+       |                                               ^
+    113|     target.hidden = false; container.style.display = 'none';
+    114|     expect(resolveReturnFocus('hidden-test')).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+

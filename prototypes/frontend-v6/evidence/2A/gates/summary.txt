@@ -1,0 +1,14 @@
+audit-total | npm audit --include=dev --json | exit=0 | artifact=evidence/2A/audit-total.audit.json
+audit-runtime | npm audit --omit=dev --json | exit=0 | artifact=evidence/2A/audit-runtime.audit.json
+typecheck | npm run typecheck | exit=0 | log=evidence/2A/gates/typecheck.log
+lint | npm run lint | exit=0 | log=evidence/2A/gates/lint.log
+test-unit | npm run test:unit | exit=0 | log=evidence/2A/gates/test-unit.log
+test-component | npm run test:component | exit=0 | log=evidence/2A/gates/test-component.log
+build | npm run build | exit=0 | log=evidence/2A/gates/build.log
+ae271fd0a7f084b0e3583969f70ad448af637dca2c634a369e981eb17ee6d343  dist/preview.html
+check-portable | npm run check:portable | exit=0 | log=evidence/2A/gates/check-portable.log
+measure-bundle | npm run measure:bundle | exit=0 | log=evidence/2A/gates/measure-bundle.log
+test-unit-verbose | npx vitest run --project unit --reporter=verbose | exit=0
+test-e2e-run1 | npm run test:e2e | exit=0 | log=evidence/2A/gates/test-e2e-run1.log
+test-e2e-run2 | npm run test:e2e | exit=0 | log=evidence/2A/gates/test-e2e-run2.log
+test-e2e-run3 | npm run test:e2e | exit=0 | log=evidence/2A/gates/test-e2e-run3.log

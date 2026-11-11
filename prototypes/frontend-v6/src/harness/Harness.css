@@ -1,0 +1,29 @@
+/* Solo para el harness de 1B: tokens de producto en capas y avisos, sin estilos de Turno nuevos. */
+[data-overlay-layer='navigation'] {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(320px, 90vw);
+  z-index: 20;
+  background: var(--canvas);
+  color: var(--ink);
+  overflow: auto;
+  padding: 16px;
+}
+[data-overlay-layer='create'] {
+  position: fixed;
+  z-index: 30;
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--canvas);
+  color: var(--ink);
+  border: 1px solid var(--dialog-border);
+  padding: 16px;
+}
+[data-overlay-layer='more'] {
+  z-index: 40;
+  background: var(--canvas);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  padding: 12px;
+}

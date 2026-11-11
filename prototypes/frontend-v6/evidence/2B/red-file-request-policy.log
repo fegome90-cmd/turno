@@ -1,0 +1,58 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:unit
+> vitest run --project unit --maxWorkers=1 --no-file-parallelism history-request-policy
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6
+
+ ❯ |unit| tests/unit/history-request-policy.test.ts (5 tests | 2 failed) 11ms
+     × permits the exact local file document intercepted by Chromium 7ms
+     × permits HTTP only on the document server origin 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/history-request-policy.test.ts > G2B · offline request policy for the browser test > permits the exact local file document intercepted by Chromium
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/unit/history-request-policy.test.ts:9:52
+      7| describe('G2B · offline request policy for the browser test', () => {
+      8|   it('permits the exact local file document intercepted by Chromium', …
+      9|     expect(allowHistoryHarnessRequest(file, file)).toBe(true);
+       |                                                    ^
+     10|   });
+     11|   it('rejects other local files instead of allowing the entire file pr…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/unit/history-request-policy.test.ts > G2B · offline request policy for the browser test > permits HTTP only on the document server origin
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/unit/history-request-policy.test.ts:18:82
+     16|     expect(allowHistoryHarnessRequest(http, http)).toBe(true);
+     17|     expect(allowHistoryHarnessRequest('http://127.0.0.1:4182/favicon.i…
+     18|     expect(allowHistoryHarnessRequest('http://127.0.0.1:9999/other.htm…
+       |                                                                                  ^
+     19|     expect(allowHistoryHarnessRequest(http, file)).toBe(false);
+     20|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 3 passed (5)
+   Start at  01:09:21
+   Duration  318ms (transform 31ms, setup 0ms, import 46ms, tests 11ms, environment 0ms)
+

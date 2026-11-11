@@ -1,0 +1,322 @@
+[
+  {
+    "file": "history.spec.ts",
+    "line": 109,
+    "name": "history.spec.ts > G2B · file · controller harness > initial replace, distinct route push, title, rerender and Back/Forward restore without URL changes",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 122,
+    "name": "history.spec.ts > G2B · file · controller harness > negative control: external request is intercepted and aborted while the local document stays usable",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 136,
+    "name": "history.spec.ts > G2B · file · controller harness > overlay Back returns to the same entry, restores visible focus, and retains Forward",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 148,
+    "name": "history.spec.ts > G2B · file · controller harness > busy blocks traversal without truncating Forward",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 159,
+    "name": "history.spec.ts > G2B · file · controller harness > cancel and discard repeat original delta -1 once",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 159,
+    "name": "history.spec.ts > G2B · file · controller harness > cancel and discard repeat original delta 1 once",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 175,
+    "name": "history.spec.ts > G2B · file · controller harness > failed save preserves draft and route; retry success continues original Forward once",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 190,
+    "name": "history.spec.ts > G2B · file · controller harness > EXTRA-LIFECYCLE-ASYNC · late response cannot navigate or steal focus from a newer selection",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 209,
+    "name": "history.spec.ts > G2B · file · controller harness > cancel during save invalidates its eventual success without another navigation",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 222,
+    "name": "history.spec.ts > G2B · file · controller harness > foreign entries without owned idx stay external and are not replaced or bounced",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 234,
+    "name": "history.spec.ts > G2B · file · controller harness > new selection during approved replay survives delayed old popstate and branches from the visible source",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 250,
+    "name": "history.spec.ts > G2B · file · controller harness > new selection before user popstate delivery cannot be overwritten by the queued route",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 109,
+    "name": "history.spec.ts > G2B · http · controller harness > initial replace, distinct route push, title, rerender and Back/Forward restore without URL changes",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 122,
+    "name": "history.spec.ts > G2B · http · controller harness > negative control: external request is intercepted and aborted while the local document stays usable",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 136,
+    "name": "history.spec.ts > G2B · http · controller harness > overlay Back returns to the same entry, restores visible focus, and retains Forward",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 148,
+    "name": "history.spec.ts > G2B · http · controller harness > busy blocks traversal without truncating Forward",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 159,
+    "name": "history.spec.ts > G2B · http · controller harness > cancel and discard repeat original delta -1 once",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 159,
+    "name": "history.spec.ts > G2B · http · controller harness > cancel and discard repeat original delta 1 once",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 175,
+    "name": "history.spec.ts > G2B · http · controller harness > failed save preserves draft and route; retry success continues original Forward once",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 190,
+    "name": "history.spec.ts > G2B · http · controller harness > EXTRA-LIFECYCLE-ASYNC · late response cannot navigate or steal focus from a newer selection",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 209,
+    "name": "history.spec.ts > G2B · http · controller harness > cancel during save invalidates its eventual success without another navigation",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 222,
+    "name": "history.spec.ts > G2B · http · controller harness > foreign entries without owned idx stay external and are not replaced or bounced",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 234,
+    "name": "history.spec.ts > G2B · http · controller harness > new selection during approved replay survives delayed old popstate and branches from the visible source",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "history.spec.ts",
+    "line": 250,
+    "name": "history.spec.ts > G2B · http · controller harness > new selection before user popstate delivery cannot be overwritten by the queued route",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "offline-theme.spec.ts",
+    "line": 88,
+    "name": "offline-theme.spec.ts > UI-01 · TOKENS-01 · DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// primera carga · colorScheme light",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "offline-theme.spec.ts",
+    "line": 88,
+    "name": "offline-theme.spec.ts > UI-01 · TOKENS-01 · DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// primera carga · colorScheme dark",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "offline-theme.spec.ts",
+    "line": 115,
+    "name": "offline-theme.spec.ts > DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// cambio del sistema sin recarga; recarga vuelve a system sin persistencia",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "offline-theme.spec.ts",
+    "line": 135,
+    "name": "offline-theme.spec.ts > EXTRA-OFFLINE-FIRST-PAINT · file:// primer paint y frames capturados sin destello claro",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "offline-theme.spec.ts",
+    "line": 173,
+    "name": "offline-theme.spec.ts > EXTRA-OFFLINE-ARTIFACT · HTTP local disponible, orígenes externos bloqueados; recarga vuelve a system",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "primitive-contract.spec.ts",
+    "line": 37,
+    "name": "primitive-contract.spec.ts > G1B · contratos de primitivas en Chromium > EXTRA-NATIVE-EDIT · un solo nodo de campo, texto crudo y error conservados al cruzar 699↔700 y 999↔1000",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "primitive-contract.spec.ts",
+    "line": 56,
+    "name": "primitive-contract.spec.ts > G1B · contratos de primitivas en Chromium > EXTRA-NATIVE-EDIT · tema claro, oscuro y sistema con Popover, Dialog y avisos abiertos: tokens y contraste ≥ 4.5:1",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "primitive-contract.spec.ts",
+    "line": 96,
+    "name": "primitive-contract.spec.ts > G1B · contratos de primitivas en Chromium > G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "primitive-contract.spec.ts",
+    "line": 110,
+    "name": "primitive-contract.spec.ts > G1B · contratos de primitivas en Chromium > G1B-OVERLAY · Tab sale del Popover de tema",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "primitive-contract.spec.ts",
+    "line": 124,
+    "name": "primitive-contract.spec.ts > G1B · contratos de primitivas en Chromium > G1B-OVERLAY · Drawer → Dialog: Escape cierra solo el Dialog con foco en el control del Drawer; otro Escape cierra el Drawer y el foco vuelve al disparador",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "primitive-contract.spec.ts",
+    "line": 170,
+    "name": "primitive-contract.spec.ts > G1B · contratos de primitivas en Chromium > G1B-OVERLAY · Popover de tema no modal: Tab sale del Popover y la página no queda inerte",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "primitive-contract.spec.ts",
+    "line": 190,
+    "name": "primitive-contract.spec.ts > G1B · contratos de primitivas en Chromium > G1B-NOTIFY · Alt+T enfoca el botón de cierre del aviso más reciente; Escape cierra solo ese aviso y el foco pasa al siguiente cierre",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "primitive-contract.spec.ts",
+    "line": 206,
+    "name": "primitive-contract.spec.ts > G1B · contratos de primitivas en Chromium > G1B-NOTIFY · la llegada de un aviso nuevo no mueve el foco",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "primitive-contract.spec.ts",
+    "line": 215,
+    "name": "primitive-contract.spec.ts > G1B · contratos de primitivas en Chromium > G1B-NOTIFY · 30 avisos sin expulsión, pila suspendida inerte y descarte por teclado con foco al siguiente cierre",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "primitive-contract.spec.ts",
+    "line": 228,
+    "name": "primitive-contract.spec.ts > G1B · contratos de primitivas en Chromium > G1B-NOTIFY · descarte por teclado de un aviso intermedio enfoca el cierre siguiente",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  },
+  {
+    "file": "primitive-contract.spec.ts",
+    "line": 239,
+    "name": "primitive-contract.spec.ts > G1B · contratos de primitivas en Chromium > EXTRA-LIFECYCLE-ASYNC · un solo root de React en el documento",
+    "project": "chromium",
+    "status": "expected",
+    "attempts": 1
+  }
+]

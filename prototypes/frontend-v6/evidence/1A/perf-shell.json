@@ -1,0 +1,90 @@
+{
+  "criterion": "Informativo, sin umbral de aprobación en 1A (fijado antes de medir). Cold load file://, h1 visible, 20 muestras alternadas por producto, un worker.",
+  "observedAt": "2026-11-08T23:26:50.433Z",
+  "browserVersion": "153.0.8010.12",
+  "node": "v24.22.1",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "colorScheme": "light",
+  "artifacts": {
+    "v6": {
+      "file": "dist/preview.html",
+      "sha256": "074ca0a017326a8377ffbb0eb186ae4b97adc07fb3ce8ed276243fdb80515cc4",
+      "bytes": 1095561
+    },
+    "v5": {
+      "file": "../frontend-v5/preview.html",
+      "sha256": "29e80f24c70e342b18b2f3f4023a4cf55e7e2dbb782292a5d57be5314c713c37",
+      "bytes": 1086162
+    }
+  },
+  "ms": {
+    "v6": {
+      "n": 20,
+      "min": 99.3,
+      "p50": 125.1,
+      "p95": 146.1,
+      "max": 152.5
+    },
+    "v5": {
+      "n": 20,
+      "min": 352.2,
+      "p50": 375,
+      "p95": 387,
+      "max": 387.4
+    }
+  },
+  "ratio": {
+    "p50_v6_over_v5": 0.334,
+    "p95_v6_over_v5": 0.378
+  },
+  "samples": {
+    "v6": [
+      124.5,
+      143.5,
+      104.8,
+      125.1,
+      138.6,
+      119.9,
+      126.8,
+      138.4,
+      99.3,
+      115.2,
+      146.1,
+      125.2,
+      121.3,
+      140.5,
+      115.9,
+      152.5,
+      124.5,
+      130.3,
+      117.7,
+      137
+    ],
+    "v5": [
+      387.4,
+      365.9,
+      352.2,
+      370.8,
+      384.7,
+      381.4,
+      372.8,
+      368.3,
+      381,
+      379.1,
+      370.1,
+      374.1,
+      384,
+      378.3,
+      375,
+      373.5,
+      387,
+      364.8,
+      376.4,
+      377.3
+    ]
+  },
+  "status": "INFORMATIVO"
+}

@@ -1,0 +1,49 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 1 failed) 40ms
+     × PREVIEW-09 · añadido: una lista de otro turno se rechaza 7ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:03:41
+   Duration  1.01s (transform 137ms, setup 0ms, import 219ms, tests 108ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-09 · añadido: una lista de otro turno se rechaza
+AssertionError: promise resolved "{ id: 'task-12', …(13) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "bedId": "bed-1",
++   "body": "",
++   "completed": false,
++   "date": null,
++   "duration": "",
++   "estimate": "",
++   "id": "task-12",
++   "performed": "",
++   "priority": "normal",
++   "reason": "",
++   "shiftId": "shift-11",
++   "time": "",
++   "title": "Ejemplo",
++   "version": 1,
+  }
+
+ ❯ tests/unit/preview.test.ts:134:57
+    132|     await adapter.closeShift('demo-shift-1');
+    133|     await adapter.openShift('Turno nuevo');
+    134|     await expect(adapter.createTask('Ejemplo', 'bed-1')).rejects.toThr…
+       |                                                         ^
+    135|   });
+    136|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

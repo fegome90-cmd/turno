@@ -1,0 +1,671 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/navigation.test.tsx > EXTRA-NATIVE-EDIT · fullscreen ausente/denegado conserva slots y explica fallback
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Pantalla completa de ensayo"
+
+Here are the accessible roles:
+
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"toolbar"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Cerrar turno":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Cerrar turno"[39m
+    [33mclass[39m=[32m"close-shift-button"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mtitle[39m=[32m"Disponible en la fase de ciclo de turno"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Ocultar Tiempo":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"time-panel"[39m
+    [33maria-expanded[39m=[32m"true"[39m
+    [33maria-label[39m=[32m"Ocultar Tiempo"[39m
+    [33mdata-focus-key[39m=[32m"open-time"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Ensayar Inicio":
+  [36m<button />[39m
+
+  Name "Ensayar espacio":
+  [36m<button />[39m
+
+  Name "Abrir confirmación técnica":
+  [36m<button />[39m
+
+  --------------------------------------------------
+  main:
+
+  Name "":
+  [36m<main[39m
+    [33mclass[39m=[32m"editor-slot layout-harness"[39m
+    [33mid[39m=[32m"main"[39m
+    [33mtabindex[39m=[32m"-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Layout · ensayo técnico 3A":
+  [36m<h1 />[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"slot-boundary"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Título técnico":
+  [36m<input[39m
+    [33mid[39m=[32m"technical-title"[39m
+    [33mvalue[39m=[32m"Título técnico"[39m
+  [36m/>[39m
+
+  Name "Borrador técnico":
+  [36m<textarea[39m
+    [33mdata-focus-key[39m=[32m"technical-body"[39m
+    [33mid[39m=[32m"technical-body"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  status:
+
+  Name "Guardados técnicos":
+  [36m<output[39m
+    [33maria-label[39m=[32m"Guardados técnicos"[39m
+  [36m/>[39m
+
+  --------------------------------------------------presentation:
+
+  Name "":
+  [36m<div[39m
+    [33mclass[39m=[32m"overlay-backdrop docked-backdrop"[39m
+    [33mdata-base-ui-inert[39m=[32m""[39m
+    [33mdata-open[39m=[32m""[39m
+    [33mrole[39m=[32m"presentation"[39m
+    [33mstyle[39m=[32m"user-select: none;"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<img[39m
+    [33malt[39m=[32m""[39m
+    [33mclass[39m=[32m"brand-flower"[39m
+    [33msrc[39m=[32m"/src/assets/brand/flor-negro-512.png"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  complementary:
+
+  Name "Navegación":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Navegación"[39m
+    [33maria-labelledby[39m=[32m"base-ui-_r_4e_"[39m
+    [33mclass[39m=[32m"shell-panel navigation-panel is-column"[39m
+    [33mdata-base-ui-focusable[39m=[32m""[39m
+    [33mdata-open[39m=[32m""[39m
+    [33mdata-panel-mode[39m=[32m"column"[39m
+    [33mid[39m=[32m"navigation-panel"[39m
+    [33mrole[39m=[32m"complementary"[39m
+    [33mstyle[39m=[32m"--nested-dialogs: 0;"[39m
+    [33mtabindex[39m=[32m"-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Navegación":
+  [36m<h2[39m
+    [33mclass[39m=[32m"visually-hidden"[39m
+    [33mid[39m=[32m"base-ui-_r_4e_"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  navigation:
+
+  Name "Principal":
+  [36m<nav[39m
+    [33maria-label[39m=[32m"Principal"[39m
+    [33mclass[39m=[32m"navigation"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Turno · Inicio":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Turno · Inicio"[39m
+    [33mclass[39m=[32m"brand-button"[39m
+    [33mdata-focus-key[39m=[32m"brand"[39m
+  [36m/>[39m
+
+  Name "Inicio":
+  [36m<button[39m
+    [33mclass[39m=[32m"nav-item "[39m
+  [36m/>[39m
+
+  Name "Ir al turno actual":
+  [36m<button[39m
+    [33mclass[39m=[32m"nav-item shift-button selected"[39m
+  [36m/>[39m
+
+  Name "Agregar tarea":
+  [36m<button[39m
+    [33mclass[39m=[32m"nav-item"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mtitle[39m=[32m"Disponible en la fase de creación"[39m
+  [36m/>[39m
+
+  Name "Todas":
+  [36m<button[39m
+    [33maria-pressed[39m=[32m"true"[39m
+    [33mclass[39m=[32m"active"[39m
+  [36m/>[39m
+
+  Name "Pendientes":
+  [36m<button[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Agregar lista":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Agregar lista"[39m
+    [33mclass[39m=[32m"icon-button"[39m
+    [33mdisabled[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Lista 1":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"group-bed-1"[39m
+    [33maria-expanded[39m=[32m"true"[39m
+    [33mclass[39m=[32m"bed-button"[39m
+  [36m/>[39m
+
+  Name "Editar nombre de Lista 1":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Editar nombre de Lista 1"[39m
+    [33mclass[39m=[32m"icon-button subtle"[39m
+    [33mdisabled[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Agregar tarea a Lista 1":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Agregar tarea a Lista 1"[39m
+    [33mclass[39m=[32m"icon-button subtle"[39m
+    [33mdisabled[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Tarea 1":
+  [36m<button[39m
+    [33mclass[39m=[32m"task-button "[39m
+  [36m/>[39m
+
+  Name "Revisar insumos":
+  [36m<button[39m
+    [33mclass[39m=[32m"task-button "[39m
+  [36m/>[39m
+
+  Name "Preparar educación":
+  [36m<button[39m
+    [33mclass[39m=[32m"task-button "[39m
+  [36m/>[39m
+
+  Name "Lista 2":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"group-bed-2"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33mclass[39m=[32m"bed-button"[39m
+  [36m/>[39m
+
+  Name "Editar nombre de Lista 2":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Editar nombre de Lista 2"[39m
+    [33mclass[39m=[32m"icon-button subtle"[39m
+    [33mdisabled[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Agregar tarea a Lista 2":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Agregar tarea a Lista 2"[39m
+    [33mclass[39m=[32m"icon-button subtle"[39m
+    [33mdisabled[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Notas rápidas":
+  [36m<button[39m
+    [33mclass[39m=[32m"section-title"[39m
+  [36m/>[39m
+
+  Name "Agregar nota rápida":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Agregar nota rápida"[39m
+    [33mclass[39m=[32m"icon-button"[39m
+    [33mdisabled[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Archivo de turnos anteriores":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Archivo de turnos anteriores"[39m
+    [33mclass[39m=[32m"footer-action"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mtitle[39m=[32m"Turnos anteriores"[39m
+  [36m/>[39m
+
+  Name "Más opciones":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"more-options"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"footer-action"[39m
+    [33mdata-base-ui-click-trigger[39m=[32m""[39m
+    [33mdata-focus-key[39m=[32m"more-trigger"[39m
+    [33mid[39m=[32m"base-ui-_r_4g_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  strong:
+
+  Name "":
+  [36m<strong />[39m
+
+  --------------------------------------------------
+  searchbox:
+
+  Name "Buscar tareas":
+  [36m<input[39m
+    [33maria-label[39m=[32m"Buscar tareas"[39m
+    [33mplaceholder[39m=[32m"Buscar en este turno"[39m
+    [33mtype[39m=[32m"search"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  group:
+
+  Name "Filtrar tareas":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Filtrar tareas"[39m
+    [33mclass[39m=[32m"nav-filters"[39m
+    [33mrole[39m=[32m"group"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  checkbox:
+
+  Name "Completar Tarea 1":
+  [36m<input[39m
+    [33maria-label[39m=[32m"Completar Tarea 1"[39m
+    [33mtype[39m=[32m"checkbox"[39m
+  [36m/>[39m
+
+  Name "Completar Revisar insumos":
+  [36m<input[39m
+    [33maria-label[39m=[32m"Completar Revisar insumos"[39m
+    [33mtype[39m=[32m"checkbox"[39m
+  [36m/>[39m
+
+  Name "Completar Preparar educación":
+  [36m<input[39m
+    [33maria-label[39m=[32m"Completar Preparar educación"[39m
+    [33mtype[39m=[32m"checkbox"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  contentinfo:
+
+  Name "":
+  [36m<footer[39m
+    [33mclass[39m=[32m"nav-footer"[39m
+  [36m/>[39m
+
+  --------------------------------------------------presentation:
+
+  Name "":
+  [36m<div[39m
+    [33mclass[39m=[32m"overlay-backdrop docked-backdrop"[39m
+    [33mdata-base-ui-inert[39m=[32m""[39m
+    [33mdata-open[39m=[32m""[39m
+    [33mrole[39m=[32m"presentation"[39m
+    [33mstyle[39m=[32m"user-select: none;"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  complementary:
+
+  Name "Tiempo":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Tiempo"[39m
+    [33maria-labelledby[39m=[32m"base-ui-_r_4h_"[39m
+    [33mclass[39m=[32m"shell-panel time-panel is-column"[39m
+    [33mdata-base-ui-focusable[39m=[32m""[39m
+    [33mdata-open[39m=[32m""[39m
+    [33mdata-panel-mode[39m=[32m"column"[39m
+    [33mid[39m=[32m"time-panel"[39m
+    [33mrole[39m=[32m"complementary"[39m
+    [33mstyle[39m=[32m"--nested-dialogs: 0;"[39m
+    [33mtabindex[39m=[32m"-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Tiempo":
+  [36m<h2[39m
+    [33mclass[39m=[32m"visually-hidden"[39m
+    [33mid[39m=[32m"base-ui-_r_4h_"[39m
+  [36m/>[39m
+
+  Name "Propiedades técnicas":
+  [36m<h2 />[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Tiempo de ensayo":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"technical-property"[39m
+    [33maria-expanded[39m=[32m"true"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Estimación técnica":
+  [36m<input[39m
+    [33maria-labelledby[39m=[32m"base-ui-_r_4j_"[39m
+    [33mautocomplete[39m=[32m"off"[39m
+    [33mid[39m=[32m"technical-estimate"[39m
+    [33minputmode[39m=[32m"numeric"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<div[39m
+    [33mdata-base-ui-inert[39m=[32m""[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"app-shell has-navigation has-time"[39m
+      [33mdata-testid[39m=[32m"app-shell"[39m
+    [36m>[39m
+      [36m<span[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mdata-base-ui-focus-guard[39m=[32m""[39m
+        [33mdata-type[39m=[32m"outside"[39m
+        [33mstyle[39m=[32m"clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: 0px; position: fixed; top: 0px; left: 0px;"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+      [36m<span[39m
+        [33maria-owns[39m=[32m"_r_49_"[39m
+        [33mstyle[39m=[32m"clip-path: inset(50%); position: fixed; top: 0px; left: 0px;"[39m
+      [36m/>[39m
+      [36m<span[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mdata-base-ui-focus-guard[39m=[32m""[39m
+        [33mdata-type[39m=[32m"outside"[39m
+        [33mstyle[39m=[32m"clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: 0px; position: fixed; top: 0px; left: 0px;"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"workspace"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"toolbar"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"toolbar-leading"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-controls[39m=[32m"navigation-panel"[39m
+              [33maria-expanded[39m=[32m"false"[39m
+              [33maria-label[39m=[32m"Abrir navegación"[39m
+              [33mclass[39m=[32m"navigation-trigger"[39m
+              [33mdata-focus-key[39m=[32m"open-nav"[39m
+              [33mhidden[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-panel-left lucide-sidebar"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"20"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"20"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<rect[39m
+                  [33mheight[39m=[32m"18"[39m
+                  [33mrx[39m=[32m"2"[39m
+                  [33mwidth[39m=[32m"18"[39m
+                  [33mx[39m=[32m"3"[39m
+                  [33my[39m=[32m"3"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M9 3v18"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</button>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"toolbar-title"[39m
+            [36m>[39m
+              [0mLista 1[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"toolbar-trailing"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-label[39m=[32m"Cerrar turno"[39m
+              [33mclass[39m=[32m"close-shift-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtitle[39m=[32m"Disponible en la fase de ciclo de turno"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-power"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"20"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"20"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M12 2v10"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M18.4 6.6a9 9 0 1 1-12.77.04"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span>[39m
+                [0mCerrar turno[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-controls[39m=[32m"time-panel"[39m
+              [33maria-expanded[39m=[32m"true"[39m
+              [33maria-label[39m=[32m"Ocultar Tiempo"[39m
+              [33mdata-focus-key[39m=[32m"open-time"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-clock"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"20"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"20"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"12"[39m
+                  [33mr[39m=[32m"10"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M12 6v6l4 2"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"visually-hidden"[39m
+              [36m>[39m
+                [0mOcultar Tiempo[0m
+              [36m</span>[39m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</header>[39m
+        [36m<main[39m
+          [33mclass[39m=[32m"editor-slot layout-harness"[39m
+          [33mid[39m=[32m"main"[39m
+          [33mtabindex[39m=[32m"-1"[39m
+        [36m>[39m
+          [36m<h1>[39m
+            [0mLayout · ensayo técnico 3A[0m
+          [36m</h1>[39m
+          [36m<p>[39m
+            [0mNo es el editor ni la Agenda integrados. Solo datos sintéticos, en...
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/navigation.test.tsx:212:27
+    210|   const body = screen.getByRole('textbox', {name: 'Borrador técnico'});
+    211|   const user = userEvent.setup();
+    212|   await user.click(screen.getByRole('button', {name: 'Pantalla complet…
+       |                           ^
+    213|   expect(screen.getByRole('status')).toHaveTextContent('Pantalla compl…
+    214|   expect(screen.getByRole('textbox', {name: 'Borrador técnico'})).toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

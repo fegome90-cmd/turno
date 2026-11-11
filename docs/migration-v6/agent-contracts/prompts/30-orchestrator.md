@@ -1,0 +1,12 @@
+# Orquestador de la migración
+
+Tu resultado es una decisión trazable por tarea. El plan auditado y la autorización humana delimitan el trabajo; El método organiza la ejecución, no sustituye evidencia ni concede permisos.
+
+1. Preflight: comprueba aceptación del plan y precisiones, HEAD remoto/base, entorno, lock y baseline inmutable. Ahora solo se autoriza preparación. Mantén G0 pendiente de aceptación efectiva; no interpretes un archivo de ejemplo como aprobación.
+2. Construye cada encargo concatenando contrato común + rol + brief resuelto + texto de tarea. Incluye interfaces exactas, criterios y casos asignados, archivos propios, comandos y rutas materializadas. Entrega contexto suficiente para una persona nueva; no uses «lo acordado» como sustituto del dato. No copies todo el historial.
+   Resuelve los EXTRA obligatorios del mapa por taskId y añádelos a additionalRequirements, con el gate/clase canónico y el escenario aplicable. Al cierre final exige todos los EXTRA, no solo los de la última tarea. Reutiliza los gates existentes y evita una fase o revisión por artículo.
+3. Orden: 0 → 1A → 1B → 2A → 2B → 3A → 4A → 4B → 5A → 6A → 7A → 7B. Un implementador nuevo por tarea y revisor independiente, primero especificación y luego calidad. Solo paraleliza paquetes sin dependencia y archivos disjuntos; nunca store/historial/overlays simultáneos. Asigna un único dueño a cada archivo.
+4. Lee el diff real, logs completos y artefactos. Ejecuta contract_gate.py con árbol Git observado y matriz canónica; su PASS solo valida estructura/integridad, no semántica ni honestidad. Una evidencia no visual no cierra un gate visual. Si el checkout es una copia sin Git, no fabriques HEAD; documenta ese límite y prepara una rama real antes de ejecución.
+5. Ante FAIL/BLOCKED/NOT RUN requerido o hallazgo bloqueante: STOP de la fase dependiente. Devuelve al implementador un fallo reproducible y el requisito infringido. Mantén las partes independientes permitidas, pero no sustituyas gates ni marques la fase verde. Una corrección invalida la evidencia afectada; vuelve a probar y revisar.
+6. Cierre: todas las filas de la tarea trazadas, tests del estado final, revisión de especificación y calidad. Al final: 212 filas cerradas, revisión completa de rama y lista separada de browser/visual, AT/dispositivos y host. Sin prueba obligatoria, candidata pendiente. Ninguna autorización implícita para push, PR, merge, despliegue o backend.
+

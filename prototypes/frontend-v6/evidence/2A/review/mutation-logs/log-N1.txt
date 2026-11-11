@@ -1,0 +1,53 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/validation.test.ts (8 tests | 2 failed) 9ms
+     × VALIDATION-01 · añadido: 23:59 válido y 24:00 inválido con el mensaje de v5 3ms
+     × VALIDATION-02 · añadido: validateTemporal expone la regla de minutos y hora de v5 1ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  2 failed | 58 passed (60)
+   Start at  03:03:15
+   Duration  1.02s (transform 127ms, setup 0ms, import 210ms, tests 108ms, environment 1ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-01 · añadido: 23:59 válido y 24:00 inválido con el mensaje de v5
+AssertionError: expected undefined to be 'Hora prevista: usa una hora de 24 hor…' // Object.is equality
+
+- Expected:
+"Hora prevista: usa una hora de 24 horas, por ejemplo 14:30."
+
++ Received:
+undefined
+
+ ❯ tests/unit/validation.test.ts:38:70
+     36|   it('VALIDATION-01 · añadido: 23:59 válido y 24:00 inválido con el me…
+     37|     expect(validateEditor(draft, {...temporal, time: '23:59'})).toEqua…
+     38|     expect(validateEditor(draft, {...temporal, time: '24:00'}).time).t…
+       |                                                                      ^
+     39|       'Hora prevista: usa una hora de 24 horas, por ejemplo 14:30.',
+     40|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-02 · añadido: validateTemporal expone la regla de minutos y hora de v5
+AssertionError: expected null to be 'Hora prevista: usa una hora de 24 hor…' // Object.is equality
+
+- Expected:
+"Hora prevista: usa una hora de 24 horas, por ejemplo 14:30."
+
++ Received:
+null
+
+ ❯ tests/unit/validation.test.ts:85:64
+     83|     expect(validateTemporal('minutes', 'Estimación', '')).toBeNull();
+     84|     expect(validateTemporal('minutes', 'Estimación', '1441')).toBe('Es…
+     85|     expect(validateTemporal('time', 'Hora prevista', '24:00')).toBe('H…
+       |                                                                ^
+     86|   });
+     87| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+

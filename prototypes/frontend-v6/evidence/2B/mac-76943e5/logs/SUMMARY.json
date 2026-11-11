@@ -1,0 +1,83 @@
+{
+  "verifiedAtUtc": "2026-11-09T13:12:25.412126+00:00",
+  "commit": "76943e5db6cf203e8f2738391f4318523c63ad7b",
+  "tree": "f70a1a19b28d5dd2cedae789d07c1568ed4dc2ab",
+  "filesVerified": 718,
+  "changedSourceFiles": [],
+  "gitStatus": "",
+  "machine": "MacBook-Pro-de-Felipe-8.local",
+  "os": "macOS-27.3-arm64-arm-64bit-Mach-O",
+  "node": "24.22.1",
+  "npm": "11.19.1",
+  "browser": "Google Chrome for Testing 156.0.8078.4",
+  "browserCacheRevision": "1248",
+  "gates": {
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "unit": {
+      "passed": 111,
+      "failed": 0
+    },
+    "component": {
+      "passed": 81,
+      "failed": 0
+    },
+    "build": "PASS",
+    "buildHistoryHarness": "PASS",
+    "e2e": {
+      "passed": 60,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "retries": 0,
+      "durationMs": 39565.833
+    },
+    "historySubset": {
+      "passed": 44,
+      "includesFile": 22,
+      "includesHttp": 22
+    },
+    "fileSubset": {
+      "passed": 26,
+      "history": 22,
+      "offlineTheme": 4
+    },
+    "checkPortable": {
+      "file": "dist/preview.html",
+      "bytes": 1106242,
+      "staticFailures": 0,
+      "runtime": {
+        "h1": "Hola, Demo.",
+        "fontsLoaded": [
+          "Source Sans 3 400 normal",
+          "Source Serif Pro 400 normal"
+        ],
+        "theme": "light"
+      },
+      "externalRequests": 0,
+      "consoleErrors": 0,
+      "pageErrors": 0,
+      "failures": [],
+      "status": "PASS"
+    }
+  },
+  "artifacts": {
+    "dist/preview.html": {
+      "bytes": 1106242,
+      "sha256": "ae271fd0a7f084b0e3583969f70ad448af637dca2c634a369e981eb17ee6d343"
+    },
+    "dist-history/history-harness.html": {
+      "bytes": 1156411,
+      "sha256": "fb6c2b83f65a4b64b0ec5aecdbae8f28daa9f953c37d6b9e5217f5832d6606a5"
+    }
+  },
+  "publication": "NOT_PUSHED_NOT_MERGED",
+  "phaseApproval": "NOT_GRANTED",
+  "limits": [
+    "Chromium on this Mac only. No Firefox, WebKit, native IME or screen-reader verification.",
+    "Technical history harness, not editors 4A/4B or real ChatGPT host integration.",
+    "No independent visual review or formal APPROVE_PHASE closure.",
+    "No Linux equivalence claim. npm audit and check:parity not rerun in this verification.",
+    "Incremental bundle parent not present; exact candidate commit object and complete tree recovered and verified."
+  ]
+}

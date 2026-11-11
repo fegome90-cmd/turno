@@ -1,0 +1,46 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-2a-mutants
+
+ ❯ |component| tests/component/session-lifecycle.test.tsx (2 tests | 1 failed) 73ms
+     × EXTRA-LIFECYCLE-ASYNC · 20 ciclos del arranque real: cada montaje suma una suscripción al notification-store y el desmontaje la libera 7ms
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 51 passed (52)
+   Start at  00:24:46
+   Duration  8.95s (transform 230ms, setup 559ms, import 777ms, tests 2.82s, environment 3.84s)
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+stderr | tests/component/session-lifecycle.test.tsx > EXTRA-LIFECYCLE-ASYNC · arranque repetido > EXTRA-LIFECYCLE-ASYNC · 20 ciclos del arranque real: cada montaje suma una suscripción al notification-store y el desmontaje la libera
+The current testing environment is not configured to support act(...)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/session-lifecycle.test.tsx > EXTRA-LIFECYCLE-ASYNC · arranque repetido > EXTRA-LIFECYCLE-ASYNC · 20 ciclos del arranque real: cada montaje suma una suscripción al notification-store y el desmontaje la libera
+AssertionError: expected 21 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 21
+
+ ❯ tests/component/session-lifecycle.test.tsx:84:36
+     82|         stop = startApp(container, {random: () => 0});
+     83|       });
+     84|       expect(subscriptions.active).toBe(1);
+       |                                    ^
+     85|       act(() => stop());
+     86|       expect(subscriptions.active).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

@@ -1,0 +1,15 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism navigation
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-3a-isolated/prototypes/frontend-v6
+
+ ❯ |component| tests/component/navigation.test.tsx (13 tests | 1 failed) 1597ms
+   × EXTRA-NATIVE-EDIT · fullscreen ausente/denegado conserva slots y explica fallback 67ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 passed (13)
+   Start at  11:05:35
+   Duration  3.07s (transform 192ms, setup 139ms, import 490ms, tests 1.60s, environment 691ms)
+

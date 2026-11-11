@@ -1,0 +1,18 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:unit
+> vitest run --project unit --maxWorkers=1 --no-file-parallelism store
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-3a-isolated/prototypes/frontend-v6
+
+ ❯ |unit| tests/unit/store.test.ts (29 tests | 4 failed) 55ms
+     × UI-18 · éxito confirma una operación y conserva draft/raw/errores/selección 7ms
+     × UI-18 · error restaura confirmado sin perder draft ni seleccionar otra fila 1ms
+     × UI-18 · conflict restaura confirmado sin perder draft ni seleccionar otra fila 0ms
+     × UI-18 · latencia no confirma antes de éxito, doble click no duplica y respuesta tardía no pisa selección nueva 2ms
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 25 passed (29)
+   Start at  10:49:05
+   Duration  372ms (transform 95ms, setup 0ms, import 127ms, tests 55ms, environment 0ms)
+

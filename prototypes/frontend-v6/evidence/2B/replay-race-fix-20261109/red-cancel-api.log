@@ -1,0 +1,73 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-fix/prototypes/frontend-v6
+
+ ❯ |unit| tests/unit/history-controller.test.ts (31 tests | 6 failed) 31ms
+     × cancelPending invalidates an old decision before resume -1 without changing the route or Forward entries 6ms
+     × cancelPending invalidates an old decision before resume 1 without changing the route or Forward entries 1ms
+     × cancelPending after approved replay -1 restores the visible source without applying or pushing 1ms
+     × cancelPending after approved replay 1 restores the visible source without applying or pushing 1ms
+     × opposite traversal interrupts approved replay -1 and does not strand the next push 7ms
+     × opposite traversal interrupts approved replay 1 and does not strand the next push 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > cancelPending invalidates an old decision before resume -1 without changing the route or Forward entries
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > cancelPending invalidates an old decision before resume 1 without changing the route or Forward entries
+TypeError: ctx.controller.cancelPending is not a function
+ ❯ tests/unit/history-controller.test.ts:75:20
+     73|     ctx.browser.move(direction); ctx.browser.flush(); const oldResume …
+     74|     const title = ctx.titles.at(-1); const calls = ctx.browser.calls.l…
+     75|     ctx.controller.cancelPending(); ctx.controller.cancelPending(); ol…
+       |                    ^
+     76|     expect(ctx.browser.calls).toHaveLength(calls);
+     77|     expect(ctx.route).toEqual(task()); expect(ctx.browser.index).toBe(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > cancelPending after approved replay -1 restores the visible source without applying or pushing
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > cancelPending after approved replay 1 restores the visible source without applying or pushing
+TypeError: ctx.controller.cancelPending is not a function
+ ❯ tests/unit/history-controller.test.ts:88:20
+     86|     ctx.browser.move(direction); ctx.browser.flush(); ctx.resume();
+     87|     const applied = ctx.applied.length; const pushes = ctx.browser.cal…
+     88|     ctx.controller.cancelPending(); ctx.controller.cancelPending(); ct…
+       |                    ^
+     89|     expect(ctx.route).toEqual(task()); expect(ctx.browser.index).toBe(…
+     90|     expect(ctx.applied).toHaveLength(applied); expect(ctx.browser.entr…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > opposite traversal interrupts approved replay -1 and does not strand the next push
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > opposite traversal interrupts approved replay 1 and does not strand the next push
+AssertionError: expected { view: 'workspace', …(2) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+    "selected": {
+-     "id": "after-interruption",
++     "id": "task-1",
+      "kind": "task",
+    },
+    "view": "workspace",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:103:23
+    101|     expect(ctx.browser.entries).toHaveLength(3);
+    102|     ctx.guard(() => 'allow'); ctx.controller.push(task('after-interrup…
+    103|     expect(ctx.route).toEqual(task('after-interruption'));
+       |                       ^
+    104|     expect(ctx.browser.history.state).toMatchObject({idx: 2, selected:…
+    105|     ctx.browser.move(-1); ctx.browser.flush(); expect(ctx.route).toEqu…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 25 passed (31)
+   Start at  06:20:31
+   Duration  245ms (transform 44ms, setup 0ms, import 60ms, tests 31ms, environment 0ms)
+

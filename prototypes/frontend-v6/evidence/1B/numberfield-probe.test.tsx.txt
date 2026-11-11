@@ -1,0 +1,15 @@
+import {render, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import {NumberField} from '@base-ui/react/number-field';
+import {it} from 'vitest';
+for (const locale of ['es-CL', 'en-US']) for (const raw of ['abc', '-1', '1.5', '1441', '0', '1000', '999']) {
+  it(`${locale} ${raw}`, async () => {
+    const user = userEvent.setup();
+    render(<NumberField.Root locale={locale} defaultValue={null}><NumberField.Input aria-label="E" /></NumberField.Root>);
+    const input = screen.getByRole('textbox', {name: 'E'}) as HTMLInputElement;
+    await user.type(input, raw);
+    const typed = input.value;
+    await user.tab();
+    require("node:fs").appendFileSync("/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/probe-out.txt", `PROBE locale=${locale} raw=${raw} typed=${typed} blur=${input.value}\n`);
+  });
+}

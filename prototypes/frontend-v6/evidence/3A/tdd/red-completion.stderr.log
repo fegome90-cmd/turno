@@ -1,0 +1,55 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > 3A UI-18 · completar desde navegación real > UI-18 · éxito confirma una operación y conserva draft/raw/errores/selección
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/unit/store.test.ts:409:45
+    407|     const spy = vi.spyOn(ctx.port, 'saveTask');
+    408|     await ctx.store.getState().setCompleted?.('task-1', true);
+    409|     expect(taskOf(ctx, 'task-1').completed).toBe(true);
+       |                                             ^
+    410|     expect(spy).toHaveBeenCalledTimes(1);
+    411|     expect(spy.mock.calls[0]![0].title).toBe(savedTitle);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > 3A UI-18 · completar desde navegación real > UI-18 · error restaura confirmado sin perder draft ni seleccionar otra fila
+ FAIL  |unit| tests/unit/store.test.ts > 3A UI-18 · completar desde navegación real > UI-18 · conflict restaura confirmado sin perder draft ni seleccionar otra fila
+AssertionError: expected "saveTask" to be called 1 times, but got 0 times
+ ❯ tests/unit/store.test.ts:423:17
+    421|     ctx.port.failNext(failure);
+    422|     await ctx.store.getState().setCompleted?.('task-1', true);
+    423|     expect(spy).toHaveBeenCalledTimes(1);
+       |                 ^
+    424|     expect(ctx.store.getState().snapshot).toEqual(before.snapshot);
+    425|     expect(ctx.store.getState()).toMatchObject({draft: before.draft, t…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > 3A UI-18 · completar desde navegación real > UI-18 · latencia no confirma antes de éxito, doble click no duplica y respuesta tardía no pisa selección nueva
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/unit/store.test.ts:439:19
+    437|     const first = ctx.store.getState().setCompleted?.(original.id, tru…
+    438|     const second = ctx.store.getState().setCompleted?.(original.id, tr…
+    439|     expect(saved).toHaveLength(1);
+       |                   ^
+    440|     expect(taskOf(ctx, original.id).completed).toBe(false);
+    441|     ctx.store.getState().select({kind: 'task', id: 'task-2'});
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+

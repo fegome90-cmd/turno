@@ -1,0 +1,163 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism tests/component/independent-review.test.tsx
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-2b-independent/full-baseline
+
+ ❯ |component| tests/component/independent-review.test.tsx (10 tests | 10 failed) 8941ms
+     × TASK then HOME in one React event keeps HOME 74ms
+     × same TASK twice in one React event only adds one entry 11ms
+     × new Título after Descartar, before replay move, survives and re-prompts 1179ms
+     × new Título after Guardar y continuar, before replay move, survives and re-prompts 1113ms
+     × new Borrador after Descartar, before replay move, survives and re-prompts 1092ms
+     × new Borrador after Guardar y continuar, before replay move, survives and re-prompts 1123ms
+     × new Título after Descartar, before replay event, survives and re-prompts 1077ms
+     × new Título after Guardar y continuar, before replay event, survives and re-prompts 1099ms
+     × new Borrador after Descartar, before replay event, survives and re-prompts 1072ms
+     × new Borrador after Guardar y continuar, before replay event, survives and re-prompts 1100ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent hook batching audit > TASK then HOME in one React event keeps HOME
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  home
+Received:
+  workspace
+ ❯ tests/component/independent-review.test.tsx:25:158
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent hook batching audit > same TASK twice in one React event only adds one entry
+AssertionError: expected 3 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 3
+
+ ❯ tests/component/independent-review.test.tsx:26:223
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent real harness audit, simulated controlled history > new Título after Descartar, before replay move, survives and re-prompts
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent real harness audit, simulated controlled history > new Título after Guardar y continuar, before replay move, survives and re-prompts
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent real harness audit, simulated controlled history > new Borrador after Descartar, before replay move, survives and re-prompts
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent real harness audit, simulated controlled history > new Borrador after Guardar y continuar, before replay move, survives and re-prompts
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent real harness audit, simulated controlled history > new Título after Descartar, before replay event, survives and re-prompts
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent real harness audit, simulated controlled history > new Título after Guardar y continuar, before replay event, survives and re-prompts
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent real harness audit, simulated controlled history > new Borrador after Descartar, before replay event, survives and re-prompts
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent real harness audit, simulated controlled history > new Borrador after Guardar y continuar, before replay event, survives and re-prompts
+AssertionError: expected +0 to be 1 // Object.is equality
+
+Ignored nodes: comments, script, style
+[36m<html[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<head>[39m
+    [36m<title>[39m
+      [0mInicio · Turno[0m
+    [36m</title>[39m
+  [36m</head>[39m
+  [36m<body[39m
+    [33mstyle[39m=[32m""[39m
+  [36m>[39m
+    [36m<div>[39m
+      [36m<main[39m
+        [33mstyle[39m=[32m"max-width: 850px; margin: 2rem auto; padding: 1rem;"[39m
+      [36m>[39m
+        [36m<h1>[39m
+          [0mHistorial y guardas · harness técnico 2B[0m
+        [36m</h1>[39m
+        [36m<p>[39m
+          [0mNo es el producto integrado. Solo datos sintéticos, en memoria.[0m
+        [36m</p>[39m
+        [36m<nav[39m
+          [33maria-label[39m=[32m"Rutas de prueba"[39m
+        [36m>[39m
+          [36m<button>[39m
+            [0mInicio[0m
+          [36m</button>[39m
+          [36m<button>[39m
+            [0mTarea 1[0m
+          [36m</button>[39m
+          [36m<button>[39m
+            [0mTarea 2[0m
+          [36m</button>[39m
+        [36m</nav>[39m
+        [36m<p[39m
+          [33mdata-testid[39m=[32m"route"[39m
+        [36m>[39m
+          [0mhome[0m
+          [0m:[0m
+        [36m</p>[39m
+        [36m<p[39m
+          [33mdata-testid[39m=[32m"index"[39m
+        [36m>[39m
+          [0m0[0m
+        [36m</p>[39m
+        [36m<h2>[39m
+          [0mInicio[0m
+        [36m</h2>[39m
+        [36m<button[39m
+          [33mdata-focus-key[39m=[32m"history-more"[39m
+        [36m>[39m
+          [0mMás opciones de prueba[0m
+        [36m</button>[39m
+        [36m<button>[39m
+          [0mAlternar busy[0m
+        [36m</button>[39m
+        [36m<button>[39m
+          [0mRender sin navegar[0m
+        [36m</button>[39m
+        [36m<output[39m
+          [33maria-label[39m=[32m"Estado"[39m
+        [36m>[39m
+          [0mclean[0m
+          [0m:[0m
+          [0m0[0m
+        [36m</output>[39m
+        [36m<p[39m
+          [33mrole[39m=[32m"alert"[39m
+        [36m/>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/component/independent-review.test.tsx:39:69
+     37|   await waitFor(()=>expect(screen.queryByRole('dialog')).not.toBeInThe…
+     38|   fireEvent.change(screen.getByRole('textbox',{name}),{target:{value:'…
+     39|   await act(async()=>b.release());await waitFor(()=>expect(b.index).to…
+       |                                                                     ^
+     40|   expect(screen.getByTestId('route')).toHaveTextContent('workspace:tas…
+     41|   expect(b.history.length).toBe(3);await act(async()=>b.history.go(-1)…
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  10 failed (10)
+   Start at  06:21:11
+   Duration  10.14s (transform 68ms, setup 142ms, import 208ms, tests 8.94s, environment 688ms)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

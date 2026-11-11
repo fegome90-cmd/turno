@@ -1,0 +1,7 @@
+{
+  "referenceManifestSha256": "3c64b36e2d4d6ecee45349ed308fe912f9850099c633c7d1fd763565d3ba4036",
+  "afterManifestSha256": "3c64b36e2d4d6ecee45349ed308fe912f9850099c633c7d1fd763565d3ba4036",
+  "matches": true,
+  "files": 577,
+  "note": "Reference manifest derives from the exact git archive; before-run and after-run full byte comparisons both passed. This digest is not claimed as Git tree object ID."
+}

@@ -1,0 +1,52 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/panel-mode.test.ts > 3A · límites independientes de panel > 700: navegación column y Tiempo drawer
+ FAIL  |unit| tests/unit/panel-mode.test.ts > 3A · límites independientes de panel > 999: navegación column y Tiempo drawer
+AssertionError: expected { Object (navigation, time) } to deeply equal { Object (navigation, time) }
+
+- Expected
++ Received
+
+  {
+-   "navigation": "column",
++   "navigation": "drawer",
+    "time": "drawer",
+  }
+
+ ❯ tests/unit/panel-mode.test.ts:11:33
+      9|     [1024, 'column', 'column'], [1440, 'column', 'column'],
+     10|   ] as const)('%i: navegación %s y Tiempo %s', (width, navigation, tim…
+     11|     expect(getPanelMode(width)).toEqual({navigation, time});
+       |                                 ^
+     12|   });
+     13| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  |unit| tests/unit/panel-mode.test.ts > 3A · límites independientes de panel > 1000: navegación column y Tiempo column
+ FAIL  |unit| tests/unit/panel-mode.test.ts > 3A · límites independientes de panel > 1024: navegación column y Tiempo column
+ FAIL  |unit| tests/unit/panel-mode.test.ts > 3A · límites independientes de panel > 1440: navegación column y Tiempo column
+AssertionError: expected { Object (navigation, time) } to deeply equal { Object (navigation, time) }
+
+- Expected
++ Received
+
+  {
+-   "navigation": "column",
+-   "time": "column",
++   "navigation": "drawer",
++   "time": "drawer",
+  }
+
+ ❯ tests/unit/panel-mode.test.ts:11:33
+      9|     [1024, 'column', 'column'], [1440, 'column', 'column'],
+     10|   ] as const)('%i: navegación %s y Tiempo %s', (width, navigation, tim…
+     11|     expect(getPanelMode(width)).toEqual({navigation, time});
+       |                                 ^
+     12|   });
+     13| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+

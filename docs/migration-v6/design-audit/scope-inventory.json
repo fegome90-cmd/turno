@@ -1,0 +1,707 @@
+[
+ {
+  "skill_id": "fegome90-cmd/my-skills/agy-agent",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "CLI headless de otro agente (agy). Turno es un prototipo web de interfaz y esta auditoría solo lee; no se delega trabajo a ese CLI.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/agy-agent.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/ai-work-prompting-gates",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Disciplina de afirmaciones (nada es PASS sin evidencia) y puertas de ejecución. Sirve de contexto para esta auditoría, que separa lo observado de lo no verificado; no se ejecuta.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/ai-work-prompting-gates.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/E05-scope.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/anchoring-tasks",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Anclas de alcance contra deriva. Coincide con el límite de esta auditoría (solo lectura, pasada acotada a la migración); se usa como contexto, no se ejecuta.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/anchoring-tasks.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/E05-scope.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/authority-flow-audit",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Auditoría de autoridad y de escritores duplicados en la arquitectura. Es relevante para la migración (un dueño por estado, foco e historial, PLAN fase 2) pero es revisión de código, no de diseño; contexto para una fase posterior.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/authority-flow-audit.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/RC01-components.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/claude-md-optimizer",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Optimiza archivos CLAUDE.md. Turno no tiene ese archivo en el alcance y la auditoría no escribe documentos del proyecto.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/claude-md-optimizer.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/code-path-cartographer",
+  "disposition": "DEFERRED",
+  "reason": "Mapa de conectividad de código antes de portar v5 (421 líneas en app.mjs). Podría hacer falta en la fase 2A de la migración; no es necesaria para la auditoría de diseño. Queda diferida, no descartada.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/code-path-cartographer.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/RC01-components.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/codex-agent",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "CLI headless de otro agente (Codex). Fuera del flujo de Turno y de una auditoría de solo lectura.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/codex-agent.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/color-theory-engine",
+  "disposition": "APPLICABLE",
+  "reason": "Dominio Color de Turno (paleta clara y oscura, contraste de tokens declarados en styles.css). No se revisó en esta pasada; queda como revisión pendiente de la skill.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/color-theory-engine.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/color-theory-palette",
+  "disposition": "APPLICABLE",
+  "reason": "Aplica por decisión del dueño (D8): revisar la paleta en la fase de identidad posterior a la migración.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/color-theory-palette.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/design-art-direction",
+  "disposition": "APPLICABLE",
+  "reason": "Aplica por decisión del dueño (D8): fase de identidad visual después de la migración con paridad, al generalizar Turno más allá de enfermería.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/design-art-direction.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/design-process-orchestrator",
+  "disposition": "APPLICABLE",
+  "reason": "Modo Auditoría aplicado en todo el expediente: fuentes y permisos conservados, cobertura parcial declarada como no revisada.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/design-process-orchestrator.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/E05-scope.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/design-tokens-components",
+  "disposition": "APPLICABLE",
+  "reason": "Dominio Tokens y estados y fichas de componentes de Turno (variables en styles.css, componentes de la migración). Leída al revisar el contrato de componentes; el dominio de tokens no se revisó en esta pasada.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/design-tokens-components.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/RC01-components.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/diagram-auditor",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Audita diagramas clínicos o técnicos. El prototipo no contiene diagramas en su alcance.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/diagram-auditor.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/disenar-slides",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Diseña slides y decks. El medio de Turno es una aplicación web, no una presentación.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/disenar-slides.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/S03-medium.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/disk-cleanup-macos-safe",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Diagnóstico de disco en macOS. Nada que ver con la interfaz de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/disk-cleanup-macos-safe.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/dots-maintenance",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Mantenimiento de un entorno Nix/Home Manager personal. Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/dots-maintenance.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/ensenar",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Tutoría y aprendizaje de materias. No es parte del diseño de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/ensenar.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/fish-shell-config",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Configuración de Fish shell en un Mac concreto. Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/fish-shell-config.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/grill-me-dual-herdr",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Entrevista un plan con dos agentes mediante Herdr y OpenCode. Herramientas que no forman parte del flujo de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/grill-me-dual-herdr.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/herdr-worktrunk",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Gestión de worktrees con herdr. Esta auditoría usa un worktree de solo lectura ya existente.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/herdr-worktrunk.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/interagent-dispatch",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Contratos tipados para delegar a subagentes. Contexto para los contratos de agentes de la migración (docs/migration-v6/agent-contracts); no se ejecuta.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/interagent-dispatch.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/RC01-components.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/layout-grid-hierarchy",
+  "disposition": "APPLICABLE",
+  "reason": "Dominio Layout de Turno (columnas, umbrales de 700 y 1000 px, ancho de editor de 76ch). No se revisó en esta pasada; queda pendiente.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/layout-grid-hierarchy.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/learned-accuracy-fallacy-audit",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Revisa afirmaciones factuales de textos. Útil como contexto para contrastar lo que dicen los documentos del plan con el código (por ejemplo, los detalles de movimiento del plan que v5 no tiene); no se ejecuta.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/learned-accuracy-fallacy-audit.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M01-motion.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/learned-keynote-to-mp4-pipeline",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Pipeline de Keynote a video en macOS. Turno no produce presentaciones ni video.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/learned-keynote-to-mp4-pipeline.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/learned-pr-feedback-resolution",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Flujo para resolver comentarios de bots en PRs. Contexto si más adelante hay revisión de PR de la migración; esta auditoría no toca PRs.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/learned-pr-feedback-resolution.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/learned-progressive-disclosure",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Refactoriza skills grandes. Turno no incluye mantenimiento de skills.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/learned-progressive-disclosure.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/learned-ssh-agent-vm-bootstrap",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Diagnóstico SSH a una VM Linux. Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/learned-ssh-agent-vm-bootstrap.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/learned-structured-review",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Formato de hallazgos BLOCK/WARN/SUGGEST con arreglos numerados. Contexto para presentar hallazgos; el formato de esta auditoría es el del router.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/learned-structured-review.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/muse-agent",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "CLI headless de otro agente (Muse). Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/muse-agent.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/nix-fish-homemanager",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Fish, Nix y Home Manager en macOS. Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/nix-fish-homemanager.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/opencode-agent",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "CLI headless de otro agente (opencode). Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/opencode-agent.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/pi-agent",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "CLI headless de otro agente (pi). Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/pi-agent.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/pi-extension-builder",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Crea extensiones TypeScript del agente pi. Turno no usa ese agente.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/pi-extension-builder.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/pi-startup-diagnostics",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Diagnóstico de arranque del agente pi. Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/pi-startup-diagnostics.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/prompt-doctor",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Repara plantillas de prompts de pi. Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/prompt-doctor.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/quality-plan-loop",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Ciclo planificador-auditor para planes. El plan de migración ya pasó una revisión independiente (PLAN.md, dictamen); contexto, no se ejecuta.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/quality-plan-loop.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/S01-stack.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/scripting-technical-presentations",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Guiones de presentaciones técnicas. El medio de Turno es web, no una presentación.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/scripting-technical-presentations.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/S03-medium.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/skill-import-untrusted",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Protocolo para importar skills no confiables. Esta auditoría trata los textos de terceros solo como datos de referencia; contexto, no se ejecuta.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/skill-import-untrusted.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/skill-onboarding",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Incorporación transaccional de skills con procedencia y licencia. Contexto de procedencia; esta auditoría no instala ninguna skill.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/skill-onboarding.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/skill-vetting",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Evaluación de seguridad de skills de terceros. Contexto para tratar las fuentes de Emil y Jakub como referencia; no se ejecuta.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/skill-vetting.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/starship-nix-manager",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Configuración del prompt Starship vía Nix. Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/starship-nix-manager.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/starship-prompt",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Diseño del prompt de terminal Starship. Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/starship-prompt.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/template-skill",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Plantilla para crear skills nuevas. Turno no crea skills.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/template-skill.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/tmux-plan-auditor",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Auditoría de planes con cuatro agentes en tmux. Herramienta ajena al flujo de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/tmux-plan-auditor.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/typography-scales-microtype",
+  "disposition": "APPLICABLE",
+  "reason": "Dominio Tipografía de Turno (seis roles en rem, fuentes Source Sans 3 y Source Serif Pro, medida de 76ch). No se revisó en esta pasada; queda pendiente.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/typography-scales-microtype.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/typography-selection-pairing",
+  "disposition": "APPLICABLE",
+  "reason": "Aplica por decisión del dueño (D8): revisar la tipografía en la fase de identidad posterior a la migración.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/typography-selection-pairing.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/ui-motion-and-handoff",
+  "disposition": "APPLICABLE",
+  "reason": "Aplicada en el dominio Movimiento: función, duraciones, propiedades y movimiento reducido contrastados con motion.mjs y styles.css.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/ui-motion-and-handoff.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M01-motion.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/wiki-starter",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Crea wikis mantenidas por LLM. Fuera de Turno.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/wiki-starter.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "fegome90-cmd/my-skills/work-closeout",
+  "disposition": "GOVERNANCE_ONLY",
+  "reason": "Clasifica residuos de trabajo sin borrar. Contexto para cerrar el expediente de scratch; no se ejecuta.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/work-closeout.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/animate-expo",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Animaciones en React Native y Expo. Turno es web, sin app nativa.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/animate-expo.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/S03-medium.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/animate",
+  "disposition": "DEFERRED",
+  "reason": "Implementa animaciones. Puede hacer falta en la fase 6A de la migración (movimiento final); MOTION_V6 ya la citó para v5. Esta auditoría no implementa nada.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/animate.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M01-motion.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/animation-performance",
+  "disposition": "DEFERRED",
+  "reason": "Mide y mejora el rendimiento de animaciones. Aplicable cuando exista una v6 que medir (fase 6A); el rendimiento no se midió en esta auditoría.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/animation-performance.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M01-motion.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/animation-vocabulary",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Glosario para nombrar efectos de movimiento a partir de descripciones vagas. Turno ya tiene su movimiento definido y documentado.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/animation-vocabulary.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M01-motion.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/apple-design",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Principios de Apple (gestos, materiales, resortes). Turno no usa gestos ni materiales translúcidos; la identidad se conserva.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/apple-design.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M04-control-interruption.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/ask-sonner",
+  "disposition": "DEFERRED",
+  "reason": "Guía de Sonner. Hará falta al cablear los avisos en la fase 5A de la migración (D4); aún no hay código v6 que revisar.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/ask-sonner.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M04-control-interruption.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/break-ui",
+  "disposition": "DEFERRED",
+  "reason": "Prueba la interfaz con datos de peor caso (nombres largos, vacíos, extremos). Útil en la QA de la v6; no aplicable sin una interfaz v6 que someter.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/break-ui.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/AC01-accessibility.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/choreograph",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Coordina varios elementos animados a la vez. Turno no tiene coreografías de grupo más allá de la pila de avisos, ya documentada.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/choreograph.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M01-motion.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/emil-design-eng",
+  "disposition": "APPLICABLE",
+  "reason": "Aplicada en el dominio Movimiento: marco de decisión (frecuencia, propósito, easing, duración) contrastado con motion.mjs.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/emil-design-eng.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M01-motion.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/find-animation-opportunities",
+  "disposition": "DEFERRED",
+  "reason": "Diferida por decisión del dueño: la migración copia el movimiento de v5 (D9); revisar oportunidades después.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/find-animation-opportunities.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M01-motion.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/gestures",
+  "disposition": "DEFERRED",
+  "reason": "Gestos de arrastre y deslizamiento. v5 no tiene gestos; si Base UI Drawer añade deslizamiento en v6 (riesgo anotado en el plan, 7B), haría falta evaluarlo.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/gestures.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M04-control-interruption.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/improve-animations",
+  "disposition": "DEFERRED",
+  "reason": "Auditoría y plan priorizado del código de animación. Encaja en la fase 6A de la migración, no en esta pasada.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/improve-animations.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M01-motion.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/mobile-native",
+  "disposition": "APPLICABLE",
+  "reason": "Turno se usa en teléfono: viewport, hover pegajoso, 100vh, zoom de inputs. Es del dominio de layout y viewport, no revisado en esta pasada; queda pendiente.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/mobile-native.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/AC01-accessibility.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/pick-ui-library",
+  "disposition": "APPLICABLE",
+  "reason": "Aplicada en Movimiento, contrato de componentes y recursos: elegir por necesidad y no instalar por catálogo.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/pick-ui-library.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/RC01-components.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/A10-resources.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/prototype",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Genera varias versiones de una pieza de interfaz. No se pidió rediseño.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/prototype.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/remove-animations",
+  "disposition": "DEFERRED",
+  "reason": "Quita animaciones innecesarias. Pertenece a la fase 6A; esta auditoría no edita.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/remove-animations.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M01-motion.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/review-animations",
+  "disposition": "APPLICABLE",
+  "reason": "Aplicada como lista de revisión del dominio Movimiento: sin transition:all, sin scale(0), sin ease-in; hallazgos menores de duración.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/review-animations.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/M01-motion.md"
+  ]
+ },
+ {
+  "skill_id": "emilkowalski/skills/write-swift",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Swift moderno. Turno no es una app nativa.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/write-swift.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/S03-medium.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/afk",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Trabaja un proyecto en rama local mientras el dueño está ausente. La auditoría es de solo lectura.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/afk.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/better-accessibility",
+  "disposition": "APPLICABLE",
+  "reason": "Aplicada en el dominio Accesibilidad: base estática revisada; pruebas con tecnologías de apoyo pendientes.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/better-accessibility.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/AC01-accessibility.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/better-colors",
+  "disposition": "APPLICABLE",
+  "reason": "Dominio Color de Turno: contraste y tokens claro y oscuro. No revisado en esta pasada; queda pendiente.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/better-colors.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/better-interface",
+  "disposition": "APPLICABLE",
+  "reason": "Revisión de conjunto de la interfaz (dominio Revisión de conjunto). No revisado en esta pasada; queda pendiente.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/better-interface.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/E05-scope.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/better-layout",
+  "disposition": "APPLICABLE",
+  "reason": "Dominio Layout y contenido de Turno (reflow a 320 px, umbrales de columnas). No revisado en esta pasada; queda pendiente.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/better-layout.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/better-typography",
+  "disposition": "APPLICABLE",
+  "reason": "Dominio Tipografía de Turno. No revisado en esta pasada; queda pendiente.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/better-typography.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/better-ui",
+  "disposition": "APPLICABLE",
+  "reason": "Detalles de superficie, radios y movimiento. Leída en Origen de recursos; el dominio Tokens y estados sigue pendiente.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/better-ui.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/A10-resources.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/better-writing",
+  "disposition": "APPLICABLE",
+  "reason": "Dominio Escritura de Turno (textos de interfaz en español). No revisado en esta pasada; queda pendiente.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/better-writing.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/P01-product.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/break",
+  "disposition": "DEFERRED",
+  "reason": "Prueba un componente bajo todos los escenarios en una página temporal. Fase de QA de la v6; sin v6 aún.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/break.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/AC01-accessibility.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/build-design",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Construye interfaz desde Figma o una imagen. La fuente de verdad de Turno es el código v5, no un archivo de diseño.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/build-design.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/explain-interface",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Explica cómo se construyó un sitio ajeno. No se pidió.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/explain-interface.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/interface-review",
+  "disposition": "DEFERRED",
+  "reason": "Revisa una rama o PR por regresiones de interfaz. Encaja con la revisión de la rama v6 en la fase 7A; hoy no hay rama v6.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/interface-review.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/AC01-accessibility.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/state-machine",
+  "disposition": "DEFERRED",
+  "reason": "Renderiza todos los estados de un componente en una página de prueba. Útil en la fase 1B o QA; sin componentes v6 aún.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/state-machine.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/AC01-accessibility.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/teardown",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Ilustraciones técnicas de objetos. No aplica a una app de turnos.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/teardown.SKILL.md"
+  ]
+ },
+ {
+  "skill_id": "jakubkrehel/skills/variant",
+  "disposition": "NOT_APPLICABLE",
+  "reason": "Construye variantes de un componente para elegir. No se pidió rediseño.",
+  "evidence_refs": [
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/sources/inventory/variant.SKILL.md",
+   "/tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/turno-design-audit/evidence/D01-identity.md"
+  ]
+ }
+]

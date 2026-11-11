@@ -1,0 +1,743 @@
+{
+  "purpose": "Independent reconciliation guidance, not a formal phase contract or gate approval",
+  "sha": "e0133a47fb5c70be27ae966c1e0aa4cfd3ad2a0b",
+  "artifact": "unit-reconciliation.results.json",
+  "artifactSha256": "4392400f51d0741cea276fcaf52e57958e291d8b2e033bab414f673448259dbf",
+  "numTests": 74,
+  "numPassed": 74,
+  "rowCount": 30,
+  "rows": [
+    {
+      "requirementId": "DRAFT-01",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/draft.test.ts"
+      ],
+      "targetCases": [
+        "borrador temporal crudo DRAFT-01 · raw temporal draft retains edits before validation and across re-render"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/draft.test.ts",
+          "case": "borrador temporal crudo DRAFT-01 · raw temporal draft retains edits before validation and across re-render",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "DRAFT-02",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/draft.test.ts"
+      ],
+      "targetCases": [
+        "borrador temporal crudo DRAFT-02 · invalid temporal text survives validation failure"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/draft.test.ts",
+          "case": "borrador temporal crudo DRAFT-02 · invalid temporal text survives validation failure",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "DRAFT-03",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/draft.test.ts"
+      ],
+      "targetCases": [
+        "borrador temporal crudo DRAFT-03 · applying temporal fields does not mutate source entity",
+        "borrador temporal · cierre de WARN de la revisión 2A DRAFT-03 · añadido: applyTemporalDraft recorta las cuatro claves de texto como v5",
+        "borrador temporal · cierre de WARN de la revisión 2A DRAFT-03 · añadido: vacío no es cero: estimación y duración vacías se aplican como cadena vacía"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/draft.test.ts",
+          "case": "borrador temporal crudo DRAFT-03 · applying temporal fields does not mutate source entity",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/draft.test.ts",
+          "case": "borrador temporal · cierre de WARN de la revisión 2A DRAFT-03 · añadido: applyTemporalDraft recorta las cuatro claves de texto como v5",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/draft.test.ts",
+          "case": "borrador temporal · cierre de WARN de la revisión 2A DRAFT-03 · añadido: vacío no es cero: estimación y duración vacías se aplican como cadena vacía",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "EMIL-SKILLS-07",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa EMIL-SKILLS-07 · simulated adapter conflict identifies its type without prescribing Save"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa EMIL-SKILLS-07 · simulated adapter conflict identifies its type without prescribing Save",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "POLISH-08",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/format.test.ts"
+      ],
+      "targetCases": [
+        "formato de fechas y agenda POLISH-08 · civil date is evaluated in Santiago rather than UTC at midnight boundaries",
+        "formato de fechas y agenda POLISH-08 · añadido: fin de mes, fin de año y bisiesto se evalúan en Santiago"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/format.test.ts",
+          "case": "formato de fechas y agenda POLISH-08 · civil date is evaluated in Santiago rather than UTC at midnight boundaries",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/format.test.ts",
+          "case": "formato de fechas y agenda POLISH-08 · añadido: fin de mes, fin de año y bisiesto se evalúan en Santiago",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "POLISH-09",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/format.test.ts"
+      ],
+      "targetCases": [
+        "formato de fechas y agenda POLISH-09 · tomorrow calendar arithmetic handles month/year/leap boundaries without 24-hour assumptions",
+        "formato de fechas y agenda POLISH-09 · añadido: 28/02 de año no bisiesto pasa a 01/03"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/format.test.ts",
+          "case": "formato de fechas y agenda POLISH-09 · tomorrow calendar arithmetic handles month/year/leap boundaries without 24-hour assumptions",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/format.test.ts",
+          "case": "formato de fechas y agenda POLISH-09 · añadido: 28/02 de año no bisiesto pasa a 01/03",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "POLISH-10",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/format.test.ts"
+      ],
+      "targetCases": [
+        "formato de fechas y agenda POLISH-10 · agenda groups Hoy, Mañana, later dates and undated tasks without mutating data",
+        "formato de fechas y agenda POLISH-10 · añadido: «Mañana» es el día civil siguiente aunque el cambio de horario de Chile tenga 23 h"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/format.test.ts",
+          "case": "formato de fechas y agenda POLISH-10 · agenda groups Hoy, Mañana, later dates and undated tasks without mutating data",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/format.test.ts",
+          "case": "formato de fechas y agenda POLISH-10 · añadido: «Mañana» es el día civil siguiente aunque el cambio de horario de Chile tenga 23 h",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "POLISH-11",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/format.test.ts"
+      ],
+      "targetCases": [
+        "formato de fechas y agenda POLISH-11 · agenda handles empty and only-undated lists, including empty date strings"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/format.test.ts",
+          "case": "formato de fechas y agenda POLISH-11 · agenda handles empty and only-undated lists, including empty date strings",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-01",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/format.test.ts"
+      ],
+      "targetCases": [
+        "formato de fechas y agenda PREVIEW-01 · date-only is dd/mm/yyyy and leap days validated"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/format.test.ts",
+          "case": "formato de fechas y agenda PREVIEW-01 · date-only is dd/mm/yyyy and leap days validated",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-02",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-02 · snapshots are detached",
+        "adaptador de vista previa PREVIEW-02 · añadido: dos instancias del adaptador no comparten estado",
+        "adaptador de vista previa PREVIEW-02 · añadido: el adaptador no llama a red ni a almacenamiento"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-02 · snapshots are detached",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-02 · añadido: dos instancias del adaptador no comparten estado",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-02 · añadido: el adaptador no llama a red ni a almacenamiento",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-03",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-03 · save accepts literal title and increments version",
+        "adaptador de vista previa PREVIEW-03 · añadido: título de 1 y 300 caracteres se guarda; 301 se rechaza sin cambiar el estado",
+        "adaptador de vista previa PREVIEW-03 · añadido: cuerpo de 10.000 se guarda y 10.001 se rechaza; HTML en el cuerpo se guarda literal"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-03 · save accepts literal title and increments version",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-03 · añadido: título de 1 y 300 caracteres se guarda; 301 se rechaza sin cambiar el estado",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-03 · añadido: cuerpo de 10.000 se guarda y 10.001 se rechaza; HTML en el cuerpo se guarda literal",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-04",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-04 · save rejects blank title without changing state"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-04 · save rejects blank title without changing state",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-05",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-05 · version conflict preserves confirmed state"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-05 · version conflict preserves confirmed state",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-06",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-06 · simulated failed save does not commit"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-06 · simulated failed save does not commit",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-07",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-07 · close preserves pending tasks and notes; opening is empty",
+        "adaptador de vista previa PREVIEW-07 · añadido: el turno nuevo usa la fecha civil de Santiago, no la UTC"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-07 · close preserves pending tasks and notes; opening is empty",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-07 · añadido: el turno nuevo usa la fecha civil de Santiago, no la UTC",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-08",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-08 · quick note has no shift or bed fields"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-08 · quick note has no shift or bed fields",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-09",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-09 · cannot create a task without an open shift or cross-link a bed",
+        "adaptador de vista previa PREVIEW-09 · añadido: una lista de otro turno se rechaza"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-09 · cannot create a task without an open shift or cross-link a bed",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-09 · añadido: una lista de otro turno se rechaza",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-10",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-10 · archive is read only"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-10 · archive is read only",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-11",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-11 · only one active shift in preview"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-11 · only one active shift in preview",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-12",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-12 · new bed and task are linked to active shift"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-12 · new bed and task are linked to active shift",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-13",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-13 · note save is independent and ignores foreign linkage fields"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-13 · note save is independent and ignores foreign linkage fields",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-14",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-14 · time requires date and accepts 24-hour format"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-14 · time requires date and accepts 24-hour format",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-15",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-15 · close repetition preserves the same result"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-15 · close repetition preserves the same result",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-16",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-16 · renameBed changes only the label and preserves IDs, shift and all task relations"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-16 · renameBed changes only the label and preserves IDs, shift and all task relations",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-17",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-17 · duplicate group names do not merge stable identities or task membership"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-17 · duplicate group names do not merge stable identities or task membership",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-18",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-18 · renameBed rejects invalid labels and missing groups without changing the snapshot"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-18 · renameBed rejects invalid labels and missing groups without changing the snapshot",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-19",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-19 · renameBed failure leaves label and relationships unchanged; retry can succeed"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-19 · renameBed failure leaves label and relationships unchanged; retry can succeed",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "PREVIEW-20",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/preview.test.ts"
+      ],
+      "targetCases": [
+        "adaptador de vista previa PREVIEW-20 · archived group cannot be renamed even after opening a new active shift"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/preview.test.ts",
+          "case": "adaptador de vista previa PREVIEW-20 · archived group cannot be renamed even after opening a new active shift",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "VALIDATION-01",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/validation.test.ts"
+      ],
+      "targetCases": [
+        "validación de editor VALIDATION-01 · validation distinguishes fields in the same semantic family",
+        "validación de editor VALIDATION-01 · añadido: minutos vacío, 0 y 1440 válidos; -1, 1.5 y 1441 inválidos con el mensaje de v5",
+        "validación de editor VALIDATION-01 · añadido: 23:59 válido y 24:00 inválido con el mensaje de v5",
+        "validación de editor VALIDATION-01 · añadido (WARN 1B): la validación recorta el texto de minutos, el crudo conserva sus espacios y el valor aplicado no los tiene"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/validation.test.ts",
+          "case": "validación de editor VALIDATION-01 · validation distinguishes fields in the same semantic family",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/validation.test.ts",
+          "case": "validación de editor VALIDATION-01 · añadido: minutos vacío, 0 y 1440 válidos; -1, 1.5 y 1441 inválidos con el mensaje de v5",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/validation.test.ts",
+          "case": "validación de editor VALIDATION-01 · añadido: 23:59 válido y 24:00 inválido con el mensaje de v5",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/validation.test.ts",
+          "case": "validación de editor VALIDATION-01 · añadido (WARN 1B): la validación recorta el texto de minutos, el crudo conserva sus espacios y el valor aplicado no los tiene",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "requirementId": "VALIDATION-02",
+      "canonicalClosureTask": "2A",
+      "closureEvidenceKinds": [
+        "nonvisual"
+      ],
+      "recommendedStatus": "verified",
+      "targetTests": [
+        "tests/unit/validation.test.ts"
+      ],
+      "targetCases": [
+        "validación de editor VALIDATION-02 · civil date validation, date dependency, valid boundaries and note isolation",
+        "validación de editor VALIDATION-02 · añadido: 29/02/2028 válido, 29/02/2027 inválido y 31/02/2026 conservado como texto crudo con error",
+        "validación de editor VALIDATION-02 · añadido: título de 1 y 300 caracteres válido; 301 inválido; cuerpo 10.000 válido y 10.001 inválido",
+        "validación de editor VALIDATION-02 · añadido: validateTemporal expone la regla de minutos y hora de v5"
+      ],
+      "assertions": [
+        {
+          "test": "tests/unit/validation.test.ts",
+          "case": "validación de editor VALIDATION-02 · civil date validation, date dependency, valid boundaries and note isolation",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/validation.test.ts",
+          "case": "validación de editor VALIDATION-02 · añadido: 29/02/2028 válido, 29/02/2027 inválido y 31/02/2026 conservado como texto crudo con error",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/validation.test.ts",
+          "case": "validación de editor VALIDATION-02 · añadido: título de 1 y 300 caracteres válido; 301 inválido; cuerpo 10.000 válido y 10.001 inválido",
+          "status": "passed"
+        },
+        {
+          "test": "tests/unit/validation.test.ts",
+          "case": "validación de editor VALIDATION-02 · añadido: validateTemporal expone la regla de minutos y hora de v5",
+          "status": "passed"
+        }
+      ]
+    }
+  ]
+}

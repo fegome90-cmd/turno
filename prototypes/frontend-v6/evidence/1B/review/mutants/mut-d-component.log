@@ -1,0 +1,242 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 1 failed) 2471ms
+     × G1B-OVERLAY-02 · abrir Dialog desde Drawer cierra el Popover; Escape cierra el Dialog y el foco vuelve a un destino visible 142ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-OVERLAY · capas con un único coordinador > G1B-OVERLAY-02 · abrir Dialog desde Drawer cierra el Popover; Escape cierra el Dialog y el foco vuelve a un destino visible
+AssertionError: expected <body style="overflow: hidden;">…(2)</body> to be <button type="button" …(1)></button> // Object.is equality
+
+- Expected
++ Received
+
++ <body
++   style="overflow: hidden;"
++ >
++   <div
++     data-base-ui-inert=""
++   >
++     <main
++       data-band="narrow"
++       data-band-1000="narrow"
++       id="main"
++       tabindex="-1"
++     >
++       <h1
++         aria-hidden="true"
++       >
++         Harness 1B
++       </h1>
++       <button
++         aria-hidden="true"
++         data-focus-key="open-nav"
++         type="button"
++       >
++         Abrir navegación
++       </button>
++       <button
++         aria-expanded="false"
++         aria-haspopup="dialog"
++         aria-hidden="true"
++         data-base-ui-click-trigger=""
++         data-focus-key="open-more-page"
++         id="base-ui-_r_19_"
++         tabindex="0"
++         type="button"
++       >
++         Más opciones
++       </button>
++       <button
++         aria-hidden="true"
++         data-focus-key="open-create-page"
++         type="button"
++       >
++         Crear tarea
++       </button>
++       <button
++         aria-hidden="true"
++         type="button"
++       >
++         Alternar banda
++       </button>
++       <button
++         aria-hidden="true"
++         type="button"
++       >
++         Generar 30 avisos
++       </button>
+        <button
++         aria-hidden="true"
++         type="button"
++       >
++         Generar 3 avisos
++       </button>
++       <section
++         aria-hidden="true"
++         aria-label="Editor de prueba"
++       >
++         <label>
++           Título
++           <input
++             type="text"
++             value="Revisión de signos vitales del turno con título largo de prueba"
++           />
++         </label>
++         <div
++           class="temporal-field"
++           id="time-field"
++         >
++           <label
++             for="time"
++             id="base-ui-_r_1b_"
++           >
++             Hora prevista
++           </label>
++           <input
++             aria-labelledby="base-ui-_r_1b_"
++             autocomplete="off"
++             id="time"
++             inputmode="numeric"
++             type="text"
++             value=""
++           />
++         </div>
++         <div
++           class="temporal-field"
++           id="estimate-field"
++         >
++           <label
++             for="estimate"
++             id="base-ui-_r_1e_"
++           >
++             Estimación
++           </label>
++           <input
++             aria-labelledby="base-ui-_r_1e_"
++             autocomplete="off"
++             id="estimate"
++             inputmode="numeric"
++             type="text"
++             value=""
++           />
++         </div>
++       </section>
++       <div
++         aria-live="polite"
++         class="sr-only"
++         id="live"
++         role="status"
++       />
++       <div
++         aria-live="assertive"
++         class="sr-only"
++         id="live-error"
++         role="alert"
++       />
++       <section
++         aria-hidden="true"
++         aria-label="Avisos"
++         class="notification-region"
++         data-notification-root=""
++         hidden=""
++         inert=""
++         style="visibility: hidden;"
++       >
++         <ol
++           class="notice-list"
++         />
++       </section>
++     </main>
++   </div>
++   <div
++     data-base-ui-portal=""
++     id="_r_1i_"
++   >
++     <div
++       aria-hidden="true"
++       data-base-ui-inert=""
++       role="presentation"
++       style="position: fixed; inset: 0px; user-select: none;"
++     />
++     <div
++       data-open=""
++       role="presentation"
++     >
++       <span
++         aria-hidden="true"
++         data-base-ui-focus-guard=""
++         data-base-ui-inert=""
++         data-type="inside"
++         style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: 0px; position: fixed; top: 0px; left: 0px;"
++         tabindex="0"
++       />
++       <div
++         aria-labelledby="base-ui-_r_1j_"
++         data-base-ui-focusable=""
++         data-open=""
++         data-overlay-layer="navigation"
++         data-swipe-direction="down"
++         id="_r_1g_"
++         role="dialog"
++         style="--drawer-swipe-movement-x: 0px; --drawer-swipe-movement-y: 0px; --drawer-swipe-progress: 0; --nested-drawers: 0; --drawer-snap-point-offset: 0px; --drawer-swipe-strength: 1;"
++         tabindex="-1"
++       >
++         <h2
++           id="base-ui-_r_1j_"
++         >
++           Navegación
++         </h2>
++         <button
++           aria-expanded="false"
++           aria-haspopup="dialog"
++           data-base-ui-click-trigger=""
++           data-focus-key="open-more-drawer"
++           id="base-ui-_r_1l_"
++           tabindex="0"
++           type="button"
++         >
++           Más opciones
++         </button>
++         <button
+            data-focus-key="open-create-drawer"
+            type="button"
+          >
+            Crear tarea
++         </button>
++         <button
++           tabindex="0"
++           type="button"
++         >
++           Cerrar navegación
+          </button>
++       </div>
++       <span
++         aria-hidden="true"
++         data-base-ui-focus-guard=""
++         data-base-ui-inert=""
++         data-type="inside"
++         style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: 0px; position: fixed; top: 0px; left: 0px;"
++         tabindex="0"
++       />
++     </div>
++   </div>
++ </body>
+
+ ❯ tests/component/primitive-contract.test.tsx:154:36
+    152|     await waitFor(() => expect(screen.queryByRole('dialog', {name: 'Cr…
+    153|     // El destino de retorno (botón de Crear dentro del Drawer) sigue …
+    154|     expect(document.activeElement).toBe(within(drawer).getByRole('butt…
+       |                                    ^
+    155|   });
+    156|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 47 passed (48)
+   Start at  02:01:10
+   Duration  4.83s (transform 185ms, setup 311ms, import 453ms, tests 2.65s, environment 1.04s)
+

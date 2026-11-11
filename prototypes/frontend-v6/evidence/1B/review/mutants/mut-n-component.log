@@ -1,0 +1,209 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 2 failed) 2342ms
+     × G1B-NOTIFY-05 · descarte por teclado de un aviso intermedio mueve el foco al cierre siguiente, como v5 18ms
+     × G1B-NOTIFY-06 · descarte por teclado del último: foco al anterior; sin más avisos, al destino de respaldo 12ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-05 · descarte por teclado de un aviso intermedio mueve el foco al cierre siguiente, como v5
+AssertionError: expected <body style><div>…(3)</div></body> to be <button type="button" …(3)></button> // Object.is equality
+
+- Expected
++ Received
+
++ <body
++   style=""
++ >
++   <div>
++     <div
++       aria-live="polite"
++       class="sr-only"
++       id="live"
++       role="status"
++     >
++       Tres
++     </div>
++     <div
++       aria-live="assertive"
++       class="sr-only"
++       id="live-error"
++       role="alert"
++     />
++     <section
++       aria-label="Avisos"
++       class="notification-region"
++       data-notification-root=""
++     >
++       <ol
++         class="notice-list"
++       >
++         <li
++           class="notice"
++           data-kind="status"
++           data-notice=""
++           data-notice-id="n36"
++         >
++           <div
++             class="notice-card"
++           >
++             <div
++               class="notice-content"
++             >
++               <p
++                 class="notice-label"
++               >
++                 Demostración
++               </p>
++               <p
++                 class="notice-message"
++                 data-notice-message=""
++               >
++                 Uno
++               </p>
++             </div>
++             <button
++               aria-label="Cerrar aviso"
++               class="notice-close"
++               data-close-notice=""
++               type="button"
++             >
++               ×
++             </button>
++           </div>
++         </li>
++         <li
++           class="notice"
++           data-kind="status"
++           data-notice=""
++           data-notice-id="n38"
++         >
++           <div
++             class="notice-card"
++           >
++             <div
++               class="notice-content"
++             >
++               <p
++                 class="notice-label"
++               >
++                 Demostración
++               </p>
++               <p
++                 class="notice-message"
++                 data-notice-message=""
++               >
++                 Tres
++               </p>
++             </div>
+              <button
+                aria-label="Cerrar aviso"
+                class="notice-close"
+                data-close-notice=""
+                type="button"
+              >
+                ×
+              </button>
++           </div>
++         </li>
++       </ol>
++     </section>
++   </div>
++ </body>
+
+ ❯ tests/component/primitive-contract.test.tsx:319:36
+    317|     await user.keyboard('{Enter}');
+    318|     expect(document.querySelectorAll('[data-notice]')).toHaveLength(2);
+    319|     expect(document.activeElement).toBe(closes()[1]);
+       |                                    ^
+    320|     expect(document.activeElement?.closest('[data-notice]')?.textConte…
+    321|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-06 · descarte por teclado del último: foco al anterior; sin más avisos, al destino de respaldo
+AssertionError: expected <body style><div>…(3)</div></body> to be <button type="button" …(3)></button> // Object.is equality
+
+- Expected
++ Received
+
++ <body
++   style=""
++ >
++   <div>
++     <div
++       aria-live="polite"
++       class="sr-only"
++       id="live"
++       role="status"
++     />
++     <div
++       aria-live="assertive"
++       class="sr-only"
++       id="live-error"
++       role="alert"
++     />
++     <section
++       aria-label="Avisos"
++       class="notification-region"
++       data-notification-root=""
++     >
++       <ol
++         class="notice-list"
++       >
++         <li
++           class="notice"
++           data-kind="status"
++           data-notice=""
++           data-notice-id="n39"
++         >
++           <div
++             class="notice-card"
++           >
++             <div
++               class="notice-content"
++             >
++               <p
++                 class="notice-label"
++               >
++                 Demostración
++               </p>
++               <p
++                 class="notice-message"
++                 data-notice-message=""
++               >
++                 Uno
++               </p>
++             </div>
+              <button
+                aria-label="Cerrar aviso"
+                class="notice-close"
+                data-close-notice=""
+                type="button"
+              >
+                ×
+              </button>
++           </div>
++         </li>
++       </ol>
++     </section>
++   </div>
++ </body>
+
+ ❯ tests/component/primitive-contract.test.tsx:335:36
+    333|     closes()[1].focus();
+    334|     await user.keyboard('{Enter}');
+    335|     expect(document.activeElement).toBe(closes()[0]);
+       |                                    ^
+    336|     await user.keyboard('{Enter}');
+    337|     expect(document.querySelectorAll('[data-notice]')).toHaveLength(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  2 failed | 46 passed (48)
+   Start at  02:02:30
+   Duration  4.80s (transform 246ms, setup 333ms, import 496ms, tests 2.52s, environment 1.09s)
+

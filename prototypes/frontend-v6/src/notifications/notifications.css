@@ -1,0 +1,12 @@
+/* Pila de avisos (1B, D12). Colores solo con tokens de producto; sin movimiento (FLIP va en 5A/6A). */
+.notification-region{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:50;width:min(360px,calc(100vw - 32px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));pointer-events:none}
+.notice-list{max-height:min(40dvh,420px);overflow-y:auto;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.notice{background:var(--canvas);color:var(--ink);border:1px solid var(--border);border-radius:var(--radius-panel);padding:12px}
+.notice-card{display:flex;align-items:flex-start;gap:8px}
+.notice-content{flex:1;min-width:0}
+.notice-label{margin:0;font-size:var(--type-caption);color:var(--secondary)}
+.notice[data-kind=error] .notice-label{color:var(--error)}
+.notice-message{margin:0;overflow-wrap:break-word}
+.notice-repeat{margin:4px 0 0;font-size:var(--type-caption);color:var(--secondary)}
+.notice-close{min-width:44px;min-height:44px;color:var(--ink);pointer-events:auto}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

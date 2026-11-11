@@ -1,0 +1,49 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 1 failed) 46ms
+     × PREVIEW-10 · archive is read only 9ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:03:25
+   Duration  1.12s (transform 141ms, setup 0ms, import 230ms, tests 126ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-10 · archive is read only
+AssertionError: promise resolved "{ id: 'task-1', …(13) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "bedId": "bed-1",
++   "body": "",
++   "completed": false,
++   "date": "2026-11-07",
++   "duration": "",
++   "estimate": "",
++   "id": "task-1",
++   "performed": "",
++   "priority": "normal",
++   "reason": "Exámenes",
++   "shiftId": "demo-shift-1",
++   "time": "",
++   "title": "Changed",
++   "version": 2,
+  }
+
+ ❯ tests/unit/preview.test.ts:141:77
+    139|     const snapshot = await adapter.load();
+    140|     await adapter.closeShift(snapshot.activeShiftId as string);
+    141|     await expect(adapter.saveTask({...snapshot.tasks[0], title: 'Chang…
+       |                                                                             ^
+    142|   });
+    143|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

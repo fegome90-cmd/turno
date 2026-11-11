@@ -1,0 +1,66 @@
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (29 tests | 3 failed) 2656ms
+     × G1B-NUMBERFIELD-RAW · "abc" se conserva exacto al escribir y al salir del campo 147ms
+     × G1B-NUMBERFIELD-RAW · "1.5" se conserva exacto al escribir y al salir del campo 35ms
+     × G1B-NUMBERFIELD-RAW · "1441" se conserva exacto al escribir y al salir del campo 32ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "abc" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '' to be 'abc' // Object.is equality
+
+- Expected
++ Received
+
+- abc
+
+ ❯ tests/component/primitive-contract.test.tsx:27:27
+     25|       await user.clear(input);
+     26|       await user.type(input, raw);
+     27|       expect(input.value).toBe(raw);
+       |                           ^
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "1.5" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '15' to be '1.5' // Object.is equality
+
+Expected: "1.5"
+Received: "15"
+
+ ❯ tests/component/primitive-contract.test.tsx:29:27
+     27|       expect(input.value).toBe(raw);
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+       |                           ^
+     30|     });
+     31|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "1441" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '1.441' to be '1441' // Object.is equality
+
+Expected: "1441"
+Received: "1.441"
+
+ ❯ tests/component/primitive-contract.test.tsx:29:27
+     27|       expect(input.value).toBe(raw);
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+       |                           ^
+     30|     });
+     31|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 26 passed (29)
+   Start at  01:34:12
+   Duration  3.78s (transform 144ms, setup 137ms, import 393ms, tests 2.66s, environment 434ms)
+

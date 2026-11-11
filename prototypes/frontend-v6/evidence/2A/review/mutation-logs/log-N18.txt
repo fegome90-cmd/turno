@@ -1,0 +1,33 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/validation.test.ts (8 tests | 1 failed) 11ms
+     × VALIDATION-01 · añadido: minutos vacío, 0 y 1440 válidos; -1, 1.5 y 1441 inválidos con el mensaje de v5 5ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:03:48
+   Duration  1.06s (transform 134ms, setup 0ms, import 224ms, tests 118ms, environment 1ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-01 · añadido: minutos vacío, 0 y 1440 válidos; -1, 1.5 y 1441 inválidos con el mensaje de v5
+AssertionError: expected undefined to be 'Estimación: usa minutos enteros entre…' // Object.is equality
+
+- Expected:
+"Estimación: usa minutos enteros entre 0 y 1440."
+
++ Received:
+undefined
+
+ ❯ tests/unit/validation.test.ts:30:78
+     28|     }
+     29|     for (const value of ['-1', '1.5', '1441']) {
+     30|       expect(validateEditor(draft, {...temporal, estimate: value}).est…
+       |                                                                              ^
+     31|         'Estimación: usa minutos enteros entre 0 y 1440.',
+     32|       );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

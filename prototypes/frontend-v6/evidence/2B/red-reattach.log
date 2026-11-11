@@ -1,0 +1,61 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:unit
+> vitest run --project unit --maxWorkers=1 --no-file-parallelism history-controller
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6
+
+ ❯ |unit| tests/unit/history-controller.test.ts (19 tests | 2 failed) 21ms
+     × reattach on a foreign entry forgets the detached segment before a new push 6ms
+     × unavailable history writes do not crash in-memory navigation 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > reattach on a foreign entry forgets the detached segment before a new push
+AssertionError: expected { view: 'workspace', …(4) } to match object { idx: +0 }
+(6 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "idx": 0,
++   "idx": 2,
+  }
+
+ ❯ tests/unit/history-controller.test.ts:221:39
+    219|     ctx.browser.history.pushState({host: 'detached'}, '');
+    220|     ctx.controller.start(); ctx.controller.push(task('after-reattach')…
+    221|     expect(ctx.browser.history.state).toMatchObject({idx: 0});
+       |                                       ^
+    222|     expect((ctx.browser.history.state as {__turnoHistory: string}).__t…
+    223|     ctx.browser.move(-2); ctx.browser.flush();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > unavailable history writes do not crash in-memory navigation
+AssertionError: expected [Function] to not throw an error but 'Error: sandboxed' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: sandboxed"
+
+ ❯ tests/unit/history-controller.test.ts:238:42
+    236|     expect(() => controller.push(task())).not.toThrow();
+    237|     expect(route).toEqual(task()); controller.dispose();
+    238|     expect(() => controller.start()).not.toThrow(); controller.dispose…
+       |                                          ^
+    239|   });
+    240|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 17 passed (19)
+   Start at  00:32:18
+   Duration  254ms (transform 45ms, setup 0ms, import 62ms, tests 21ms, environment 0ms)
+

@@ -1,0 +1,47 @@
+{
+  "baseCommit": "fd777bfb1656dc55114e170e14474ba5ee70c481",
+  "branch": "work/phase2b-replay-race-fix",
+  "sourceManifest": "execution-source-sha256.json",
+  "node": "v24.22.1",
+  "npm": "11.9.0",
+  "status": "awaiting_user_codex_cloud_browser_validation",
+  "gate": "NOT_RUN_NOT_APPROVED",
+  "checks": {
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "unit": {
+      "status": "PASS",
+      "passed": 111
+    },
+    "component": {
+      "status": "PASS",
+      "passed": 81
+    },
+    "build": "PASS",
+    "buildHistoryHarness": "PASS",
+    "auditTotal": {
+      "status": "PASS",
+      "vulnerabilities": 0
+    },
+    "auditRuntime": {
+      "status": "PASS",
+      "vulnerabilities": 0
+    },
+    "browser": {
+      "status": "BLOCKED_LAUNCH",
+      "listedHistoryCases": 44,
+      "listedFullCases": 60,
+      "passed": 0,
+      "cause": "Chromium socket() failed: Operation not permitted before first page; ordinary and escalated launch attempted"
+    }
+  },
+  "artifacts": {
+    "dist/preview.html": "ae271fd0a7f084b0e3583969f70ad448af637dca2c634a369e981eb17ee6d343",
+    "dist-history/history-harness.html": "fb6c2b83f65a4b64b0ec5aecdbae8f28daa9f953c37d6b9e5217f5832d6606a5"
+  },
+  "notes": [
+    "green-all.log records four incorrect new document.title whitespace expectations; corrected because the DOM getter normalizes spaces. Exact raw input remains asserted.",
+    "red-normalizer-void-bailout.log is a regression introduced in the first candidate; the baseline case passed. Final hook keeps applyRoute(): void compatibility.",
+    "No contract gate run, merge, deployment, or integrated HISTORY acceptance."
+  ]
+}

@@ -1,0 +1,49 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 2 failed) 2445ms
+     × G1B-TEMPORAL-RAW · 0, 1440 y vacío son válidos; vacío no se convierte en 0 25ms
+     × G1B-TEMPORAL-RAW · 999 y 1000 no se acotan (sin clamp) y 1441 es error 52ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-TEMPORAL-RAW · TemporalField (Field + input text) con la regla v5 > G1B-TEMPORAL-RAW · 0, 1440 y vacío son válidos; vacío no se convierte en 0
+AssertionError: expected '0' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:42:25
+     40|     expect(screen.queryByText(/usa minutos/)).toBeNull();
+     41|     await user.clear(input);
+     42|     expect(input.value).toBe('');
+       |                         ^
+     43|     expect(screen.queryByText(/usa minutos/)).toBeNull();
+     44|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-TEMPORAL-RAW · TemporalField (Field + input text) con la regla v5 > G1B-TEMPORAL-RAW · 999 y 1000 no se acotan (sin clamp) y 1441 es error
+AssertionError: expected '01000' to be '1000' // Object.is equality
+
+Expected: "1000"
+Received: "01000"
+
+ ❯ tests/component/primitive-contract.test.tsx:56:25
+     54|     await user.clear(input);
+     55|     await user.type(input, '1000');
+     56|     expect(input.value).toBe('1000');
+       |                         ^
+     57|     expect(screen.queryByText(/usa minutos/)).toBeNull();
+     58|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  2 failed | 46 passed (48)
+   Start at  02:00:47
+   Duration  5.01s (transform 180ms, setup 348ms, import 433ms, tests 2.60s, environment 1.26s)
+

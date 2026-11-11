@@ -1,0 +1,13 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:unit
+> vitest run --project unit --maxWorkers=1 --no-file-parallelism
+
+
+ RUN  v4.1.12 /private/tmp/turno-macpro-jEERF9Kq/candidate/prototypes/frontend-v6
+
+
+ Test Files  8 passed (8)
+      Tests  111 passed (111)
+   Start at  10:10:14
+   Duration  841ms (transform 73ms, setup 0ms, import 128ms, tests 84ms, environment 0ms)
+
