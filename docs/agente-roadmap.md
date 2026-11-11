@@ -6,7 +6,7 @@
 Este documento reemplaza a los dos anteriores:
 
 1. «Hoja de ruta del agente de fondo de Turno» (11-11-2026), versión previa de este mismo archivo `docs/agente-roadmap.md`. Aportaba la visión por etapas 0–7, las decisiones de producto de la sesión de preguntas y las decisiones D1–D4.
-2. «Turno — Roadmap ejecutable de inteligencia ambiental v1.1» (10-11-2026), `turno_roadmap_inteligencia_ambiental_v1_1_ejecucion.md`. Aportaba los paquetes de ejecución G0, R1a, R0, R1b, R2, R3, R4, R5 y R6.
+2. «Turno — Roadmap ejecutable de inteligencia ambiental v1.1» (10-11-2026), `turno_roadmap_inteligencia_ambiental_v1_1_ejecucion.md`. Es un documento externo: no está en el repositorio y este archivo lo reemplaza. Aportaba los paquetes de ejecución G0, R1a, R0, R1b, R2, R3, R4, R5 y R6.
 
 Es un plan. **Nada de lo que describe se ha ejecutado**, salvo la etapa 0 (PR #6, pendiente de integrar). No autoriza despliegues ni integraciones a `main`.
 
@@ -83,7 +83,7 @@ SHA consultados el 10-11-2026 y confirmados vigentes el 11-11-2026.
 | `feat/internal-agent-http` (PR #8) | `c48376b0b0cbab29e59fea0924af771e2e350187` | Servicio Strands/Jev/Haiku, eventos, clasificación, extracción, HMAC de servicio, evaluación y pruebas | **Única** implementación principal del agente |
 | `feature/turno-strands-gateway-v6` | `7ca56cd368da9cd9f44389f5205f04b7cd3deabd` | Segundo prototipo de reglas y filtros (`services/turno-agent`) | Referencia de pruebas y política. **No** es un segundo runtime |
 
-Otras ramas y PR citados: PR #6 en `claude/eloquent-cerf-yg547a` (etapa 0), PR #4 en `feature/opencode-secure-config`, PR #5 (interfaz).
+Otras ramas y PR citados: PR #6 en `claude/eloquent-cerf-yg547a` (etapa 0), PR #4 en `feature/opencode-secure-config`, PR #5 (interfaz) en `feature/turno-capture-review-ui-v6`. La base del PR #5, `work/react-v6-ed374be`, ya está integrada en `main`.
 
 Los SHA son una foto. Al iniciar cada paquete se vuelve a leer HEAD, se compara y se detiene el trabajo si cambió un contrato.
 
@@ -112,10 +112,10 @@ Orden de ejecución de arriba hacia abajo. La etapa 1 corre en paralelo: no bloq
 | Etapa | Qué entrega | Paquetes | Condición de entrada | Estado |
 |---|---|---|---|---|
 | 0. Inferencia real | Modelo elegido y decider verificado | PR #6 | — | **Hecha**, pendiente de aprobar la integración (D1) |
-| 1. Definición v1 | Alcance del agente cerrado | C1–C5, Q13–Q16, `docs/agente-v1.md` | — | `PENDING` |
+| 1. Definición v1 | Alcance del agente cerrado | C1–C5, Q13–Q16, registradas en §6 de este documento | — | `PENDING` |
 | 2. Interfaz silenciosa | Captura manual, tarjetas de revisión, avisos sin ruido | G0 → R1a → R0 → R1b | Árbol limpio y baseline corrido (G0) | `PENDING` |
-| 3. Reglas sin modelo | Antes del cierre, continuidad, repeticiones | R2, R3, R4 | R0 en `PASS`. R4: evidencia de uso | `PENDING` (R4 `DEFERRED`) |
-| 4. Integración del agente | Agente y endpoint alineados con el PR #6 | G1 | D1 y D2 decididas | `PENDING` |
+| 3. Reglas sin modelo | Antes del cierre, continuidad, repeticiones | R2, R3, R4 | R0 y R1b en `PASS`. R4: evidencia de uso | `PENDING` (R4 `DEFERRED`) |
+| 4. Integración del agente | Agente y endpoint alineados con el PR #6 | G1 | D1 y D2 decididas. Corre en paralelo con las etapas 2 y 3: no depende de ellas | `PENDING` |
 | 5. Agente v1 con modelo | Nota → propuesta de tarea | R5 | R0 + R1a + R1b en `PASS`, G1 en `PASS`, C2–C4 decididas, solo fixtures sintéticos | `PENDING` (con puerta) |
 | 6. Extensiones | Fechas en títulos, relaciones nota-tarea | R6 | R5 con valor demostrado | `DEFERRED` |
 | 7. Piloto y fase `DUAL` | Uso real autorizado | — | Revisión legal y de privacidad aprobada | `PENDING` |
@@ -129,28 +129,35 @@ Si C1 = A, se agrega un paquete nuevo para F3 (aún sin tareas definidas) despu�
 ### 5.2 Dependencias entre paquetes
 
 ```text
-G0 Baseline y contrato existente
+Interfaz (sin modelo)                              Agente (sin modelo)
+
+G0 Baseline y contrato existente                   D1 + D2 decididas
+       |                                                  |
+       v                                                  v
+R1a Parche de silencio en rama UI                  G1 PR #6 integrado y
+       |                                              PR #8 actualizado
+       v                                                  |
+R0 Integración selectiva UI en candidato v6               |
+       |                                                  |
+       v                                                  |
+R1b Identidad y caducidad                                 |
+       |                                                  |
+       +--------------------+                             |
+       v                    v                             |
+R2 Antes del cierre    R3 Continuidad                     |
+                                                          |
+R1b + G1 + C2-C4 decididas -------------------------------+
        |
        v
-R1a Parche de silencio en rama UI ----- R0 Integración selectiva UI en candidato v6
-                                                |
-                                              R1b Identidad y caducidad
-                                                |
-                              +-----------------+-----------------+
-                              v                                   v
-                        R2 Antes del cierre                  R3 Continuidad
-                              |                                   |
-                              +---------------+-------------------+
-                                              v
-                    G1 PR #6 integrado y PR #8 actualizado
-                                              |
-                                         R5 Nota -> tarea
-                                              |
-                        R4 Duplicados exactos (si hay evidencia)
-                        R6 Fechas/relaciones (solo tras medir)
+R5 Nota -> tarea
+       |
+       v
+R6 Fechas/relaciones (solo tras medir)
+
+R4 Duplicados exactos: condicional, después de R0 y R1b, solo si hay evidencia
 ```
 
-El primer parche de código es **R1a**, en la rama aislada de interfaz. Así R0 no integra un aviso para quitarlo en el commit siguiente. R0 sigue siendo la puerta de integración. R1b se revisa después de R0.
+El primer parche de código es **R1a**, en la rama aislada de interfaz. Así R0 no integra un aviso para quitarlo en el commit siguiente. R0 sigue siendo la puerta de integración. R1b se revisa después de R0. R2 y R3 no son condición de R5: se pueden hacer antes, después o en paralelo.
 
 ## 6. Decisiones de producto en conflicto (pendientes)
 
@@ -161,8 +168,10 @@ Los dos documentos de origen se contradicen en estos puntos. **Este documento no
 | C1 | F3: tareas atrasadas y próximas | Revisión periódica cada 5 minutos. «Próxima» = vence dentro de 15 minutos. Aviso urgente en pantalla. Las atrasadas se repiten cada 30 minutos, agrupadas, con «Posponer 30 min» y «No avisar más en este turno». Solo el turno abierto. Valores fijos | Sin polling y sin alertas globales para sugerencias opcionales. F3 no existe | **A:** se agrega un paquete F3 nuevo después de R0, con sus propias tareas, pruebas y replay; los límites 9 y 10 de §2 necesitan una excepción explícita para el aviso urgente y para la revisión periódica; C5, Q13, Q14 y Q16 pasan a ser necesarias. **B:** no hay paquete F3; C5, Q13, Q14 y Q16 quedan sin efecto |
 | C2 | Recordatorios | «Recuérdame a las 17:00» se convierte en una tarea con hora. F3 avisa | `PROPOSE_REMINDER` se abstiene: no hay sistema de alarmas | **A:** cambian R5-T03 y R5-T06 (la extracción puede llevar hora escrita en la nota) y el caso «recordatorio» del corpus de R5 pasa a esperar una propuesta; requiere C1 = A para que el aviso exista. **B:** R5 queda como está escrito |
 | C3 | Notas que requieren revisión | Se sugiere la captura con la etiqueta «revisa con cuidado», sin comentario clínico | `NEEDS_REVIEW` se abstiene | **A:** cambia R5-T03, se agregan casos al corpus y la tarjeta necesita la etiqueta. **B:** R5 queda como está escrito |
-| C4 | Experiencia de captura | Sugerencia automática en la bandeja más un botón manual. Varias tareas por nota | Una sola propuesta inline bajo la nota, una sola acción | **A:** cambian R5-T05 (más de una acción) y R5-T08 (bandeja en vez de inline); las expectativas actuales de `CAPTURE_CASES` (varias tareas por texto) se mantienen. **B:** R5 queda como está escrito y las expectativas de `CAPTURE_CASES` que piden varias tareas se revisan |
+| C4 | Experiencia de captura | Sugerencia automática en la bandeja más un botón manual. Varias tareas por nota | Una sola propuesta inline bajo la nota, una sola acción | **A:** cambian R5-T05 (más de una acción) y R5-T08 (bandeja en vez de inline); la sugerencia automática y el botón manual deben terminar en la misma tarjeta de revisión y en el mismo `createReviewedTask` que la captura manual del PR #5, o infringen el límite 10 (sin rutas duplicadas de captura); las expectativas actuales de `CAPTURE_CASES` (varias tareas por texto) se mantienen. **B:** R5 queda como está escrito y las expectativas de `CAPTURE_CASES` que piden varias tareas se revisan |
 | C5 | Hora de inicio del turno y zona horaria | Se agrega la hora de inicio; una tarea sin fecha con hora anterior al inicio cae al día siguiente. Zona America/Santiago, configurable | No se necesitan | Solo hace falta si C1 = A. Con C1 = B no se implementa |
+
+D3 (quién es dueño de las reglas fijas) también es un choque entre los dos documentos. Se trata en §7.
 
 Decisiones del documento 1 que **no** entran en conflicto y se mantienen:
 
@@ -183,7 +192,7 @@ Preguntas todavía abiertas de la ronda 4:
 | Q15 | Si F2 sigue sugiriendo «confirmar fecha» cuando F3 usa la fecha del turno | C1 = A. Con C1 = B, F2 sugiere confirmar fecha en borradores capturados sin más cambios |
 | Q16 | Qué acciones hay desde un aviso: solo «Abrir tarea», o también posponer y silenciar | C1 = A para posponer y silenciar. «Abrir tarea» no depende de C1 |
 
-**Término de la etapa 1:** C1–C5 y Q13–Q16 respondidas, entendimiento confirmado y `docs/agente-v1.md` en el repositorio.
+**Término de la etapa 1:** C1–C5 y Q13–Q16 respondidas, entendimiento confirmado y las decisiones registradas en esta sección. No se crea otro documento: este es el único.
 
 ## 7. Decisiones pendientes
 
@@ -411,23 +420,24 @@ Antes del primer parche. No permite refactorizaciones.
 
 ## 17. G1 — PR #6 integrado y PR #8 actualizado (puerta previa a R5)
 
-Puerta nueva de este documento. Reúne la etapa 2 del documento 1 y el hecho verificado en §4.2. **Entrada:** D1 y D2 decididas. **LLM: 0** (solo pruebas offline).
+Puerta nueva de este documento. Reúne la etapa 2 del documento 1 y el hecho verificado en §4.2. **Entrada:** D1 y D2 decididas. No depende de los paquetes de interfaz: puede correr en paralelo con ellos. **LLM: 0** (solo pruebas offline).
 
 - [ ] **G1-T01** Integrar el PR #6 en `feature/opencode-secure-config`, con aprobación (D1).
 - [ ] **G1-T02** Actualizar el PR #8 (`feat/internal-agent-http`, endpoint `/v1/agent/events` con firma HMAC) sobre el PR #6. Debe quedar solo con sus archivos propios. Pasa revisión y se integra con aprobación.
 - [ ] **G1-T03** Volver a verificar en el PR #8 actualizado: umbral del decider en 0 leído de la configuración (también en la evaluación), clave validada del Gateway pasada con `createGateway`, y redacción de secretos que conserva las banderas de las expresiones regulares.
 - [ ] **G1-T04** Cambiar la base del PR #4 a `main` (según D2), resolviendo conflictos sin reescribir el historial.
-- [ ] **G1-T05** Tareas de la persona dueña para cerrar el PR #4: revisar el presupuesto de la clave en Vercel (A-05) y correr `npm run smoke:live:keychain` en su Mac.
 
 | Parte | Contenido |
 |---|---|
 | VALIDATE | Diff del PR #8 contra el PR #6: solo archivos del endpoint. Releer SHA y registrar los nuevos |
-| TEST | Comandos del agente (§9), offline. Sin inferencia facturable salvo la prueba aprobada de G1-T05 |
+| TEST | Comandos del agente (§9), offline. Sin inferencia facturable |
 | FIX | Solo conflictos de la actualización; una causa por parche |
 | REPLAY | `npm run demo` y `npm run smoke:preflight` sobre el PR #8 actualizado |
 | REPLY | SHA nuevos, las tres verificaciones de G1-T03 con evidencia, estado del CI |
 
 **Término:** el agente y el endpoint están en `main` con el CI en verde, y G1-T03 está demostrado.
+
+**Fuera de G1, tareas de la persona dueña para cerrar el PR #4:** revisar el presupuesto de la clave en Vercel (A-05) y correr `npm run smoke:live:keychain` en su Mac. Esta última es inferencia facturable: se aprueba aparte y su resultado se registra separado de las pruebas offline. No bloquea R5.
 
 ## 18. R5 — Primer experimento donde un modelo sí aporta valor
 
@@ -455,7 +465,7 @@ Puerta nueva de este documento. Reúne la etapa 2 del documento 1 y el hecho ver
 
 ### VALIDATE / TEST — Corpus sintético
 
-**Se reutiliza `server/eval/dataset.mjs`** (48 notas de clasificación y 14 textos de captura, todos sintéticos). No se crea un corpus paralelo. De los 18 casos de la tabla siguiente, solo se agregan los que el dataset no cubre. Como mínimo son nuevos: tarea ya presente, respuesta de versión obsoleta y entrada fuera de la fuente autorizada. Los demás se toman de los grupos existentes (`task`, `no_action`, `ambiguous`, `reminder`, `injection`) después de revisar su cobertura caso a caso.
+**Se reutiliza `server/eval/dataset.mjs`** (48 notas de clasificación y 14 textos de captura, todos sintéticos). No se crea un corpus paralelo. De los 18 casos de la tabla siguiente, solo se agregan los que el dataset no cubre. Como mínimo son nuevos: tarea ya presente, respuesta de versión obsoleta y entrada fuera de la fuente autorizada. Los demás se toman de los grupos existentes (`task`, `no_action`, `ambiguous`, `reminder`, `injection`, `clinical_like` y `long`) después de revisar su cobertura caso a caso.
 
 | Grupo | Casos | Resultado esperado |
 |---|---:|---|
@@ -506,7 +516,8 @@ El modelo no recibe herramientas de mutación (§2). Eso cambia la prioridad de 
 
 | Pieza | Situación | Motivo |
 |---|---|---|
-| Telemetría (OpenTelemetry) | Única adición considerada a corto plazo | Contadores de sugerencias aceptadas y descartadas, latencia y costo. Solo contadores, sin contenido |
+| Contadores propios (R5-T11) | Corto plazo | Sugerencias aceptadas y descartadas, llamadas, latencia y costo, registrados con código propio y sin dependencias nuevas. Solo contadores, sin contenido |
+| Telemetría de Strands (OpenTelemetry) | Requiere autorización | El SDK declara los paquetes de OpenTelemetry como dependencias opcionales, y hoy solo está instalado `@opentelemetry/api`. Usarla exige instalar exportadores y el SDK de OTel, que el límite 11 no permite sin autorización separada |
 | ContextInjector | Opcional | Pasar el estado del turno en cada llamada sin guardarlo en el historial. Solo si R5 lo necesita |
 | Autorización Cedar | Condicional | Solo es relevante si el agente llega a tener herramientas |
 | Intervención HITL | Condicional | Igual que Cedar. Sin herramientas, la aprobación humana ya ocurre en la tarjeta de revisión |
@@ -539,7 +550,7 @@ Cada pieza que se agregue va de a una, midiendo latencia y casos de inyección d
 
 **Entrada:** revisión de desacuerdos de `DUAL` sin errores graves de Jev.
 
-1. Jev clasifica solo. Haiku queda para la captura y para los casos de confianza baja.
+1. Jev clasifica solo. Haiku queda para la captura. Pasar a Haiku cuando Jev tiene confianza baja sería una función nueva: hoy el modo `DECISION` se abstiene en ese caso, y con umbral 0 no ocurre.
 2. Modelo de decisión y enrutamiento dentro de Strands, con respaldo a nivel del SDK además del Gateway.
 
 **Término:** costo por nota menor que en `GATEWAY` (con los datos actuales, US$ 23 por millón de notas frente a 157), sin perder calidad en el set de control.
@@ -566,7 +577,7 @@ Aplica a cada cambio afectado.
 | Responsive | Escritorio 1440×900 y móvil 390×844; claro y oscuro | Acción accesible sin scroll ni overlay roto |
 | Historial | Navegación, archivo y regreso al editor | Borradores protegidos; archivo en solo lectura |
 | Riesgo IA | Texto no sintético, inyección, respuesta inválida, timeout | Rechazar o abstenerse; 0 escrituras |
-| Economía | Llamadas reales por evento y tipo | 0 LLM en G0–R4 y G1; R5 solo después de la puerta semántica |
+| Economía | Llamadas reales por evento y tipo | 0 LLM en G0–R4 y G1; R5 solo después de la puerta semántica. Las pruebas en vivo de la persona dueña (§17) se aprueban y registran aparte |
 | Ambiente | Node requerido, instalación, pruebas de navegador | Bloqueos reportados de forma explícita; ningún `PASS` inferido |
 
 Procedimiento para cualquier paquete:
