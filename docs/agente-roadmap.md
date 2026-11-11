@@ -198,8 +198,8 @@ Preguntas todavía abiertas de la ronda 4:
 
 | # | Decisión | Recomendación del documento 1 | Nota |
 |---|---|---|---|
-| D1 | ¿Integrar el PR #6 en la rama del PR #4 (`feature/opencode-secure-config`)? | Sí: CI en verde y revisión cerrada | Bloquea G1 |
-| D2 | ¿Dónde vive el código del agente? | El PR #4 apunta a `main` | Bloquea G1 |
+| D1 | ¿Integrar el PR #6 en la rama del PR #4 (`feature/opencode-secure-config`)? | Sí: CI en verde y revisión cerrada | **Decidida el 11-11-2026: sí** |
+| D2 | ¿Dónde vive el código del agente? | El PR #4 apunta a `main` | **Decidida el 11-11-2026: el agente va a `main` a través del PR #4** |
 | D3 | ¿Quién es dueño de las reglas fijas? | El agente; la interfaz las muestra a través del backend | El plan v1.1 las deja en el frontend (R0-T04: `collectAmbientSuggestions` como regla pura sobre el `Snapshot`) y pide una sola política equivalente, no dos implementaciones (R1b). Sin resolver. No bloquea R1a–R3; sí define dónde quedan las reglas a partir de R5 |
 | D4 | ¿Dónde se guardan los resultados de evaluación? | En el repositorio solo los resúmenes; los JSON completos como artefacto del CI | Conviene decidirla antes del `REPLY` de R5 |
 
@@ -627,7 +627,7 @@ Acción siguiente: <una sola, sin promoción implícita>
 | R2 — antes del cierre | `PENDING` | Enlace correcto, cierre no bloqueado, solo código |
 | R3 — continuidad | `PENDING` | Pendientes accesibles sin transferencias ni modelo |
 | R4 — repetición exacta | `DEFERRED` | Evidencia de frecuencia antes de ejecutar |
-| G1 — PR #6 y PR #8 | `PENDING` (requiere D1 y D2) | PR #8 sobre PR #6, tres verificaciones de G1-T03, CI en verde |
+| G1 — PR #6 y PR #8 | `IN_PROGRESS` (D1 y D2 decididas el 11-11-2026) | PR #8 sobre PR #6, tres verificaciones de G1-T03, CI en verde |
 | R5 — nota semántica | `PENDING` (con puerta; depende de C2, C3, C4) | 18 casos, comparación con el flujo manual, autorización sintética |
 | R6 — extensiones | `DEFERRED` | Valor demostrado y baseline convencional insuficiente |
 | Paquete F3 | No definido (solo si C1 = A) | — |
