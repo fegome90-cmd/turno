@@ -1,0 +1,6 @@
+
+Running 1 test using 1 worker
+
+  ✓  1 [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Drawer → Dialog: Escape cierra solo el Dialog con foco en el control del Drawer; otro Escape cierra el Drawer y el foco vuelve al disparador (1.0s)
+
+  1 passed (2.8s)

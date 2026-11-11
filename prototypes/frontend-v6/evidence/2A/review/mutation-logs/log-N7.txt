@@ -1,0 +1,33 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 1 failed) 41ms
+     × PREVIEW-13 · note save is independent and ignores foreign linkage fields 5ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 59 passed (60)
+   Start at  03:03:30
+   Duration  1.01s (transform 149ms, setup 0ms, import 228ms, tests 99ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-13 · note save is independent and ignores foreign linkage fields
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/unit/preview.test.ts:163:32
+    161|     const saved: QuickNote = await adapter.saveNote(foreign);
+    162|     expect(saved.body).toBe('Texto general');
+    163|     expect('shiftId' in saved).toBe(false);
+       |                                ^
+    164|   });
+    165|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

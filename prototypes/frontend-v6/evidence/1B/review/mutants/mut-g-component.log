@@ -1,0 +1,32 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 1 failed) 2263ms
+     × G1B-NOTIFY-04 · con modal abierto la pila queda inerte y oculta; el anuncio se difiere hasta cerrar 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-04 · con modal abierto la pila queda inerte y oculta; el anuncio se difiere hasta cerrar
+AssertionError: expected 'Mientras modal' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ Mientras modal
+
+ ❯ tests/component/primitive-contract.test.tsx:300:64
+    298|     expect(root.hasAttribute('inert')).toBe(true);
+    299|     expect(root.style.visibility).toBe('hidden');
+    300|     expect(document.getElementById('live-error')?.textContent).toBe(''…
+       |                                                                ^
+    301|     act(() => store.setSuspended(false));
+    302|     expect(root.hasAttribute('inert')).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 47 passed (48)
+   Start at  02:01:40
+   Duration  4.85s (transform 256ms, setup 316ms, import 523ms, tests 2.45s, environment 1.19s)
+

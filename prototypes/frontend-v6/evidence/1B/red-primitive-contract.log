@@ -1,0 +1,393 @@
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (29 tests | 18 failed) 1562ms
+     × G1B-NUMBERFIELD-RAW · "abc" se conserva exacto al escribir y al salir del campo 140ms
+     × G1B-NUMBERFIELD-RAW · "1.5" se conserva exacto al escribir y al salir del campo 36ms
+     × G1B-NUMBERFIELD-RAW · "1441" se conserva exacto al escribir y al salir del campo 32ms
+     × G1B-OVERLAY-01 · Drawer → Popover: Escape cierra solo el Popover de tema y el Drawer sigue abierto 7ms
+     × G1B-OVERLAY-02 · abrir Dialog desde Drawer cierra el Popover; Escape cierra el Dialog y el foco vuelve a un destino visible 2ms
+     × G1B-OVERLAY-03 · con Dialog abierto, el resto de la página no es accesible 3ms
+     × G1B-OVERLAY-04 · Tab sale del Popover de tema (no modal, sin trampa) 3ms
+     × G1B-OVERLAY-05 · abrir y cerrar Dialog 20 veces durante la animación no deja capas huérfanas 3ms
+     × EXTRA-NATIVE-EDIT · el campo de Estimación conserva su nodo al cambiar el docking 699↔700 2ms
+     × EXTRA-NATIVE-EDIT · abrir un portal no duplica el campo editable 3ms
+     × G1B-NOTIFY-01 · 30 avisos (15 estado y 15 errores): ninguno se expulsa y el DOM de Sonner los conserva 3ms
+     × G1B-NOTIFY-02 · repetir el mismo aviso aumenta el contador y no crea otro elemento 1ms
+     × G1B-NOTIFY-03 · con el modal abierto la pila queda inerte y el anuncio se difiere hasta cerrar 2ms
+     × G1B-NOTIFY-03b · la pila suspendida queda inerte en el DOM 2ms
+     × G1B-NOTIFY-04 · descartar con teclado mueve el foco al cierre siguiente, como v5 1004ms
+     × G1B-NOTIFY-05 · un fallo al presentar no se marca como presentado ni cuenta como éxito 1ms
+     × G1B-NOTIFY-06 · descartar por puntero y por teclado queda registrado en el store 1ms
+     × EXTRA-LIFECYCLE-ASYNC · listeners de window/document y matchMedia vuelven a cero; sin operaciones duplicadas 14ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 18 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "abc" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '' to be 'abc' // Object.is equality
+
+- Expected
++ Received
+
+- abc
+
+ ❯ tests/component/primitive-contract.test.tsx:27:27
+     25|       await user.clear(input);
+     26|       await user.type(input, raw);
+     27|       expect(input.value).toBe(raw);
+       |                           ^
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "1.5" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '15' to be '1.5' // Object.is equality
+
+Expected: "1.5"
+Received: "15"
+
+ ❯ tests/component/primitive-contract.test.tsx:29:27
+     27|       expect(input.value).toBe(raw);
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+       |                           ^
+     30|     });
+     31|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NUMBERFIELD-RAW · NumberField de Base UI 1.9.0 frente al contrato de texto crudo > G1B-NUMBERFIELD-RAW · "1441" se conserva exacto al escribir y al salir del campo
+AssertionError: expected '1.441' to be '1441' // Object.is equality
+
+Expected: "1441"
+Received: "1.441"
+
+ ❯ tests/component/primitive-contract.test.tsx:29:27
+     27|       expect(input.value).toBe(raw);
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+       |                           ^
+     30|     });
+     31|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-OVERLAY · capas con un único coordinador > G1B-OVERLAY-01 · Drawer → Popover: Escape cierra solo el Popover de tema y el Drawer sigue abierto
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Abrir navegación"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:127:29
+    125|     const user = userEvent.setup();
+    126|     renderHarness();
+    127|     await user.click(screen.getByRole('button', {name: 'Abrir navegaci…
+       |                             ^
+    128|     const drawer = await screen.findByRole('dialog', {name: 'Navegació…
+    129|     await user.click(within(drawer).getByRole('button', {name: 'Más op…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-OVERLAY · capas con un único coordinador > G1B-OVERLAY-02 · abrir Dialog desde Drawer cierra el Popover; Escape cierra el Dialog y el foco vuelve a un destino visible
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Abrir navegación"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:140:29
+    138|     const user = userEvent.setup();
+    139|     renderHarness();
+    140|     await user.click(screen.getByRole('button', {name: 'Abrir navegaci…
+       |                             ^
+    141|     const drawer = await screen.findByRole('dialog', {name: 'Navegació…
+    142|     await user.click(within(drawer).getByRole('button', {name: 'Más op…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-OVERLAY · capas con un único coordinador > G1B-OVERLAY-03 · con Dialog abierto, el resto de la página no es accesible
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Abrir navegación"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:157:29
+    155|     const user = userEvent.setup();
+    156|     renderHarness();
+    157|     await user.click(screen.getByRole('button', {name: 'Abrir navegaci…
+       |                             ^
+    158|     await screen.findByRole('dialog', {name: 'Navegación'});
+    159|     await user.click(screen.getByRole('button', {name: 'Crear tarea'})…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-OVERLAY · capas con un único coordinador > G1B-OVERLAY-04 · Tab sale del Popover de tema (no modal, sin trampa)
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Abrir navegación"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:169:29
+    167|     const user = userEvent.setup();
+    168|     renderHarness();
+    169|     await user.click(screen.getByRole('button', {name: 'Abrir navegaci…
+       |                             ^
+    170|     const drawer = await screen.findByRole('dialog', {name: 'Navegació…
+    171|     await user.click(within(drawer).getByRole('button', {name: 'Más op…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-OVERLAY · capas con un único coordinador > G1B-OVERLAY-05 · abrir y cerrar Dialog 20 veces durante la animación no deja capas huérfanas
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Crear tarea"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:184:31
+    182|     renderHarness();
+    183|     for (let i = 0; i < 20; i += 1) {
+    184|       await user.click(screen.getByRole('button', {name: 'Crear tarea'…
+       |                               ^
+    185|       await screen.findByRole('dialog', {name: 'Crear tarea'});
+    186|       await user.keyboard('{Escape}');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-NATIVE-EDIT · un solo campo y sin duplicados en portales > EXTRA-NATIVE-EDIT · el campo de Estimación conserva su nodo al cambiar el docking 699↔700
+TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name "Estimación"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:200:26
+    198|     const user = userEvent.setup();
+    199|     renderHarness();
+    200|     const field = screen.getByRole('textbox', {name: 'Estimación'});
+       |                          ^
+    201|     await user.type(field, '1.5');
+    202|     fireEvent.click(screen.getByRole('button', {name: 'Alternar banda'…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-NATIVE-EDIT · un solo campo y sin duplicados en portales > EXTRA-NATIVE-EDIT · abrir un portal no duplica el campo editable
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Abrir navegación"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/component/primitive-contract.test.tsx:211:29
+    209|     const user = userEvent.setup();
+    210|     renderHarness();
+    211|     await user.click(screen.getByRole('button', {name: 'Abrir navegaci…
+       |                             ^
+    212|     const drawer = await screen.findByRole('dialog', {name: 'Navegació…
+    213|     await user.click(within(drawer).getByRole('button', {name: 'Crear …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · store como fuente de verdad y adaptador Sonner > G1B-NOTIFY-01 · 30 avisos (15 estado y 15 errores): ninguno se expulsa y el DOM de Sonner los conserva
+AssertionError: expected [] to have a length of 30 but got +0
+
+- Expected
++ Received
+
+- 30
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:248:36
+    246|       store.notify(`Error ${i}`, 'error');
+    247|     }
+    248|     expect(store.getState().items).toHaveLength(30);
+       |                                    ^
+    249|     await waitFor(() => expect(document.querySelectorAll('[data-sonner…
+    250|     // Positivo tras espera: sin duración automática (Infinity), ningu…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · store como fuente de verdad y adaptador Sonner > G1B-NOTIFY-02 · repetir el mismo aviso aumenta el contador y no crea otro elemento
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:264:36
+    262|     const id = store.notify('Guardado', 'status');
+    263|     expect(store.notify('Guardado', 'status')).toBe(id);
+    264|     expect(store.getState().items).toHaveLength(1);
+       |                                    ^
+    265|     expect(store.getState().items[0].count).toBe(2);
+    266|     detach();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · store como fuente de verdad y adaptador Sonner > G1B-NOTIFY-03 · con el modal abierto la pila queda inerte y el anuncio se difiere hasta cerrar
+AssertionError: expected [] to deeply equal [ 'Previo' ]
+
+- Expected
++ Received
+
+- [
+-   "Previo",
+- ]
++ []
+
+ ❯ tests/component/primitive-contract.test.tsx:274:51
+    272|     const detach = attachSonnerAdapter(store, {presenter});
+    273|     store.notify('Previo', 'status');
+    274|     expect(presenter.shown.map((p) => p.message)).toEqual(['Previo']);
+       |                                                   ^
+    275|     store.setSuspended(true);
+    276|     store.notify('Mientras modal', 'error');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · store como fuente de verdad y adaptador Sonner > G1B-NOTIFY-03b · la pila suspendida queda inerte en el DOM
+AssertionError: expected null not to be null
+ ❯ tests/component/primitive-contract.test.tsx:289:22
+    287|     store.setSuspended(true);
+    288|     const root = container.querySelector('[data-notification-root]') a…
+    289|     expect(root).not.toBeNull();
+       |                      ^
+    290|     expect(root.hasAttribute('inert')).toBe(true);
+    291|     store.setSuspended(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · store como fuente de verdad y adaptador Sonner > G1B-NOTIFY-04 · descartar con teclado mueve el foco al cierre siguiente, como v5
+AssertionError: expected +0 to be 3 // Object.is equality
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div />[39m
+  [36m</body>[39m
+[36m</html>[39m...
+
+- Expected
++ Received
+
+- 3
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:301:89
+    299|     const detach = attachSonnerAdapter(store);
+    300|     for (const message of ['Uno', 'Dos', 'Tres']) store.notify(message…
+    301|     await waitFor(() => expect(document.querySelectorAll('[data-sonner…
+       |                                                                                         ^
+    302|     const closes = () => Array.from(document.querySelectorAll<HTMLButt…
+    303|     await waitFor(() => expect(closes()).toHaveLength(3));
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · store como fuente de verdad y adaptador Sonner > G1B-NOTIFY-05 · un fallo al presentar no se marca como presentado ni cuenta como éxito
+TypeError: Cannot read properties of undefined (reading 'presented')
+ ❯ tests/component/primitive-contract.test.tsx:318:17
+    316|     store.notify('Guardado', 'status');
+    317|     const item = store.getState().items[0];
+    318|     expect(item.presented).toBe(false);
+       |                 ^
+    319|     expect(item.failed).toBe(true);
+    320|     expect(presenter.shown.filter((p) => p.message === 'Guardado')).to…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · store como fuente de verdad y adaptador Sonner > G1B-NOTIFY-06 · descartar por puntero y por teclado queda registrado en el store
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/component/primitive-contract.test.tsx:329:41
+    327|     const a = store.notify('A', 'status');
+    328|     const b = store.notify('B', 'error');
+    329|     expect(store.dismiss(a, 'pointer')).toBe(true);
+       |                                         ^
+    330|     expect(store.dismiss(b, 'keyboard')).toBe(true);
+    331|     expect(store.getState().items).toHaveLength(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/18]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-LIFECYCLE-ASYNC · 20 ciclos de montaje y desmontaje > EXTRA-LIFECYCLE-ASYNC · listeners de window/document y matchMedia vuelven a cero; sin operaciones duplicadas
+AssertionError: expected +0 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:387:61
+    385|       expect(mediaNet.count).toBe(0);
+    386|       // Una notificación por ciclo: 20 operaciones de presentación, n…
+    387|       expect(sonnerToast.getHistory().length - toastBefore).toBe(20);
+       |                                                             ^
+    388|     } finally {
+    389|       EventTarget.prototype.addEventListener = add;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/18]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  18 failed | 11 passed (29)
+   Start at  01:29:56
+   Duration  2.36s (transform 81ms, setup 117ms, import 197ms, tests 1.56s, environment 374ms)
+

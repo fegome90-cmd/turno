@@ -1,0 +1,26 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/mut1B
+
+ ❯ |component| tests/component/bootstrap.test.tsx (4 tests | 1 failed) 51ms
+     × EXTRA-OFFLINE-FIRST-PAINT-SCRIPT · preview.html contiene un script inline de tema antes del módulo 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/bootstrap.test.tsx > EXTRA-OFFLINE-FIRST-PAINT-SCRIPT · script inline de tema en preview.html > EXTRA-OFFLINE-FIRST-PAINT-SCRIPT · preview.html contiene un script inline de tema antes del módulo
+AssertionError: expected null not to be null
+ ❯ tests/component/bootstrap.test.tsx:104:24
+    102|     const html = fs.readFileSync(path.resolve('preview.html'), 'utf8');
+    103|     const inline = html.match(/<script>([\s\S]*?)<\/script>/);
+    104|     expect(inline).not.toBeNull();
+       |                        ^
+    105|     expect(inline?.[1]).toContain("matchMedia('(prefers-color-scheme: …
+    106|     expect(inline?.[1]).toContain('root.dataset.theme');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  01:26:33
+   Duration  779ms (transform 66ms, setup 118ms, import 69ms, tests 51ms, environment 399ms)
+

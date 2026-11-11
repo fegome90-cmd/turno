@@ -1,0 +1,14 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:e2e
+> playwright test --project=chromium --workers=1 offline-theme.spec.ts
+
+
+Running 5 tests using 1 worker
+
+  ✓  1 [chromium] › tests/e2e/offline-theme.spec.ts:87:3 › UI-01 · TOKENS-01 · DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// primera carga · colorScheme light (520ms)
+  ✓  2 [chromium] › tests/e2e/offline-theme.spec.ts:87:3 › UI-01 · TOKENS-01 · DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// primera carga · colorScheme dark (473ms)
+  ✓  3 [chromium] › tests/e2e/offline-theme.spec.ts:114:1 › DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// cambio del sistema sin recarga; recarga vuelve a system sin persistencia (683ms)
+  ✓  4 [chromium] › tests/e2e/offline-theme.spec.ts:134:1 › EXTRA-OFFLINE-FIRST-PAINT · file:// primer paint y frames capturados sin destello claro (900ms)
+  ✓  5 [chromium] › tests/e2e/offline-theme.spec.ts:175:1 › EXTRA-OFFLINE-ARTIFACT · HTTP local disponible, orígenes externos bloqueados; recarga vuelve a system (763ms)
+
+  5 passed (4.1s)

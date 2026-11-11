@@ -1,0 +1,13 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism
+
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+
+ Test Files  4 passed (4)
+      Tests  50 passed (50)
+   Start at  02:54:06
+   Duration  6.13s (transform 212ms, setup 406ms, import 692ms, tests 2.76s, environment 1.80s)
+

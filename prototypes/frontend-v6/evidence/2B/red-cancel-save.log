@@ -1,0 +1,116 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism history-harness
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6
+
+ ❯ |component| tests/component/history-harness.test.tsx (3 tests | 1 failed) 1821ms
+     × cancel while saving invalidates its completion even without a newer navigation 1119ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/history-harness.test.tsx > G2B · technical guard harness (simulated history, not browser evidence) > cancel while saving invalidates its completion even without a newer navigation
+AssertionError: expected +0 to be 1 // Object.is equality
+
+Ignored nodes: comments, script, style
+[36m<html[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<head>[39m
+    [36m<title>[39m
+      [0mInicio · Turno[0m
+    [36m</title>[39m
+  [36m</head>[39m
+  [36m<body[39m
+    [33mstyle[39m=[32m""[39m
+  [36m>[39m
+    [36m<div>[39m
+      [36m<main[39m
+        [33mstyle[39m=[32m"max-width: 850px; margin: 2rem auto; padding: 1rem;"[39m
+      [36m>[39m
+        [36m<h1>[39m
+          [0mHistorial y guardas · harness técnico 2B[0m
+        [36m</h1>[39m
+        [36m<p>[39m
+          [0mNo es el producto integrado. Solo datos sintéticos, en memoria.[0m
+        [36m</p>[39m
+        [36m<nav[39m
+          [33maria-label[39m=[32m"Rutas de prueba"[39m
+        [36m>[39m
+          [36m<button>[39m
+            [0mInicio[0m
+          [36m</button>[39m
+          [36m<button>[39m
+            [0mTarea 1[0m
+          [36m</button>[39m
+          [36m<button>[39m
+            [0mTarea 2[0m
+          [36m</button>[39m
+        [36m</nav>[39m
+        [36m<p[39m
+          [33mdata-testid[39m=[32m"route"[39m
+        [36m>[39m
+          [0mhome[0m
+          [0m:[0m
+        [36m</p>[39m
+        [36m<p[39m
+          [33mdata-testid[39m=[32m"index"[39m
+        [36m>[39m
+          [0m0[0m
+        [36m</p>[39m
+        [36m<h2>[39m
+          [0mInicio[0m
+        [36m</h2>[39m
+        [36m<button[39m
+          [33mdata-focus-key[39m=[32m"history-more"[39m
+        [36m>[39m
+          [0mMás opciones de prueba[0m
+        [36m</button>[39m
+        [36m<button>[39m
+          [0mAlternar busy[0m
+        [36m</button>[39m
+        [36m<button>[39m
+          [0mRender sin navegar[0m
+        [36m</button>[39m
+        [36m<output[39m
+          [33maria-label[39m=[32m"Estado"[39m
+        [36m>[39m
+          [0mclean[0m
+          [0m:[0m
+          [0m0[0m
+        [36m</output>[39m
+        [36m<p[39m
+          [33mrole[39m=[32m"alert"[39m
+        [36m/>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/component/history-harness.test.tsx:81:45
+     79|     await ctx.user.click(screen.getByRole('button', {name: 'Volver', e…
+     80|     await ctx.user.click(screen.getByRole('button', {name: 'Resolver r…
+     81|     await waitFor(() => expect(ctx.index()).toBe(1));
+       |                                             ^
+     82|     expect(screen.getByTestId('route')).toHaveTextContent('workspace:t…
+     83|     expect(screen.getByRole('textbox', {name: 'Borrador'})).toHaveValu…
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  00:32:05
+   Duration  3.35s (transform 102ms, setup 153ms, import 331ms, tests 1.82s, environment 904ms)
+

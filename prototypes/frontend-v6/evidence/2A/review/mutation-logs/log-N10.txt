@@ -1,0 +1,53 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-2a-mutants
+
+ ❯ |unit| tests/unit/store.test.ts (13 tests | 2 failed) 33ms
+     × EXTRA-LIFECYCLE-ASYNC · 20 ciclos crear/destruir sesión: suscripción al notification-store vuelve a cero 6ms
+     × EXTRA-LIFECYCLE-ASYNC · 20 ciclos del store con carga y mutación: suscripciones contadas vuelven a cero y dispose es idempotente 1ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  2 failed | 58 passed (60)
+   Start at  03:03:35
+   Duration  1.02s (transform 146ms, setup 0ms, import 229ms, tests 105ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > ciclo de vida del store y de la sesión > EXTRA-LIFECYCLE-ASYNC · 20 ciclos crear/destruir sesión: suscripción al notification-store vuelve a cero
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/unit/store.test.ts:209:44
+    207|       expect(notifications.counter.active).toBe(1);
+    208|       session.dispose();
+    209|       expect(notifications.counter.active).toBe(0);
+       |                                            ^
+    210|     }
+    211|     expect(notifications.counter.subscribes).toBe(20);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > ciclo de vida del store y de la sesión > EXTRA-LIFECYCLE-ASYNC · 20 ciclos del store con carga y mutación: suscripciones contadas vuelven a cero y dispose es idempotente
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/unit/store.test.ts:223:44
+    221|       store.dispose();
+    222|       store.dispose();
+    223|       expect(notifications.counter.active).toBe(0);
+       |                                            ^
+    224|     }
+    225|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+

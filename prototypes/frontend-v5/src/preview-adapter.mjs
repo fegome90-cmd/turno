@@ -1,10 +1,10 @@
 import {parseDate,displayDate,localDate} from './format.mjs';
 const clone=x=>structuredClone(x);
 const titled=value=>{if(typeof value!=='string'||!value.trim()||value.length>300) throw new Error('Escribe un título de 1 a 300 caracteres.');return value.trim();};
-export function createPreviewAdapter({delay=0}={}) {
+export function createPreviewAdapter({delay=0,preferredName='Demo'}={}) {
   let failure=null, sequence=10;
-  const state={profile:{preferredName:'Demo'},activeShiftId:'demo-shift-1',shifts:[{id:'demo-shift-1',label:'Turno de día',date:'2026-11-07',status:'open'}],beds:[{id:'bed-1',shiftId:'demo-shift-1',label:'Cama 1'},{id:'bed-2',shiftId:'demo-shift-1',label:'Cama 2'}],notes:[{id:'note-1',title:'Notas generales',body:'',version:1}],tasks:[
-    {id:'task-1',shiftId:'demo-shift-1',bedId:'bed-1',title:'Task 1',body:'',reason:'Exámenes',priority:'normal',date:'2026-11-07',time:'',estimate:'',performed:'',duration:'',completed:false,version:1},
+  const state={profile:{preferredName},activeShiftId:'demo-shift-1',shifts:[{id:'demo-shift-1',label:'Turno de día',date:'2026-11-07',status:'open'}],beds:[{id:'bed-1',shiftId:'demo-shift-1',label:'Cama 1'},{id:'bed-2',shiftId:'demo-shift-1',label:'Cama 2'}],notes:[{id:'note-1',title:'Notas generales',body:'',version:1}],tasks:[
+    {id:'task-1',shiftId:'demo-shift-1',bedId:'bed-1',title:'Tarea 1',body:'',reason:'Exámenes',priority:'normal',date:'2026-11-07',time:'',estimate:'',performed:'',duration:'',completed:false,version:1},
     {id:'task-2',shiftId:'demo-shift-1',bedId:'bed-1',title:'Revisar insumos',body:'',reason:'Organización',priority:'normal',date:'2026-11-07',time:'11:30',estimate:'20',performed:'',duration:'',completed:false,version:1},
     {id:'task-3',shiftId:'demo-shift-1',bedId:'bed-1',title:'Preparar educación',body:'',reason:'Preparación',priority:'normal',date:null,time:'',estimate:'',performed:'',duration:'',completed:false,version:1},
     {id:'task-4',shiftId:'demo-shift-1',bedId:'bed-2',title:'Revisar material',body:'',reason:'Organización',priority:'high',date:'2026-11-07',time:'14:00',estimate:'',performed:'',duration:'',completed:false,version:1}

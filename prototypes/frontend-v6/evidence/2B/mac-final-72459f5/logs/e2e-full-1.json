@@ -1,0 +1,1586 @@
+{
+  "config": {
+    "argv": [
+      "/Users/felipe/turno-2b-qa-4f88fca-20261109/toolchain/node-v24.22.1-darwin-arm64/bin/node",
+      "/Users/felipe/turno-2b-qa-4f88fca-20261109/v3/source/prototypes/frontend-v6/node_modules/.bin/playwright",
+      "test",
+      "--project=chromium",
+      "--workers=1",
+      "--config",
+      "/Users/felipe/turno-2b-qa-4f88fca-20261109/v3/playwright.mac-qa.config.ts"
+    ],
+    "configFile": "/Users/felipe/turno-2b-qa-4f88fca-20261109/v3/playwright.mac-qa.config.ts",
+    "rootDir": "/Users/felipe/turno-2b-qa-4f88fca-20261109/v3/source/prototypes/frontend-v6/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/felipe/turno-2b-qa-4f88fca-20261109/v3/test-results-full-1",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/felipe/turno-2b-qa-4f88fca-20261109/v3/source/prototypes/frontend-v6/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/felipe/turno-2b-qa-4f88fca-20261109/v3/test-results-full-1",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "/Users/felipe/turno-2b-qa-4f88fca-20261109/v3/source/prototypes/frontend-v6/tests/e2e",
+        "snapshotDir": "/Users/felipe/turno-2b-qa-4f88fca-20261109/v3/source/prototypes/frontend-v6/tests/e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4177",
+          "trace": "retain-on-failure",
+          "video": "off",
+          "screenshot": "only-on-failure",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.8127.18 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium",
+          "launchOptions": {
+            "executablePath": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/Users/felipe/turno-2b-qa-4f88fca-20261109/v3/logs/e2e-full-1.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.0",
+    "workers": 1,
+    "webServer": {
+      "command": "npx vite --host 127.0.0.1 --port 4177 --strictPort",
+      "url": "http://127.0.0.1:4177/harness.html",
+      "reuseExistingServer": false,
+      "timeout": 60000,
+      "cwd": "/Users/felipe/turno-2b-qa-4f88fca-20261109/v3/source/prototypes/frontend-v6"
+    }
+  },
+  "suites": [
+    {
+      "title": "history.spec.ts",
+      "file": "history.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "G2B · file · controller harness",
+          "file": "history.spec.ts",
+          "line": 92,
+          "column": 8,
+          "specs": [
+            {
+              "title": "initial replace, distinct route push, title, rerender and Back/Forward restore without URL changes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 635,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:29.646Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-60569af212357f6871f3",
+              "file": "history.spec.ts",
+              "line": 109,
+              "column": 5
+            },
+            {
+              "title": "negative control: external request is intercepted and aborted while the local document stays usable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 297,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:30.876Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-595ecfa079e5a121fba7",
+              "file": "history.spec.ts",
+              "line": 122,
+              "column": 5
+            },
+            {
+              "title": "overlay Back returns to the same entry, restores visible focus, and retains Forward",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 431,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:31.182Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-b9295a564f9f66bd5137",
+              "file": "history.spec.ts",
+              "line": 136,
+              "column": 5
+            },
+            {
+              "title": "busy blocks traversal without truncating Forward",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 656,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:31.626Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-55450b0868f8e8c34975",
+              "file": "history.spec.ts",
+              "line": 148,
+              "column": 5
+            },
+            {
+              "title": "cancel and discard repeat original delta -1 once",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 615,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:32.290Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-b64d14573f8107ce428c",
+              "file": "history.spec.ts",
+              "line": 159,
+              "column": 7
+            },
+            {
+              "title": "cancel and discard repeat original delta 1 once",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 602,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:32.929Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-a86b80fa65195e4c9ce4",
+              "file": "history.spec.ts",
+              "line": 159,
+              "column": 7
+            },
+            {
+              "title": "failed save preserves draft and route; retry success continues original Forward once",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 609,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:33.540Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-3d78a6bb17e454480c91",
+              "file": "history.spec.ts",
+              "line": 175,
+              "column": 5
+            },
+            {
+              "title": "EXTRA-LIFECYCLE-ASYNC · late response cannot navigate or steal focus from a newer selection",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 562,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:34.157Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-f694322ddc6c2fe04c3e",
+              "file": "history.spec.ts",
+              "line": 190,
+              "column": 5
+            },
+            {
+              "title": "cancel during save invalidates its eventual success without another navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 442,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:34.728Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-ec863bd4e826883f2485",
+              "file": "history.spec.ts",
+              "line": 209,
+              "column": 5
+            },
+            {
+              "title": "foreign entries without owned idx stay external and are not replaced or bounced",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 360,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:35.178Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-0d8ee20ae5bcb0fc8487",
+              "file": "history.spec.ts",
+              "line": 222,
+              "column": 5
+            },
+            {
+              "title": "new selection during approved replay survives delayed old popstate and branches from the visible source",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 703,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:35.547Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-a9f3ddc2eea57cbeea51",
+              "file": "history.spec.ts",
+              "line": 234,
+              "column": 5
+            },
+            {
+              "title": "new selection before user popstate delivery cannot be overwritten by the queued route",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 490,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:36.258Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-7f743d9ede96be60cff7",
+              "file": "history.spec.ts",
+              "line": 250,
+              "column": 5
+            }
+          ]
+        },
+        {
+          "title": "G2B · http · controller harness",
+          "file": "history.spec.ts",
+          "line": 92,
+          "column": 8,
+          "specs": [
+            {
+              "title": "initial replace, distinct route push, title, rerender and Back/Forward restore without URL changes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 390,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:36.756Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-209339c28cae9e693782",
+              "file": "history.spec.ts",
+              "line": 109,
+              "column": 5
+            },
+            {
+              "title": "negative control: external request is intercepted and aborted while the local document stays usable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 258,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:37.153Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-5274d0ea96e437c9672f",
+              "file": "history.spec.ts",
+              "line": 122,
+              "column": 5
+            },
+            {
+              "title": "overlay Back returns to the same entry, restores visible focus, and retains Forward",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 412,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:37.419Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-a66b21d1bcc6287ca652",
+              "file": "history.spec.ts",
+              "line": 136,
+              "column": 5
+            },
+            {
+              "title": "busy blocks traversal without truncating Forward",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 446,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:37.838Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-e8aca6331c1582b066b3",
+              "file": "history.spec.ts",
+              "line": 148,
+              "column": 5
+            },
+            {
+              "title": "cancel and discard repeat original delta -1 once",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 577,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:38.292Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-51bd07543bd62311d77a",
+              "file": "history.spec.ts",
+              "line": 159,
+              "column": 7
+            },
+            {
+              "title": "cancel and discard repeat original delta 1 once",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 572,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:38.877Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-248a6198c9f7140dc243",
+              "file": "history.spec.ts",
+              "line": 159,
+              "column": 7
+            },
+            {
+              "title": "failed save preserves draft and route; retry success continues original Forward once",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 602,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:39.459Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-b02243ca7d8c28483ca9",
+              "file": "history.spec.ts",
+              "line": 175,
+              "column": 5
+            },
+            {
+              "title": "EXTRA-LIFECYCLE-ASYNC · late response cannot navigate or steal focus from a newer selection",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 562,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:40.069Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-c240fa8bf5a2388d493c",
+              "file": "history.spec.ts",
+              "line": 190,
+              "column": 5
+            },
+            {
+              "title": "cancel during save invalidates its eventual success without another navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 458,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:40.639Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-1a5945ef1414d6f0cb30",
+              "file": "history.spec.ts",
+              "line": 209,
+              "column": 5
+            },
+            {
+              "title": "foreign entries without owned idx stay external and are not replaced or bounced",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 341,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:41.105Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-fe5e0d0a47dcf5d3588a",
+              "file": "history.spec.ts",
+              "line": 222,
+              "column": 5
+            },
+            {
+              "title": "new selection during approved replay survives delayed old popstate and branches from the visible source",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 733,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:41.454Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-0740c69008a22f353b01",
+              "file": "history.spec.ts",
+              "line": 234,
+              "column": 5
+            },
+            {
+              "title": "new selection before user popstate delivery cannot be overwritten by the queued route",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 475,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:42.196Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "61dfc145f2d790550676-cca247f7d930756b11a8",
+              "file": "history.spec.ts",
+              "line": 250,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "offline-theme.spec.ts",
+      "file": "offline-theme.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "UI-01 · TOKENS-01 · DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// primera carga · colorScheme light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "artifact-sha256",
+                  "description": "ae271fd0a7f084b0e3583969f70ad448af637dca2c634a369e981eb17ee6d343"
+                },
+                {
+                  "type": "first-paint",
+                  "description": "[{\"name\":\"first-paint\",\"theme\":\"light\",\"preference\":\"system\",\"htmlBackground\":\"rgb(255, 255, 255)\"},{\"name\":\"first-contentful-paint\",\"theme\":\"light\",\"preference\":\"system\",\"htmlBackground\":\"rgb(255, 255, 255)\"}]"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 279,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T04:23:42.698Z",
+                  "annotations": [
+                    {
+                      "type": "artifact-sha256",
+                      "description": "ae271fd0a7f084b0e3583969f70ad448af637dca2c634a369e981eb17ee6d343"
+                    },
+                    {
+                      "type": "first-paint",
+                      "description": "[{\"name\":\"first-paint\",\"theme\":\"light\",\"preference\":\"system\",\"htmlBackground\":\"rgb(255, 255, 255)\"},{\"name\":\"first-contentful-paint\",\"theme\":\"light\",\"preference\":\"system\",\"htmlBackground\":\"rgb(255, 255, 255)\"}]"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0e633434de9183256575-43323a344eaf47ce019b",
+          "file": "offline-theme.spec.ts",
+          "line": 88,
+          "column": 3
+        },
+        {
+          "title": "UI-01 · TOKENS-01 · DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// primera carga · colorScheme dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "artifact-sha256",
+                  "description": "ae271fd0a7f084b0e3583969f70ad448af637dca2c634a369e981eb17ee6d343"
+                },
+                {
+                  "type": "first-paint",
+                  "description": "[{\"name\":\"first-paint\",\"theme\":\"dark\",\"preference\":\"system\",\"htmlBackground\":\"rgb(23, 24, 23)\"},{\"name\":\"first-contentful-paint\",\"theme\":\"dark\",\"preference\":\"system\",\"htmlBackground\":\"rgb(23, 24, 23)\"}]"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 331,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T04:23:42.984Z",
+                  "annotations": [
+                    {
+                      "type": "artifact-sha256",
+                      "description": "ae271fd0a7f084b0e3583969f70ad448af637dca2c634a369e981eb17ee6d343"
+                    },
+                    {
+                      "type": "first-paint",
+                      "description": "[{\"name\":\"first-paint\",\"theme\":\"dark\",\"preference\":\"system\",\"htmlBackground\":\"rgb(23, 24, 23)\"},{\"name\":\"first-contentful-paint\",\"theme\":\"dark\",\"preference\":\"system\",\"htmlBackground\":\"rgb(23, 24, 23)\"}]"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0e633434de9183256575-ba2ea7649a0a248a64f4",
+          "file": "offline-theme.spec.ts",
+          "line": 88,
+          "column": 3
+        },
+        {
+          "title": "DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// cambio del sistema sin recarga; recarga vuelve a system sin persistencia",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 504,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T04:23:43.322Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0e633434de9183256575-815138829d4a9dd20341",
+          "file": "offline-theme.spec.ts",
+          "line": 115,
+          "column": 1
+        },
+        {
+          "title": "EXTRA-OFFLINE-FIRST-PAINT · file:// primer paint y frames capturados sin destello claro",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "frames",
+                  "description": "4 frames [[23,24,23],[23,24,23],[23,24,23],[23,24,23]]"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 819,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T04:23:43.833Z",
+                  "annotations": [
+                    {
+                      "type": "frames",
+                      "description": "4 frames [[23,24,23],[23,24,23],[23,24,23],[23,24,23]]"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0e633434de9183256575-64efaae717058bf301fe",
+          "file": "offline-theme.spec.ts",
+          "line": 135,
+          "column": 1
+        },
+        {
+          "title": "EXTRA-OFFLINE-ARTIFACT · HTTP local disponible, orígenes externos bloqueados; recarga vuelve a system",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 513,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T04:23:44.658Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0e633434de9183256575-ed63a9da9700a431d9ef",
+          "file": "offline-theme.spec.ts",
+          "line": 173,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "primitive-contract.spec.ts",
+      "file": "primitive-contract.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "G1B · contratos de primitivas en Chromium",
+          "file": "primitive-contract.spec.ts",
+          "line": 36,
+          "column": 6,
+          "specs": [
+            {
+              "title": "EXTRA-NATIVE-EDIT · un solo nodo de campo, texto crudo y error conservados al cruzar 699↔700 y 999↔1000",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 559,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:45.187Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d487048efaeb453a1191-6d4fdd9239c833ceb5e8",
+              "file": "primitive-contract.spec.ts",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "EXTRA-NATIVE-EDIT · tema claro, oscuro y sistema con Popover, Dialog y avisos abiertos: tokens y contraste ≥ 4.5:1",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 857,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:45.755Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d487048efaeb453a1191-d544fcc4551b981683fe",
+              "file": "primitive-contract.spec.ts",
+              "line": 56,
+              "column": 3
+            },
+            {
+              "title": "G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 607,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:46.619Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d487048efaeb453a1191-6074999ed3ef47d62eb6",
+              "file": "primitive-contract.spec.ts",
+              "line": 96,
+              "column": 3
+            },
+            {
+              "title": "G1B-OVERLAY · Tab sale del Popover de tema",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 512,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:47.235Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d487048efaeb453a1191-5956c7c764bfa7976f52",
+              "file": "primitive-contract.spec.ts",
+              "line": 110,
+              "column": 3
+            },
+            {
+              "title": "G1B-OVERLAY · Drawer → Dialog: Escape cierra solo el Dialog con foco en el control del Drawer; otro Escape cierra el Drawer y el foco vuelve al disparador",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 848,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:47.753Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d487048efaeb453a1191-93d2dd366828d95c1d5e",
+              "file": "primitive-contract.spec.ts",
+              "line": 124,
+              "column": 3
+            },
+            {
+              "title": "G1B-OVERLAY · Popover de tema no modal: Tab sale del Popover y la página no queda inerte",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 546,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:48.611Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d487048efaeb453a1191-74ec44823cae9d86d001",
+              "file": "primitive-contract.spec.ts",
+              "line": 170,
+              "column": 3
+            },
+            {
+              "title": "G1B-NOTIFY · Alt+T enfoca el botón de cierre del aviso más reciente; Escape cierra solo ese aviso y el foco pasa al siguiente cierre",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 488,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:49.165Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d487048efaeb453a1191-c4489466ca3a314217eb",
+              "file": "primitive-contract.spec.ts",
+              "line": 190,
+              "column": 3
+            },
+            {
+              "title": "G1B-NOTIFY · la llegada de un aviso nuevo no mueve el foco",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 459,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:49.660Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d487048efaeb453a1191-eb2215ac9d7a98ce8546",
+              "file": "primitive-contract.spec.ts",
+              "line": 206,
+              "column": 3
+            },
+            {
+              "title": "G1B-NOTIFY · 30 avisos sin expulsión, pila suspendida inerte y descarte por teclado con foco al siguiente cierre",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1072,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:50.127Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d487048efaeb453a1191-e932224018b533229fb4",
+              "file": "primitive-contract.spec.ts",
+              "line": 215,
+              "column": 3
+            },
+            {
+              "title": "G1B-NOTIFY · descarte por teclado de un aviso intermedio enfoca el cierre siguiente",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 494,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:51.206Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d487048efaeb453a1191-08e0b82d36798860a88a",
+              "file": "primitive-contract.spec.ts",
+              "line": 228,
+              "column": 3
+            },
+            {
+              "title": "EXTRA-LIFECYCLE-ASYNC · un solo root de React en el documento",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 441,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-09T04:23:51.708Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d487048efaeb453a1191-23d054234f15fa72fb54",
+              "file": "primitive-contract.spec.ts",
+              "line": 239,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-09T04:23:28.930Z",
+    "duration": 23334.114999999998,
+    "expected": 40,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

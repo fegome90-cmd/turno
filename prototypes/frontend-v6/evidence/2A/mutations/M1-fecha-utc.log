@@ -1,0 +1,61 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/2A-mut/fe
+
+ ❯ |unit| tests/unit/format.test.ts (8 tests | 2 failed) 32ms
+     × POLISH-10 · agenda groups Hoy, Mañana, later dates and undated tasks without mutating data 8ms
+     × POLISH-10 · añadido: «Mañana» es el día civil siguiente aunque el cambio de horario de Chile tenga 23 h 2ms
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  2 failed | 55 passed (57)
+   Start at  02:55:20
+   Duration  1.02s (transform 147ms, setup 0ms, import 236ms, tests 111ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-10 · agenda groups Hoy, Mañana, later dates and undated tasks without mutating data
+AssertionError: expected [ '07/11/2026', 'Hoy', …(2) ] to deeply equal [ 'Hoy', 'Mañana', '10/11/2026', …(1) ]
+
+- Expected
++ Received
+
+  [
++   "07/11/2026",
+    "Hoy",
+-   "Mañana",
+    "10/11/2026",
+    "Sin fecha",
+  ]
+
+ ❯ tests/unit/format.test.ts:54:48
+     52|     const snapshot = structuredClone(tasks);
+     53|     const groups = groupAgenda(tasks, new Date('2026-11-08T01:30:00Z')…
+     54|     expect(groups.map((group) => group.label)).toEqual(['Hoy', 'Mañana…
+       |                                                ^
+     55|     expect(groups[0].tasks.map((task) => task.id)).toEqual(['today', '…
+     56|     expect(groups[0].tasks[1].completed).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/unit/format.test.ts > formato de fechas y agenda > POLISH-10 · añadido: «Mañana» es el día civil siguiente aunque el cambio de horario de Chile tenga 23 h
+AssertionError: expected [ 'Hoy', 'Mañana' ] to deeply equal [ 'Mañana', '07/09/2026' ]
+
+- Expected
++ Received
+
+  [
++   "Hoy",
+    "Mañana",
+-   "07/09/2026",
+  ]
+
+ ❯ tests/unit/format.test.ts:69:48
+     67|       new Date('2026-09-06T03:30:00Z'),
+     68|     );
+     69|     expect(groups.map((group) => group.label)).toEqual(['Mañana', '07/…
+       |                                                ^
+     70|   });
+     71|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+

@@ -1,0 +1,219 @@
+
+ RUN  v4.1.12 /home/user/turno/prototypes/frontend-v6
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 11 failed | 18 skipped) 1133ms
+     × G1B-NOTIFY-01 · 30 avisos (15 estado y 15 errores): ninguno se expulsa y el presupuesto de desplazamiento es explícito 19ms
+     × G1B-NOTIFY-02 · repetir el mismo aviso suma en el contador y no crea otro elemento 3ms
+     × G1B-NOTIFY-03 · estado va a la región cortés y error a la región asertiva; un solo anuncio por aviso 3ms
+     × G1B-NOTIFY-04 · con modal abierto la pila queda inerte y oculta; el anuncio se difiere hasta cerrar 2ms
+     × G1B-NOTIFY-05 · descarte por teclado de un aviso intermedio mueve el foco al cierre siguiente, como v5 4ms
+     × G1B-NOTIFY-06 · descarte por teclado del último: foco al anterior; sin más avisos, al destino de respaldo 2ms
+     × G1B-NOTIFY-07 · descarte por puntero no mueve un foco ajeno 44ms
+     × G1B-NOTIFY-08 · Escape dentro de la pila cierra solo el aviso enfocado 2ms
+     × G1B-NOTIFY-09 · Alt+T enfoca el aviso más reciente sin mover el foco al llegar 13ms
+     × G1B-NOTIFY-10 · el texto del aviso es literal: no se interpreta como HTML 2ms
+     × EXTRA-LIFECYCLE-ASYNC · listeners de window/document y matchMedia vuelven a cero; un anuncio por ciclo 2ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-01 · 30 avisos (15 estado y 15 errores): ninguno se expulsa y el presupuesto de desplazamiento es explícito
+AssertionError: expected  to have a length of 30 but got +0
+
+- Expected
++ Received
+
+- 30
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:237:56
+    235|     }
+    236|     expect(store.getState().items).toHaveLength(30);
+    237|     expect(document.querySelectorAll('[data-notice]')).toHaveLength(30…
+       |                                                        ^
+    238|     for (let i = 0; i < 15; i += 1) expect(document.body.textContent).…
+    239|     const css = fs.readFileSync(CSS_PATH, 'utf8');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-02 · repetir el mismo aviso suma en el contador y no crea otro elemento
+AssertionError: expected  to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:250:56
+    248|     expect(store.getState().items).toHaveLength(1);
+    249|     expect(store.getState().items[0].count).toBe(2);
+    250|     expect(document.querySelectorAll('[data-notice]')).toHaveLength(1);
+       |                                                        ^
+    251|     expect(document.querySelector('[data-notice]')?.textContent).toCon…
+    252|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-03 · estado va a la región cortés y error a la región asertiva; un solo anuncio por aviso
+AssertionError: expected undefined to be 'status' // Object.is equality
+
+- Expected:
+"status"
+
++ Received:
+undefined
+
+ ❯ tests/component/primitive-contract.test.tsx:259:42
+    257|     const polite = document.getElementById('live');
+    258|     const assertive = document.getElementById('live-error');
+    259|     expect(polite?.getAttribute('role')).toBe('status');
+       |                                          ^
+    260|     expect(polite?.getAttribute('aria-live')).toBe('polite');
+    261|     expect(assertive?.getAttribute('role')).toBe('alert');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-04 · con modal abierto la pila queda inerte y oculta; el anuncio se difiere hasta cerrar
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/component/primitive-contract.test.tsx:291:40
+    289|     });
+    290|     const root = container.querySelector('[data-notification-root]') a…
+    291|     expect(root.hasAttribute('inert')).toBe(true);
+       |                                        ^
+    292|     expect(root.style.visibility).toBe('hidden');
+    293|     expect(document.getElementById('live-error')?.textContent).toBe(''…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-05 · descarte por teclado de un aviso intermedio mueve el foco al cierre siguiente, como v5
+AssertionError: expected [] to have a length of 3 but got +0
+
+- Expected
++ Received
+
+- 3
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:308:22
+    306|     });
+    307|     const closes = () => Array.from(document.querySelectorAll<HTMLButt…
+    308|     expect(closes()).toHaveLength(3);
+       |                      ^
+    309|     closes()[1].focus();
+    310|     await user.keyboard('{Enter}');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-06 · descarte por teclado del último: foco al anterior; sin más avisos, al destino de respaldo
+TypeError: Cannot read properties of undefined (reading 'focus')
+ ❯ tests/component/primitive-contract.test.tsx:326:16
+    324|     });
+    325|     const closes = () => Array.from(document.querySelectorAll<HTMLButt…
+    326|     closes()[1].focus();
+       |                ^
+    327|     await user.keyboard('{Enter}');
+    328|     expect(document.activeElement).toBe(closes()[0]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-07 · descarte por puntero no mueve un foco ajeno
+AssertionError: expected  to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/component/primitive-contract.test.tsx:345:56
+    343|     const before = document.activeElement;
+    344|     await user.click(document.querySelectorAll<HTMLButtonElement>('[da…
+    345|     expect(document.querySelectorAll('[data-notice]')).toHaveLength(1);
+       |                                                        ^
+    346|     expect(document.activeElement).not.toBe(document.querySelector('[d…
+    347|     expect(document.activeElement).toBe(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-08 · Escape dentro de la pila cierra solo el aviso enfocado
+TypeError: Cannot read properties of undefined (reading 'focus')
+ ❯ tests/component/primitive-contract.test.tsx:358:75
+    356|       store.notify('Dos', 'status');
+    357|     });
+    358|     document.querySelectorAll<HTMLButtonElement>('[data-close-notice]'…
+       |                                                                           ^
+    359|     await user.keyboard('{Escape}');
+    360|     expect(store.getState().items.map((item) => item.message)).toEqual…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-09 · Alt+T enfoca el aviso más reciente sin mover el foco al llegar
+AssertionError: expected <body><div><div …(1)></div></div></body> to be undefined // Object.is equality
+
+- Expected:
+undefined
+
++ Received:
+<body>
+  <div>
+    <div
+      data-notification-root=""
+    />
+  </div>
+</body>
+
+ ❯ tests/component/primitive-contract.test.tsx:378:36
+    376|     expect(document.activeElement).toBe(document.body);
+    377|     await user.keyboard('{Alt>}t{/Alt}');
+    378|     expect(document.activeElement).toBe(document.querySelectorAll<HTML…
+       |                                    ^
+    379|   });
+    380|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-NOTIFY · pila propia (D12) > G1B-NOTIFY-10 · el texto del aviso es literal: no se interpreta como HTML
+TypeError: Cannot read properties of null (reading 'children')
+ ❯ tests/component/primitive-contract.test.tsx:388:20
+    386|     });
+    387|     const message = document.querySelector('[data-notice] [data-notice…
+    388|     expect(message.children).toHaveLength(0);
+       |                    ^
+    389|     expect(message.textContent).toBe('<img src=x onerror=alert(1)>');
+    390|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-LIFECYCLE-ASYNC · 20 ciclos de montaje y desmontaje de la pila > EXTRA-LIFECYCLE-ASYNC · listeners de window/document y matchMedia vuelven a cero; un anuncio por ciclo
+AssertionError: expected undefined to be 'Ciclo -1' // Object.is equality
+
+- Expected:
+"Ciclo -1"
+
++ Received:
+undefined
+
+ ❯ cycle tests/component/primitive-contract.test.tsx:435:62
+    433|           store.notify(`Ciclo ${index}`, 'status');
+    434|         });
+    435|         expect(document.getElementById('live')?.textContent).toBe(`Cic…
+       |                                                              ^
+    436|         expect(document.querySelectorAll('[data-notice]')).toHaveLengt…
+    437|         view.unmount();
+ ❯ tests/component/primitive-contract.test.tsx:440:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  11 failed | 3 passed | 18 skipped (32)
+   Start at  01:48:13
+   Duration  2.06s (transform 120ms, setup 113ms, import 350ms, tests 1.13s, environment 343ms)
+

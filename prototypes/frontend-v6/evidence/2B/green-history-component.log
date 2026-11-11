@@ -1,0 +1,14 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism history
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6
+
+
+ Test Files  2 passed (2)
+      Tests  4 passed (4)
+   Start at  00:32:50
+   Duration  3.28s (transform 92ms, setup 227ms, import 303ms, tests 886ms, environment 1.54s)
+

@@ -1,0 +1,319 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:unit
+> vitest run --project unit --maxWorkers=1 --no-file-parallelism history-controller
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-phase2b-20261109/prototypes/frontend-v6
+
+ ❯ |unit| tests/unit/history-controller.test.ts (15 tests | 15 failed) 27ms
+     × initial load replaces once, never pushes, keeps foreign state and synchronizes the title 11ms
+     × one push per distinct route; repeated render does not push; kind is part of selection identity 3ms
+     × Back and Forward restore Home and the exact task without pushing or changing URL 1ms
+     × overlay blocks Back, closes at the guard, and preserves all Forward entries 1ms
+     × busy blocks Back, closes at the guard, and preserves all Forward entries 0ms
+     × cancel then discard repeats original direction -1 once, without losing Forward 1ms
+     × cancel then discard repeats original direction 1 once, without losing Forward 1ms
+     × save-and-continue may resolve before restoration popstate and still replays only once 1ms
+     × failed save does not resume: current view, draft owner and title remain untouched 1ms
+     × a newer navigation invalidates the old guard response; it cannot change selection or title 1ms
+     × push is protected too; a pending approved route is copied and applied once 1ms
+     × route values passed out of the controller cannot mutate a stored history entry 0ms
+     × foreign entries without idx or with another owner are not replaced, bounced or applied 1ms
+     × multi-entry traversal replays the original delta, not a single Back 2ms
+     × EXTRA-LIFECYCLE-ASYNC · 20 start/dispose cycles and effect reattach have one listener, one replace and stale resumes are inert 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 15 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > initial load replaces once, never pushes, keeps foreign state and synchronizes the title
+AssertionError: expected [] to deeply equal [ { kind: 'replace' } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "kind": "replace",
+-   },
+- ]
++ []
+
+ ❯ tests/unit/history-controller.test.ts:72:31
+     70|     const ctx = setup({hostKey: 'preserved'});
+     71|     ctx.controller.start(); ctx.controller.start();
+     72|     expect(ctx.browser.calls).toEqual([{kind: 'replace'}]);
+       |                               ^
+     73|     expect(ctx.browser.history.state).toMatchObject({hostKey: 'preserv…
+     74|     expect(ctx.titles).toEqual(['Inicio · Turno']);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > one push per distinct route; repeated render does not push; kind is part of selection identity
+AssertionError: expected [ null ] to have a length of 3 but got 1
+
+- Expected
++ Received
+
+- 3
++ 1
+
+ ❯ tests/unit/history-controller.test.ts:82:33
+     80|     ctx.controller.push(task()); ctx.controller.push(task());
+     81|     ctx.controller.push({view: 'notes', selected: {kind: 'note', id: '…
+     82|     expect(ctx.browser.entries).toHaveLength(3);
+       |                                 ^
+     83|     expect(ctx.browser.history.state).toMatchObject({idx: 2});
+     84|     expect(ctx.route.selected?.kind).toBe('note');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > Back and Forward restore Home and the exact task without pushing or changing URL
+AssertionError: expected undefined to be 'Inicio · Turno' // Object.is equality
+
+- Expected:
+"Inicio · Turno"
+
++ Received:
+undefined
+
+ ❯ tests/unit/history-controller.test.ts:91:64
+     89|     const ctx = setup(); ctx.controller.start(); ctx.controller.push(t…
+     90|     ctx.browser.move(-1); ctx.browser.flush();
+     91|     expect(ctx.route).toEqual(home); expect(ctx.titles.at(-1)).toBe('I…
+       |                                                                ^
+     92|     ctx.browser.move(1); ctx.browser.flush();
+     93|     expect(ctx.route).toEqual(task('task-2'));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > overlay blocks Back, closes at the guard, and preserves all Forward entries
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > busy blocks Back, closes at the guard, and preserves all Forward entries
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/unit/history-controller.test.ts:102:20
+    100|     ctx.guard(() => { blocks++; return 'blocked'; });
+    101|     ctx.browser.move(-1); ctx.browser.flush();
+    102|     expect(blocks).toBe(1); expect(ctx.browser.index).toBe(1);
+       |                    ^
+    103|     expect(ctx.route).toEqual(task()); expect(ctx.browser.entries).toH…
+    104|     ctx.guard(() => 'allow'); ctx.browser.move(1); ctx.browser.flush();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > cancel then discard repeats original direction -1 once, without losing Forward
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > cancel then discard repeats original direction 1 once, without losing Forward
+AssertionError: expected { view: 'home', selected: null, …(1) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+-   "selected": {
+-     "id": "task-1",
+-     "kind": "task",
+-   },
+-   "view": "workspace",
++   "selected": null,
++   "view": "home",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:112:23
+    110|     const ctx = threeEntries(); ctx.guard(() => 'pending');
+    111|     ctx.browser.move(direction); ctx.browser.flush();
+    112|     expect(ctx.route).toEqual(task()); expect(ctx.browser.index).toBe(…
+       |                       ^
+    113|     // Cancel belongs to the guard: dropping its callback has no navig…
+    114|     const cancelled = ctx.applied.length;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > save-and-continue may resolve before restoration popstate and still replays only once
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/unit/history-controller.test.ts:131:64
+    129|     ctx.browser.flush();
+    130|     expect(ctx.route).toEqual(home); expect(ctx.browser.index).toBe(0);
+    131|     expect(ctx.applied.filter((item) => item.view === 'home')).toHaveL…
+       |                                                                ^
+    132|   });
+    133|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > failed save does not resume: current view, draft owner and title remain untouched
+AssertionError: expected { view: 'home', selected: null, …(1) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+-   "selected": {
+-     "id": "task-1",
+-     "kind": "task",
+-   },
+-   "view": "workspace",
++   "selected": null,
++   "view": "home",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:138:65
+    136|     const before = ctx.applied.length; const title = ctx.titles.at(-1);
+    137|     ctx.browser.move(-1); ctx.browser.flush();
+    138|     expect(ctx.applied).toHaveLength(before); expect(ctx.route).toEqua…
+       |                                                                 ^
+    139|     expect(ctx.titles.at(-1)).toBe(title); expect(ctx.browser.index).t…
+    140|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > a newer navigation invalidates the old guard response; it cannot change selection or title
+AssertionError: expected { view: 'home', selected: null, …(1) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+-   "selected": {
+-     "id": "task-new",
+-     "kind": "task",
+-   },
+-   "view": "workspace",
++   "selected": null,
++   "view": "home",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:152:23
+    150|     ctx.guard(() => 'allow'); ctx.controller.push(task('task-new'));
+    151|     oldResume(); stale(); ctx.browser.flush();
+    152|     expect(ctx.route).toEqual(task('task-new'));
+       |                       ^
+    153|     expect(ctx.titles.at(-1)).toBe('task-new · Turno');
+    154|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > push is protected too; a pending approved route is copied and applied once
+AssertionError: expected { view: 'home', selected: null, …(1) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+-   "selected": {
+-     "id": "task-1",
+-     "kind": "task",
+-   },
+-   "view": "workspace",
++   "selected": null,
++   "view": "home",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:161:23
+    159|     destination.selected!.id = 'mutated-outside';
+    160|     expect(ctx.route).toEqual(home); ctx.resume(); ctx.resume();
+    161|     expect(ctx.route).toEqual(task()); expect(ctx.browser.entries).toH…
+       |                       ^
+    162|   });
+    163|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > route values passed out of the controller cannot mutate a stored history entry
+TypeError: Cannot set properties of null (setting 'id')
+ ❯ tests/unit/history-controller.test.ts:166:25
+    164|   it('route values passed out of the controller cannot mutate a stored…
+    165|     const ctx = setup(); ctx.controller.start(); ctx.controller.push(t…
+    166|     ctx.route.selected!.id = 'changed-by-consumer';
+       |                         ^
+    167|     expect(ctx.browser.history.state).toMatchObject({selected: {id: 't…
+    168|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > foreign entries without idx or with another owner are not replaced, bounced or applied
+AssertionError: expected { view: 'home', selected: null, …(1) } to deeply equal { view: 'workspace', …(2) }
+
+- Expected
++ Received
+
+  {
+    "archiveId": null,
+-   "selected": {
+-     "id": "task-1",
+-     "kind": "task",
+-   },
+-   "view": "workspace",
++   "selected": null,
++   "view": "home",
+  }
+
+ ❯ tests/unit/history-controller.test.ts:176:23
+    174|     ctx.browser.history.pushState({host: 'outside'}, '');
+    175|     ctx.browser.move(-1); ctx.browser.flush();
+    176|     expect(ctx.route).toEqual(task()); expect(ctx.browser.index).toBe(…
+       |                       ^
+    177|     expect(ctx.browser.entries[1]).toEqual(own);
+    178|     expect(ctx.browser.calls.filter((call) => call.kind === 'go')).toH…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > multi-entry traversal replays the original delta, not a single Back
+AssertionError: expected +0 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ tests/unit/history-controller.test.ts:184:31
+    182|     const ctx = setup(); ctx.controller.start(); ctx.controller.push(t…
+    183|     ctx.guard(() => 'pending'); ctx.browser.move(-2); ctx.browser.flus…
+    184|     expect(ctx.browser.index).toBe(2); ctx.resume(); ctx.browser.flush…
+       |                               ^
+    185|     expect(ctx.route).toEqual(home); expect(ctx.browser.index).toBe(0);
+    186|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/15]⎯
+
+ FAIL  |unit| tests/unit/history-controller.test.ts > G2B · indexed history contract (technical harness, not product parity) > EXTRA-LIFECYCLE-ASYNC · 20 start/dispose cycles and effect reattach have one listener, one replace and stale resumes are inert
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/unit/history-controller.test.ts:191:90
+    189|     const ctx = setup();
+    190|     for (let i = 0; i < 20; i++) {
+    191|       ctx.controller.start(); ctx.controller.start(); expect(ctx.brows…
+       |                                                                                          ^
+    192|       ctx.controller.dispose(); ctx.controller.dispose(); expect(ctx.b…
+    193|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/15]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  15 failed (15)
+   Start at  00:22:53
+   Duration  352ms (transform 47ms, setup 0ms, import 65ms, tests 27ms, environment 0ms)
+

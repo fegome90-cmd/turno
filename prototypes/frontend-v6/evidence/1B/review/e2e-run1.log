@@ -1,0 +1,25 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:e2e
+> playwright test --project=chromium --workers=1
+
+
+Running 16 tests using 1 worker
+
+  ✓   1 [chromium] › tests/e2e/offline-theme.spec.ts:88:3 › UI-01 · TOKENS-01 · DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// primera carga · colorScheme light (511ms)
+  ✓   2 [chromium] › tests/e2e/offline-theme.spec.ts:88:3 › UI-01 · TOKENS-01 · DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// primera carga · colorScheme dark (420ms)
+  ✓   3 [chromium] › tests/e2e/offline-theme.spec.ts:115:1 › DESIGN-COMPLETE-01 · EXTRA-OFFLINE-ARTIFACT · file:// cambio del sistema sin recarga; recarga vuelve a system sin persistencia (628ms)
+  ✓   4 [chromium] › tests/e2e/offline-theme.spec.ts:135:1 › EXTRA-OFFLINE-FIRST-PAINT · file:// primer paint y frames capturados sin destello claro (940ms)
+  ✓   5 [chromium] › tests/e2e/offline-theme.spec.ts:173:1 › EXTRA-OFFLINE-ARTIFACT · HTTP local disponible, orígenes externos bloqueados; recarga vuelve a system (700ms)
+  ✓   6 [chromium] › tests/e2e/primitive-contract.spec.ts:37:3 › G1B · contratos de primitivas en Chromium › EXTRA-NATIVE-EDIT · un solo nodo de campo, texto crudo y error conservados al cruzar 699↔700 y 999↔1000 (1.2s)
+  ✓   7 [chromium] › tests/e2e/primitive-contract.spec.ts:56:3 › G1B · contratos de primitivas en Chromium › EXTRA-NATIVE-EDIT · tema claro, oscuro y sistema con Popover, Dialog y avisos abiertos: tokens y contraste ≥ 4.5:1 (1.5s)
+  ✓   8 [chromium] › tests/e2e/primitive-contract.spec.ts:96:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Escape cierra solo la capa superior y el foco vuelve a un destino visible (894ms)
+  ✓   9 [chromium] › tests/e2e/primitive-contract.spec.ts:110:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Tab sale del Popover de tema (712ms)
+  ✓  10 [chromium] › tests/e2e/primitive-contract.spec.ts:124:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Drawer → Dialog: Escape cierra solo el Dialog con foco en el control del Drawer; otro Escape cierra el Drawer y el foco vuelve al disparador (965ms)
+  ✓  11 [chromium] › tests/e2e/primitive-contract.spec.ts:170:3 › G1B · contratos de primitivas en Chromium › G1B-OVERLAY · Popover de tema no modal: Tab sale del Popover y la página no queda inerte (778ms)
+  ✓  12 [chromium] › tests/e2e/primitive-contract.spec.ts:190:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · Alt+T enfoca el botón de cierre del aviso más reciente; Escape cierra solo ese aviso y el foco pasa al siguiente cierre (778ms)
+  ✓  13 [chromium] › tests/e2e/primitive-contract.spec.ts:206:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · la llegada de un aviso nuevo no mueve el foco (656ms)
+  ✓  14 [chromium] › tests/e2e/primitive-contract.spec.ts:215:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · 30 avisos sin expulsión, pila suspendida inerte y descarte por teclado con foco al siguiente cierre (1.4s)
+  ✓  15 [chromium] › tests/e2e/primitive-contract.spec.ts:228:3 › G1B · contratos de primitivas en Chromium › G1B-NOTIFY · descarte por teclado de un aviso intermedio enfoca el cierre siguiente (698ms)
+  ✓  16 [chromium] › tests/e2e/primitive-contract.spec.ts:239:3 › G1B · contratos de primitivas en Chromium › EXTRA-LIFECYCLE-ASYNC · un solo root de React en el documento (622ms)
+
+  16 passed (15.2s)

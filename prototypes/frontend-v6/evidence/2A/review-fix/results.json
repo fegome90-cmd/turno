@@ -1,0 +1,284 @@
+[
+ [
+  "N1 parseTime acepta 24:00",
+  "CAUGHT",
+  "2 failed | 72 passed (74)",
+  [
+   "VALIDATION-01",
+   "VALIDATION-02"
+  ]
+ ],
+ [
+  "N1b adaptador acepta 24:00",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "PREVIEW-14"
+  ]
+ ],
+ [
+  "N2 limite cuerpo off-by-one (>=10000)",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "PREVIEW-03"
+  ]
+ ],
+ [
+  "N2b limite cuerpo validation off-by-one",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "VALIDATION-02"
+  ]
+ ],
+ [
+  "N3 version no incrementa al guardar",
+  "CAUGHT",
+  "5 failed | 69 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY",
+   "PREVIEW-03",
+   "PREVIEW-05"
+  ]
+ ],
+ [
+  "N4 conflicto de version omitido",
+  "CAUGHT",
+  "3 failed | 71 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY",
+   "PREVIEW-05"
+  ]
+ ],
+ [
+  "N5 archivo editable (saveTask)",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "PREVIEW-10"
+  ]
+ ],
+ [
+  "N5b renameBed archivo editable",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "PREVIEW-20"
+  ]
+ ],
+ [
+  "N6 renameBed fusiona nombres duplicados (rechaza duplicado)",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "PREVIEW-17"
+  ]
+ ],
+ [
+  "N7 nota guarda shiftId",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "PREVIEW-13"
+  ]
+ ],
+ [
+  "N8 groupAgenda muta el orden de entrada",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "POLISH-10"
+  ]
+ ],
+ [
+  "N9 respuesta tardia sobrescribe seleccion nueva",
+  "CAUGHT",
+  "3 failed | 71 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N10 fuga suscripcion notification-store",
+  "CAUGHT",
+  "2 failed | 72 passed (74)",
+  [
+   "EXTRA-LIFECYCLE-ASYNC"
+  ]
+ ],
+ [
+  "N11 fallo resetea temporal crudo",
+  "CAUGHT",
+  "2 failed | 72 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N12 fallo resetea draft al snapshot",
+  "CAUGHT",
+  "4 failed | 70 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N13 load devuelve referencia (no clona)",
+  "CAUGHT",
+  "3 failed | 71 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY",
+   "PREVIEW-02"
+  ]
+ ],
+ [
+  "N14 createTask acepta cama de otro turno",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "PREVIEW-09"
+  ]
+ ],
+ [
+  "N15 closeShift repetido lanza",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "PREVIEW-15"
+  ]
+ ],
+ [
+  "N16 openShift usa fecha UTC",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "PREVIEW-07"
+  ]
+ ],
+ [
+  "N17 persist permite doble mutacion",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N18 minutos aceptan decimales",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "VALIDATION-01"
+  ]
+ ],
+ [
+  "N19 vacio como cero en applyTemporalDraft estimate",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "DRAFT-03"
+  ]
+ ],
+ [
+  "N20 parseDate sin validar dia (31/02 pasa)",
+  "CAUGHT",
+  "4 failed | 70 passed (74)",
+  [
+   "DRAFT-02",
+   "PREVIEW-01",
+   "VALIDATION-02"
+  ]
+ ],
+ [
+  "N21 conflicto en store pisa borrador con snapshot (select)",
+  "CAUGHT",
+  "6 failed | 68 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N22 error de renameBed id mutado (regen id)",
+  "CAUGHT",
+  "2 failed | 72 passed (74)",
+  [
+   "PREVIEW-16",
+   "PREVIEW-17"
+  ]
+ ],
+ [
+  "N23 tarea nueva sin version 1 / HTML escapado",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "PREVIEW-03"
+  ]
+ ],
+ [
+  "N24 titulo 300 limite en adapter 299",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "PREVIEW-03"
+  ]
+ ],
+ [
+  "N25 busy no se libera tras fallo",
+  "CAUGHT",
+  "13 failed | 61 passed (74)",
+  [
+   "EXTRA-LIFECYCLE-ASYNC",
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N26 select conserva errores previos",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N27 codigo SIMULATED_CONFLICT cambiado",
+  "CAUGHT",
+  "1 failed | 73 passed (74)",
+  [
+   "EMIL-SKILLS-07"
+  ]
+ ],
+ [
+  "N28 select no resetea temporal",
+  "CAUGHT",
+  "3 failed | 71 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N29 saveNote exito pisa draft siempre",
+  "CAUGHT",
+  "2 failed | 72 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N30 setTemporalField recorta el crudo (trim)",
+  "CAUGHT",
+  "3 failed | 71 passed (74)",
+  [
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ],
+ [
+  "N31 TemporalField trim en aplicar duration omitido",
+  "CAUGHT",
+  "2 failed | 72 passed (74)",
+  [
+   "DRAFT-03",
+   "EXTRA-STATE-AUTHORITY"
+  ]
+ ]
+]

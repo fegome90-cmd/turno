@@ -1,0 +1,4 @@
+
+> turno-frontend-v6@0.1.0-phase1a lint
+> oxlint -c .oxlintrc.json --deny-warnings src tests scripts
+

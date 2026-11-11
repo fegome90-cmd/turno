@@ -1,0 +1,16 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism navigation
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-3a-isolated/prototypes/frontend-v6
+
+ ❯ |component| tests/component/navigation.test.tsx (13 tests | 2 failed) 1296ms
+     × Demo desde navegación móvil reemplaza drawer y regresa al trigger visible 93ms
+   × EXTRA-NATIVE-EDIT · fullscreen ausente/denegado conserva slots y explica fallback 58ms
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 11 passed (13)
+   Start at  11:07:39
+   Duration  2.71s (transform 193ms, setup 110ms, import 470ms, tests 1.30s, environment 703ms)
+

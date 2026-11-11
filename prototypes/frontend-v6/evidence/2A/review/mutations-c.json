@@ -1,0 +1,14 @@
+[
+ [
+  "N30 setTemporalField recorta el crudo (trim)",
+  "SURVIVED",
+  "60 passed (60)",
+  []
+ ],
+ [
+  "N31 TemporalField trim en aplicar duration omitido",
+  "SURVIVED",
+  "60 passed (60)",
+  []
+ ]
+]

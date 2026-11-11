@@ -1,0 +1,247 @@
+[
+  {
+    "id": "EXTRA-LIFECYCLE-ASYNC",
+    "sources": [
+      "https://medium.com/preply-engineering/migrating-from-backbone-js-to-react-js-without-losing-it-a8b383a102fe",
+      "https://www.heap.io/blog/migrating-react-mobx-while-shipping-new-features"
+    ],
+    "tasks": {
+      "1B": [
+        {
+          "gate": "component",
+          "kind": "nonvisual"
+        }
+      ],
+      "2A": [
+        {
+          "gate": "unit",
+          "kind": "nonvisual"
+        }
+      ],
+      "2B": [
+        {
+          "gate": "unit",
+          "kind": "nonvisual"
+        },
+        {
+          "gate": "chromium",
+          "kind": "browser"
+        }
+      ]
+    },
+    "final": [
+      {
+        "gate": "unit",
+        "kind": "nonvisual"
+      },
+      {
+        "gate": "component",
+        "kind": "nonvisual"
+      },
+      {
+        "gate": "chromium",
+        "kind": "browser"
+      }
+    ],
+    "targetTests": [
+      "tests/unit/store.test.ts",
+      "tests/unit/history-controller.test.ts",
+      "tests/component/primitive-contract.test.tsx",
+      "tests/e2e/history.spec.ts",
+      "tests/e2e/editor.spec.ts"
+    ],
+    "oracle": "20 mount/unmount cycles return subscriptions to baseline; one domain operation per action; stale response never changes newer selection/draft/focus.",
+    "status": "planned"
+  },
+  {
+    "id": "EXTRA-STATE-AUTHORITY",
+    "sources": [
+      "https://www.heap.io/blog/migrating-react-mobx-while-shipping-new-features",
+      "https://slack.engineering/rebuilding-slacks-emoji-picker-in-react/"
+    ],
+    "tasks": {
+      "2A": [
+        {
+          "gate": "unit",
+          "kind": "nonvisual"
+        }
+      ],
+      "4A": [
+        {
+          "gate": "component",
+          "kind": "nonvisual"
+        }
+      ]
+    },
+    "final": [
+      {
+        "gate": "unit",
+        "kind": "nonvisual"
+      },
+      {
+        "gate": "component",
+        "kind": "nonvisual"
+      }
+    ],
+    "targetTests": [
+      "tests/unit/store.test.ts",
+      "tests/component/editor.test.tsx"
+    ],
+    "oracle": "One owner per state; failed/conflicting save preserves confirmed snapshot and raw draft; no duplicate domain mutation, network or persistence.",
+    "status": "planned"
+  },
+  {
+    "id": "EXTRA-NATIVE-EDIT",
+    "sources": [
+      "https://github.blog/engineering/architecture-optimization/crafting-a-better-faster-code-view/",
+      "https://medium.com/preply-engineering/migrating-from-backbone-js-to-react-js-without-losing-it-a8b383a102fe",
+      "https://www.atlassian.com/blog/how-we-build/colorful-and-accessible-theming-in-trello"
+    ],
+    "tasks": {
+      "3A": [
+        {
+          "gate": "chromium",
+          "kind": "browser"
+        }
+      ],
+      "4A": [
+        {
+          "gate": "chromium",
+          "kind": "browser"
+        }
+      ],
+      "7B": [
+        {
+          "gate": "manual-ime",
+          "kind": "manual-at"
+        }
+      ],
+      "1B": [
+        {
+          "gate": "chromium",
+          "kind": "browser"
+        }
+      ]
+    },
+    "final": [
+      {
+        "gate": "chromium",
+        "kind": "browser"
+      },
+      {
+        "gate": "manual-ime",
+        "kind": "manual-at"
+      }
+    ],
+    "targetTests": [
+      "tests/e2e/editor.spec.ts",
+      "tests/e2e/overlays.spec.ts",
+      "tests/e2e/responsive.spec.ts",
+      "tests/e2e/primitive-contract.spec.ts"
+    ],
+    "oracle": "One interactive field; stable caret/selection/undo/raw across docking; checkbox does not select row, composition Enter does not save, outside-click preserves destination, Escape/Back closes only topmost layer; manual IME evidence separate. Theme context/tokens reach open portal surfaces; computed contrast/focus remain valid when theme changes.",
+    "status": "planned"
+  },
+  {
+    "id": "EXTRA-PERFORMANCE-FLOWS",
+    "sources": [
+      "https://slack.engineering/rebuilding-slacks-emoji-picker-in-react/",
+      "https://github.blog/engineering/architecture-optimization/crafting-a-better-faster-code-view/"
+    ],
+    "tasks": {
+      "1A": [
+        {
+          "gate": "offline-theme",
+          "kind": "browser"
+        }
+      ],
+      "7A": [
+        {
+          "gate": "chromium",
+          "kind": "browser"
+        }
+      ]
+    },
+    "final": [
+      {
+        "gate": "chromium",
+        "kind": "browser"
+      }
+    ],
+    "targetTests": [
+      "tests/e2e/offline-theme.spec.ts",
+      "tests/e2e/performance.spec.ts"
+    ],
+    "oracle": "V5 standalone HTML from build_preview.py versus V6 production build without dev server, same hardware/engine/viewport/theme/data; cold/warm separate, 20 samples and p50/p95 per flow, 3 baseline runs; comparison criterion fixed before candidate measurement and unresolved regression blocks acceptance. 1A measures shell only.",
+    "status": "planned"
+  },
+  {
+    "id": "EXTRA-OFFLINE-ARTIFACT",
+    "sources": [
+      "https://slack.engineering/service-workers-at-slack-our-quest-for-faster-boot-times-and-offline-support/"
+    ],
+    "tasks": {
+      "1A": [
+        {
+          "gate": "portable",
+          "kind": "browser"
+        },
+        {
+          "gate": "offline-theme",
+          "kind": "browser"
+        }
+      ],
+      "7A": [
+        {
+          "gate": "portable",
+          "kind": "browser"
+        }
+      ]
+    },
+    "final": [
+      {
+        "gate": "portable",
+        "kind": "browser"
+      }
+    ],
+    "targetTests": [
+      "tests/e2e/offline-theme.spec.ts",
+      "scripts/check-portable.mjs"
+    ],
+    "oracle": "Exact HTML hash, fresh context, file cold/reload without network and zero external-origin requests; HTTP document server remains available; reload starts fresh demo/session theme, not persistence.",
+    "status": "planned"
+  },
+  {
+    "id": "EXTRA-ROLLBACK-PHASE",
+    "sources": [
+      "https://slack.engineering/rebuilding-slacks-emoji-picker-in-react/",
+      "https://www.heap.io/blog/migrating-react-mobx-while-shipping-new-features",
+      "https://engineering.hackerrank.com/the-state-of-front-end-development-at-hackerrank/"
+    ],
+    "tasks": {
+      "0": [
+        {
+          "gate": "baseline",
+          "kind": "nonvisual"
+        }
+      ],
+      "7A": [
+        {
+          "gate": "chromium",
+          "kind": "browser"
+        }
+      ]
+    },
+    "final": [
+      {
+        "gate": "chromium",
+        "kind": "browser"
+      }
+    ],
+    "targetTests": [
+      "tests/e2e/rollback.spec.ts"
+    ],
+    "oracle": "Reference/candidate SHA and HTML hash recorded; v5 product/tests/assets unchanged; sandbox reopens prior artifact, with explicit session reset and no deployment/destructive operation; unstable baseline never labelled certified.",
+    "status": "planned"
+  }
+]

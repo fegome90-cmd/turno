@@ -1,0 +1,64 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism
+
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-mutants/c
+
+ ❯ |component| tests/component/theme-home.test.tsx (12 tests | 1 failed) 112ms
+     × EXTRA-THEME-NO-STORAGE · cambiar tema no llama a setItem ni a fetch 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/theme-home.test.tsx > EXTRA-THEME-NO-STORAGE · cero storage y cero red al cambiar tema > EXTRA-THEME-NO-STORAGE · cambiar tema no llama a setItem ni a fetch
+AssertionError: expected "setItem" to not be called at all, but actually been called 4 times
+
+Received:
+
+  1st setItem call:
+
+    Array [
+      "theme",
+      "system",
+    ]
+
+  2nd setItem call:
+
+    Array [
+      "theme",
+      "dark",
+    ]
+
+  3rd setItem call:
+
+    Array [
+      "theme",
+      "light",
+    ]
+
+  4th setItem call:
+
+    Array [
+      "theme",
+      "system",
+    ]
+
+
+Number of calls: 4
+
+ ❯ tests/component/theme-home.test.tsx:253:25
+    251|     });
+    252|     expect(html().dataset.theme).toBe('dark');
+    253|     expect(setItem).not.toHaveBeenCalled();
+       |                         ^
+    254|     expect(fetchSpy).not.toHaveBeenCalled();
+    255|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  23:36:41
+   Duration  827ms (transform 70ms, setup 116ms, import 62ms, tests 112ms, environment 400ms)
+

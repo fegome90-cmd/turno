@@ -1,0 +1,10 @@
+START typecheck
+END typecheck exit=0
+START lint
+END lint exit=0
+START test:unit
+END test:unit exit=0
+START test:component
+END test:component exit=0
+START build
+END build exit=0

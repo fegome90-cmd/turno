@@ -1,0 +1,42 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:unit
+> vitest run --project unit --maxWorkers=1 --no-file-parallelism
+
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-mutants/a
+
+ ❯ |unit| tests/unit/home-subtitle.test.ts (3 tests | 1 failed) 11ms
+     × HOME-SUBTITLE-01 · catálogo congelado de cuatro frases exactas sin «Demo» ni «<» 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/home-subtitle.test.ts > subtítulo de Inicio > HOME-SUBTITLE-01 · catálogo congelado de cuatro frases exactas sin «Demo» ni «<»
+AssertionError: expected [ '¿Qué haremos hoy?', …(3) ] to deeply equal [ '¿Qué haremos hoy?', …(3) ]
+
+- Expected
++ Received
+
+  [
+    "¿Qué haremos hoy?",
+-   "¿Por dónde empezamos?",
++   "¿Por dónde comenzamos?",
+    "¿Qué tienes en mente?",
+    "¿En qué te ayudo hoy?",
+  ]
+
+ ❯ tests/unit/home-subtitle.test.ts:6:33
+      4| describe('subtítulo de Inicio', () => {
+      5|   it('HOME-SUBTITLE-01 · catálogo congelado de cuatro frases exactas s…
+      6|     expect([...HOME_SUBTITLES]).toEqual([
+       |                                 ^
+      7|       '¿Qué haremos hoy?',
+      8|       '¿Por dónde empezamos?',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  23:36:40
+   Duration  210ms (transform 30ms, setup 0ms, import 41ms, tests 11ms, environment 0ms)
+

@@ -16,11 +16,11 @@ async function setup(width=1440){
  window.HTMLElement.prototype.showModal=function(){this.open=true;this.setAttribute('open','');};
  window.HTMLElement.prototype.close=function(){this.open=false;this.removeAttribute('open');};
  globalThis.window=window;globalThis.document=window.document;
- await import(`../src/app.mjs?emil=${++run}`);await pause(250);
+ await import(`../src/app.mjs?emil=${++run}`);await waitForAppReady(window.document);
  const q=s=>window.document.querySelector(s);
  const click=async s=>{assert.ok(q(s),s);q(s).focus();q(s).dispatchEvent(new window.Event('click',{bubbles:true}));await pause(2);};
  const fill=(s,value)=>{q(s).value=value;q(s).dispatchEvent(new window.Event('input',{bubbles:true}));};
- const submit=async(id='editor-form')=>{q('#'+id).dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));await pause(500);};
+ const submit=async(id='editor-form')=>{q('#'+id).dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));await waitForIdle(window.document);};
  return {q,click,fill,submit,window};
 }
 
@@ -64,13 +64,13 @@ test('mobile temporal errors survive closing Time and editing the draft',async()
  assert.equal(a.q('#body').value,'Borrador móvil');
 });
 test('closing conflict names Close and archive, keeps the shift open, and retries',async()=>{
- const a=await setup();await a.click('[data-action="demo"]');await a.click('[data-action="simulate-conflict"]');
- await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await pause(500);
+ const a=await setup();await a.click('[data-action="more"]');await a.click('#more-options [data-action="demo"]');await a.click('[data-action="simulate-conflict"]');
+ await a.click('[data-action="close-shift"]');await a.click('[data-action="confirm-close"]');await waitFor(()=>a.q('#close-error')?.textContent);
  assert.match(a.q('#close-error').textContent,/turno sigue abierto/);
  assert.match(a.q('#close-error').textContent,/Cerrar y archivar/);
  assert.doesNotMatch(a.q('#close-error').textContent,/guardar|borrador/i);
  assert.equal(a.q('[data-action="confirm-close"]').disabled,false);
- await a.click('[data-action="confirm-close"]');await pause(500);
+ await a.click('[data-action="confirm-close"]');await waitForIdle(a.window.document);
  assert.equal(a.q('#modal').open,false);assert.equal(a.q('[data-action="close-shift"]'),null);
 });
 test('simulated adapter conflict identifies its type without prescribing Save',async()=>{
@@ -82,7 +82,7 @@ test('one pending task has singular copy in Agenda and close confirmation',async
  const a=await setup();await a.click('[data-action="open-shift"]');
  for(const id of ['task-1','task-2','task-3']){
   const input=a.q(`[data-check="${id}"]`);input.checked=true;
-  input.dispatchEvent(new a.window.Event('change',{bubbles:true}));await pause(500);
+  input.dispatchEvent(new a.window.Event('change',{bubbles:true}));await waitForIdle(a.window.document);
  }
  await a.click('[data-action="tab-agenda"]');assert.match(a.q('.agenda-count').textContent,/4 tareas · 1 pendiente$/);
  await a.click('[data-action="close-shift"]');assert.match(a.q('#modal strong').textContent,/^1 tarea pendiente$/);
@@ -102,8 +102,8 @@ test('schema-backed title extremes round-trip through the actual adapter',async(
  }
  await assert.rejects(adapter.createTask('Revisión de material '.repeat(20)),/300/);
 });
-test('documented v4 durations are preserved instead of overriding user feedback',()=>{
- assert.deepEqual(MOTION,{screen:300,dialog:300,drawer:340,disclosure:220,tabs:180,feedback:180,easing:'cubic-bezier(0.22, 1, 0.36, 1)',indicatorEasing:'cubic-bezier(0.77, 0, 0.175, 1)'});
+test('documented v5 motion values are the single timing source',()=>{
+ assert.deepEqual(MOTION,{screen:150,dialog:240,drawer:260,disclosure:220,tabs:150,feedback:180,toast:300,easing:'cubic-bezier(0.22, 1, 0.36, 1)',indicatorEasing:'cubic-bezier(0.77, 0, 0.175, 1)',drawerEasing:'cubic-bezier(0.32, 0.72, 0, 1)'});
 });
 test('rapid feedback retargets from current painted state before cancellation',()=>{
  const calls=[],cancels=[];
@@ -124,7 +124,7 @@ test('viewport safe areas opt in without disabling user zoom',async()=>{
 test('touch changes target controls and coarse pointers without suppressing text selection globally',async()=>{
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
  assert.match(css,/button,summary,input\[type=checkbox\]\s*\{[^}]*touch-action:manipulation/);
- assert.match(css,/@media\s*\(pointer:coarse\)[\s\S]*font-size:1rem/);
+ assert.match(css,/@media\s*\(pointer:coarse\)[\s\S]*font-size:var\(--type-body\)/);
  assert.doesNotMatch(css,/(?:body|html|\*)\s*\{[^}]*user-select:none/);
  assert.doesNotMatch(css,/touch-action:none/);
  assert.match(css,/button:not\(:disabled\):active/);
@@ -133,7 +133,7 @@ test('touch changes target controls and coarse pointers without suppressing text
 test('long labels reserve trailing controls rather than truncating their identity',async()=>{
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
  assert.match(css,/\.bed-line>\.icon-button\s*\{[^}]*flex-shrink:0/);
- assert.match(css,/\.shift-context strong,\.metadata>span:first-child,\.tree-task span,\.archive-link span\s*\{[^}]*overflow-wrap:anywhere/);
+ assert.match(css,/\.shift-context strong,\.metadata>span:first-child,\.tree-task span,\.archive-link span\s*\{[^}]*overflow-wrap:break-word/);
 });
 test('active backgrounds win the inherited hover cascade for ordinary and selected controls',async()=>{
  const css=await fs.readFile(new URL('../src/styles.css',import.meta.url),'utf8');
@@ -145,7 +145,6 @@ test('active backgrounds win the inherited hover cascade for ordinary and select
   ['.filter.active:hover:not(:disabled)','.filter.active:not(:disabled):active'],
   ['.tree-task.current:hover:not(:disabled)','.tree-task.current:not(:disabled):active'],
   ['button.primary:hover:not(:disabled)','button.primary:not(:disabled):active'],
-  ['.nav-item.selected:hover:not(:disabled)','.nav-item.selected:not(:disabled):active'],
  ];
  for(const [hover,active] of pairs){
   assert.ok(css.includes(hover),hover);assert.ok(css.includes(active),active);
@@ -153,3 +152,22 @@ test('active backgrounds win the inherited hover cascade for ordinary and select
  }
  assert.match(css,/button:not\(:disabled\):active\{[^}]*transition:none/);
 });
+
+// The app loads through the preview adapter (220 ms); wait until it has rendered instead of a fixed 250 ms.
+async function waitForAppReady(document,{timeout=3000}={}){const end=Date.now()+timeout;while(!document.querySelector('#app .shell')){if(Date.now()>end)throw new Error('app did not finish loading: '+(document.querySelector('#app main')?.textContent||'no render'));await new Promise(r=>setTimeout(r,10));}}
+
+// Wait for the app to finish an adapter round trip instead of a fixed sleep: completing or saving
+// costs two 220 ms adapter waits (save + reload), so a fixed 500 ms left ~60 ms of margin.
+async function waitFor(condition,{timeout=3000,interval=20}={}){const end=Date.now()+timeout;for(;;){if(condition())return;if(Date.now()>end)throw new Error('waitFor timed out: '+condition);await new Promise(r=>setTimeout(r,interval));}}
+
+// No adapter round trip is still pending: the controls the app disables while it waits (Save not
+// reading "Guardando…", Close and archive, Create, Save name, checkboxes outside the archive) are
+// enabled again or gone. Used instead of fixed sleeps after save, complete, create, rename or close.
+function appIdle(document){
+ const save=document.querySelector('#editor-form button[type="submit"]');
+ if(save?.textContent.includes('Guardando'))return false;
+ for(const selector of ['#modal [data-action="confirm-close"]','#create-form [type="submit"]','#rename-bed-form [type="submit"]'])if(document.querySelector(selector)?.disabled)return false;
+ if(!document.querySelector('.archive-notice')&&[...document.querySelectorAll('[data-check]')].some(check=>check.disabled))return false;
+ return true;
+}
+function waitForIdle(document){return waitFor(()=>appIdle(document));}

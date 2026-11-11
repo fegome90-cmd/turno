@@ -1,0 +1,35 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/2A-mut/fe
+
+ ❯ |unit| tests/unit/validation.test.ts (8 tests | 1 failed) 11ms
+     × VALIDATION-01 · añadido (WARN 1B): el texto crudo de minutos se valida sin trim, y su espacio no cambia el valor aplicado 5ms
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 56 passed (57)
+   Start at  02:55:30
+   Duration  859ms (transform 122ms, setup 0ms, import 200ms, tests 115ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/validation.test.ts > validación de editor > VALIDATION-01 · añadido (WARN 1B): el texto crudo de minutos se valida sin trim, y su espacio no cambia el valor aplicado
+AssertionError: expected { Object (estimate) } to deeply equal {}
+
+- Expected
++ Received
+
+- {}
++ {
++   "estimate": "Estimación: usa minutos enteros entre 0 y 1440.",
++ }
+
+ ❯ tests/unit/validation.test.ts:45:70
+     43|   it('VALIDATION-01 · añadido (WARN 1B): el texto crudo de minutos se …
+     44|     // Si una mutación elimina el trim() de la validación, «  10  » da…
+     45|     expect(validateEditor(draft, {...temporal, estimate: '  10  '})).t…
+       |                                                                      ^
+     46|     expect(validateEditor(draft, {...temporal, estimate: '   '})).toEq…
+     47|     const raw = {...temporal, estimate: '  10  '};
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

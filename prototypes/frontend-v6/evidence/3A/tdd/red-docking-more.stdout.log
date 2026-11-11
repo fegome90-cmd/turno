@@ -1,0 +1,15 @@
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism navigation
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-3a-isolated/prototypes/frontend-v6
+
+ ❯ |component| tests/component/navigation.test.tsx (14 tests | 1 failed) 2793ms
+     × dockear navegación cierra su disclosure, sin una capa more fantasma 1101ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 passed (14)
+   Start at  11:10:07
+   Duration  4.62s (transform 339ms, setup 168ms, import 634ms, tests 2.79s, environment 818ms)
+

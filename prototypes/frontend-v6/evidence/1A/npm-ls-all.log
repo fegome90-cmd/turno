@@ -1,0 +1,278 @@
+turno-frontend-v6@0.1.0-phase1a /home/user/turno/prototypes/frontend-v6
++-- @axe-core/playwright@4.14.0
+| +-- axe-core@4.14.0
+| `-- playwright-core@1.65.0
++-- @base-ui/react@1.9.0
+| +-- @babel/runtime@8.1.0
+| +-- @base-ui/utils@0.5.0
+| | +-- @babel/runtime@8.1.0 deduped
+| | +-- @floating-ui/utils@0.2.12 deduped
+| | +-- @types/react@19.3.0 deduped
+| | +-- react-dom@19.3.1 deduped
+| | +-- react@19.3.1 deduped
+| | +-- reselect@5.3.0
+| | `-- use-sync-external-store@1.7.0 deduped
+| +-- UNMET OPTIONAL DEPENDENCY @date-fns/tz@^1.2.0
+| +-- @floating-ui/react-dom@2.1.9
+| | +-- @floating-ui/dom@1.8.0
+| | | +-- @floating-ui/core@1.8.0
+| | | | `-- @floating-ui/utils@0.2.12 deduped
+| | | `-- @floating-ui/utils@0.2.12 deduped
+| | +-- react-dom@19.3.1 deduped
+| | `-- react@19.3.1 deduped
+| +-- @floating-ui/utils@0.2.12
+| +-- @types/react@19.3.0 deduped
+| +-- UNMET OPTIONAL DEPENDENCY date-fns@^4.0.0
+| +-- react-dom@19.3.1 deduped
+| +-- react@19.3.1 deduped
+| `-- use-sync-external-store@1.7.0
+|   `-- react@19.3.1 deduped
++-- @playwright/test@1.65.0
+| `-- playwright@1.65.0
+|   `-- playwright-core@1.65.0 deduped
++-- @testing-library/dom@10.4.2
+| +-- @babel/code-frame@7.29.7
+| | +-- @babel/helper-validator-identifier@7.29.7
+| | +-- js-tokens@4.0.0
+| | `-- picocolors@1.1.1 deduped
+| +-- @babel/runtime@7.29.13
+| +-- @types/aria-query@5.0.4
+| +-- aria-query@5.3.0
+| | `-- dequal@2.0.3
+| +-- dom-accessibility-api@0.5.16
+| +-- lz-string@1.5.0
+| +-- picocolors@1.1.1
+| `-- pretty-format@27.5.1
+|   +-- ansi-regex@5.0.1
+|   +-- ansi-styles@5.2.0
+|   `-- react-is@17.0.2
++-- @testing-library/jest-dom@7.0.1
+| +-- @adobe/css-tools@4.5.0
+| +-- @testing-library/dom@10.4.2 deduped
+| +-- aria-query@5.3.0 deduped
+| +-- css.escape@1.5.1
+| +-- dom-accessibility-api@0.6.3
+| +-- picocolors@1.1.1 deduped
+| +-- redent@3.0.0
+| | +-- indent-string@4.0.0
+| | `-- strip-indent@3.0.0
+| |   `-- min-indent@1.0.1
+| `-- vitest@4.1.12 deduped
++-- @testing-library/react@16.3.3
+| +-- @babel/runtime@7.29.13
+| +-- @testing-library/dom@10.4.2 deduped
+| +-- @types/react-dom@19.3.0 deduped
+| +-- @types/react@19.3.0 deduped
+| +-- react-dom@19.3.1 deduped
+| `-- react@19.3.1 deduped
++-- @testing-library/user-event@14.6.8
+| `-- @testing-library/dom@10.4.2 deduped
++-- @types/node@24.19.2
+| `-- undici-types@7.24.6
++-- @types/react-dom@19.3.0
+| `-- @types/react@19.3.0 deduped
++-- @types/react@19.3.0
+| `-- csstype@3.2.3
++-- @vitejs/plugin-react@6.2.1
+| +-- UNMET OPTIONAL DEPENDENCY @rolldown/plugin-babel@^0.1.7 || ^0.2.0 || ^0.3.0
+| +-- @rolldown/pluginutils@1.0.1
+| +-- UNMET OPTIONAL DEPENDENCY babel-plugin-react-compiler@^1.0.0
+| +-- UNMET OPTIONAL DEPENDENCY oxc-transform-react@>=0.152.0 <0.157.0
+| `-- vite@8.3.6 deduped
++-- clsx@2.1.1
++-- jsdom@31.0.0
+| +-- @exodus/bytes@1.16.0
+| | `-- UNMET OPTIONAL DEPENDENCY @noble/hashes@^1.8.0 || ^2.0.0
+| +-- UNMET OPTIONAL DEPENDENCY @napi-rs/canvas@^1.0.13
+| +-- bcp-47-match@2.0.3
+| +-- bcp-47@2.1.2
+| | +-- is-alphabetical@2.0.1
+| | +-- is-alphanumerical@2.0.1
+| | | +-- is-alphabetical@2.0.1 deduped
+| | | `-- is-decimal@2.0.1 deduped
+| | `-- is-decimal@2.0.1
+| +-- data-urls@8.0.0
+| | +-- whatwg-mimetype@5.0.0 deduped
+| | `-- whatwg-url@17.3.0 deduped
+| +-- decimal.js@10.6.0
+| +-- html-encoding-sniffer@7.0.0
+| | `-- @exodus/bytes@1.16.0 deduped
+| +-- is-potential-custom-element-name@1.0.1
+| +-- lru-cache@11.5.3
+| +-- parse5-parser-stream@8.1.1
+| | `-- parse5@8.1.1 deduped
+| +-- parse5@8.1.1
+| | `-- entities@9.0.0
+| +-- saxes@6.0.0
+| | `-- xmlchars@2.2.0
+| +-- tough-cookie@6.1.0
+| | `-- tldts@7.4.19
+| |   `-- tldts-core@7.4.20
+| +-- undici@8.12.4
+| +-- w3c-xmlserializer@6.0.0
+| | `-- xml-name-validator@5.0.0 deduped
+| +-- webidl-conversions@8.0.1
+| +-- whatwg-mimetype@5.0.0
+| +-- whatwg-url@17.3.0
+| | +-- @exodus/bytes@1.16.0 deduped
+| | +-- tr46@7.0.0
+| | | `-- punycode@2.3.1
+| | `-- webidl-conversions@8.0.1 deduped
+| `-- xml-name-validator@5.0.0
++-- lucide-react@1.70.0
+| +-- @types/react@19.3.0 deduped
+| `-- react@19.3.1 deduped
++-- oxlint@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-android-arm-eabi@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-android-arm64@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-darwin-arm64@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-darwin-x64@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-freebsd-x64@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-linux-arm-gnueabihf@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-linux-arm-musleabihf@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-linux-arm64-gnu@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-linux-arm64-musl@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-linux-ppc64-gnu@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-linux-riscv64-gnu@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-linux-riscv64-musl@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-linux-s390x-gnu@1.92.0
+| +-- @oxlint/binding-linux-x64-gnu@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-linux-x64-musl@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-openharmony-arm64@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-win32-arm64-msvc@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-win32-ia32-msvc@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY @oxlint/binding-win32-x64-msvc@1.92.0
+| +-- UNMET OPTIONAL DEPENDENCY oxlint-tsgolint@>=7.0.2005
+| `-- UNMET OPTIONAL DEPENDENCY vite-plus@*
++-- react-dom@19.3.1
+| +-- react@19.3.1 deduped
+| `-- scheduler@0.28.0
++-- react@19.3.1
++-- sonner@2.0.8
+| +-- @types/react@19.3.0 deduped
+| +-- react-dom@19.3.1 deduped
+| `-- react@19.3.1 deduped
++-- typescript@6.0.3
++-- vite-plugin-singlefile@2.3.4
+| +-- picomatch@4.0.7
+| +-- UNMET OPTIONAL DEPENDENCY rollup@^4.59.0
+| `-- vite@8.3.6 deduped
++-- vite@8.3.6
+| +-- @types/node@24.19.2 deduped
+| +-- UNMET OPTIONAL DEPENDENCY @vitejs/devtools@^0.7.1 || ^0.8.0
+| +-- UNMET OPTIONAL DEPENDENCY esbuild@^0.27.0 || ^0.28.0
+| +-- UNMET OPTIONAL DEPENDENCY fsevents@~2.3.3
+| +-- UNMET OPTIONAL DEPENDENCY jiti@>=1.21.0
+| +-- UNMET OPTIONAL DEPENDENCY less@^4.0.0
+| +-- lightningcss@1.33.0
+| | +-- detect-libc@2.1.2
+| | +-- UNMET OPTIONAL DEPENDENCY lightningcss-android-arm64@1.33.0
+| | +-- UNMET OPTIONAL DEPENDENCY lightningcss-darwin-arm64@1.33.0
+| | +-- UNMET OPTIONAL DEPENDENCY lightningcss-darwin-x64@1.33.0
+| | +-- UNMET OPTIONAL DEPENDENCY lightningcss-freebsd-x64@1.33.0
+| | +-- UNMET OPTIONAL DEPENDENCY lightningcss-linux-arm-gnueabihf@1.33.0
+| | +-- UNMET OPTIONAL DEPENDENCY lightningcss-linux-arm64-gnu@1.33.0
+| | +-- UNMET OPTIONAL DEPENDENCY lightningcss-linux-arm64-musl@1.33.0
+| | +-- lightningcss-linux-x64-gnu@1.33.0
+| | +-- UNMET OPTIONAL DEPENDENCY lightningcss-linux-x64-musl@1.33.0
+| | +-- UNMET OPTIONAL DEPENDENCY lightningcss-win32-arm64-msvc@1.33.0
+| | `-- UNMET OPTIONAL DEPENDENCY lightningcss-win32-x64-msvc@1.33.0
+| +-- picomatch@4.0.7 deduped
+| +-- postcss@8.5.32
+| | +-- nanoid@3.3.20
+| | +-- picocolors@1.1.1 deduped
+| | `-- source-map-js@1.2.2
+| +-- rolldown@1.2.16
+| | +-- @oxc-project/types@0.156.0
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-android-arm-eabi@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-android-arm64@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-darwin-arm64@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-darwin-x64@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-freebsd-x64@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-linux-arm-gnueabihf@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-linux-arm64-gnu@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-linux-arm64-musl@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-linux-ppc64-gnu@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-linux-s390x-gnu@1.2.16
+| | +-- @rolldown/binding-linux-x64-gnu@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-linux-x64-musl@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-openharmony-arm64@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-win32-arm64-msvc@1.2.16
+| | +-- UNMET OPTIONAL DEPENDENCY @rolldown/binding-win32-x64-msvc@1.2.16
+| | `-- @rolldown/pluginutils@1.0.1 deduped
+| +-- UNMET OPTIONAL DEPENDENCY sass-embedded@^1.70.0
+| +-- UNMET OPTIONAL DEPENDENCY sass@^1.70.0
+| +-- UNMET OPTIONAL DEPENDENCY stylus@>=0.54.8
+| +-- UNMET OPTIONAL DEPENDENCY sugarss@^5.0.0
+| +-- UNMET OPTIONAL DEPENDENCY terser@^5.16.0
+| +-- tinyglobby@0.2.17
+| | +-- fdir@6.5.0
+| | | `-- picomatch@4.0.7 deduped
+| | `-- picomatch@4.0.7 deduped
+| +-- UNMET OPTIONAL DEPENDENCY tsx@^4.8.1
+| `-- UNMET OPTIONAL DEPENDENCY yaml@^2.4.2
++-- vitest@4.1.12
+| +-- UNMET OPTIONAL DEPENDENCY @edge-runtime/vm@*
+| +-- UNMET OPTIONAL DEPENDENCY @opentelemetry/api@^1.9.0
+| +-- @types/node@24.19.2 deduped
+| +-- UNMET OPTIONAL DEPENDENCY @vitest/browser-playwright@4.1.12
+| +-- UNMET OPTIONAL DEPENDENCY @vitest/browser-preview@4.1.12
+| +-- UNMET OPTIONAL DEPENDENCY @vitest/browser-webdriverio@^4.1.11
+| +-- UNMET OPTIONAL DEPENDENCY @vitest/coverage-istanbul@4.1.12
+| +-- UNMET OPTIONAL DEPENDENCY @vitest/coverage-v8@4.1.12
+| +-- @vitest/expect@4.1.12
+| | +-- @standard-schema/spec@1.1.0
+| | +-- @types/chai@5.2.3
+| | | +-- @types/deep-eql@4.0.2
+| | | `-- assertion-error@2.0.1
+| | +-- @vitest/spy@4.1.12 deduped
+| | +-- @vitest/utils@4.1.12 deduped
+| | +-- chai@6.3.0
+| | `-- tinyrainbow@3.2.0 deduped
+| +-- @vitest/mocker@4.1.12
+| | +-- @vitest/spy@4.1.12 deduped
+| | +-- estree-walker@3.0.3
+| | | `-- @types/estree@1.0.10
+| | +-- magic-string@0.30.21 deduped
+| | +-- UNMET OPTIONAL DEPENDENCY msw@^2.4.9
+| | `-- vite@8.3.6 deduped
+| +-- @vitest/pretty-format@4.1.12
+| | `-- tinyrainbow@3.2.0 deduped
+| +-- @vitest/runner@4.1.12
+| | +-- @vitest/utils@4.1.12 deduped
+| | `-- pathe@2.0.3 deduped
+| +-- @vitest/snapshot@4.1.12
+| | +-- @vitest/pretty-format@4.1.12 deduped
+| | +-- @vitest/utils@4.1.12 deduped
+| | +-- magic-string@0.30.21 deduped
+| | `-- pathe@2.0.3 deduped
+| +-- @vitest/spy@4.1.12
+| +-- UNMET OPTIONAL DEPENDENCY @vitest/ui@4.1.12
+| +-- @vitest/utils@4.1.12
+| | +-- @vitest/pretty-format@4.1.12 deduped
+| | +-- convert-source-map@2.0.0
+| | `-- tinyrainbow@3.2.0 deduped
+| +-- es-module-lexer@2.3.2
+| +-- expect-type@1.4.0
+| +-- UNMET OPTIONAL DEPENDENCY happy-dom@*
+| +-- jsdom@31.0.0 deduped
+| +-- magic-string@0.30.21
+| | `-- @jridgewell/sourcemap-codec@1.6.0
+| +-- obug@2.2.1
+| +-- pathe@2.0.3
+| +-- picomatch@4.0.7 deduped
+| +-- std-env@4.3.0
+| +-- tinybench@2.9.0
+| +-- tinyexec@1.3.1
+| +-- tinyglobby@0.2.17 deduped
+| +-- tinyrainbow@3.2.0
+| +-- vite@8.3.6 deduped
+| `-- why-is-node-running@2.3.0
+|   +-- siginfo@2.0.0
+|   `-- stackback@0.0.2
+`-- zustand@5.1.0
+  +-- @types/react@19.3.0 deduped
+  +-- UNMET OPTIONAL DEPENDENCY immer@>=9.0.6
+  +-- react@19.3.1 deduped
+  `-- use-sync-external-store@1.7.0 deduped
+

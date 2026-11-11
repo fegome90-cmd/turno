@@ -1,0 +1,18 @@
+{
+  "file": "dist/preview.html",
+  "bytes": 1106242,
+  "staticFailures": 0,
+  "runtime": {
+    "h1": "Hola, Demo.",
+    "fontsLoaded": [
+      "Source Sans 3 400 normal",
+      "Source Serif Pro 400 normal"
+    ],
+    "theme": "light"
+  },
+  "externalRequests": 0,
+  "consoleErrors": 0,
+  "pageErrors": 0,
+  "failures": [],
+  "status": "PASS"
+}

@@ -1,13 +1,15 @@
 // Motion is optional: domain state, focus and native visibility never wait for it.
 export const MOTION = Object.freeze({
-  screen: 300,
-  dialog: 300,
-  drawer: 340,
+  screen: 150,
+  dialog: 240,
+  drawer: 260,
   disclosure: 220,
-  tabs: 180,
+  tabs: 150,
   feedback: 180,
+  toast: 300,
   easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
   indicatorEasing: 'cubic-bezier(0.77, 0, 0.175, 1)',
+  drawerEasing: 'cubic-bezier(0.32, 0.72, 0, 1)',
 });
 
 export function createMotion(matchMedia) {
@@ -41,7 +43,13 @@ export function createMotion(matchMedia) {
       [key, current[key] || value]
     )), ...frames.slice(1)];
     cancel(element);
-    if (modality !== 'pointer' || reduced?.matches || typeof element.animate !== 'function') return;
+    if (modality !== 'pointer' || typeof element.animate !== 'function') return;
+    // Reduced motion keeps only a short opacity fade: no movement, no filters.
+    if (reduced?.matches) {
+      frames = frames.map(({transform, filter, ...rest}) => rest);
+      if (new Set(frames.map(frame => frame.opacity).filter(value => value !== undefined)).size < 2) return;
+      duration = Math.min(duration, 150);
+    }
     const animation = element.animate(frames, {duration, easing, fill: 'none'});
     running.set(element, animation);
     animation.finished?.catch(() => {}).finally(() => {
@@ -53,21 +61,21 @@ export function createMotion(matchMedia) {
     const drawer = kind === 'drawer', dialog = kind === 'dialog';
     const start = drawer
       ? {opacity: .82, transform: element?.classList?.contains('navigation-drawer') ? 'translateX(-12px)' : 'translateX(12px)'}
+      : kind === 'screen' ? {opacity: .76}
       : {opacity: dialog ? .88 : .76, transform: dialog ? 'translateY(8px) scale(.985)' : 'translateY(5px)'};
-    animate(element, [start, {opacity: 1, transform: 'none'}], MOTION[kind] || MOTION.screen, modality);
+    const end = kind === 'screen' ? {opacity: 1} : {opacity: 1, transform: 'none'};
+    animate(element, [start, end], MOTION[kind] || MOTION.screen, modality, drawer ? MOTION.drawerEasing : MOTION.easing);
   }
 
   function syncDisclosure(details) {
     const open = details.hasAttribute('open');
     const summary = details.querySelector('summary');
     const content = details.querySelector('.property-content');
-    if (summary?.getAttribute('aria-expanded') !== String(open)) cancelWithin(details);
+    if (details.dataset.open !== String(open)) cancelWithin(details);
+    details.dataset.open = String(open);
     if (!open && content?.contains(details.ownerDocument.activeElement)) summary?.focus();
-    summary?.setAttribute('aria-expanded', String(open));
-    if (content) {
-      content.toggleAttribute('inert', !open);
-      content.setAttribute('aria-hidden', String(!open));
-    }
+    // The native open attribute carries the state; only inertness is synced here.
+    content?.toggleAttribute('inert', !open);
   }
 
   function disclosure(details, open, modality = 'keyboard') {

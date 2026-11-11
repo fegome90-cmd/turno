@@ -1,0 +1,83 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/v6-1b-mutants
+
+ ❯ |component| tests/component/primitive-contract.test.tsx (32 tests | 4 failed) 2417ms
+     × G1B-TEMPORAL-RAW · "abc" queda visible tal cual y muestra el error v5 99ms
+     × G1B-TEMPORAL-RAW · "-1" queda visible tal cual y muestra el error v5 22ms
+     × G1B-TEMPORAL-RAW · "1.5" queda visible tal cual y muestra el error v5 24ms
+     × EXTRA-NATIVE-EDIT · el campo de Estimación conserva su nodo al cambiar el docking 699↔700 30ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-TEMPORAL-RAW · TemporalField (Field + input text) con la regla v5 > G1B-TEMPORAL-RAW · "abc" queda visible tal cual y muestra el error v5
+AssertionError: expected '' to be 'abc' // Object.is equality
+
+- Expected
++ Received
+
+- abc
+
+ ❯ tests/component/primitive-contract.test.tsx:27:27
+     25|       const input = screen.getByRole('textbox', {name: 'Estimación'}) …
+     26|       await user.type(input, raw);
+     27|       expect(input.value).toBe(raw);
+       |                           ^
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-TEMPORAL-RAW · TemporalField (Field + input text) con la regla v5 > G1B-TEMPORAL-RAW · "-1" queda visible tal cual y muestra el error v5
+AssertionError: expected '1' to be '-1' // Object.is equality
+
+Expected: "-1"
+Received: "1"
+
+ ❯ tests/component/primitive-contract.test.tsx:27:27
+     25|       const input = screen.getByRole('textbox', {name: 'Estimación'}) …
+     26|       await user.type(input, raw);
+     27|       expect(input.value).toBe(raw);
+       |                           ^
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > G1B-TEMPORAL-RAW · TemporalField (Field + input text) con la regla v5 > G1B-TEMPORAL-RAW · "1.5" queda visible tal cual y muestra el error v5
+AssertionError: expected '15' to be '1.5' // Object.is equality
+
+Expected: "1.5"
+Received: "15"
+
+ ❯ tests/component/primitive-contract.test.tsx:27:27
+     25|       const input = screen.getByRole('textbox', {name: 'Estimación'}) …
+     26|       await user.type(input, raw);
+     27|       expect(input.value).toBe(raw);
+       |                           ^
+     28|       await user.tab();
+     29|       expect(input.value).toBe(raw);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |component| tests/component/primitive-contract.test.tsx > EXTRA-NATIVE-EDIT · un solo campo y sin duplicados en portales > EXTRA-NATIVE-EDIT · el campo de Estimación conserva su nodo al cambiar el docking 699↔700
+AssertionError: expected '15' to be '1.5' // Object.is equality
+
+Expected: "1.5"
+Received: "15"
+
+ ❯ tests/component/primitive-contract.test.tsx:207:47
+    205|     fireEvent.click(screen.getByRole('button', {name: 'Alternar banda'…
+    206|     expect(screen.getByRole('textbox', {name: 'Estimación'})).toBe(fie…
+    207|     expect((field as HTMLInputElement).value).toBe('1.5');
+       |                                               ^
+    208|     expect(screen.getByText('Estimación: usa minutos enteros entre 0 y…
+    209|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  4 failed | 44 passed (48)
+   Start at  02:00:37
+   Duration  4.95s (transform 208ms, setup 281ms, import 485ms, tests 2.57s, environment 1.26s)
+

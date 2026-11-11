@@ -1,0 +1,31 @@
+{
+  "sourceCommit": "76943e5db6cf203e8f2738391f4318523c63ad7b",
+  "sourceGitTree": "f70a1a19b28d5dd2cedae789d07c1568ed4dc2ab",
+  "cwd": "prototypes/frontend-v6",
+  "nodeVersion": "v24.22.1",
+  "npmVersion": "11.9.0",
+  "registry": "https://registry.npmjs.org/",
+  "packageSha256": "bc79b9b319d409d7cefeef981f52c8ef0a1ab2daf10de7cc737fc1b114936cb2",
+  "lockSha256": "63673cd3cc34ecfea5d4c92a30c42388fe79644d08d6637f04c070dfd8d79280",
+  "executions": [
+    {
+      "id": "audit-total",
+      "command": "npm audit --include=dev --json",
+      "startedAt": "2026-11-09T13:20:44.901441+00:00",
+      "completedAt": "2026-11-09T13:20:48.816078+00:00",
+      "exitCode": 0
+    },
+    {
+      "id": "audit-runtime",
+      "command": "npm audit --omit=dev --json",
+      "startedAt": "2026-11-09T13:20:48.816107+00:00",
+      "completedAt": "2026-11-09T13:20:51.636492+00:00",
+      "exitCode": 0
+    }
+  ],
+  "freshInstallPerformed": false,
+  "notes": [
+    "npm audit reads exact manifest/lock; no npm ci or product tests in this audit-only execution.",
+    "Audit npm stdout and stderr captured separately, without filtering."
+  ]
+}

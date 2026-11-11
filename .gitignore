@@ -6,6 +6,14 @@
 !.env.example
 !**/.env.example
 
-# Local dependencies and build products.
+# Local dependencies, builds and test output.
 **/node_modules/
 **/dist/
+dist-history/
+dist-layout/
+test-results/
+playwright-report/
+# Python bytecode and platform metadata are not source evidence.
+__pycache__/
+*.py[cod]
+.DS_Store

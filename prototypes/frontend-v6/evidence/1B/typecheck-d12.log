@@ -1,0 +1,4 @@
+
+> turno-frontend-v6@0.1.0-phase1a typecheck
+> tsc --noEmit -p tsconfig.json
+

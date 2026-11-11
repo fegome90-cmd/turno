@@ -1,0 +1,58 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> turno-frontend-v6@0.1.0-phase1a test:component
+> vitest run --project component --maxWorkers=1 --no-file-parallelism tests/component/independent-review.test.tsx
+
+
+ RUN  v4.1.12 /workspace/scratch/ae7ea9e7b2f5/turno-2b-independent/candidate
+
+ ❯ |component| tests/component/independent-review.test.tsx (13 tests | 3 failed) 1152ms
+     × fresh-object readRoute and batched home 8ms
+     × fresh-object readRoute and batched duplicate 7ms
+     × normalization back to same state keeps visible title and no-op navigation 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent hook readRoute value semantics > fresh-object readRoute and batched home
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  home
+Received:
+  workspace
+ ❯ tests/component/independent-review.test.tsx:33:38
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent hook readRoute value semantics > fresh-object readRoute and batched duplicate
+AssertionError: expected 3 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 3
+
+ ❯ tests/component/independent-review.test.tsx:33:115
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |component| tests/component/independent-review.test.tsx > Independent normalized apply bailout > normalization back to same state keeps visible title and no-op navigation
+AssertionError: expected 'workspace' to be 'home' // Object.is equality
+
+Expected: "home"
+Received: "workspace"
+
+ ❯ tests/component/independent-review.test.tsx:41:87
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 10 passed (13)
+   Start at  06:26:25
+   Duration  2.52s (transform 75ms, setup 125ms, import 227ms, tests 1.15s, environment 813ms)
+

@@ -1,0 +1,36 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/review-copy
+
+stderr | tests/component/session-lifecycle.test.tsx > EXTRA-LIFECYCLE-ASYNC · arranque repetido > EXTRA-LIFECYCLE-ASYNC · 20 ciclos del arranque real: cada montaje suma una suscripción al notification-store y el desmontaje la libera
+The current testing environment is not configured to support act(...)
+
+ ❯ |component| tests/component/session-lifecycle.test.tsx (2 tests | 1 failed) 110ms
+     × EXTRA-LIFECYCLE-ASYNC · 20 ciclos del arranque real: cada montaje suma una suscripción al notification-store y el desmontaje la libera 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/session-lifecycle.test.tsx > EXTRA-LIFECYCLE-ASYNC · arranque repetido > EXTRA-LIFECYCLE-ASYNC · 20 ciclos del arranque real: cada montaje suma una suscripción al notification-store y el desmontaje la libera
+AssertionError: expected 21 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 21
+
+ ❯ tests/component/session-lifecycle.test.tsx:84:36
+     82|         stop = startApp(container, {random: () => 0});
+     83|       });
+     84|       expect(subscriptions.active).toBe(1);
+       |                                    ^
+     85|       act(() => stop());
+     86|       expect(subscriptions.active).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  03:10:14
+   Duration  940ms (transform 124ms, setup 117ms, import 127ms, tests 110ms, environment 450ms)
+

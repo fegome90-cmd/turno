@@ -1,0 +1,45 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/mut1B
+
+stderr | tests/component/bootstrap.test.tsx > EXTRA-STRICTMODE-HOME · arranque real (startApp) > EXTRA-STRICTMODE-HOME · random se llama exactamente 1 vez y no se usa Math.random
+The current testing environment is not configured to support act(...)
+
+stderr | tests/component/bootstrap.test.tsx > EXTRA-STRICTMODE-HOME · arranque real (startApp) > EXTRA-STRICTMODE-HOME · desmontar y montar otra vez crea una sesión nueva
+The current testing environment is not configured to support act(...)
+
+ ❯ |component| tests/component/bootstrap.test.tsx (4 tests | 2 failed) 59ms
+     × EXTRA-STRICTMODE-HOME · random se llama exactamente 1 vez y no se usa Math.random 42ms
+     × EXTRA-STRICTMODE-HOME · desmontar y montar otra vez crea una sesión nueva 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |component| tests/component/bootstrap.test.tsx > EXTRA-STRICTMODE-HOME · arranque real (startApp) > EXTRA-STRICTMODE-HOME · random se llama exactamente 1 vez y no se usa Math.random
+AssertionError: expected "vi.fn()" to be called 1 times, but got 2 times
+ ❯ tests/component/bootstrap.test.tsx:59:20
+     57|       stop = startApp(root, {random});
+     58|     });
+     59|     expect(random).toHaveBeenCalledTimes(1);
+       |                    ^
+     60|     expect(mathRandom).not.toHaveBeenCalled();
+     61|     expect(root.textContent).toContain('¿En qué te ayudo hoy?');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |component| tests/component/bootstrap.test.tsx > EXTRA-STRICTMODE-HOME · arranque real (startApp) > EXTRA-STRICTMODE-HOME · desmontar y montar otra vez crea una sesión nueva
+AssertionError: expected "vi.fn()" to be called 1 times, but got 2 times
+ ❯ tests/component/bootstrap.test.tsx:87:20
+     85|       stop = startApp(first, {random});
+     86|     });
+     87|     expect(random).toHaveBeenCalledTimes(1);
+       |                    ^
+     88|     act(() => stop());
+     89|     const second = newRoot();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 passed (4)
+   Start at  01:26:31
+   Duration  841ms (transform 81ms, setup 114ms, import 84ms, tests 59ms, environment 427ms)
+

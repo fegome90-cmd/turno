@@ -1,0 +1,60 @@
+
+ RUN  v4.1.12 /tmp/claude-0/-home-user/8cf68a13-dfaf-5a28-abd6-4aeff82e78d1/scratchpad/2A-mut/fe
+
+ ❯ |unit| tests/unit/store.test.ts (13 tests | 1 failed) 30ms
+     × EXTRA-STATE-AUTHORITY · conflicto de versión: no pisa el borrador ni confirma el guardado 8ms
+ ❯ |unit| tests/unit/preview.test.ts (25 tests | 1 failed) 36ms
+     × PREVIEW-02 · snapshots are detached 8ms
+
+ Test Files  2 failed | 3 passed (5)
+      Tests  2 failed | 55 passed (57)
+   Start at  02:55:26
+   Duration  1.02s (transform 145ms, setup 0ms, import 228ms, tests 111ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/unit/preview.test.ts > adaptador de vista previa > PREVIEW-02 · snapshots are detached
+AssertionError: expected 'mutated' not to be 'mutated' // Object.is equality
+ ❯ tests/unit/preview.test.ts:19:55
+     17|     const snapshot = await adapter.load();
+     18|     snapshot.tasks[0].title = 'mutated';
+     19|     expect((await adapter.load()).tasks[0].title).not.toBe('mutated');
+       |                                                       ^
+     20|   });
+     21|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/unit/store.test.ts > store de sesión · autoridad de estado > EXTRA-STATE-AUTHORITY · conflicto de versión: no pisa el borrador ni confirma el guardado
+AssertionError: expected { …(6) } to deeply equal { …(6) }
+
+- Expected
++ Received
+
+@@ -43,12 +43,12 @@
+        "performed": "",
+        "priority": "normal",
+        "reason": "Exámenes",
+        "shiftId": "demo-shift-1",
+        "time": "",
+-       "title": "Versión ajena",
+-       "version": 2,
++       "title": "Mi edición",
++       "version": 3,
+      },
+      {
+        "bedId": "bed-1",
+        "body": "",
+        "completed": false,
+
+ ❯ tests/unit/store.test.ts:105:43
+    103|     await ctx.store.getState().saveTask();
+    104|     expect(spy).toHaveBeenCalledTimes(1);
+    105|     expect(ctx.store.getState().snapshot).toEqual(before);
+       |                                           ^
+    106|     expect(ctx.store.getState().draft?.title).toBe('Mi edición');
+    107|     expect(ctx.notifications.store.getState().items[0].message).toMatc…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
