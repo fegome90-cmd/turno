@@ -12,6 +12,8 @@ import { execFileSync } from 'node:child_process';
 import { createStrandsCapture } from './gateway-capture.mjs';
 import { readGatewaySettings } from './gateway-config.mjs';
 import { PROVIDERS } from './model-providers.mjs';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
 
 export const FIXTURE = Object.freeze({
   shiftId: 'demo-shift',
@@ -50,8 +52,10 @@ export function prepareLiveCredential(fromKeychain) {
   if (fromKeychain) {
     const secret = secretFromKeychain(probe.provider);
     if (!secret) throw new Error('Keychain vacío.');
+    const had = Object.prototype.hasOwnProperty.call(process.env, keyEnv);
+    const previous = process.env[keyEnv];
     process.env[keyEnv] = secret; // El SDK lo lee del proceso; nunca se registra.
-    return () => { delete process.env[keyEnv]; };
+    return () => { if (had) process.env[keyEnv] = previous; else delete process.env[keyEnv]; };
   }
   return probe.authMode === 'missing' ? null : () => {};
 }
@@ -118,10 +122,16 @@ export async function main(args = process.argv.slice(2)) {
     const placeholder = PROVIDERS[provider]
       ? { [PROVIDERS[provider].keyEnv[0]]: 'public-preflight-placeholder-not-a-secret' } : {};
     const preflightEnv = { ...process.env, TURNO_AI_ENABLED: '1', TURNO_SYNTHETIC_ONLY: '1', ...placeholder };
-    const configuration = readGatewaySettings(preflightEnv);
-    // Construye el agente y carga el paquete del proveedor; no hace solicitudes
-    // ni comprueba credenciales.
-    await createStrandsCapture({ env: preflightEnv });
+    let configuration;
+    try {
+      configuration = readGatewaySettings(preflightEnv);
+      // Valida la configuración y carga el SDK del proveedor; el Agent se crea recién al
+      // proponer. No hace solicitudes ni comprueba credenciales.
+      await createStrandsCapture({ env: preflightEnv });
+    } catch (error) {
+      console.error(error?.message?.startsWith('TURNO_') ? error.message : sanitizedFailure(error));
+      return 2;
+    }
     console.log(JSON.stringify({
       stage: 'preflight',
       provider: configuration.provider,
@@ -191,7 +201,7 @@ export async function main(args = process.argv.slice(2)) {
   }
 }
 
-if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const status = await main();
   process.exitCode = status;
 }

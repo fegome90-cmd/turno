@@ -7,6 +7,8 @@
 
 ## Evidencia ejecutada
 
+> **Histórico:** esta sección describe el estado antes de la primera inferencia real (modelo `anthropic/claude-haiku-4.5`, 40/40 tests, sin `--live`). El estado actual está en el anexo al final.
+
 - Mac conectado, Node.js **26.12.1**: `npm run check`, `npm test` (**40/40**), `npm run smoke:preflight`, `npm audit --omit=dev --audit-level=high` (**0 vulnerabilidades reportadas**).
 - Mac conectado, Node.js **22.23.4**: `node --test tests/*.test.mjs` (**40/40**).
 - El preflight devuelve `OFFLINE_CHECKS_ONLY`, `credentialsChecked:false`, `remoteModelVerified:false`, `requests:0`.

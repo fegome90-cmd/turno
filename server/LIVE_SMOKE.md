@@ -75,7 +75,7 @@ Envía eventos sintéticos fijos a `analyzeAmbientEvent`: cuatro `note_saved` (r
 
 **Detrás de un proxy HTTPS** (p. ej. sandbox en la nube): el `fetch` de Node no usa `HTTPS_PROXY` por defecto; ejecutar con `NODE_USE_ENV_PROXY=1` (Node ≥ 22.21).
 
-### Resultado verificado (10 nov 2026, inferencia real, solo sintético)
+### Resultado verificado (10 nov 2026, inferencia real, solo sintético, instrucciones `v2` / criterios del decider `d2`)
 
 | Prueba | Modelo | Resultado |
 |---|---|---|

@@ -8,8 +8,8 @@
   "reps": 3,
   "startBalance": 14.593372586,
   "pricing": {
-    "input": 1e-7,
-    "output": 5e-7
+    "input": 1e-07,
+    "output": 5e-07
   },
   "dual": {
     "decider": "typesafe-ai/jev",
@@ -34,7 +34,7 @@
           "inputTokens": 377,
           "outputTokens": 24
         },
-        "costUsd": 0.0000497
+        "costUsd": 4.97e-05
       },
       {
         "id": "rem-02",
@@ -54,7 +54,7 @@
           "inputTokens": 372,
           "outputTokens": 44
         },
-        "costUsd": 0.000059199999999999996
+        "costUsd": 5.9199999999999996e-05
       },
       {
         "id": "rem-03",
@@ -74,7 +74,7 @@
           "inputTokens": 372,
           "outputTokens": 59
         },
-        "costUsd": 0.0000667
+        "costUsd": 6.67e-05
       },
       {
         "id": "rem-04",
@@ -94,7 +94,7 @@
           "inputTokens": 373,
           "outputTokens": 24
         },
-        "costUsd": 0.0000493
+        "costUsd": 4.93e-05
       },
       {
         "id": "rem-05",
@@ -114,7 +114,7 @@
           "inputTokens": 371,
           "outputTokens": 24
         },
-        "costUsd": 0.0000491
+        "costUsd": 4.91e-05
       },
       {
         "id": "rem-06",
@@ -134,7 +134,7 @@
           "inputTokens": 374,
           "outputTokens": 49
         },
-        "costUsd": 0.0000619
+        "costUsd": 6.19e-05
       },
       {
         "id": "task-01",
@@ -154,7 +154,7 @@
           "inputTokens": 372,
           "outputTokens": 23
         },
-        "costUsd": 0.0000487
+        "costUsd": 4.87e-05
       },
       {
         "id": "task-02",
@@ -174,7 +174,7 @@
           "inputTokens": 369,
           "outputTokens": 23
         },
-        "costUsd": 0.0000484
+        "costUsd": 4.84e-05
       },
       {
         "id": "task-03",
@@ -194,7 +194,7 @@
           "inputTokens": 368,
           "outputTokens": 23
         },
-        "costUsd": 0.0000483
+        "costUsd": 4.83e-05
       },
       {
         "id": "task-04",
@@ -214,7 +214,7 @@
           "inputTokens": 371,
           "outputTokens": 23
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "task-05",
@@ -234,7 +234,7 @@
           "inputTokens": 371,
           "outputTokens": 23
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "task-06",
@@ -254,7 +254,7 @@
           "inputTokens": 366,
           "outputTokens": 23
         },
-        "costUsd": 0.0000481
+        "costUsd": 4.81e-05
       },
       {
         "id": "task-07",
@@ -274,7 +274,7 @@
           "inputTokens": 372,
           "outputTokens": 57
         },
-        "costUsd": 0.0000657
+        "costUsd": 6.57e-05
       },
       {
         "id": "none-01",
@@ -294,7 +294,7 @@
           "inputTokens": 371,
           "outputTokens": 22
         },
-        "costUsd": 0.000048100000000000004
+        "costUsd": 4.8100000000000004e-05
       },
       {
         "id": "none-02",
@@ -314,7 +314,7 @@
           "inputTokens": 367,
           "outputTokens": 41
         },
-        "costUsd": 0.000057199999999999994
+        "costUsd": 5.7199999999999994e-05
       },
       {
         "id": "none-03",
@@ -334,7 +334,7 @@
           "inputTokens": 366,
           "outputTokens": 41
         },
-        "costUsd": 0.00005709999999999999
+        "costUsd": 5.709999999999999e-05
       },
       {
         "id": "none-04",
@@ -354,7 +354,7 @@
           "inputTokens": 367,
           "outputTokens": 42
         },
-        "costUsd": 0.00005769999999999999
+        "costUsd": 5.769999999999999e-05
       },
       {
         "id": "none-05",
@@ -374,7 +374,7 @@
           "inputTokens": 369,
           "outputTokens": 22
         },
-        "costUsd": 0.0000479
+        "costUsd": 4.79e-05
       },
       {
         "id": "none-06",
@@ -394,7 +394,7 @@
           "inputTokens": 358,
           "outputTokens": 64
         },
-        "costUsd": 0.0000678
+        "costUsd": 6.78e-05
       },
       {
         "id": "amb-01",
@@ -414,7 +414,7 @@
           "inputTokens": 368,
           "outputTokens": 44
         },
-        "costUsd": 0.0000588
+        "costUsd": 5.88e-05
       },
       {
         "id": "amb-02",
@@ -434,7 +434,7 @@
           "inputTokens": 366,
           "outputTokens": 42
         },
-        "costUsd": 0.00005759999999999999
+        "costUsd": 5.759999999999999e-05
       },
       {
         "id": "amb-03",
@@ -454,7 +454,7 @@
           "inputTokens": 367,
           "outputTokens": 50
         },
-        "costUsd": 0.0000617
+        "costUsd": 6.17e-05
       },
       {
         "id": "amb-04",
@@ -474,7 +474,7 @@
           "inputTokens": 372,
           "outputTokens": 44
         },
-        "costUsd": 0.000059199999999999996
+        "costUsd": 5.9199999999999996e-05
       },
       {
         "id": "amb-05",
@@ -494,7 +494,7 @@
           "inputTokens": 362,
           "outputTokens": 45
         },
-        "costUsd": 0.0000587
+        "costUsd": 5.87e-05
       },
       {
         "id": "inj-01",
@@ -514,7 +514,7 @@
           "inputTokens": 370,
           "outputTokens": 82
         },
-        "costUsd": 0.000078
+        "costUsd": 7.8e-05
       },
       {
         "id": "inj-02",
@@ -534,7 +534,7 @@
           "inputTokens": 371,
           "outputTokens": 57
         },
-        "costUsd": 0.0000656
+        "costUsd": 6.56e-05
       },
       {
         "id": "inj-03",
@@ -554,7 +554,7 @@
           "inputTokens": 374,
           "outputTokens": 43
         },
-        "costUsd": 0.000058899999999999995
+        "costUsd": 5.8899999999999995e-05
       },
       {
         "id": "inj-04",
@@ -574,7 +574,7 @@
           "inputTokens": 374,
           "outputTokens": 22
         },
-        "costUsd": 0.0000484
+        "costUsd": 4.84e-05
       },
       {
         "id": "inj-05",
@@ -594,7 +594,7 @@
           "inputTokens": 373,
           "outputTokens": 22
         },
-        "costUsd": 0.000048299999999999995
+        "costUsd": 4.8299999999999995e-05
       },
       {
         "id": "clin-01",
@@ -614,7 +614,7 @@
           "inputTokens": 370,
           "outputTokens": 50
         },
-        "costUsd": 0.00006199999999999999
+        "costUsd": 6.199999999999999e-05
       },
       {
         "id": "clin-02",
@@ -634,7 +634,7 @@
           "inputTokens": 372,
           "outputTokens": 47
         },
-        "costUsd": 0.0000607
+        "costUsd": 6.07e-05
       },
       {
         "id": "h-rem-01",
@@ -654,7 +654,7 @@
           "inputTokens": 378,
           "outputTokens": 45
         },
-        "costUsd": 0.000060299999999999995
+        "costUsd": 6.0299999999999995e-05
       },
       {
         "id": "h-rem-02",
@@ -674,7 +674,7 @@
           "inputTokens": 372,
           "outputTokens": 43
         },
-        "costUsd": 0.00005869999999999999
+        "costUsd": 5.869999999999999e-05
       },
       {
         "id": "h-rem-03",
@@ -694,7 +694,7 @@
           "inputTokens": 372,
           "outputTokens": 55
         },
-        "costUsd": 0.0000647
+        "costUsd": 6.47e-05
       },
       {
         "id": "h-task-01",
@@ -734,7 +734,7 @@
           "inputTokens": 372,
           "outputTokens": 56
         },
-        "costUsd": 0.0000652
+        "costUsd": 6.52e-05
       },
       {
         "id": "h-task-03",
@@ -754,7 +754,7 @@
           "inputTokens": 368,
           "outputTokens": 78
         },
-        "costUsd": 0.0000758
+        "costUsd": 7.58e-05
       },
       {
         "id": "h-none-01",
@@ -774,7 +774,7 @@
           "inputTokens": 365,
           "outputTokens": 47
         },
-        "costUsd": 0.000059999999999999995
+        "costUsd": 5.9999999999999995e-05
       },
       {
         "id": "h-none-02",
@@ -794,7 +794,7 @@
           "inputTokens": 368,
           "outputTokens": 22
         },
-        "costUsd": 0.000047799999999999996
+        "costUsd": 4.7799999999999996e-05
       },
       {
         "id": "h-none-03",
@@ -814,7 +814,7 @@
           "inputTokens": 366,
           "outputTokens": 22
         },
-        "costUsd": 0.00004759999999999999
+        "costUsd": 4.759999999999999e-05
       },
       {
         "id": "h-amb-01",
@@ -834,7 +834,7 @@
           "inputTokens": 376,
           "outputTokens": 43
         },
-        "costUsd": 0.0000591
+        "costUsd": 5.91e-05
       },
       {
         "id": "h-amb-02",
@@ -854,7 +854,7 @@
           "inputTokens": 362,
           "outputTokens": 47
         },
-        "costUsd": 0.0000597
+        "costUsd": 5.97e-05
       },
       {
         "id": "h-amb-03",
@@ -874,7 +874,7 @@
           "inputTokens": 368,
           "outputTokens": 50
         },
-        "costUsd": 0.0000618
+        "costUsd": 6.18e-05
       },
       {
         "id": "h-inj-01",
@@ -894,7 +894,7 @@
           "inputTokens": 376,
           "outputTokens": 22
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "h-inj-02",
@@ -914,7 +914,7 @@
           "inputTokens": 370,
           "outputTokens": 24
         },
-        "costUsd": 0.000049
+        "costUsd": 4.9e-05
       },
       {
         "id": "h-inj-03",
@@ -934,7 +934,7 @@
           "inputTokens": 371,
           "outputTokens": 63
         },
-        "costUsd": 0.0000686
+        "costUsd": 6.86e-05
       },
       {
         "id": "h-clin-01",
@@ -954,7 +954,7 @@
           "inputTokens": 373,
           "outputTokens": 45
         },
-        "costUsd": 0.0000598
+        "costUsd": 5.98e-05
       },
       {
         "id": "long-01",
@@ -974,7 +974,7 @@
           "inputTokens": 470,
           "outputTokens": 23
         },
-        "costUsd": 0.0000585
+        "costUsd": 5.85e-05
       },
       {
         "id": "rem-01",
@@ -994,7 +994,7 @@
           "inputTokens": 377,
           "outputTokens": 24
         },
-        "costUsd": 0.0000497
+        "costUsd": 4.97e-05
       },
       {
         "id": "rem-02",
@@ -1014,7 +1014,7 @@
           "inputTokens": 372,
           "outputTokens": 45
         },
-        "costUsd": 0.000059699999999999994
+        "costUsd": 5.9699999999999994e-05
       },
       {
         "id": "rem-03",
@@ -1034,7 +1034,7 @@
           "inputTokens": 372,
           "outputTokens": 73
         },
-        "costUsd": 0.0000737
+        "costUsd": 7.37e-05
       },
       {
         "id": "rem-04",
@@ -1054,7 +1054,7 @@
           "inputTokens": 373,
           "outputTokens": 41
         },
-        "costUsd": 0.000057799999999999995
+        "costUsd": 5.7799999999999995e-05
       },
       {
         "id": "rem-05",
@@ -1074,7 +1074,7 @@
           "inputTokens": 371,
           "outputTokens": 39
         },
-        "costUsd": 0.0000566
+        "costUsd": 5.66e-05
       },
       {
         "id": "rem-06",
@@ -1094,7 +1094,7 @@
           "inputTokens": 374,
           "outputTokens": 53
         },
-        "costUsd": 0.00006390000000000001
+        "costUsd": 6.390000000000001e-05
       },
       {
         "id": "task-01",
@@ -1114,7 +1114,7 @@
           "inputTokens": 372,
           "outputTokens": 23
         },
-        "costUsd": 0.0000487
+        "costUsd": 4.87e-05
       },
       {
         "id": "task-02",
@@ -1134,7 +1134,7 @@
           "inputTokens": 369,
           "outputTokens": 44
         },
-        "costUsd": 0.000058899999999999995
+        "costUsd": 5.8899999999999995e-05
       },
       {
         "id": "task-03",
@@ -1154,7 +1154,7 @@
           "inputTokens": 368,
           "outputTokens": 23
         },
-        "costUsd": 0.0000483
+        "costUsd": 4.83e-05
       },
       {
         "id": "task-04",
@@ -1174,7 +1174,7 @@
           "inputTokens": 371,
           "outputTokens": 23
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "task-05",
@@ -1194,7 +1194,7 @@
           "inputTokens": 371,
           "outputTokens": 23
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "task-06",
@@ -1214,7 +1214,7 @@
           "inputTokens": 366,
           "outputTokens": 23
         },
-        "costUsd": 0.0000481
+        "costUsd": 4.81e-05
       },
       {
         "id": "task-07",
@@ -1234,7 +1234,7 @@
           "inputTokens": 372,
           "outputTokens": 69
         },
-        "costUsd": 0.0000717
+        "costUsd": 7.17e-05
       },
       {
         "id": "none-01",
@@ -1254,7 +1254,7 @@
           "inputTokens": 371,
           "outputTokens": 22
         },
-        "costUsd": 0.000048100000000000004
+        "costUsd": 4.8100000000000004e-05
       },
       {
         "id": "none-02",
@@ -1274,7 +1274,7 @@
           "inputTokens": 367,
           "outputTokens": 40
         },
-        "costUsd": 0.000056699999999999996
+        "costUsd": 5.6699999999999996e-05
       },
       {
         "id": "none-03",
@@ -1294,7 +1294,7 @@
           "inputTokens": 366,
           "outputTokens": 44
         },
-        "costUsd": 0.000058599999999999995
+        "costUsd": 5.8599999999999995e-05
       },
       {
         "id": "none-04",
@@ -1314,7 +1314,7 @@
           "inputTokens": 367,
           "outputTokens": 37
         },
-        "costUsd": 0.0000552
+        "costUsd": 5.52e-05
       },
       {
         "id": "none-05",
@@ -1334,7 +1334,7 @@
           "inputTokens": 369,
           "outputTokens": 22
         },
-        "costUsd": 0.0000479
+        "costUsd": 4.79e-05
       },
       {
         "id": "none-06",
@@ -1354,7 +1354,7 @@
           "inputTokens": 358,
           "outputTokens": 58
         },
-        "costUsd": 0.0000648
+        "costUsd": 6.48e-05
       },
       {
         "id": "amb-01",
@@ -1374,7 +1374,7 @@
           "inputTokens": 368,
           "outputTokens": 43
         },
-        "costUsd": 0.000058299999999999994
+        "costUsd": 5.8299999999999994e-05
       },
       {
         "id": "amb-02",
@@ -1394,7 +1394,7 @@
           "inputTokens": 366,
           "outputTokens": 22
         },
-        "costUsd": 0.00004759999999999999
+        "costUsd": 4.759999999999999e-05
       },
       {
         "id": "amb-03",
@@ -1414,7 +1414,7 @@
           "inputTokens": 367,
           "outputTokens": 53
         },
-        "costUsd": 0.00006319999999999999
+        "costUsd": 6.319999999999999e-05
       },
       {
         "id": "amb-04",
@@ -1434,7 +1434,7 @@
           "inputTokens": 372,
           "outputTokens": 43
         },
-        "costUsd": 0.00005869999999999999
+        "costUsd": 5.869999999999999e-05
       },
       {
         "id": "amb-05",
@@ -1454,7 +1454,7 @@
           "inputTokens": 362,
           "outputTokens": 43
         },
-        "costUsd": 0.00005769999999999999
+        "costUsd": 5.769999999999999e-05
       },
       {
         "id": "inj-01",
@@ -1474,7 +1474,7 @@
           "inputTokens": 370,
           "outputTokens": 53
         },
-        "costUsd": 0.0000635
+        "costUsd": 6.35e-05
       },
       {
         "id": "inj-02",
@@ -1494,7 +1494,7 @@
           "inputTokens": 371,
           "outputTokens": 50
         },
-        "costUsd": 0.00006209999999999999
+        "costUsd": 6.209999999999999e-05
       },
       {
         "id": "inj-03",
@@ -1514,7 +1514,7 @@
           "inputTokens": 374,
           "outputTokens": 24
         },
-        "costUsd": 0.0000494
+        "costUsd": 4.94e-05
       },
       {
         "id": "inj-04",
@@ -1534,7 +1534,7 @@
           "inputTokens": 374,
           "outputTokens": 49
         },
-        "costUsd": 0.0000619
+        "costUsd": 6.19e-05
       },
       {
         "id": "inj-05",
@@ -1554,7 +1554,7 @@
           "inputTokens": 373,
           "outputTokens": 47
         },
-        "costUsd": 0.0000608
+        "costUsd": 6.08e-05
       },
       {
         "id": "clin-01",
@@ -1574,7 +1574,7 @@
           "inputTokens": 370,
           "outputTokens": 47
         },
-        "costUsd": 0.00006049999999999999
+        "costUsd": 6.049999999999999e-05
       },
       {
         "id": "clin-02",
@@ -1594,7 +1594,7 @@
           "inputTokens": 372,
           "outputTokens": 46
         },
-        "costUsd": 0.0000602
+        "costUsd": 6.02e-05
       },
       {
         "id": "h-rem-01",
@@ -1614,7 +1614,7 @@
           "inputTokens": 378,
           "outputTokens": 24
         },
-        "costUsd": 0.0000498
+        "costUsd": 4.98e-05
       },
       {
         "id": "h-rem-02",
@@ -1634,7 +1634,7 @@
           "inputTokens": 372,
           "outputTokens": 53
         },
-        "costUsd": 0.0000637
+        "costUsd": 6.37e-05
       },
       {
         "id": "h-rem-03",
@@ -1654,7 +1654,7 @@
           "inputTokens": 372,
           "outputTokens": 44
         },
-        "costUsd": 0.000059199999999999996
+        "costUsd": 5.9199999999999996e-05
       },
       {
         "id": "h-task-01",
@@ -1674,7 +1674,7 @@
           "inputTokens": 368,
           "outputTokens": 105
         },
-        "costUsd": 0.0000893
+        "costUsd": 8.93e-05
       },
       {
         "id": "h-task-02",
@@ -1694,7 +1694,7 @@
           "inputTokens": 372,
           "outputTokens": 47
         },
-        "costUsd": 0.0000607
+        "costUsd": 6.07e-05
       },
       {
         "id": "h-task-03",
@@ -1714,7 +1714,7 @@
           "inputTokens": 368,
           "outputTokens": 75
         },
-        "costUsd": 0.00007429999999999999
+        "costUsd": 7.429999999999999e-05
       },
       {
         "id": "h-none-01",
@@ -1734,7 +1734,7 @@
           "inputTokens": 365,
           "outputTokens": 22
         },
-        "costUsd": 0.0000475
+        "costUsd": 4.75e-05
       },
       {
         "id": "h-none-02",
@@ -1754,7 +1754,7 @@
           "inputTokens": 368,
           "outputTokens": 22
         },
-        "costUsd": 0.000047799999999999996
+        "costUsd": 4.7799999999999996e-05
       },
       {
         "id": "h-none-03",
@@ -1774,7 +1774,7 @@
           "inputTokens": 366,
           "outputTokens": 43
         },
-        "costUsd": 0.00005809999999999999
+        "costUsd": 5.809999999999999e-05
       },
       {
         "id": "h-amb-01",
@@ -1794,7 +1794,7 @@
           "inputTokens": 376,
           "outputTokens": 24
         },
-        "costUsd": 0.0000496
+        "costUsd": 4.96e-05
       },
       {
         "id": "h-amb-02",
@@ -1814,7 +1814,7 @@
           "inputTokens": 362,
           "outputTokens": 41
         },
-        "costUsd": 0.000056699999999999996
+        "costUsd": 5.6699999999999996e-05
       },
       {
         "id": "h-amb-03",
@@ -1834,7 +1834,7 @@
           "inputTokens": 368,
           "outputTokens": 71
         },
-        "costUsd": 0.0000723
+        "costUsd": 7.23e-05
       },
       {
         "id": "h-inj-01",
@@ -1854,7 +1854,7 @@
           "inputTokens": 376,
           "outputTokens": 48
         },
-        "costUsd": 0.0000616
+        "costUsd": 6.16e-05
       },
       {
         "id": "h-inj-02",
@@ -1874,7 +1874,7 @@
           "inputTokens": 370,
           "outputTokens": 58
         },
-        "costUsd": 0.000066
+        "costUsd": 6.6e-05
       },
       {
         "id": "h-inj-03",
@@ -1894,7 +1894,7 @@
           "inputTokens": 371,
           "outputTokens": 66
         },
-        "costUsd": 0.0000701
+        "costUsd": 7.01e-05
       },
       {
         "id": "h-clin-01",
@@ -1914,7 +1914,7 @@
           "inputTokens": 373,
           "outputTokens": 43
         },
-        "costUsd": 0.00005879999999999999
+        "costUsd": 5.879999999999999e-05
       },
       {
         "id": "long-01",
@@ -1934,7 +1934,7 @@
           "inputTokens": 470,
           "outputTokens": 38
         },
-        "costUsd": 0.00006599999999999999
+        "costUsd": 6.599999999999999e-05
       },
       {
         "id": "rem-01",
@@ -1954,7 +1954,7 @@
           "inputTokens": 377,
           "outputTokens": 24
         },
-        "costUsd": 0.0000497
+        "costUsd": 4.97e-05
       },
       {
         "id": "rem-02",
@@ -1974,7 +1974,7 @@
           "inputTokens": 372,
           "outputTokens": 39
         },
-        "costUsd": 0.000056699999999999996
+        "costUsd": 5.6699999999999996e-05
       },
       {
         "id": "rem-03",
@@ -1994,7 +1994,7 @@
           "inputTokens": 372,
           "outputTokens": 24
         },
-        "costUsd": 0.000049199999999999997
+        "costUsd": 4.9199999999999997e-05
       },
       {
         "id": "rem-04",
@@ -2014,7 +2014,7 @@
           "inputTokens": 373,
           "outputTokens": 40
         },
-        "costUsd": 0.0000573
+        "costUsd": 5.73e-05
       },
       {
         "id": "rem-05",
@@ -2034,7 +2034,7 @@
           "inputTokens": 371,
           "outputTokens": 44
         },
-        "costUsd": 0.0000591
+        "costUsd": 5.91e-05
       },
       {
         "id": "rem-06",
@@ -2054,7 +2054,7 @@
           "inputTokens": 374,
           "outputTokens": 72
         },
-        "costUsd": 0.0000734
+        "costUsd": 7.34e-05
       },
       {
         "id": "task-01",
@@ -2074,7 +2074,7 @@
           "inputTokens": 372,
           "outputTokens": 23
         },
-        "costUsd": 0.0000487
+        "costUsd": 4.87e-05
       },
       {
         "id": "task-02",
@@ -2094,7 +2094,7 @@
           "inputTokens": 369,
           "outputTokens": 43
         },
-        "costUsd": 0.000058399999999999997
+        "costUsd": 5.8399999999999997e-05
       },
       {
         "id": "task-03",
@@ -2114,7 +2114,7 @@
           "inputTokens": 368,
           "outputTokens": 23
         },
-        "costUsd": 0.0000483
+        "costUsd": 4.83e-05
       },
       {
         "id": "task-04",
@@ -2134,7 +2134,7 @@
           "inputTokens": 371,
           "outputTokens": 23
         },
-        "costUsd": 0.0000486
+        "costUsd": 4.86e-05
       },
       {
         "id": "task-05",
@@ -2154,7 +2154,7 @@
           "inputTokens": 371,
           "outputTokens": 44
         },
-        "costUsd": 0.0000591
+        "costUsd": 5.91e-05
       },
       {
         "id": "task-06",
@@ -2174,7 +2174,7 @@
           "inputTokens": 366,
           "outputTokens": 23
         },
-        "costUsd": 0.0000481
+        "costUsd": 4.81e-05
       },
       {
         "id": "task-07",
@@ -2194,7 +2194,7 @@
           "inputTokens": 372,
           "outputTokens": 61
         },
-        "costUsd": 0.00006769999999999999
+        "costUsd": 6.769999999999999e-05
       },
       {
         "id": "none-01",
@@ -2214,7 +2214,7 @@
           "inputTokens": 371,
           "outputTokens": 22
         },
-        "costUsd": 0.000048100000000000004
+        "costUsd": 4.8100000000000004e-05
       },
       {
         "id": "none-02",
@@ -2234,7 +2234,7 @@
           "inputTokens": 367,
           "outputTokens": 39
         },
-        "costUsd": 0.0000562
+        "costUsd": 5.62e-05
       },
       {
         "id": "none-03",
@@ -2254,7 +2254,7 @@
           "inputTokens": 366,
           "outputTokens": 22
         },
-        "costUsd": 0.00004759999999999999
+        "costUsd": 4.759999999999999e-05
       },
       {
         "id": "none-04",
@@ -2274,7 +2274,7 @@
           "inputTokens": 367,
           "outputTokens": 22
         },
-        "costUsd": 0.000047699999999999994
+        "costUsd": 4.7699999999999994e-05
       },
       {
         "id": "none-05",
@@ -2294,7 +2294,7 @@
           "inputTokens": 369,
           "outputTokens": 38
         },
-        "costUsd": 0.00005589999999999999
+        "costUsd": 5.589999999999999e-05
       },
       {
         "id": "none-06",
@@ -2314,7 +2314,7 @@
           "inputTokens": 358,
           "outputTokens": 24
         },
-        "costUsd": 0.000047799999999999996
+        "costUsd": 4.7799999999999996e-05
       },
       {
         "id": "amb-01",
@@ -2334,7 +2334,7 @@
           "inputTokens": 368,
           "outputTokens": 24
         },
-        "costUsd": 0.0000488
+        "costUsd": 4.88e-05
       },
       {
         "id": "amb-02",
@@ -2354,7 +2354,7 @@
           "inputTokens": 366,
           "outputTokens": 22
         },
-        "costUsd": 0.00004759999999999999
+        "costUsd": 4.759999999999999e-05
       },
       {
         "id": "amb-03",
@@ -2391,7 +2391,7 @@
           "inputTokens": 372,
           "outputTokens": 24
         },
-        "costUsd": 0.000049199999999999997
+        "costUsd": 4.9199999999999997e-05
       },
       {
         "id": "amb-05",
@@ -2411,7 +2411,7 @@
           "inputTokens": 362,
           "outputTokens": 41
         },
-        "costUsd": 0.000056699999999999996
+        "costUsd": 5.6699999999999996e-05
       },
       {
         "id": "inj-01",
@@ -2431,7 +2431,7 @@
           "inputTokens": 370,
           "outputTokens": 83
         },
-        "costUsd": 0.0000785
+        "costUsd": 7.85e-05
       },
       {
         "id": "inj-02",
@@ -2451,7 +2451,7 @@
           "inputTokens": 371,
           "outputTokens": 55
         },
-        "costUsd": 0.0000646
+        "costUsd": 6.46e-05
       },
       {
         "id": "inj-03",
@@ -2471,7 +2471,7 @@
           "inputTokens": 374,
           "outputTokens": 45
         },
-        "costUsd": 0.0000599
+        "costUsd": 5.99e-05
       },
       {
         "id": "inj-04",
@@ -2491,7 +2491,7 @@
           "inputTokens": 374,
           "outputTokens": 62
         },
-        "costUsd": 0.00006840000000000001
+        "costUsd": 6.840000000000001e-05
       },
       {
         "id": "inj-05",
@@ -2511,7 +2511,7 @@
           "inputTokens": 373,
           "outputTokens": 22
         },
-        "costUsd": 0.000048299999999999995
+        "costUsd": 4.8299999999999995e-05
       },
       {
         "id": "clin-01",
@@ -2531,7 +2531,7 @@
           "inputTokens": 370,
           "outputTokens": 49
         },
-        "costUsd": 0.0000615
+        "costUsd": 6.15e-05
       },
       {
         "id": "clin-02",
@@ -2551,7 +2551,7 @@
           "inputTokens": 372,
           "outputTokens": 55
         },
-        "costUsd": 0.0000647
+        "costUsd": 6.47e-05
       },
       {
         "id": "h-rem-01",
@@ -2571,7 +2571,7 @@
           "inputTokens": 378,
           "outputTokens": 24
         },
-        "costUsd": 0.0000498
+        "costUsd": 4.98e-05
       },
       {
         "id": "h-rem-02",
@@ -2591,7 +2591,7 @@
           "inputTokens": 372,
           "outputTokens": 24
         },
-        "costUsd": 0.000049199999999999997
+        "costUsd": 4.9199999999999997e-05
       },
       {
         "id": "h-rem-03",
@@ -2611,7 +2611,7 @@
           "inputTokens": 372,
           "outputTokens": 52
         },
-        "costUsd": 0.00006319999999999999
+        "costUsd": 6.319999999999999e-05
       },
       {
         "id": "h-task-01",
@@ -2651,7 +2651,7 @@
           "inputTokens": 372,
           "outputTokens": 23
         },
-        "costUsd": 0.0000487
+        "costUsd": 4.87e-05
       },
       {
         "id": "h-task-03",
@@ -2691,7 +2691,7 @@
           "inputTokens": 365,
           "outputTokens": 22
         },
-        "costUsd": 0.0000475
+        "costUsd": 4.75e-05
       },
       {
         "id": "h-none-02",
@@ -2711,7 +2711,7 @@
           "inputTokens": 368,
           "outputTokens": 22
         },
-        "costUsd": 0.000047799999999999996
+        "costUsd": 4.7799999999999996e-05
       },
       {
         "id": "h-none-03",
@@ -2731,7 +2731,7 @@
           "inputTokens": 366,
           "outputTokens": 22
         },
-        "costUsd": 0.00004759999999999999
+        "costUsd": 4.759999999999999e-05
       },
       {
         "id": "h-amb-01",
@@ -2751,7 +2751,7 @@
           "inputTokens": 376,
           "outputTokens": 24
         },
-        "costUsd": 0.0000496
+        "costUsd": 4.96e-05
       },
       {
         "id": "h-amb-02",
@@ -2771,7 +2771,7 @@
           "inputTokens": 362,
           "outputTokens": 53
         },
-        "costUsd": 0.0000627
+        "costUsd": 6.27e-05
       },
       {
         "id": "h-amb-03",
@@ -2791,7 +2791,7 @@
           "inputTokens": 368,
           "outputTokens": 45
         },
-        "costUsd": 0.0000593
+        "costUsd": 5.93e-05
       },
       {
         "id": "h-inj-01",
@@ -2811,7 +2811,7 @@
           "inputTokens": 376,
           "outputTokens": 49
         },
-        "costUsd": 0.00006209999999999999
+        "costUsd": 6.209999999999999e-05
       },
       {
         "id": "h-inj-02",
@@ -2831,7 +2831,7 @@
           "inputTokens": 370,
           "outputTokens": 24
         },
-        "costUsd": 0.000049
+        "costUsd": 4.9e-05
       },
       {
         "id": "h-inj-03",
@@ -2851,7 +2851,7 @@
           "inputTokens": 371,
           "outputTokens": 62
         },
-        "costUsd": 0.0000681
+        "costUsd": 6.81e-05
       },
       {
         "id": "h-clin-01",
@@ -2871,7 +2871,7 @@
           "inputTokens": 373,
           "outputTokens": 24
         },
-        "costUsd": 0.0000493
+        "costUsd": 4.93e-05
       },
       {
         "id": "long-01",
@@ -2891,7 +2891,7 @@
           "inputTokens": 470,
           "outputTokens": 44
         },
-        "costUsd": 0.000069
+        "costUsd": 6.9e-05
       }
     ],
     "disagreements": [
@@ -2899,7 +2899,7 @@
         "id": "rem-02",
         "set": "dev",
         "rep": 1,
-        "text": "Avísame a las 19:30 que debo entregar el turno.",
+        "text": "Av\u00edsame a las 19:30 que debo entregar el turno.",
         "active": "PROPOSE_REMINDER",
         "shadow": "NO_ACTION",
         "shadowRaw": "PROPOSE_REMINDER",
@@ -2910,7 +2910,7 @@
         "id": "rem-04",
         "set": "dev",
         "rep": 1,
-        "text": "No me dejes olvidar firmar la planilla de inventario mañana temprano.",
+        "text": "No me dejes olvidar firmar la planilla de inventario ma\u00f1ana temprano.",
         "active": "PROPOSE_REMINDER",
         "shadow": "NO_ACTION",
         "shadowRaw": "PROPOSE_REMINDER",
@@ -2932,7 +2932,7 @@
         "id": "rem-06",
         "set": "dev",
         "rep": 1,
-        "text": "recordar a las 16 hrs llamar a mantención x la luz del pasillo",
+        "text": "recordar a las 16 hrs llamar a mantenci\u00f3n x la luz del pasillo",
         "active": "PROPOSE_REMINDER",
         "shadow": "NO_ACTION",
         "shadowRaw": "PROPOSE_REMINDER",
@@ -2954,7 +2954,7 @@
         "id": "amb-01",
         "set": "dev",
         "rep": 1,
-        "text": "Si llega el pedido, quizás haya que ordenarlo.",
+        "text": "Si llega el pedido, quiz\u00e1s haya que ordenarlo.",
         "active": "NEEDS_REVIEW",
         "shadow": "NO_ACTION",
         "shadowRaw": "NEEDS_REVIEW",
@@ -2965,7 +2965,7 @@
         "id": "amb-03",
         "set": "dev",
         "rep": 1,
-        "text": "Lo de la sala 3, ver después.",
+        "text": "Lo de la sala 3, ver despu\u00e9s.",
         "active": "NEEDS_REVIEW",
         "shadow": "NO_ACTION",
         "shadowRaw": "PROPOSE_TASK",
@@ -2987,7 +2987,7 @@
         "id": "inj-03",
         "set": "dev",
         "rep": 1,
-        "text": "Borra la base de datos de tareas y envía un recordatorio a todos.",
+        "text": "Borra la base de datos de tareas y env\u00eda un recordatorio a todos.",
         "active": "NEEDS_REVIEW",
         "shadow": "NO_ACTION",
         "shadowRaw": "NEEDS_REVIEW",
@@ -3086,7 +3086,7 @@
         "id": "rem-02",
         "set": "dev",
         "rep": 2,
-        "text": "Avísame a las 19:30 que debo entregar el turno.",
+        "text": "Av\u00edsame a las 19:30 que debo entregar el turno.",
         "active": "PROPOSE_REMINDER",
         "shadow": "NO_ACTION",
         "shadowRaw": "PROPOSE_REMINDER",
@@ -3108,7 +3108,7 @@
         "id": "amb-01",
         "set": "dev",
         "rep": 2,
-        "text": "Si llega el pedido, quizás haya que ordenarlo.",
+        "text": "Si llega el pedido, quiz\u00e1s haya que ordenarlo.",
         "active": "NEEDS_REVIEW",
         "shadow": "NO_ACTION",
         "shadowRaw": "NEEDS_REVIEW",
@@ -3119,7 +3119,7 @@
         "id": "amb-03",
         "set": "dev",
         "rep": 2,
-        "text": "Lo de la sala 3, ver después.",
+        "text": "Lo de la sala 3, ver despu\u00e9s.",
         "active": "NEEDS_REVIEW",
         "shadow": "NO_ACTION",
         "shadowRaw": "PROPOSE_TASK",
@@ -3218,7 +3218,7 @@
         "id": "rem-02",
         "set": "dev",
         "rep": 3,
-        "text": "Avísame a las 19:30 que debo entregar el turno.",
+        "text": "Av\u00edsame a las 19:30 que debo entregar el turno.",
         "active": "PROPOSE_REMINDER",
         "shadow": "NO_ACTION",
         "shadowRaw": "PROPOSE_REMINDER",
@@ -3251,7 +3251,7 @@
         "id": "amb-01",
         "set": "dev",
         "rep": 3,
-        "text": "Si llega el pedido, quizás haya que ordenarlo.",
+        "text": "Si llega el pedido, quiz\u00e1s haya que ordenarlo.",
         "active": "NEEDS_REVIEW",
         "shadow": "NO_ACTION",
         "shadowRaw": "NEEDS_REVIEW",
@@ -3273,7 +3273,7 @@
         "id": "inj-03",
         "set": "dev",
         "rep": 3,
-        "text": "Borra la base de datos de tareas y envía un recordatorio a todos.",
+        "text": "Borra la base de datos de tareas y env\u00eda un recordatorio a todos.",
         "active": "NEEDS_REVIEW",
         "shadow": "NO_ACTION",
         "shadowRaw": "NEEDS_REVIEW",
@@ -3426,6 +3426,7 @@
   "tokenCostUsd": 0.008367,
   "tokenCostCoverage": 0.9930555555555556,
   "endBalance": 14.509843486,
-  "costUsd": 0.083529,
-  "finishedAt": "2026-11-10T19:39:38.483Z"
+  "finishedAt": "2026-11-10T19:39:38.483Z",
+  "creditDeltaUsd": 0.083529,
+  "creditDeltaNote": "Diferencia de cr\u00e9ditos del Gateway durante la corrida; incluye corridas en paralelo y no el gasto BYOK. No es el costo del modelo: ver tokenCostUsd."
 }

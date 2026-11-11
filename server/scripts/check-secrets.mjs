@@ -15,7 +15,8 @@
  */
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 export const SECRET_PATTERNS = Object.freeze([
   ['clave de OpenAI', /\bsk-(?:proj-)?[A-Za-z0-9_-]{20,}/],
@@ -29,6 +30,7 @@ export const SECRET_PATTERNS = Object.freeze([
   ['token Bearer', /\bBearer\s+[A-Za-z0-9._~+/-]{30,}={0,2}/],
   // NOMBRE_API_KEY=valor / "apiKey": "valor" con un valor literal largo (no variables ni relleno).
   ['credencial asignada', /\b[A-Z0-9_]*(?:API_KEY|_TOKEN|_SECRET|PASSWORD)\s*[=:]\s*["']?(?![$<{]|process\.env)[A-Za-z0-9._~+/-]{16,}/],
+  ['credencial asignada', /["'](?:api[_-]?key|access[_-]?token|secret|password|client[_-]?secret)["']\s*:\s*["'][A-Za-z0-9._~+/=!-]{16,}["']/i],
 ]);
 
 // Valores de prueba que el repositorio usa a propósito; nunca son credenciales.
@@ -41,7 +43,11 @@ const CREDENTIAL_VARS = /^\s*([A-Z0-9_]*(?:API_KEY|_TOKEN|_SECRET|PASSWORD|ACCES
 /** Replaces key-shaped strings and URLs (which may carry tokens or account ids) before storing text. */
 export function redactSecrets(text) {
   let out = String(text ?? '');
-  for (const [, re] of SECRET_PATTERNS) out = out.replace(new RegExp(re.source, 'g'), '[redactado]');
+  for (const [, re] of SECRET_PATTERNS) {
+    // Keep the pattern's own flags (e.g. case-insensitive) so redaction matches what scanText detects.
+    const flags = re.flags.includes('g') ? re.flags : re.flags + 'g';
+    out = out.replace(new RegExp(re.source, flags), '[redactado]');
+  }
   return out.replace(/https?:\/\/[^\s"')]+/g, '[url]');
 }
 
@@ -108,6 +114,6 @@ export function main(args = process.argv.slice(2)) {
   return 1;
 }
 
-if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   process.exitCode = main();
 }

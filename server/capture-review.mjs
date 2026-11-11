@@ -53,6 +53,8 @@ export function proposalsForReview(raw, context) {
       bedLabel,
       bedId: linkedBedId,
       time,
+      // Texto original de una hora ilegible, solo para que la persona la confirme; nunca se usa como hora.
+      timeText: timeUnclear ? p.time.trim().slice(0, TITLE_LIMIT) : null,
       date: null, // Never infer the date from time or today's clock.
       beforeClose: p.beforeClose,
       completed: false,
