@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createAgentServer } from '../http/server.mjs';
+import * as httpModule from '../http/server.mjs';
 import { prepareCaptureReview } from '../capture-review.mjs';
 import { invoke, secret, now } from './http-test-support.mjs';
 
@@ -288,4 +289,16 @@ test('P1-03: el deadline HTTP también cancela el clasificador activo; tras canc
   assert.equal(seenSignal?.aborted, true, 'el clasificador debe recibir la señal del deadline');
   hang = false;
   assert.equal((await s.event(second)).body.status, 'proposed');
+});
+
+
+test('P1: sweepIdleShifts elimina inactivos sin eliminar turnos ocupados ni recientes', () => {
+  assert.equal(typeof httpModule.sweepIdleShifts, 'function', 'missing idle shift sweeper');
+  const shifts = new Map([
+    ['idle', {start:0, count:1, busy:false, lastUsed:0}],
+    ['busy', {start:0, count:1, busy:true, lastUsed:0}],
+    ['fresh', {start:900_000, count:1, busy:false, lastUsed:900_000}],
+  ]);
+  httpModule.sweepIdleShifts(shifts, 1_000_000, 601_000);
+  assert.deepEqual([...shifts.keys()], ['busy', 'fresh']);
 });

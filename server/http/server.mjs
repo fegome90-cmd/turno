@@ -34,6 +34,13 @@ export function positiveInteger(raw, fallback, max) {
   return Number(raw);
 }
 
+/** Caduca turnos inactivos sin liberar jamás un turno ocupado. */
+export function sweepIdleShifts(shifts, time, ttl) {
+  for (const [id, state] of shifts) {
+    if (!state.busy && time - state.lastUsed >= ttl) shifts.delete(id);
+  }
+}
+
 /** Injectable public node:http server; classifiers are initialized only on first use. */
 export function createAgentServer({
   env = process.env, now = Date.now, log = () => {}, getAuthorizedSnapshot = fixtureSnapshot,
@@ -85,9 +92,11 @@ export function createAgentServer({
       const time = now();
       for (const [id, expires] of seen) if (expires < time) seen.delete(id);
       for (const [key, expires] of processed) if (expires < time) processed.delete(key);
+      sweepIdleShifts(shifts, time, 2 * SIGNATURE_WINDOW_MS + 1000);
       if (!isCapture && seen.has(input.id)) throw new HttpError(401, 'unauthorized');
-      const state = shifts.get(input.shiftId) ?? { start: time, count: 0, busy: false };
+      const state = shifts.get(input.shiftId) ?? { start: time, count: 0, busy: false, lastUsed: time };
       if (time - state.start >= 60_000) { state.start = time; state.count = 0; }
+      state.lastUsed = time;
       if (state.busy || state.count >= rateLimit || (!isCapture && seen.size >= 10_000)) {
         throw new HttpError(429, 'rate_limited');
       }
