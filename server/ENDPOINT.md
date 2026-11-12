@@ -220,9 +220,9 @@ no se despliega ni demuestra disponibilidad/costos del proveedor real.
    En `DUAL` el adaptador registra únicamente
    `{ eventId, activeLabel, shadowLabel, agree }`; fallos usan códigos fijos
    limpiados con `redactSecrets`. Cada `note_saved` produce un registro de
-   métricas `{ eventId, eligible, jevCalled, haikuCalled, outcome, durationMs }`:
-   sin nota, título ni cita. `jevCalled` indica que se llamó al clasificador de
-   etiqueta (en `GATEWAY` es el adaptador Gateway; en `DECISION`, Jev);
+   métricas `{ eventId, eligible, classifierCalled, haikuCalled, outcome, durationMs }`:
+   sin nota, título ni cita. `classifierCalled` indica que se llamó al clasificador de
+   etiqueta (en `GATEWAY` es el adaptador Gateway; en `DECISION`, Jev; en `DUAL`, ambos);
    `haikuCalled` indica que se llamó al extractor.
 
 Métricas por llamada: `{ kind: "model_metrics", stage, modelCalls, modelErrors, turns, inputTokens, outputTokens, durationMs, stopReason }`. `stage` es `decision`, `classification`, `extraction` o `capture`. Solo números no negativos y códigos de parada permitidos; no texto, títulos, citas, claves ni errores de proveedor. Un uso no informado es `null`, no cero. Jev usa métricas de Decision API; Haiku usa hooks y `AgentResult.metrics`. Los fallos del registro no alteran el resultado.

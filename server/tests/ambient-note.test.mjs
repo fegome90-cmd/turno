@@ -137,8 +137,8 @@ test('métricas: un registro por nota, sin texto, títulos ni citas', async () =
   const { promise, records } = run();
   await promise;
   assert.equal(records.length, 1);
-  assert.deepEqual(Object.keys(records[0]).sort(), ['durationMs', 'eligible', 'eventId', 'haikuCalled', 'jevCalled', 'outcome']);
-  assert.deepEqual({ ...records[0], durationMs: 0 }, { eventId: 'event-n1', eligible: true, jevCalled: true, haikuCalled: true, outcome: 'proposed', durationMs: 0 });
+  assert.deepEqual(Object.keys(records[0]).sort(), ['classifierCalled', 'durationMs', 'eligible', 'eventId', 'haikuCalled', 'outcome']);
+  assert.deepEqual({ ...records[0], durationMs: 0 }, { eventId: 'event-n1', eligible: true, classifierCalled: true, haikuCalled: true, outcome: 'proposed', durationMs: 0 });
   const serialized = JSON.stringify(records);
   for (const forbidden of ['guantes', 'sintétic', 'Reponer', 'Falta', 'Revisar']) assert.equal(serialized.includes(forbidden), false, forbidden);
 });
@@ -146,7 +146,7 @@ test('métricas: un registro por nota, sin texto, títulos ni citas', async () =
 test('métricas en abstenciones previas al modelo: eligible=false y sin llamadas', async () => {
   const { promise, records } = run({ event: { ...noteEvent, noteVersion: 9 } });
   await promise;
-  assert.deepEqual({ ...records[0], durationMs: 0 }, { eventId: 'event-n1', eligible: false, jevCalled: false, haikuCalled: false, outcome: 'stale_version', durationMs: 0 });
+  assert.deepEqual({ ...records[0], durationMs: 0 }, { eventId: 'event-n1', eligible: false, classifierCalled: false, haikuCalled: false, outcome: 'stale_version', durationMs: 0 });
 });
 
 test('la nota sin noteId o versión válidos se rechaza como evento no autorizado', async () => {

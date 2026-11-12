@@ -101,7 +101,7 @@ export async function analyzeAmbientEvent({
  */
 async function reviewNote(event, snapshot, settings, callbacks, onMetrics) {
   const started = performance.now();
-  const flags = { eligible: false, jevCalled: false, haikuCalled: false };
+  const flags = { eligible: false, classifierCalled: false, haikuCalled: false };
   let outcome = 'error';
   try {
     const result = await decideNote(event, snapshot, settings, callbacks, flags);
@@ -111,7 +111,7 @@ async function reviewNote(event, snapshot, settings, callbacks, onMetrics) {
     if (typeof onMetrics === 'function') {
       try {
         onMetrics(Object.freeze({
-          eventId: event.id, eligible: flags.eligible, jevCalled: flags.jevCalled, haikuCalled: flags.haikuCalled,
+          eventId: event.id, eligible: flags.eligible, classifierCalled: flags.classifierCalled, haikuCalled: flags.haikuCalled,
           outcome, durationMs: Math.round(performance.now() - started),
         }));
       } catch { /* Observability cannot change the decision. */ }
@@ -149,8 +149,8 @@ async function decideMarked(event, snapshot, note, settings, callbacks, flags, m
   const classification = await classifySignal({
     event: { id:event.id, text:note.text, synthetic:true },
     mode: settings.decisionMode,
-    classifyWithGateway: counted(withSignal(classifyWithGateway), () => { flags.jevCalled = true; }),
-    classifyWithDecision: counted(withSignal(classifyWithDecision), () => { flags.jevCalled = true; }),
+    classifyWithGateway: counted(withSignal(classifyWithGateway), () => { flags.classifierCalled = true; }),
+    classifyWithDecision: counted(withSignal(classifyWithDecision), () => { flags.classifierCalled = true; }),
     recordComparison,
     ...(Number.isFinite(settings.decisionMinConfidence) && { minConfidence: settings.decisionMinConfidence }),
   });
