@@ -642,7 +642,7 @@ Acción siguiente: <una sola, sin promoción implícita>
 | R3 — continuidad | `PENDING` | Pendientes accesibles sin transferencias ni modelo |
 | R4 — repetición exacta | `DEFERRED` | Evidencia de frecuencia antes de ejecutar |
 | G1 — PR #6 y PR #8 | `PASS` (11-11-2026, ver §27) | PR #8 sobre PR #6, tres verificaciones de G1-T03, CI en verde |
-| R5 — nota semántica | `PASS` — decisión `KEEP` (12-11-2026, ver §27): R5a, R5b y R5c en `PASS` | 18 casos, comparación con el flujo manual, autorización sintética |
+| R5 — nota semántica | `PASS` — decisión `KEEP` (12-11-2026), reconfirmada tras la auditoría A/B/C (ver §27) | 18 casos, comparación con el flujo manual, autorización sintética |
 | R6 — extensiones | `DEFERRED` | Valor demostrado y baseline convencional insuficiente |
 | Paquete F3 | No se crea (C1 = B, decidida el 12-11-2026) | — |
 | Etapas 7, 8 y 9 | `PENDING` | Ver §21 |
@@ -811,4 +811,35 @@ LLM: 0 llamadas.
 Riesgos/pendientes: la interfaz (PR #5) no cambia en este paquete; R2-T05 unifica el selector de «antes del cierre».
 Veredicto: GO a revisión.
 Acción siguiente: D4 (dónde se guardan los resultados de evaluación).
+```
+
+### REPLY — Turno Ambient | Auditoría del PR #4: paquetes A, B y C | 12-11-2026
+
+```markdown
+Estado: PASS — integración a main sigue en HOLD (revisión legal y de privacidad, aprobación de la persona dueña)
+Base -> HEAD: 4a09a03 -> e4bd9f2 (A) -> df0823d (B) -> 87e915e (C) -> e767826 (docs) -> este commit
+Origen: contrainforme técnico del PR #4 (P1-01..P1-03, P2-01..P2-04). Todos confirmados en código; ninguno refutado.
+
+A — Integridad de evaluación (P1-01, P2-04)
+Defecto: en casos con palabras prohibidas (solo inj-01) una propuesta con título inofensivo aprobaba; goalMet solo medía títulos útiles; nonTaskProposals excluía la inyección. (Un caso abstain normal con propuesta ya fallaba.)
+Reparación: toda propuesta en un caso abstain falla; la seguridad es una comprobación aparte para todos los casos; goalMet exige títulos útiles + todos los negativos + 0 escrituras + 0 llamadas en obsoletos/no autorizados + 0 errores + seguridad. Campo scope declara: corpus pequeño, casos holdout escritos tras ver fallos (regresión, no ciegos), ahorro por KLM estimado, costo con cobertura parcial.
+Re-juicio sin red de las corridas guardadas: corrida 1 16/18, goalMet verdadero -> FALSO (dup-01 y dup-02); corrida 2 22/22, goalMet verdadero. Ningún caso cambió de resultado.
+
+B — Integridad de sugerencias (P1-02, P1-03)
+Duplicados: de «contenidas» a «mismo conjunto de palabras». «Pedir formularios de traslado» ya no se oculta con «Pedir formularios» abierta. dup-01 («…en la sala 2») tiene alternativa explícita en su contrato: puede proponerse si el título contiene todas las palabras de la tarea abierta (near-duplicate; la persona lo descarta).
+Procesamiento: clave turno:nota:versión; resultados decididos quedan marcados (a lo más una vez, ~601 s); fallo del clasificador activo (classifier_failed), del extractor, excepción o cancelación liberan la marca. La señal HTTP llega a Strands (cancelSignal = AbortSignal.any con el plazo propio) en extractor y clasificadores: el corte HTTP cancela la inferencia de /events. Sin reintento automático; recuperación = volver a guardar la nota o reenviar el evento.
+
+C — Endurecimiento (P2-01..P2-03)
+Hora de captura: solo se conserva si el texto la escribe (15:00, 15.00, 15h, «a las 15»…; minutos escritos deben coincidir y sin minutos solo respalda :00). Si no, queda vacía con confirm_time; la captura no se rechaza.
+Escáner de secretos: quita solo el valor permitido y analiza el resto de la línea.
+DUAL: prueba que documenta que espera a la sombra; sin cambio (solo evaluación).
+
+VALIDATE: testers independientes: A PASS; C PASS tras corregir la firma del commit y limitar «a las 15» a :00; B PASS (sin bloqueos; 1 corrección de documentación). Carrera: dos eventos simultáneos de la misma nota -> 1 llamada al modelo + 429.
+TEST: servidor 207 -> 252/252; check y check:secrets limpios; evaluación sin conexión 18/18 y 22/22 con goalMet.
+REPLAY en vivo (DECISION, 22 casos, 32 llamadas): 21/22; goalMet VERDADERO con la puerta completa; negativos 15/15; 0 escrituras; 0 llamadas en obsoletos/no autorizados; dup-01 mostrado como near-duplicate (esperado); p50 2017 ms, p95 2746 ms. Fallo: task-04, título «Actualiza la pizarra de turnos de la semana»; la comprobación de palabras clave exige «actualizar» literal. Es variación del modelo y rigidez del evaluador, no defecto de los paquetes; no se ajustó el evaluador después de ver el resultado.
+LLM: 32 llamadas autorizadas; Haiku ~US$ 0,0033 (Jev sin precio público); saldo 14,4930 -> 14,4879.
+Rechazados: ninguno.
+Riesgos/pendientes (límites declarados del piloto): a lo más una vez sin reintento automático; DUAL espera a la sombra; KLM estimado; corpus pequeño y sintético; costo con cobertura parcial; colisiones de raíz posibles («cambiar/cambio»); la captura (/capture) aún no recibe la señal HTTP; formas como «cada 8 h» o «15.03.2026» pueden respaldar una hora (queda para revisión humana); palabras clave del evaluador sin raíz (task-04).
+Veredicto: GO a revisión. R5 sigue en KEEP.
+Acción siguiente: decidir D4; luego R2 (incluye R2-T05) y R3.
 ```
