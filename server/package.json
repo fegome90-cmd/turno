@@ -21,7 +21,7 @@
     "eval:note:live": "node eval/run-note-eval.mjs --live",
     "eval:flow": "node eval/note-flow-compare.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
-    "test:pack": "node --test tests/strands-pack.test.mjs tests/strands-runtime.test.mjs tests/gateway-pack.test.mjs tests/strands-extensions.test.mjs tests/strands-extensions-wire.test.mjs tests/strands-extensions-e2e.test.mjs",
+    "test:pack": "node --test tests/strands-pack.test.mjs tests/strands-runtime.test.mjs tests/gateway-pack.test.mjs tests/strands-extensions.test.mjs tests/strands-extensions-wire.test.mjs tests/strands-extensions-e2e.test.mjs tests/strands-null-output.test.mjs",
     "verify:evals": "bash scripts/verify-strands-evals.sh"
   },
   "dependencies": {
