@@ -197,6 +197,13 @@ Replay, versiones procesadas y rate limit son **en memoria, por proceso**: reini
 No usar varias réplicas sin un almacén compartido de replay/cupos. Este piloto
 no se despliega ni demuestra disponibilidad/costos del proveedor real.
 
+`/v1/agent/capture` no lleva `id` de evento: una solicitud firmada interceptada puede
+reenviarse mientras su firma siga dentro de la ventana de validez (±5 min respecto
+al reloj del servidor). Es de solo lectura y comparte la cuota por turno, así que
+el impacto está acotado a consumo de capacidad y llamadas. Si alguna vez modifica
+estado, añadir un identificador único con protección anti-replay como la de
+`/v1/agent/events`.
+
 ## Semántica de procesamiento
 
 - Una decisión (propuesta, `label_*`, `classifier_abstain` por baja confianza, `no_proposal`,
