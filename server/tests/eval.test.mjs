@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { CLASSIFIER_CASES, CAPTURE_CASES } from '../eval/dataset.mjs';
-import { parseArgs, classifyError, scoreClassifier, scoreCapture, captureInvariants, percentile, callCost, effectiveDecisionLabel } from '../eval/run-eval.mjs';
+import { parseArgs, classifyError, scoreClassifier, scoreCapture, captureInvariants, percentile, callCost, effectiveDecisionLabel , evaluateModel } from '../eval/run-eval.mjs';
 import { setOf } from '../eval/dataset.mjs';
 import { CLASSIFIER_PROMPT, CAPTURE_PROMPT } from '../prompts.mjs';
 
@@ -118,4 +118,27 @@ test('el reporte v1 se elige por los metadatos guardados, no por el nombre', asy
   assert.equal(isOriginalPhase({ classifier: {}, promptVersion: 'v1', set: 'all' }), false);
   assert.equal(isOriginalPhase({ decision: {} }), false);
   assert.equal(isOriginalPhase({ dual: {} }), false);
+});
+
+
+test('P6b: legacy eval conserva delta de créditos sin publicar saldo de cuenta', async t => {
+  let credits = 0, requests = 0;
+  t.mock.method(globalThis, 'fetch', async url => {
+    requests++;
+    if (String(url).endsWith('/v1/credits')) {
+      credits++;
+      return {ok: true, json: async () => ({balance: credits === 1 ? '40' : '39.5'})};
+    }
+    if (String(url).endsWith('/v1/models')) return {ok: true, json: async () => ({data: [
+      {id:'anthropic/claude-haiku-5.5', pricing: {input:'0.000001',output:'0.000005'}}
+    ]})};
+    throw new Error('network destination not allowed');
+  });
+  const report = await evaluateModel('anthropic/claude-haiku-5.5', {
+    minBalance:5, threshold:0, concurrency:1, paceMs:0, reps:1, set:'all', suites:[],
+  }, {log:()=>{}});
+  assert.equal(requests,3);
+  assert.equal(report.creditDeltaUsd,0.5);
+  assert.equal(Object.hasOwn(report,'startBalance'),false);
+  assert.equal(Object.hasOwn(report,'endBalance'),false);
 });

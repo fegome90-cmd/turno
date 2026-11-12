@@ -249,7 +249,7 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
   const pricing = await readPricing(modelId);
   const inSet = c => opts.set === 'all' || setOf(c) === opts.set;
   const report = { modelId, tag: opts.tag || null, promptVersion: PROMPT_VERSION, decisionPromptVersion: DECISION_PROMPT_VERSION, set: opts.set,
-    startedAt: new Date().toISOString(), reps: opts.reps, startBalance, pricing };
+    startedAt: new Date().toISOString(), reps: opts.reps, pricing };
 
   if (opts.suites.includes('classifier')) {
     const jobs = [];
@@ -406,11 +406,11 @@ export async function evaluateModel(modelId, opts, { log = console.error } = {})
   const priced = calls.filter(r => Number.isFinite(r.costUsd));
   report.tokenCostUsd = priced.length ? Math.round(priced.reduce((a, r) => a + r.costUsd, 0) * 1e6) / 1e6 : null;
   report.tokenCostCoverage = calls.length ? priced.length / calls.length : null;
-  report.endBalance = await readCredits(env);
+  const endBalance = await readCredits(env);
   // Diferencia de créditos del Gateway: incluye corridas en paralelo y no ve el gasto BYOK,
-  // así que no es el costo de este modelo. El costo es tokenCostUsd.
-  report.creditDeltaUsd = report.startBalance !== null && report.endBalance !== null
-    ? Math.round((report.startBalance - report.endBalance) * 1e6) / 1e6 : null;
+  // así que no es el costo de este modelo. El costo es tokenCostUsd. El saldo no se guarda.
+  report.creditDeltaUsd = startBalance !== null && endBalance !== null
+    ? Math.round((startBalance - endBalance) * 1e6) / 1e6 : null;
   report.finishedAt = new Date().toISOString();
   return report;
 }

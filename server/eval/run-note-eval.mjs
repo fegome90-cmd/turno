@@ -394,15 +394,13 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
   }
   let settings;
   try { settings = resolveNoteSettings({ env, mode: opts.mode, offline: false }); } catch (error) { log(error.message); return 1; }
-  let balanceBefore;
-  try { balanceBefore = await checkBalance({ env, fetchImpl, minBalance: opts.minBalance }); } catch (error) { log(error.message); return 1; }
+  try { await checkBalance({ env, fetchImpl, minBalance: opts.minBalance }); } catch (error) { log(error.message); return 1; }
   const tokenSink = [];
   const modelPrice = await fetchPricing(settings.modelId, fetchImpl);
   const pricing = { gateway: modelPrice, extract: modelPrice, decision: await fetchPricing(settings.decisionModelId, fetchImpl) };
   const clients = injected ?? await createLiveClients({ env, mode: opts.mode, tokenSink });
   const report = await runNoteEval({ cases, mode: opts.mode, reps: opts.reps, maxCalls: opts.maxCalls, paceMs, run: 'live', settings, clients,
-    pricing, sleep, tokenSink, balance: { before: balanceBefore, after: null } });
-  report.summary.balance.after = await readBalance({ env, fetchImpl }).catch(() => null);
+    pricing, sleep, tokenSink });
   const date = now().toISOString().slice(0, 10);
   mkdirSync(resultsDir, { recursive: true });
   const file = resolve(resultsDir, `r5-note-${opts.mode}-${date}${suffix}.json`);

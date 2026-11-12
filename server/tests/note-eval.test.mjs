@@ -152,7 +152,7 @@ test('main offline: imprime resumen y no escribe archivos', async () => {
   assert.equal(printed.summary.passed, 18);
 });
 
-test('live con clientes inyectados y red falsa: saldo antes y después, informe escrito, sin red real', async () => {
+test('P6b: live con red sintética mantiene guard de saldo pero no publica balance', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'r5c-'));
   const urls = [];
   const fetchImpl = async url => {
@@ -174,7 +174,10 @@ test('live con clientes inyectados y red falsa: saldo antes y después, informe 
     assert.equal(existsSync(join(dir, 'r5-note-DECISION-2026-11-12.json')), true);
     const printed = JSON.parse(lines.join('\n'));
     assert.equal(printed.summary.run, 'live');
-    assert.deepEqual(printed.summary.balance, { before: 40, after: 40 });
+    assert.equal(printed.summary.balance, null);
+    assert.equal(urls.filter(url => url.endsWith('/v1/credits')).length, 1, 'solo lee saldo antes de enviar');
+    const report = JSON.parse(readFileSync(join(dir, 'r5-note-DECISION-2026-11-12.json'), 'utf8'));
+    assert.equal(report.summary.balance, null);
     assert.equal(printed.summary.passed, 18);
   } finally {
     rmSync(dir, { recursive: true, force: true });
