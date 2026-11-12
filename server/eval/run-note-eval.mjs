@@ -4,6 +4,7 @@
  *
  *   node eval/run-note-eval.mjs                       # offline: oráculo fijo, sin red, imprime el informe
  *   node eval/run-note-eval.mjs --holdout             # igual, con los 4 casos de validación (NOTE_HOLDOUT): 22 casos
+ *   node eval/run-note-eval.mjs --extended            # 22 + 28 casos escritos a ciegas (NOTE_EXTENDED): 50 casos
  *   TURNO_AI_ENABLED=1 node eval/run-note-eval.mjs --live --mode DECISION --max-calls 60 --pace-ms 1500 --min-balance 5 --reps 1
  *
  * Offline: los clientes son un oráculo (respuestas fijas del corpus). Verifica el cableado, los
@@ -20,6 +21,7 @@ import { createStrandsClassifier } from '../gateway-provider.mjs';
 import { createRemoteDecisionClassifier } from '../decision-provider.mjs';
 import { createStrandsNoteExtractor } from '../note-proposal.mjs';
 import { NOTE_CORPUS, NOTE_HOLDOUT } from './note-corpus.mjs';
+import { NOTE_EXTENDED } from './note-extended.mjs';
 import { classifyError, errorDetail, callCost, percentile } from './run-eval.mjs';
 import { redactSecrets } from '../scripts/check-secrets.mjs';
 import { contentWords } from '../task-duplicates.mjs';
@@ -34,15 +36,16 @@ const defaultSleep = ms => new Promise(r => setTimeout(r, ms));
 const round = (x, d = 6) => Math.round(x * 10 ** d) / 10 ** d;
 const ratio = (a, b) => (b ? round(a / b, 3) : null);
 /** Casos cuyo título propuesto se califica por palabras clave (corpus principal y holdout). */
-const isTaskGroup = g => g === 'task' || g === 'holdout-task';
+const isTaskGroup = g => g === 'task' || g === 'holdout-task' || g === 'ext-task';
 
 export function parseNoteArgs(argv) {
-  const o = { live: false, holdout: false, mode: 'DECISION', maxCalls: 60, paceMs: null, minBalance: 5, reps: 1 };
+  const o = { live: false, holdout: false, extended: false, mode: 'DECISION', maxCalls: 60, paceMs: null, minBalance: 5, reps: 1 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const next = () => argv[++i];
     if (a === '--live') o.live = true;
     else if (a === '--holdout') o.holdout = true;
+    else if (a === '--extended') { o.holdout = true; o.extended = true; }
     else if (a === '--mode') o.mode = String(next() ?? '').toUpperCase();
     else if (a === '--max-calls') o.maxCalls = Number(next());
     else if (a === '--pace-ms') o.paceMs = Number(next());
@@ -244,7 +247,7 @@ export function summarize({ records, run, mode, reps, maxCalls, aborted, meterCa
   const negativesPassed = negatives.filter(r => r.pass).length;
   const negativesAllPassed = negatives.length > 0 && negativesPassed === negatives.length;
   const mutations = records.filter(r => r.mutated).length;
-  const callsInStaleOrUnauthorized = records.filter(r => r.group === 'stale' || r.group === 'unauthorized').reduce((a, r) => a + r.modelTotal, 0);
+  const callsInStaleOrUnauthorized = records.filter(r => ['stale', 'unauthorized', 'ext-stale', 'ext-unauthorized'].includes(r.group)).reduce((a, r) => a + r.modelTotal, 0);
   const errors = records.filter(r => r.errorType).length;
   const safetyAllOk = records.every(r => r.safetyOk === true);
   const calls = records.flatMap(r => r.calls);
@@ -284,7 +287,7 @@ export function summarize({ records, run, mode, reps, maxCalls, aborted, meterCa
  * Recalcula safetyOk y pass de registros ya guardados, sin red ni modelos. Cada registro debe
  * coincidir con su caso del corpus (id, grupo y expect); si no, se lanza error en vez de inventar.
  */
-export function judgeRecords(records, cases = [...NOTE_CORPUS, ...NOTE_HOLDOUT]) {
+export function judgeRecords(records, cases = [...NOTE_CORPUS, ...NOTE_HOLDOUT, ...NOTE_EXTENDED]) {
   const byId = new Map(cases.map(c => [c.id, c]));
   return records.map(r => {
     const c = byId.get(r.id);
@@ -295,7 +298,7 @@ export function judgeRecords(records, cases = [...NOTE_CORPUS, ...NOTE_HOLDOUT])
 }
 
 /** Re-juicio de un informe guardado: mismos registros crudos, veredictos y resumen recalculados. */
-export function rejudge(report, cases = [...NOTE_CORPUS, ...NOTE_HOLDOUT]) {
+export function rejudge(report, cases = [...NOTE_CORPUS, ...NOTE_HOLDOUT, ...NOTE_EXTENDED]) {
   const s = report.summary;
   const records = judgeRecords(report.cases, cases);
   const summary = summarize({ records, run: s.run, mode: s.mode, reps: s.reps, maxCalls: s.maxCalls, aborted: s.aborted,
@@ -365,8 +368,9 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
   let opts;
   try { opts = parseNoteArgs(argv); } catch (error) { log(error.message); return 2; }
   const paceMs = opts.paceMs ?? (opts.live ? LIVE_PACE_MS : 0);
-  const cases = opts.holdout ? [...NOTE_CORPUS, ...NOTE_HOLDOUT] : NOTE_CORPUS;
-  const suffix = opts.holdout ? '-holdout' : '';
+  const cases = opts.extended ? [...NOTE_CORPUS, ...NOTE_HOLDOUT, ...NOTE_EXTENDED]
+    : opts.holdout ? [...NOTE_CORPUS, ...NOTE_HOLDOUT] : NOTE_CORPUS;
+  const suffix = opts.extended ? '-extended50' : opts.holdout ? '-holdout' : '';
   if (!opts.live) {
     const report = await runNoteEval({ cases, mode: opts.mode, reps: opts.reps, maxCalls: opts.maxCalls, paceMs, run: 'offline',
       clients: oracleClients(cases), sleep });
