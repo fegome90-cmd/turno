@@ -151,8 +151,8 @@ Solo `PROPOSE_TASK` pide extracción. Un título con hora o fecha
 `{"status":"abstain","reason":"no_suggestions","suggestions":[]}` cuando no hay sugerencias. Sus tipos son `resolve-bed` y `resolve-date`; no hay `shared-slot` ni `before-close`.
 
 Se reserva cada `id` antes de invocar el motor. Repetirlo devuelve 401 genérico
-sin una segunda llamada al modelo. En `note_saved`, además, la pareja
-en `note_saved`, la clave `turno:noteId:noteVersion` se marca antes de clasificar
+sin una segunda llamada al modelo. En `note_saved`, además, la clave
+`turno:noteId:noteVersion` se marca antes de clasificar
 (ver «Semántica de procesamiento»). Máximo 10000 IDs de evento: caché llena
 rechaza con 429 sin expulsar IDs vigentes. Un error o timeout tras la admisión
 también consume el ID de evento y el cupo; no reintentes automáticamente eventos fallidos.
@@ -204,7 +204,7 @@ no se despliega ni demuestra disponibilidad/costos del proveedor real.
 - Un fallo (`classifier_failed`, `extraction_failed`), una excepción o una cancelación (`cancelled`)
   liberan la marca: el mismo texto puede volver a procesarse.
 - No hay reintento automático. Para recuperarse, guarda la nota de nuevo (nueva versión) o reenvía el evento.
-- El deadline HTTP (`TURNO_AGENT_TIMEOUT_MS`, 10 s por defecto) ahora cancela la inferencia en curso.
+- El deadline HTTP (`TURNO_AGENT_TIMEOUT_MS`, 10 s por defecto) cancela la inferencia en curso de `/v1/agent/events`. La captura (`/v1/agent/capture`) aún conserva su propio límite de 30 s y no recibe esa señal (pendiente).
   La respuesta sigue siendo el `200` vacío `{"status":"abstain","suggestions":[]}`; un resultado tardío no registra métricas ni comparaciones.
 
 ## Integración posterior del backend
