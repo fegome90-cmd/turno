@@ -46,5 +46,18 @@ test('contentWords: normaliza, quita vacías y reduce formas verbales y de plura
   assert.ok(contentWords('Reponer guantes').includes('repon'));
   assert.ok(contentWords('Reponer guantes').includes('guant'));
   assert.deepEqual(contentWords(undefined), []);
-  assert.deepEqual(contentWords('a'), []);
+  assert.deepEqual(contentWords('a'), ['a'], 'las letras sueltas se conservan como rótulos');
+  assert.deepEqual(contentWords('de la'), []);
+});
+
+test('R5c tester: rótulos de una letra distinguen tareas', () => {
+  assert.equal(isCoveredByOpenTask('Reponer gel pasillo B', [{ title: 'Reponer gel pasillo A', completed: false }]), false);
+  assert.equal(isCoveredByOpenTask('Sacar muestra B', [{ title: 'Sacar muestra A', completed: false }]), false);
+  assert.equal(isCoveredByOpenTask('Reponer gel pasillo A', [{ title: 'Reponer gel pasillo A', completed: false }]), true);
+});
+
+test('R5c tester: una tarea abierta de una sola palabra de contenido no bloquea', () => {
+  assert.equal(isCoveredByOpenTask('Llamar al médico de turno', [{ title: 'Llamar', completed: false }]), false);
+  assert.equal(isCoveredByOpenTask('Revisar el carro de paro', [{ title: 'Revisar', completed: false }]), false);
+  assert.equal(isCoveredByOpenTask('Limpiar sala 2 y sala 3', [{ title: 'Sala 2', completed: false }]), true, 'dos palabras (sala, 2) sí bloquean');
 });

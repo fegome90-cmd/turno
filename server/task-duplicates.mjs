@@ -6,9 +6,14 @@
  */
 
 const STOPWORDS = new Set([
-  'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'de', 'del', 'en', 'a', 'al', 'para', 'por',
-  'y', 'e', 'o', 'u', 'con', 'que', 'se', 'lo', 'le', 'les', 'su', 'sus', 'mi', 'mis',
+  'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'de', 'del', 'en', 'al', 'para', 'por',
+  'con', 'que', 'se', 'lo', 'le', 'les', 'su', 'sus', 'mi', 'mis',
 ]);
+// Las letras sueltas (a, e, o, u, y) NO son vacías: pueden ser rótulos ("pasillo A" ≠ "pasillo B").
+// Conservarlas solo puede dejar pasar una propuesta, nunca ocultar una tarea distinta.
+
+/** Una tarea abierta necesita al menos estas palabras de contenido para bloquear: "Llamar" sola no oculta "Llamar al médico". */
+export const MIN_TASK_WORDS = 2;
 
 const MIN_STEM = 2;
 
@@ -42,7 +47,7 @@ export function isCoveredByOpenTask(title, tasks) {
     return tasks.some(t => {
       if (!t || t.completed || typeof t.title !== 'string') return false;
       const words = contentWords(t.title);
-      return words.length > 0 && words.every(w => titleWords.has(w));
+      return words.length >= MIN_TASK_WORDS && words.every(w => titleWords.has(w));
     });
   } catch {
     return false;
