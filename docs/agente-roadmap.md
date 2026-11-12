@@ -370,7 +370,7 @@ Antes del primer parche. No permite refactorizaciones.
 - [ ] **R2-T01** Releer los componentes integrados. Confirmar que la casilla, la persistencia, el contador y la ausencia de horarios inventados sobreviven a R0.
 - [ ] **R2-T02** Sustituir o complementar el número anónimo con un enlace **«Revisar pendiente»** cuando hay exactamente una tarea, o con una lista breve de enlaces cuando hay más. Si abre la tarea, cerrar el diálogo respetando el retorno de foco y la navegación existente.
 - [ ] **R2-T03** Mantener **«Cerrar y archivar»** disponible aunque la tarea siga pendiente. La advertencia no presume que deba completarse.
-- [ ] **R2-T04** No enviar `shift_close_attempt` a modelos para este caso. Usar el snapshot ya confirmado.
+- [x] **R2-T04** No enviar el cierre a modelos: desde D3 (12-11-2026) el evento `shift_close_attempt` no existe en el agente; «antes del cierre» se calcula en la interfaz sobre el snapshot ya confirmado.
 - [ ] **R2-T05** Unificar el selector de pendientes `beforeClose` que usan la bandeja (`review.ts`) y el diálogo de cierre (`App.tsx`), con una sola función compartida. Decidido en D3: las reglas de tareas guardadas viven en el frontend.
 
 ### VALIDATE / TEST
@@ -793,4 +793,22 @@ LLM: 24 + 32 llamadas reales autorizadas. Costo Haiku estimado US$ 0,0023 + 0,00
 Riesgos/pendientes: muestra pequeña y sintética (22 casos); sin sinónimos («pedir» ≠ «solicitar»); la confianza de Jev no es probabilidad calibrada. Integrar a main sigue sujeto a la revisión legal y de privacidad y a la aprobación de la persona dueña. D3 y D4 siguen abiertas.
 Veredicto: KEEP — GO a revisión.
 Acción siguiente: decidir D3/D4 y si se abren R2/R3; R6 sigue DEFERRED.
+```
+
+### REPLY — Turno Ambient | D3 (dueño de las reglas fijas) | 12-11-2026
+
+```markdown
+Estado: PASS — D3 decidida: opción B
+Base -> HEAD: f68a454 -> (este commit) (PR #4, servidor y hoja de ruta)
+Cambio: la interfaz es dueña de las reglas sobre tareas guardadas («mismo horario» y «antes del cierre»). El servidor conserva solo «cama sin vincular» y «fecha sin confirmar» sobre borradores sin guardar; esa ruta (drafts_ready) es banco de pruebas sintético porque ningún cliente la envía. Se retira el evento shift_close_attempt del motor y del HTTP (400). drafts_ready responde proposed solo con al menos una sugerencia; si no, abstain (no_suggestions). El título de fecha ya no dice «15:00» fijo. Pérdida aceptada: no hay aviso de «mismo horario» antes de guardar.
+Origen: propuesta B + contrainforme adversarial (EGM), que la marcó NOT READY por 4 condiciones P1 y 2 P2; las 4 P1 se cerraron aquí; P2 (selector único de «antes del cierre» en React) queda como R2-T05.
+Archivos: server/ (ambient-engine, http/server, live-background, synthetic-demo, ENDPOINT.md, README.md, LIVE_SMOKE.md, pruebas); docs/agente-roadmap.md.
+VALIDATE: tester independiente: sin bloqueos ni correcciones obligatorias; restos de shift_close_attempt solo en el registro fechado de LIVE_SMOKE y notas de retiro.
+TEST: servidor 202 -> 207/207; la prueba de escenarios exige el conjunto exacto de tipos (falla con tipos de más, de menos o repetidos).
+FIX: textos obsoletos (R2-T04 y README) corregidos.
+REPLAY: servidor real con peticiones firmadas: borradores con problemas -> proposed con resolve-bed y resolve-date; borradores limpios -> abstain; shift_close_attempt -> 400; 0 llamadas a modelos. Evaluación R5 sin conexión 22/22.
+LLM: 0 llamadas.
+Riesgos/pendientes: la interfaz (PR #5) no cambia en este paquete; R2-T05 unifica el selector de «antes del cierre».
+Veredicto: GO a revisión.
+Acción siguiente: D4 (dónde se guardan los resultados de evaluación).
 ```

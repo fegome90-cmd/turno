@@ -1,6 +1,6 @@
 # Turno: piloto de agente ambiental remoto (sin chatbot)
 
-Estado: **experimental** en rama `feature/opencode-secure-config`. No hay despliegue, backend clínico ni persistencia conectada. El motor de sugerencias no crea, elimina, completa ni cambia tareas; tampoco envía recordatorios. El análisis recibe eventos **solo después de autorización en el backend** y devuelve propuestas para una futura bandeja o toast.
+Estado: **experimental** en rama `feature/opencode-secure-config`. No hay despliegue, backend clínico ni persistencia conectada. El motor de sugerencias no crea, elimina, completa ni cambia tareas; tampoco envía recordatorios. El análisis recibe eventos **solo después de autorización en el backend** y devuelve propuestas para revisar en la bandeja o bajo la nota (nunca avisos emergentes).
 
 ## Arquitectura
 
