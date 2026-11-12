@@ -5,7 +5,6 @@
   "set": "all",
   "startedAt": "2026-11-10T19:12:58.288Z",
   "reps": 3,
-  "startBalance": 14.701877386,
   "pricing": {
     "input": 3e-07,
     "output": 1.2e-06
@@ -3849,7 +3848,6 @@
   },
   "tokenCostUsd": 0.060153,
   "tokenCostCoverage": 1,
-  "endBalance": 14.587749786,
   "finishedAt": "2026-11-10T19:27:02.286Z",
   "creditDeltaUsd": 0.114128,
   "creditDeltaNote": "Diferencia de cr\u00e9ditos del Gateway durante la corrida; incluye corridas en paralelo y no el gasto BYOK. No es el costo del modelo: ver tokenCostUsd."

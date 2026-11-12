@@ -2,7 +2,6 @@
   "modelId": "nvidia/nemotron-3.5-lightning-free",
   "startedAt": "2026-11-10T18:18:27.530Z",
   "reps": 3,
-  "startBalance": 4.986455,
   "classifier": {
     "aborted": null,
     "records": [
@@ -1726,7 +1725,6 @@
       }
     }
   },
-  "endBalance": 4.78930225,
   "finishedAt": "2026-11-10T18:50:26.006Z",
   "creditDeltaUsd": 0.197153,
   "creditDeltaNote": "Diferencia de cr\u00e9ditos del Gateway durante la corrida; incluye corridas en paralelo y no el gasto BYOK. No es el costo del modelo: ver tokenCostUsd."

@@ -131,10 +131,6 @@
       "costCoverage": 0.333,
       "costPerUsefulTaskUsd": 0.000391,
       "note": "Jev (decision) sin precio público en el catálogo: su costo queda fuera salvo que el catálogo lo publique."
-    },
-    "balance": {
-      "before": 14.501793686,
-      "after": 14.498250886
     }
   },
   "cases": [

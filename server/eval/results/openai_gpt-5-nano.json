@@ -2,7 +2,6 @@
   "modelId": "openai/gpt-5-nano",
   "startedAt": "2026-11-10T18:18:27.391Z",
   "reps": 3,
-  "startBalance": 4.986455,
   "classifier": {
     "aborted": null,
     "records": [
@@ -1913,7 +1912,6 @@
       }
     }
   },
-  "endBalance": 4.78676775,
   "finishedAt": "2026-11-10T18:50:59.068Z",
   "creditDeltaUsd": 0.199687,
   "creditDeltaNote": "Diferencia de cr\u00e9ditos del Gateway durante la corrida; incluye corridas en paralelo y no el gasto BYOK. No es el costo del modelo: ver tokenCostUsd."

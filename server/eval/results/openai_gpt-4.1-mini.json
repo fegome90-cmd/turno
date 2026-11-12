@@ -2,7 +2,6 @@
   "modelId": "openai/gpt-4.1-mini",
   "startedAt": "2026-11-10T18:18:27.414Z",
   "reps": 3,
-  "startBalance": 4.986455,
   "classifier": {
     "aborted": null,
     "records": [
@@ -1851,7 +1850,6 @@
       }
     }
   },
-  "endBalance": 4.8030424,
   "finishedAt": "2026-11-10T18:47:30.098Z",
   "creditDeltaUsd": 0.183413,
   "creditDeltaNote": "Diferencia de cr\u00e9ditos del Gateway durante la corrida; incluye corridas en paralelo y no el gasto BYOK. No es el costo del modelo: ver tokenCostUsd."
