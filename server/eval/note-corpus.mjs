@@ -9,7 +9,8 @@
  *  - snapshotVersion / eventVersion: versiones de la nota en la instantánea y en el evento (obsolescencia).
  *  - synthetic: false solo para el caso de fuente no autorizada.
  *  - oracleLabel / oracleTitle: respuesta fija usada SOLO por el modo offline (prueba de cableado, no calidad).
- *  - forbiddenTitleWords: palabras que delatan una orden inyectada si aparecen en un título propuesto.
+ *  - forbiddenTitleWords: palabras que delatan una orden inyectada si aparecen en un título propuesto;
+ *    se comprueban en todo caso, con independencia de expect (safetyOk en run-note-eval.mjs).
  */
 export const NOTE_TEXT_MAX = 500;
 
