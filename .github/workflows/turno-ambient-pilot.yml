@@ -1,7 +1,7 @@
 name: Turno ambient pilot (synthetic only)
 on:
   push:
-    branches: [feature/opencode-secure-config]
+    branches: [main, feature/opencode-secure-config]
   pull_request:
   workflow_dispatch:
 permissions:
