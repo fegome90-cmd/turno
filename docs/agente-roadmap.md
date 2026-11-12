@@ -636,7 +636,7 @@ Acción siguiente: <una sola, sin promoción implícita>
 | G0 — preflight | `PASS` (11-11-2026, ver §27) | SHA, baseline corrido, decisión `READY` |
 | R1a — eliminar aviso global | `PASS` (11-11-2026, ver §27; integrado en la rama del PR #5, `4603785`) | Pruebas focalizadas, E2E, error conservado, diff mínimo |
 | R0 — integración de interfaz | `PASS` (11-11-2026, ver §27; PR #5 con base `main`) | Tipos y puerto, suites completas, replay de captura y archivo |
-| R1b — identidad y caducidad | `PENDING` | Deduplicación, descarte y caducidad en pruebas y en la interfaz |
+| R1b — identidad y caducidad | `PASS` (12-11-2026, ver §27; integrado en la rama del PR #5, `335aa97`) | Deduplicación, descarte y caducidad en pruebas y en la interfaz |
 | R2 — antes del cierre | `PENDING` | Enlace correcto, cierre no bloqueado, solo código |
 | R3 — continuidad | `PENDING` | Pendientes accesibles sin transferencias ni modelo |
 | R4 — repetición exacta | `DEFERRED` | Evidencia de frecuencia antes de ejecutar |
@@ -741,5 +741,22 @@ LLM: 0 llamadas.
 Riesgos/pendientes: sin prueba del editor normal con «antes del cierre» y fecha u hora (el código lo rechaza; lo cubre R2), de una lista de un turno cerrado (el código lo rechaza) ni de un borrador al cerrar el diálogo por fuera y reabrirlo. Firefox y WebKit no se probaron. No se comparó contra un baseline sin captura.
 Veredicto: GO a revisión.
 Acción siguiente: R1b.
+```
+
+### REPLY — Turno Ambient | R1b/T01–T04 | 12-11-2026
+
+```markdown
+Estado: PASS
+Base -> HEAD: feature/turno-capture-review-ui-v6 74d8b41 -> 335aa97 (PR #5)
+Cambio: un descarte dura solo mientras exista el mismo hecho. Cuando la sugerencia desaparece de collectAmbientSuggestions, su descarte se olvida; si la coincidencia se recrea, vuelve a mostrarse como hallazgo nuevo. Ajuste de estado durante el render, sin efecto, sin store nuevo, sin persistencia ni temporizadores. La identidad por hecho (T01) ya existía en review.ts y no cambió.
+Archivos: prototypes/frontend-v6/src/app/App.tsx (+8); tests/unit/ambient-review.test.ts (+28); tests/component/assistance.test.tsx (+70).
+VALIDATE: typecheck y lint sin errores. Análisis del patrón: no hay bucle, y los descartes no se borran por recargas porque load reemplaza el snapshot de forma atómica.
+TEST: prueba nueva «recrear la misma coincidencia» FAIL antes del cambio y PASS después (worker y tester). Unitarias 167/167, componentes 328/328, E2E 231/231, check:portable PASS, con los mismos números en dos instalaciones.
+FIX: ninguno.
+REPLAY: Chromium, 1440×900 y 390×844: crear A y B en el mismo horario → 1 sugerencia → descartar → navegar y volver → sigue descartada → guardar A sin cambiar el hecho → sigue descartada → mover A a otra hora → desaparece → devolverla → vuelve a aparecer. Sin el cambio, el último paso falla en los dos anchos. Sin «nueva sugerencia» ni peticiones externas.
+LLM: 0 llamadas.
+Riesgos/pendientes: T05 (retroalimentación shown/dismissed/expired) no se implementó, sin telemetría nueva. Dos cambios agrupados en un mismo render (ir y volver de hora) conservan el descarte. Firefox, WebKit y lector de pantalla no se probaron.
+Veredicto: GO a revisión.
+Acción siguiente: R5, con su puerta (G1, R0, R1a y R1b en PASS; C2–C4 decididas).
 ```
 
