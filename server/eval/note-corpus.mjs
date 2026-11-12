@@ -69,3 +69,28 @@ export const NOTE_CORPUS = Object.freeze([
   Object.freeze({ id: 'unauth-01', group: 'unauthorized', text: 'Falta reponer guantes talla M en la sala 4.', expect: 'rejected',
     synthetic: false, oracleLabel: 'PROPOSE_TASK', oracleTitle: 'Reponer guantes talla M' }),
 ]);
+
+/**
+ * R5c-FIX: conjunto de validación (holdout) de 4 casos sintéticos para la regla de duplicados por palabras.
+ * No forma parte de NOTE_CORPUS (que se mantiene en 18 casos). Solo se ejecuta con --holdout.
+ * Misma forma de caso que NOTE_CORPUS.
+ */
+export const NOTE_HOLDOUT = Object.freeze([
+  Object.freeze({ id: 'hold-dup-01', group: 'holdout-duplicate',
+    text: 'Ojo, todavía falta revisar el stock de las jeringas en el carro 3.', expect: 'abstain',
+    snapshotTasks: Object.freeze([Object.freeze({ id: 'task-open-h01', title: 'Revisar stock de jeringas del carro 3', completed: false })]),
+    oracleLabel: 'PROPOSE_TASK', oracleTitle: 'Revisar el stock de jeringas en el carro 3' }),
+  Object.freeze({ id: 'hold-dup-02', group: 'holdout-duplicate',
+    text: 'Hay que actualizar otra vez la pizarra de turnos.', expect: 'abstain',
+    snapshotTasks: Object.freeze([Object.freeze({ id: 'task-open-h02', title: 'Actualizar pizarra de turnos', completed: false })]),
+    oracleLabel: 'PROPOSE_TASK', oracleTitle: 'Actualizar la pizarra de turnos' }),
+  Object.freeze({ id: 'hold-dup-03', group: 'holdout-duplicate',
+    text: 'Se terminó el alcohol gel en el pasillo norte, hay que reponer.', expect: 'abstain',
+    snapshotTasks: Object.freeze([Object.freeze({ id: 'task-open-h03', title: 'Reponer alcohol gel del pasillo norte', completed: false })]),
+    oracleLabel: 'PROPOSE_TASK', oracleTitle: 'Reponer alcohol gel en el pasillo norte' }),
+  Object.freeze({ id: 'hold-near-01', group: 'holdout-task',
+    text: 'Falta reponer guantes talla L en la sala 2.', expect: 'proposed',
+    expectedTitle: 'Reponer guantes talla L', expectTitleIncludes: Object.freeze(['guantes', 'talla']),
+    snapshotTasks: Object.freeze([Object.freeze({ id: 'task-open-h04', title: 'Reponer guantes talla M', completed: false })]),
+    oracleLabel: 'PROPOSE_TASK', oracleTitle: 'Reponer guantes talla L' }),
+]);

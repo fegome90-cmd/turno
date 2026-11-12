@@ -1,6 +1,7 @@
 import { assertSyntheticEvent } from './gateway-config.mjs';
 import { classifySignal } from './decision-switch.mjs';
 import { validateNoteProposal } from './note-proposal.mjs';
+import { isCoveredByOpenTask } from './task-duplicates.mjs';
 
 const NOTE_ID = /^[a-zA-Z0-9_-]{1,80}$/;
 const NOTE_TEXT_MAX = 500;
@@ -154,10 +155,7 @@ async function decideNote(event, snapshot, settings, callbacks, flags) {
   const action = validateNoteProposal(raw, note.text);
   if (!action) return abstain('no_proposal');
 
-  const key = normalizeTaskTitle(action.title);
-  if (snapshot.tasks.some(t => t && !t.completed && typeof t.title === 'string' && normalizeTaskTitle(t.title) === key)) {
-    return abstain('duplicate');
-  }
+  if (isCoveredByOpenTask(action.title, snapshot.tasks)) return abstain('duplicate');
   return { status:'proposed', noteId:note.id, noteVersion:note.version, suggestions:[Object.freeze({
     id:'note:'+note.id+':'+note.version, kind:'note-task', title:action.title, sourceQuote:action.sourceQuote,
     noteId:note.id, noteVersion:note.version, channel:'inline', actions:['review','dismiss'], requiresApproval:true,

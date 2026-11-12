@@ -141,7 +141,7 @@ Códigos de abstención, en el orden en que se evalúan:
 | `classifier_abstain` | Error, timeout o salida inválida del clasificador |
 | `no_proposal` | El extractor no devolvió una acción con cita exacta, o devolvió cero o más de una |
 | `extraction_failed` | Error del extractor (el mensaje no se devuelve ni se registra) |
-| `duplicate` | Una tarea abierta tiene el mismo título tras normalizar NFC, espacios y mayúsculas |
+| `duplicate` | Todas las palabras importantes de una tarea abierta aparecen en el título propuesto (sin distinguir mayúsculas ni tildes; artículos y preposiciones se ignoran; formas verbales como ordena/ordenar cuentan como la misma palabra). Las tareas completadas no bloquean |
 
 Solo `PROPOSE_TASK` pide extracción. Un título con hora o fecha
 (`15:00`, `9.30`, `12/11`) se descarta; no se corrige.

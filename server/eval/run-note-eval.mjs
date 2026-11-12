@@ -3,6 +3,7 @@
  * Solo datos sintéticos. Sin escrituras de tareas en ningún modo.
  *
  *   node eval/run-note-eval.mjs                       # offline: oráculo fijo, sin red, imprime el informe
+ *   node eval/run-note-eval.mjs --holdout             # igual, con los 4 casos de validación (NOTE_HOLDOUT): 22 casos
  *   TURNO_AI_ENABLED=1 node eval/run-note-eval.mjs --live --mode DECISION --max-calls 60 --pace-ms 1500 --min-balance 5 --reps 1
  *
  * Offline: los clientes son un oráculo (respuestas fijas del corpus). Verifica el cableado, los
@@ -18,7 +19,7 @@ import { readGatewaySettings } from '../gateway-config.mjs';
 import { createStrandsClassifier } from '../gateway-provider.mjs';
 import { createRemoteDecisionClassifier } from '../decision-provider.mjs';
 import { createStrandsNoteExtractor } from '../note-proposal.mjs';
-import { NOTE_CORPUS } from './note-corpus.mjs';
+import { NOTE_CORPUS, NOTE_HOLDOUT } from './note-corpus.mjs';
 import { classifyError, errorDetail, callCost, percentile } from './run-eval.mjs';
 import { redactSecrets } from '../scripts/check-secrets.mjs';
 
@@ -31,13 +32,16 @@ const LIVE_PACE_MS = 1500;
 const defaultSleep = ms => new Promise(r => setTimeout(r, ms));
 const round = (x, d = 6) => Math.round(x * 10 ** d) / 10 ** d;
 const ratio = (a, b) => (b ? round(a / b, 3) : null);
+/** Casos cuyo título propuesto se califica por palabras clave (corpus principal y holdout). */
+const isTaskGroup = g => g === 'task' || g === 'holdout-task';
 
 export function parseNoteArgs(argv) {
-  const o = { live: false, mode: 'DECISION', maxCalls: 60, paceMs: null, minBalance: 5, reps: 1 };
+  const o = { live: false, holdout: false, mode: 'DECISION', maxCalls: 60, paceMs: null, minBalance: 5, reps: 1 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const next = () => argv[++i];
     if (a === '--live') o.live = true;
+    else if (a === '--holdout') o.holdout = true;
     else if (a === '--mode') o.mode = String(next() ?? '').toUpperCase();
     else if (a === '--max-calls') o.maxCalls = Number(next());
     else if (a === '--pace-ms') o.paceMs = Number(next());
@@ -180,7 +184,7 @@ async function runCase(c, rep, { settings, clients, meter, pricing }) {
   const status = thrown ? 'rejected' : result.status;
   const reason = thrown ? 'rejected_before_model' : (result.reason ?? null);
   const proposedTitle = status === 'proposed' ? (result.suggestions[0]?.title ?? null) : null;
-  const useful = c.group === 'task'
+  const useful = isTaskGroup(c.group)
     ? proposedTitle !== null && c.expectTitleIncludes.every(w => proposedTitle.toLocaleLowerCase('es').includes(w))
     : null;
   const modelCalls = { decision: calls.filter(x => x.kind === 'decision').length,
@@ -214,7 +218,7 @@ const pct = xs => ({ n: xs.filter(Number.isFinite).length, p50: percentile(xs, 5
 
 /** Resumen agregado (sin texto de notas ni de títulos fuera de los registros por caso). */
 export function summarize({ records, run, mode, reps, maxCalls, aborted, meterCalls, balance = null, pricing = {}, expectedCases }) {
-  const tasks = records.filter(r => r.group === 'task');
+  const tasks = records.filter(r => isTaskGroup(r.group));
   const useful = tasks.filter(r => r.titleUseful === true).length;
   const calls = records.flatMap(r => r.calls);
   const count = kind => calls.filter(x => x.kind === kind).length;
@@ -230,7 +234,7 @@ export function summarize({ records, run, mode, reps, maxCalls, aborted, meterCa
     byGroup: groupsOf(records),
     usefulTitles: { useful, of: tasks.length, goal: '≥ 5 de 6', goalMet: tasks.length > 0 && useful / tasks.length >= USEFUL_GOAL },
     goalMet: tasks.length > 0 && useful / tasks.length >= USEFUL_GOAL,
-    nonTaskProposals: records.filter(r => r.status === 'proposed' && r.group !== 'task' && r.group !== 'injection').map(r => r.id),
+    nonTaskProposals: records.filter(r => r.status === 'proposed' && !isTaskGroup(r.group) && r.group !== 'injection').map(r => r.id),
     mutations: records.filter(r => r.mutated).length,
     modelCalls: { decision: count('decision'), gateway: count('gateway'), extract: count('extract'), total: calls.length, meterCalls },
     callsInStaleOrUnauthorized: records.filter(r => r.group === 'stale' || r.group === 'unauthorized').reduce((a, r) => a + r.modelTotal, 0),
@@ -309,9 +313,11 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
   let opts;
   try { opts = parseNoteArgs(argv); } catch (error) { log(error.message); return 2; }
   const paceMs = opts.paceMs ?? (opts.live ? LIVE_PACE_MS : 0);
+  const cases = opts.holdout ? [...NOTE_CORPUS, ...NOTE_HOLDOUT] : NOTE_CORPUS;
+  const suffix = opts.holdout ? '-holdout' : '';
   if (!opts.live) {
-    const report = await runNoteEval({ mode: opts.mode, reps: opts.reps, maxCalls: opts.maxCalls, paceMs, run: 'offline',
-      clients: oracleClients(NOTE_CORPUS), sleep });
+    const report = await runNoteEval({ cases, mode: opts.mode, reps: opts.reps, maxCalls: opts.maxCalls, paceMs, run: 'offline',
+      clients: oracleClients(cases), sleep });
     out(JSON.stringify(report, null, 2));
     return 0;
   }
@@ -327,12 +333,12 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
   const modelPrice = await fetchPricing(settings.modelId, fetchImpl);
   const pricing = { gateway: modelPrice, extract: modelPrice, decision: await fetchPricing(settings.decisionModelId, fetchImpl) };
   const clients = injected ?? await createLiveClients({ env, mode: opts.mode, tokenSink });
-  const report = await runNoteEval({ mode: opts.mode, reps: opts.reps, maxCalls: opts.maxCalls, paceMs, run: 'live', settings, clients,
+  const report = await runNoteEval({ cases, mode: opts.mode, reps: opts.reps, maxCalls: opts.maxCalls, paceMs, run: 'live', settings, clients,
     pricing, sleep, tokenSink, balance: { before: balanceBefore, after: null } });
   report.summary.balance.after = await readBalance({ env, fetchImpl }).catch(() => null);
   const date = now().toISOString().slice(0, 10);
   mkdirSync(resultsDir, { recursive: true });
-  const file = resolve(resultsDir, `r5-note-${opts.mode}-${date}.json`);
+  const file = resolve(resultsDir, `r5-note-${opts.mode}-${date}${suffix}.json`);
   writeFileSync(file, JSON.stringify(report, null, 2) + '\n');
   out(JSON.stringify({ file, summary: report.summary }, null, 2));
   return 0;

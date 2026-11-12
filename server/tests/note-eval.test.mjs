@@ -3,7 +3,7 @@ import { mkdtempSync, existsSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import assert from 'node:assert/strict';
-import { NOTE_CORPUS, NOTE_GROUP_COUNTS, NOTE_TEXT_MAX } from '../eval/note-corpus.mjs';
+import { NOTE_CORPUS, NOTE_HOLDOUT, NOTE_GROUP_COUNTS, NOTE_TEXT_MAX } from '../eval/note-corpus.mjs';
 import { parseNoteArgs, resolveNoteSettings, oracleClients, runNoteEval, checkBalance, main } from '../eval/run-note-eval.mjs';
 
 const noSpawnFetch = () => { throw new Error('fetch must not be called offline'); };
@@ -191,6 +191,79 @@ test('live: saldo bajo detiene antes de crear clientes ni escribir informe', asy
     });
     assert.equal(code, 1);
     assert.deepEqual(urls, ['https://ai-gateway.vercel.sh/v1/credits'], 'solo el saldo; ningún modelo ni precio');
+    assert.equal(existsSync(join(dir, 'r5-note-DECISION-2026-11-12.json')), false);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('holdout: 4 casos sintéticos, ids y textos únicos entre ambos conjuntos, misma forma', () => {
+  assert.equal(NOTE_CORPUS.length, 18, 'el corpus principal no cambia');
+  assert.equal(NOTE_HOLDOUT.length, 4);
+  const all = [...NOTE_CORPUS, ...NOTE_HOLDOUT];
+  assert.equal(new Set(all.map(c => c.id)).size, 22, 'ids únicos');
+  assert.equal(new Set(all.map(c => c.text)).size, 22, 'textos únicos');
+  assert.ok(Object.isFrozen(NOTE_HOLDOUT));
+  for (const c of NOTE_HOLDOUT) {
+    assert.ok(['holdout-duplicate', 'holdout-task'].includes(c.group), c.id);
+    assert.ok(c.text.length >= 1 && c.text.length <= NOTE_TEXT_MAX && c.text === c.text.trim(), c.id);
+    assert.notEqual(c.synthetic, false, c.id);
+    assert.ok(['proposed', 'abstain'].includes(c.expect), c.id);
+    assert.ok(c.oracleLabel && c.oracleTitle, c.id);
+  }
+  for (const c of NOTE_HOLDOUT.filter(x => x.group === 'holdout-duplicate')) {
+    assert.equal(c.expect, 'abstain', c.id);
+    assert.equal(c.snapshotTasks.length, 1, c.id);
+    assert.equal(c.snapshotTasks[0].completed, false, c.id);
+  }
+  const near = NOTE_HOLDOUT.find(c => c.id === 'hold-near-01');
+  assert.equal(near.group, 'holdout-task');
+  assert.equal(near.expect, 'proposed');
+  assert.equal(near.expectedTitle, 'Reponer guantes talla L');
+  assert.deepEqual([...near.expectTitleIncludes], ['guantes', 'talla']);
+});
+
+test('--holdout: parsea el flag y, offline, corre 22 casos y todos pasan con el oráculo', async () => {
+  assert.equal(parseNoteArgs([]).holdout, false);
+  assert.equal(parseNoteArgs(['--holdout']).holdout, true);
+  const lines = [];
+  const code = await main(['--holdout'], { env: {}, fetchImpl: noSpawnFetch, log: () => {}, out: l => lines.push(l) });
+  assert.equal(code, 0);
+  const printed = JSON.parse(lines.join('\n'));
+  assert.equal(printed.summary.cases, 22);
+  assert.equal(printed.summary.expectedCases, 22);
+  assert.equal(printed.summary.passed, 22);
+  assert.equal(printed.summary.byGroup['holdout-duplicate'].passed, 3);
+  assert.equal(printed.summary.byGroup['holdout-task'].passed, 1);
+  assert.equal(printed.summary.usefulTitles.of, 7);
+  assert.equal(printed.summary.usefulTitles.useful, 7);
+  assert.equal(printed.summary.mutations, 0);
+  assert.deepEqual(printed.summary.nonTaskProposals, []);
+  assert.equal(printed.cases.find(r => r.id === 'hold-near-01').status, 'proposed');
+  assert.equal(printed.cases.find(r => r.id === 'hold-dup-03').reason, 'duplicate');
+});
+
+test('--holdout sin --holdout: el informe mantiene 18 casos', async () => {
+  const lines = [];
+  await main([], { env: {}, fetchImpl: noSpawnFetch, log: () => {}, out: l => lines.push(l) });
+  assert.equal(JSON.parse(lines.join('\n')).summary.cases, 18);
+});
+
+test('--holdout en vivo (clientes inyectados): el informe lleva el sufijo -holdout', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'r5c-'));
+  const fetchImpl = async url => {
+    if (url.endsWith('/v1/credits')) return { ok: true, status: 200, json: async () => ({ balance: '40' }) };
+    if (url.endsWith('/v1/models')) return { ok: true, status: 200, json: async () => ({ data: [] }) };
+    throw new Error('red no permitida en la prueba');
+  };
+  try {
+    const code = await main(['--live', '--holdout'], {
+      env: { TURNO_AI_ENABLED: '1', AI_GATEWAY_API_KEY: 'placeholder-not-a-secret-key-1234' },
+      fetchImpl, clients: oracleClients([...NOTE_CORPUS, ...NOTE_HOLDOUT]), resultsDir: dir, sleep: async () => {},
+      now: () => new Date('2026-11-12T12:00:00Z'), log: () => {}, out: () => {},
+    });
+    assert.equal(code, 0);
+    assert.equal(existsSync(join(dir, 'r5-note-DECISION-2026-11-12-holdout.json')), true);
     assert.equal(existsSync(join(dir, 'r5-note-DECISION-2026-11-12.json')), false);
   } finally {
     rmSync(dir, { recursive: true, force: true });

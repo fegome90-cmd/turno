@@ -157,3 +157,19 @@ test('la nota sin noteId o versión válidos se rechaza como evento no autorizad
 test('el snapshot sin notas o tareas válidas falla cerrado', async () => {
   await assert.rejects(run({ snapshot: noteSnapshot({ tasks: undefined }) }).promise, /Snapshot de turno inválido/);
 });
+
+test('R5c-FIX: "en la sala 2" con tarea abierta "Reponer guantes talla M" se abstiene como duplicado', async () => {
+  const text = 'Falta reponer guantes talla M en la sala 2.';
+  const snapshot = noteSnapshot({ notes: [{ id: 'note-1', version: 2, text }], tasks: [{ id: 't', title: 'Reponer guantes talla M', completed: false }] });
+  const { promise } = run({ snapshot, extract: async () => ({ action: { title: 'Reponer guantes talla M en la sala 2', sourceQuote: 'reponer guantes talla M en la sala 2' } }) });
+  assert.deepEqual(await promise, { status: 'abstain', reason: 'duplicate', suggestions: [] });
+});
+
+test('R5c-FIX: otra talla con la misma tarea abierta sigue proponiéndose', async () => {
+  const text = 'Falta reponer guantes talla L en la sala 2.';
+  const snapshot = noteSnapshot({ notes: [{ id: 'note-1', version: 2, text }], tasks: [{ id: 't', title: 'Reponer guantes talla M', completed: false }] });
+  const { promise } = run({ snapshot, extract: async () => ({ action: { title: 'Reponer guantes talla L', sourceQuote: 'reponer guantes talla L en la sala 2' } }) });
+  const result = await promise;
+  assert.equal(result.status, 'proposed');
+  assert.equal(result.suggestions[0].title, 'Reponer guantes talla L');
+});
