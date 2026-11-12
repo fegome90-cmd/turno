@@ -50,18 +50,22 @@ test('el agente apagado no lee datos',async()=>{
   const actual=await analyzeAmbientEvent({event,settings:{enabled:false},isAuthorized:()=>{throw new Error('called')},getAuthorizedSnapshot:()=>{throw new Error('called')}});
   assert.deepEqual(actual,{status:'disabled',suggestions:[]});
 });
-test('nota usa clasificación sintética y solo crea sugerencia',async()=>{
-  const noteEvent={...event,type:'note_saved'};
-  const noteSnapshot={...base,noteText:'Acuerda revisar informe antes del cierre'};
+test('nota usa clasificación sintética; el texto sale del snapshot, no del evento',async()=>{
+  const noteEvent={...event,type:'note_saved',noteId:'note-1',noteVersion:1};
+  const noteSnapshot={...base,notes:[{id:'note-1',version:1,text:'Acuerda revisar informe antes del cierre'}],tasks:[]};
   let called=0;
   const actual=await analyzeAmbientEvent({event:noteEvent,settings,isAuthorized,
     getAuthorizedSnapshot:async()=>noteSnapshot,
-    classifyWithGateway:async x=>{called++;assert.deepEqual(Object.keys(x).sort(),['id','synthetic','text']);return {label:'PROPOSE_TASK'};}});
-  assert.equal(called,1); assert.equal(actual.suggestions[0].channel,'inbox');
+    classifyWithGateway:async x=>{called++;assert.deepEqual(Object.keys(x).sort(),['id','synthetic','text']);return {label:'PROPOSE_TASK'};},
+    extractNoteProposal:async()=>({action:{title:'Revisar informe',sourceQuote:'revisar informe antes del cierre'}})});
+  assert.equal(called,1); assert.equal(actual.status,'proposed');
+  assert.equal(actual.suggestions[0].channel,'inline');
   assert.equal(actual.suggestions[0].requiresApproval,true);
 });
 test('no clasificar texto grande ni clases no permitidas',async()=>{
-  const actual=await analyzeAmbientEvent({event:{...event,type:'note_saved'},settings,isAuthorized,getAuthorizedSnapshot:async()=>({...base,noteText:'a'.repeat(501)}),
+  const noteEvent={...event,type:'note_saved',noteId:'note-1',noteVersion:1};
+  const actual=await analyzeAmbientEvent({event:noteEvent,settings,isAuthorized,getAuthorizedSnapshot:async()=>({...base,notes:[{id:'note-1',version:1,text:'a'.repeat(501)}],tasks:[]}),
     classifyWithGateway:()=>{throw new Error('no debería llamar a red')}});
+  assert.equal(actual.reason,'too_long');
   assert.equal(actual.status,'abstain');
 });

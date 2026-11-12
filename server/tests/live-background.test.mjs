@@ -20,8 +20,11 @@ test('escenarios de fondo: solo eventos sintéticos permitidos', () => {
 
 test('evalúa etiqueta, estado y que todo requiera aprobación', () => {
   const r = byId['note-reminder'];
-  assert.equal(evaluateScenario(r, { status: 'proposed', suggestions: [review('semantic-note')], label: 'PROPOSE_REMINDER' }).ok, true);
+  // C2: un recordatorio se abstiene; proponer algo sería incorrecto.
+  assert.equal(evaluateScenario(r, { status: 'abstain', suggestions: [], label: 'PROPOSE_REMINDER' }).ok, true);
+  assert.equal(evaluateScenario(r, { status: 'proposed', suggestions: [review('note-task')], label: 'PROPOSE_REMINDER' }).ok, false);
   assert.equal(evaluateScenario(r, { status: 'abstain', suggestions: [], label: 'NO_ACTION' }).ok, false);
+  assert.equal(evaluateScenario(byId['note-task'], { status: 'proposed', suggestions: [review('note-task')], label: 'PROPOSE_REMINDER' }).ok, false);
   const write = { kind: 'semantic-note', requiresApproval: false, actions: ['save'] };
   assert.equal(evaluateScenario(r, { status: 'proposed', suggestions: [write], label: 'PROPOSE_REMINDER' }).reviewOnly, false);
   const close = byId['close-attempt'];

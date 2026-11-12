@@ -43,6 +43,10 @@ Variables configuradas en `server/.env.example`:
 
 `ambient-engine.mjs` exporta `analyzeAmbientEvent({ event, settings, isAuthorized, getAuthorizedSnapshot, ...classifiers })`. El consumidor backend debe comprobar la identidad antes de entregar un snapshot autoritativo del turno; nunca confiar en una lista de tareas enviada por el navegador. Solo se aceptan los eventos `drafts_ready`, `note_saved`, `shift_close_attempt`. Además de la marca del evento, el snapshot debe estar identificado como sintético por el backend (`snapshot.synthetic === true`). Es una barrera de prueba, no detección automática de datos clínicos. Una nota enviada al clasificador se limita a 500 caracteres sintéticos.
 
+### Propuesta de tarea desde una nota guardada (R5a)
+
+Tras `note_saved`, el servidor lee la nota confirmada del snapshot autorizado y, solo si el clasificador devuelve `PROPOSE_TASK`, pide al modelo configurado (por defecto Haiku; `note-proposal.mjs`, prompt `NOTE_PROPOSAL_PROMPT`, versión `n1`) una única acción con título corto y cita textual exacta de la nota. `validateNoteProposal` descarta lo que no cumple: cita que no aparece en la nota, título con hora o fecha, o más de una acción. Si algo falla, la respuesta es silencio. La propuesta se muestra inline bajo la nota y no se guarda: la persona revisa, edita o descarta. Recordatorios (`PROPOSE_REMINDER`) y notas que requieren revisión (`NEEDS_REVIEW`) se abstienen. Las pruebas usan clasificadores y extractor inyectados; ninguna llama a un proveedor. El detalle de códigos está en `ENDPOINT.md`.
+
 El motor devuelve objetos `suggestions` con `actions: ['review','dismiss']`; no tiene acceso a una función `saveTask`. Para la captura libre ya existe el extractor `gateway-capture.mjs`, que construye un agente Strands independiente con salida estructurada. El módulo `capture-review.mjs` valida las propuestas y obliga a revisión humana; **no guarda tareas**. La fecha permanece sin completar hasta que el usuario la confirme y las camas solo se vinculan por coincidencia única. El frontend v5 disponible en la rama sigue siendo un prototipo aislado.
 
 ## Validación

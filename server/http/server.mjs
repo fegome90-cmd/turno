@@ -6,16 +6,25 @@ import { getAuthorizedSnapshot as fixtureSnapshot } from './snapshots.mjs';
 
 const ID = /^[a-zA-Z0-9_-]{1,80}$/;
 const EVENT_TYPES = new Set(['note_saved', 'drafts_ready', 'shift_close_attempt']);
+const BASE_KEYS = ['id', 'type', 'shiftId', 'synthetic'];
+// note_saved carries only the confirmed note reference. The browser never sends text.
+const NOTE_KEYS = [...BASE_KEYS, 'noteId', 'noteVersion'];
+const CAPTURE_KEYS = ['shiftId', 'synthetic', 'text'];
 const invalid = () => { throw new HttpError(400, 'invalid_request'); };
 
 function validate(input, capture) {
-  const keys = capture ? ['shiftId', 'synthetic', 'text'] : ['id', 'type', 'shiftId', 'synthetic'];
+  const isNote = !capture && !!input && typeof input === 'object' && input.type === 'note_saved';
+  const keys = capture ? CAPTURE_KEYS : isNote ? NOTE_KEYS : BASE_KEYS;
   if (!input || typeof input !== 'object' || Array.isArray(input) ||
       Object.keys(input).length !== keys.length || !keys.every(k => Object.hasOwn(input, k)) ||
       input.synthetic !== true || typeof input.shiftId !== 'string' || !ID.test(input.shiftId)) invalid();
   if (capture) {
     if (typeof input.text !== 'string' || !input.text.trim() || input.text.length > 2500) invalid();
-  } else if (typeof input.id !== 'string' || !ID.test(input.id) || !EVENT_TYPES.has(input.type)) invalid();
+    return;
+  }
+  if (typeof input.id !== 'string' || !ID.test(input.id) || !EVENT_TYPES.has(input.type)) invalid();
+  if (isNote && (typeof input.noteId !== 'string' || !ID.test(input.noteId) ||
+      !Number.isInteger(input.noteVersion) || input.noteVersion < 1 || input.noteVersion > 1_000_000)) invalid();
 }
 
 export function positiveInteger(raw, fallback, max) {
@@ -27,7 +36,7 @@ export function positiveInteger(raw, fallback, max) {
 /** Injectable public node:http server; classifiers are initialized only on first use. */
 export function createAgentServer({
   env = process.env, now = Date.now, log = () => {}, getAuthorizedSnapshot = fixtureSnapshot,
-  classifyWithGateway, classifyWithDecision, proposeCapture,
+  classifyWithGateway, classifyWithDecision, proposeCapture, proposeNote,
   rateLimit = positiveInteger(env.TURNO_AGENT_RATE_LIMIT, 10, 1000),
   timeoutMs = positiveInteger(env.TURNO_AGENT_TIMEOUT_MS, 10_000, 30_000),
 } = {}) {
@@ -49,7 +58,14 @@ export function createAgentServer({
     capture ??= import('../gateway-capture.mjs').then(m => m.createStrandsCapture({ env }));
     return (await capture)(input, context);
   });
+  let noteExtractor;
+  const noteCall = proposeNote ?? (async text => {
+    noteExtractor ??= import('../note-proposal.mjs').then(m => m.createStrandsNoteExtractor({ env }));
+    return (await noteExtractor)(text);
+  });
   const seen = new Map();
+  // Confirmed note versions already sent to the classifier (same TTL policy as seen).
+  const processed = new Map();
   const shifts = new Map();
   const safeLog = record => { try { log(record); } catch { /* Telemetry is non-authoritative. */ } };
   const handler = createHttpHandler({
@@ -64,6 +80,7 @@ export function createAgentServer({
       // No asynchronous boundary between replay check and reservation.
       const time = now();
       for (const [id, expires] of seen) if (expires < time) seen.delete(id);
+      for (const [key, expires] of processed) if (expires < time) processed.delete(key);
       if (!isCapture && seen.has(input.id)) throw new HttpError(401, 'unauthorized');
       const state = shifts.get(input.shiftId) ?? { start: time, count: 0, busy: false };
       if (time - state.start >= 60_000) { state.start = time; state.count = 0; }
@@ -93,6 +110,12 @@ export function createAgentServer({
           recordComparison: ({ eventId, activeLabel, shadowLabel, agree }) => {
             if (!signal.aborted) safeLog({ eventId, activeLabel, shadowLabel, agree });
           },
+          extractNoteProposal: noteCall,
+          alreadyProcessed: (noteId, version) => processed.has(noteId + ':' + version),
+          markProcessed: (noteId, version) => {
+            processed.set(noteId + ':' + version, now() + 2 * SIGNATURE_WINDOW_MS + 1000);
+          },
+          onMetrics: record => { if (!signal.aborted) safeLog(record); },
         });
       } finally {
         // Keep exclusion until upstream settles, even if the HTTP deadline won.

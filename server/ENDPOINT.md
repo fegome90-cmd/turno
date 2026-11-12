@@ -97,24 +97,65 @@ No incluye claves ni snapshots. Con IA activa informa el modo configurado;
 
 ### `POST /v1/agent/events`
 
-Objeto estricto, sin campos adicionales:
+Objeto estricto, sin campos adicionales. Para `drafts_ready` y
+`shift_close_attempt`:
 
 ```json
-{"id":"endpoint-event","type":"note_saved","shiftId":"demo-shift","synthetic":true}
+{"id":"endpoint-event","type":"drafts_ready","shiftId":"demo-shift","synthetic":true}
 ```
 
-`id` y `shiftId`: 1–80 caracteres alfanuméricos, guion o guion bajo. Tipos
-admitidos: `note_saved`, `drafts_ready`, `shift_close_attempt`. El único turno
-piloto es `demo-shift`; camas, borradores y nota se obtienen de
-`http/snapshots.mjs`, nunca del cuerpo. `note_saved` clasifica la nota fija;
-los otros dos eventos conservan las reglas deterministas del motor existente.
+Para `note_saved` (R5a) el cuerpo solo referencia la nota confirmada:
 
-HTTP 200: `{"status":"proposed","suggestions":[...]}` o
-`{"status":"abstain","suggestions":[]}`. Todas las sugerencias conservan
-`actions:["review","dismiss"]` y `requiresApproval:true`.
+```json
+{"id":"endpoint-event","type":"note_saved","shiftId":"demo-shift","synthetic":true,"noteId":"note-1","noteVersion":1}
+```
+
+`id`, `shiftId` y `noteId`: 1–80 caracteres alfanuméricos, guion o guion bajo.
+`noteVersion`: entero de 1 a 1 000 000. Tipos admitidos: `note_saved`,
+`drafts_ready`, `shift_close_attempt`. El único turno piloto es `demo-shift`.
+El navegador **nunca** envía texto de nota: `text`, `noteText` o cualquier otro
+campo extra en `note_saved` devuelve 400. El servidor lee la nota y su versión
+desde `notes` del snapshot autorizado (`http/snapshots.mjs`), junto con `tasks`
+y las camas. Los otros dos eventos conservan las reglas deterministas.
+
+HTTP 200 en `note_saved`:
+
+- `{"status":"proposed","noteId":"note-1","noteVersion":1,"suggestions":[{"id":"note:note-1:1","kind":"note-task","title":"…","sourceQuote":"…","noteId":"note-1","noteVersion":1,"channel":"inline","actions":["review","dismiss"],"requiresApproval":true}]}`:
+  una sola acción, con cita textual de la nota. El cliente la descarta si la nota
+  cambió (R5b).
+- `{"status":"stale","reason":"stale_version","suggestions":[]}`: la versión del
+  evento no es la confirmada en el snapshot. No llama al modelo.
+- `{"status":"abstain","reason":"<código>","suggestions":[]}`: silencio.
+
+Códigos de abstención, en el orden en que se evalúan:
+
+| Código | Cuándo |
+|---|---|
+| `note_not_found` | El `noteId` no está en el snapshot autorizado |
+| `empty` | La nota queda vacía tras recortar espacios |
+| `too_long` | Más de 500 caracteres |
+| `already_processed` | Ese `noteId` y versión ya se enviaron al clasificador |
+| `label_NO_ACTION` | El clasificador no ve nada pendiente |
+| `label_PROPOSE_REMINDER` | Recordatorio explícito: no hay sistema de alarmas (C2) |
+| `label_NEEDS_REVIEW` | Ambigua, condicional o clínica: no se propone (C3) |
+| `classifier_abstain` | Error, timeout o salida inválida del clasificador |
+| `no_proposal` | El extractor no devolvió una acción con cita exacta, o devolvió cero o más de una |
+| `extraction_failed` | Error del extractor (el mensaje no se devuelve ni se registra) |
+| `duplicate` | Una tarea abierta tiene el mismo título tras normalizar NFC, espacios y mayúsculas |
+
+Solo `PROPOSE_TASK` pide extracción. Un título con hora o fecha
+(`15:00`, `9.30`, `12/11`) se descarta; no se corrige.
+
+Los eventos `drafts_ready` y `shift_close_attempt` responden como antes:
+`{"status":"proposed","suggestions":[...]}` o `{"status":"abstain","suggestions":[]}`,
+con `actions:["review","dismiss"]` y `requiresApproval:true`.
 
 Se reserva cada `id` antes de invocar el motor. Repetirlo devuelve 401 genérico
-sin una segunda llamada al modelo. Se conserva durante 601 segundos, cubriendo
+sin una segunda llamada al modelo. En `note_saved`, además, la pareja
+`noteId`+`noteVersion` se marca como procesada antes de clasificar; un evento
+nuevo con el mismo par devuelve `already_processed`. Esa marca tiene la misma
+vigencia que los IDs: 601 segundos. Pasado ese plazo la misma versión podría
+volver a procesarse; por eso el backend no debe reenviar notas sin cambios. Se conserva durante 601 segundos, cubriendo
 el máximo de vigencia de una firma futura válida. Máximo 10000 IDs: caché llena
 rechaza con 429 sin expulsar IDs vigentes. Un error o timeout tras la admisión
 también consume el ID y el cupo; no reintentes automáticamente eventos fallidos.
@@ -154,7 +195,7 @@ hasta que termine el proveedor. Los proveedores conservan sus límites originale
 (20 s clasificación, 30 s captura); el plazo HTTP no garantiza cancelar una
 solicitud upstream ni evitar su costo. Las respuestas cierran la conexión.
 
-Replay y rate limit son **en memoria, por proceso**: reiniciar borra su estado.
+Replay, versiones procesadas y rate limit son **en memoria, por proceso**: reiniciar borra su estado.
 No usar varias réplicas sin un almacén compartido de replay/cupos. Este piloto
 no se despliega ni demuestra disponibilidad/costos del proveedor real.
 
@@ -169,7 +210,11 @@ no se despliega ni demuestra disponibilidad/costos del proveedor real.
 5. No enviar cuerpos, snapshots, firmas, headers ni errores crudos a logs.
    En `DUAL` el adaptador registra únicamente
    `{ eventId, activeLabel, shadowLabel, agree }`; fallos usan códigos fijos
-   limpiados con `redactSecrets`.
+   limpiados con `redactSecrets`. Cada `note_saved` produce un registro de
+   métricas `{ eventId, eligible, jevCalled, haikuCalled, outcome, durationMs }`:
+   sin nota, título ni cita. `jevCalled` indica que se llamó al clasificador de
+   etiqueta (en `GATEWAY` es el adaptador Gateway; en `DECISION`, Jev);
+   `haikuCalled` indica que se llamó al extractor.
 
 Pruebas sin sockets ni inferencia: `npm test` (inyecta clasificadores y ejercita
 el listener público de `node:http` con streams). Pendientes: backend real, QA de

@@ -33,15 +33,17 @@ test('umbral configurable y validado', () => {
 
 test('el motor aplica el umbral configurado en modo DECISION', async () => {
   const run = threshold => analyzeAmbientEvent({
-    event: { id: 'e1', type: 'note_saved', shiftId: 's1', synthetic: true },
+    event: { id: 'e1', type: 'note_saved', shiftId: 's1', synthetic: true, noteId: 'n1', noteVersion: 1 },
     settings: readGatewaySettings({ TURNO_AI_ENABLED: '1', AI_GATEWAY_API_KEY: 'x', TURNO_DECISION_MODE: 'DECISION',
       TURNO_DECISION_MIN_CONFIDENCE: threshold }),
     isAuthorized: async () => true,
-    getAuthorizedSnapshot: async () => ({ shiftId: 's1', synthetic: true, noteText: 'Falta reponer guantes.' }),
+    getAuthorizedSnapshot: async () => ({ shiftId: 's1', synthetic: true, tasks: [],
+      notes: [{ id: 'n1', version: 1, text: 'Falta reponer guantes.' }] }),
     classifyWithDecision: async () => ({ label: 'PROPOSE_TASK', confidence: 0.85 }),
+    extractNoteProposal: async () => ({ action: { title: 'Reponer guantes', sourceQuote: 'Falta reponer guantes' } }),
   });
   assert.equal((await run('0.8')).status, 'proposed');
-  assert.equal((await run('0.9')).status, 'abstain');
+  assert.equal((await run('0.9')).reason, 'classifier_abstain');
 });
 
 test('DUAL y DECISION exigen credencial del Gateway aunque el LLM use otro proveedor', () => {

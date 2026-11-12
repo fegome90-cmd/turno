@@ -4,10 +4,12 @@ import { createAgentServer } from '../http/server.mjs';
 import { prepareCaptureReview } from '../capture-review.mjs';
 import { invoke, secret, now } from './http-test-support.mjs';
 
-const event = { id: 'endpoint-event', type: 'note_saved', shiftId: 'demo-shift', synthetic: true };
+const event = { id: 'endpoint-event', type: 'note_saved', shiftId: 'demo-shift', synthetic: true, noteId: 'note-1', noteVersion: 1 };
+const proposeNoteFake = async () => ({ action: { title: 'Reponer carro de insumos sintético', sourceQuote: 'Falta reponer el carro de insumos sintético' } });
 const capture = { shiftId: 'demo-shift', synthetic: true, text: 'Revisar material sintético.' };
-function setup({ mode = 'GATEWAY', enabled = true, gateway, decision, proposeCapture, ...options } = {}) {
+function setup({ mode = 'GATEWAY', enabled = true, gateway, decision, proposeCapture, proposeNote = proposeNoteFake, ...options } = {}) {
   const calls = { gateway: 0, decision: 0, capture: 0 };
+  const notes = { count: 0 };
   const logs = [];
   const server = createAgentServer({
     env: { TURNO_AGENT_SIGNING_SECRET: secret, TURNO_AI_ENABLED: enabled ? '1' : '0', TURNO_DECISION_MODE: mode, VERCEL: '1' },
@@ -22,15 +24,16 @@ function setup({ mode = 'GATEWAY', enabled = true, gateway, decision, proposeCap
         invoke: async () => ({ proposals: [{ title: 'Revisar material', bedLabel: 'Cama 1', time: '15:00', beforeClose: false }] }),
       });
     },
+    proposeNote: async text => { notes.count++; return proposeNote(text); },
     ...options,
   });
   const handler = server.listeners('request')[0];
-  return { calls, logs, server, handler, event: input => invoke(handler, { body: JSON.stringify(input) }), capture: input => invoke(handler, { url: '/v1/agent/capture', body: JSON.stringify(input) }) };
+  return { calls, notes, logs, server, handler, event: input => invoke(handler, { body: JSON.stringify(input) }), capture: input => invoke(handler, { url: '/v1/agent/capture', body: JSON.stringify(input) }) };
 }
 
 for (const mode of ['GATEWAY', 'DUAL', 'DECISION']) {
   test(`events use ${mode} and only review/dismiss; snapshot never comes from the caller`, async () => {
-    const s = setup({ mode });
+    const s = setup({ mode, decision: () => ({ label: 'PROPOSE_TASK', confidence: 1 }) });
     const response = await s.event(event);
     assert.equal(response.status, 200);
     assert.equal(response.body.status, 'proposed');
@@ -41,7 +44,10 @@ for (const mode of ['GATEWAY', 'DUAL', 'DECISION']) {
     }
     assert.equal(s.calls.gateway, mode === 'DECISION' ? 0 : 1);
     assert.equal(s.calls.decision, mode === 'GATEWAY' ? 0 : 1);
-    assert.deepEqual(s.logs, mode === 'DUAL' ? [{ eventId: event.id, activeLabel: 'PROPOSE_TASK', shadowLabel: 'PROPOSE_REMINDER', agree: false }] : []);
+    assert.equal(s.notes.count, 1);
+    const dual = s.logs.filter(r => 'activeLabel' in r);
+    assert.deepEqual(dual, mode === 'DUAL' ? [{ eventId: event.id, activeLabel: 'PROPOSE_TASK', shadowLabel: 'PROPOSE_TASK', agree: true }] : []);
+    assert.equal(s.logs.filter(r => 'outcome' in r).length, 1);
   });
 }
 
@@ -51,6 +57,16 @@ for (const [name, input] of [
   ['unknown event', { ...event, type: 'save_task' }],
   ['browser snapshot', { ...event, snapshot: { noteText: 'untrusted' } }],
   ['missing id', { type: 'note_saved', shiftId: 'demo-shift', synthetic: true }],
+  ['text in the body', { ...event, text: 'Falta reponer guantes.' }],
+  ['noteText in the body', { ...event, noteText: 'Falta reponer guantes.' }],
+  ['missing noteVersion', { id: 'endpoint-event', type: 'note_saved', shiftId: 'demo-shift', synthetic: true, noteId: 'note-1' }],
+  ['missing noteId', { id: 'endpoint-event', type: 'note_saved', shiftId: 'demo-shift', synthetic: true, noteVersion: 1 }],
+  ['noteVersion zero', { ...event, noteVersion: 0 }],
+  ['noteVersion fractional', { ...event, noteVersion: 1.5 }],
+  ['noteVersion above limit', { ...event, noteVersion: 1_000_001 }],
+  ['noteVersion as string', { ...event, noteVersion: '1' }],
+  ['invalid noteId', { ...event, noteId: 'nota con espacios' }],
+  ['noteId on drafts_ready', { id: 'endpoint-event', type: 'drafts_ready', shiftId: 'demo-shift', synthetic: true, noteId: 'note-1' }],
   ['invalid id type', { ...event, id: 1 }],
   ['array input', []],
 ]) {
@@ -79,6 +95,7 @@ test('simultaneous copies of an event classify exactly once', async () => {
   const responses = await Promise.all([s.event(event), s.event(event)]);
   assert.deepEqual(responses.map(r => r.status).sort(), [200, 401]);
   assert.equal(s.calls.gateway, 1);
+  assert.equal(s.notes.count, 1);
 });
 
 test('DUAL logging contains only four metadata fields, not the authorized note', async () => {
@@ -88,6 +105,7 @@ test('DUAL logging contains only four metadata fields, not the authorized note',
   assert.ok(note.includes('sintético'));
   assert.equal(JSON.stringify(s.logs).includes(note), false);
   assert.deepEqual(Object.keys(s.logs[0]), ['eventId', 'activeLabel', 'shadowLabel', 'agree']);
+  assert.equal(JSON.stringify(s.logs).includes('Falta reponer'), false);
 });
 
 test('replayed event returns generic 401 and is not classified twice', async () => {
@@ -122,9 +140,9 @@ test('AI off returns 503 for both routes with zero provider calls; health stays 
 
 test('model failure abstains without note text, errors, snapshots or signing material in logs', async () => {
   const s = setup({ gateway: input => { throw new Error(input.text + secret); }, proposeCapture: input => { throw new Error(input.text + secret); } });
-  assert.deepEqual((await s.event(event)).body, { status: 'abstain', suggestions: [] });
+  assert.deepEqual((await s.event(event)).body, { status: 'abstain', reason: 'classifier_abstain', suggestions: [] });
   assert.deepEqual((await s.capture(capture)).body, { status: 'abstain', proposals: [] });
-  assert.deepEqual(s.logs, ['request_failed']);
+  assert.deepEqual(s.logs.map(r => typeof r === 'string' ? r : r.outcome), ['classifier_abstain', 'request_failed']);
   assert.equal(JSON.stringify(s.logs).includes(capture.text), false);
   assert.equal(JSON.stringify(s.logs).includes(secret), false);
 });
@@ -157,7 +175,7 @@ for (const invalid of [{ ...capture, synthetic: false }, { ...capture, shiftId: 
 for (const type of ['drafts_ready', 'shift_close_attempt']) {
   test(`${type} keeps deterministic behavior without classifiers`, async () => {
     const s = setup();
-    const response = await s.event({ ...event, type });
+    const response = await s.event({ id: event.id, shiftId: event.shiftId, synthetic: true, type });
     assert.equal(response.body.status, 'proposed');
     assert.ok(response.body.suggestions.length > 0);
     assert.equal(s.calls.gateway + s.calls.decision, 0);

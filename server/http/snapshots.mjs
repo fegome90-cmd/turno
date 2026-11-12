@@ -6,7 +6,8 @@ const shift = {
     { id: 'a', title: 'Revisar material sintético', bedLabel: 'Cama 4', bedId: null, time: '15:00', date: null },
     { id: 'b', title: 'Preparar informe sintético', beforeClose: true, completed: false },
   ],
-  noteText: 'Hay que revisar el material sintético antes del cierre.',
+  notes: [{ id: 'note-1', version: 1, text: 'Falta reponer el carro de insumos sintético de la sala 2.' }],
+  tasks: [{ id: 'task-1', title: 'Revisar informe sintético', completed: false }],
 };
 
 /** Replace this backend-owned interface later, never with a browser snapshot. */
