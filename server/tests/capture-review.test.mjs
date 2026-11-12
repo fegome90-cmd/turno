@@ -104,3 +104,60 @@ test('el texto de una hora ilegible se conserva hasta el límite de títulos', (
   assert.equal(p.time, null);
   assert.equal(p.timeText, long);
 });
+
+// P2-02: una hora del modelo solo se conserva si el texto fuente la escribe.
+const oneTime = (time, sourceText) => proposalsForReview(
+  { proposals: [{ title: 'A', bedLabel: null, time, beforeClose: false }] },
+  sourceText === undefined ? undefined : { sourceText },
+)[0];
+
+test('P2-02: conserva la hora cuando el texto fuente la escribe de cualquier forma aceptada', () => {
+  for (const [text, time] of [
+    ['Revisar A (15:00)', '15:00'],
+    ['Revisar A 15.00', '15:00'],
+    ['Revisar A a las 15', '15:00'],
+    ['Revisar A 15h', '15:00'],
+    ['Revisar A 15 h', '15:00'],
+    ['Revisar A 15hs', '15:00'],
+    ['Revisar A 15 hrs', '15:00'],
+    ['Revisar A 9:00', '09:00'],
+  ]) {
+    const p = oneTime(time, text);
+    assert.equal(p.time, time, text);
+    assert.equal(p.timeText, null, text);
+    assert.equal(p.reviewFlags.includes('confirm_time'), false, text);
+  }
+});
+
+test('P2-02: hora ausente del texto fuente -> null + confirm_time, sin rechazar', () => {
+  for (const [text, time] of [
+    ['Revisar A (15:00)', '16:00'],        // la hora del modelo no aparece en el texto
+    ['Revisar cama 15 pendiente', '15:00'], // un número de cama no es una hora
+    ['Revisar A 15:30', '15:00'],           // otros minutos
+    ['Revisar A a las 15:30', '15:00'],     // otros minutos con «a las»
+    ['Revisar A 15:00', '01:00'],           // «1» no es «15»
+    ['Revisar A a las 15', '15:30'],        // minutos no escritos solo respaldan :00
+    ['Revisar A 15 h', '15:45'],
+  ]) {
+    const p = oneTime(time, text);
+    assert.equal(p.time, null, text);
+    assert.equal(p.timeText, time, text);
+    assert.deepEqual(p.reviewFlags, ['confirm_time'], text);
+    assert.equal(p.status, 'requires_human_review', text);
+  }
+});
+
+test('P2-02: sin sourceText (llamadores antiguos) el comportamiento no cambia', () => {
+  const p = oneTime('16:00');
+  assert.equal(p.time, '16:00');
+  assert.deepEqual(p.reviewFlags, ['confirm_date']);
+});
+
+test('P2-02: prepareCaptureReview pasa el texto de entrada recortado como fuente', async () => {
+  const out = await prepareCaptureReview(
+    { shiftId: 'demo-shift', synthetic: true, text: '  Revisar A (15:00)  ' },
+    { invoke: async () => ({ proposals: [{ title: 'A', bedLabel: null, time: '16:00', beforeClose: false }] }) },
+  );
+  assert.equal(out.proposals[0].time, null);
+  assert.deepEqual(out.proposals[0].reviewFlags, ['confirm_time']);
+});

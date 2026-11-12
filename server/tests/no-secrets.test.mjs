@@ -47,7 +47,7 @@ test('no marca referencias a variables ni valores de prueba conocidos', () => {
   const ok = [
     'const key = process.env.AI_GATEWAY_API_KEY;',
     'AI_GATEWAY_API_KEY=${{ secrets.AI_GATEWAY_API_KEY }}',
-    "AI_GATEWAY_API_KEY: 'public-preflight-placeholder-not-a-secret',",
+    "AI_GATEWAY_API_KEY: 'placeholder-not-a-secret',",
     'curl -H "Authorization: Bearer proxy-injected"',
     'apiKey: key,',
   ];
@@ -79,4 +79,17 @@ test('redacción conserva los indicadores del patrón y detecta relleno y «!»'
   assert.equal(scanText('cfg.json', padded).length, 1);
   assert.equal(redactSecrets(padded).includes(fake('', 22)), false);
   assert.equal(scanText('cfg.json', `{"password":"${fake('', 16)}!x"}`).length, 1);
+});
+
+test('P2-03: un valor de prueba permitido no oculta un secreto real en la misma línea', () => {
+  const key = fake('sk-proj-');
+  const f = scanText('src/a.mjs', `const a = "placeholder-not-a-secret"; const k = "${key}";`);
+  assert.equal(f.length, 1);
+  assert.equal(f[0].kind, 'clave de OpenAI');
+  assert.equal(JSON.stringify(f).includes(key), false);
+});
+
+test('P2-03: una línea con solo el valor permitido no produce hallazgos', () => {
+  assert.deepEqual(scanText('src/a.mjs', 'const a = "placeholder-not-a-secret";'), []);
+  assert.deepEqual(scanText('src/a.mjs', 'curl -H "Authorization: Bearer proxy-injected"'), []);
 });

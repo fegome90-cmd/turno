@@ -90,6 +90,7 @@ export async function classifySignal({
   }
 
   // DUAL: Gateway is the ONLY active decision. Decision is shadow evaluation.
+  // DUAL waits for the shadow by design (evaluation mode only); the active result is not returned earlier.
   const [a, b] = await Promise.allSettled([
     classifyWithGateway(event),
     classifyWithDecision(event),

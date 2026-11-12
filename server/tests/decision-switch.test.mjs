@@ -92,3 +92,23 @@ test('P1-03: salida de baja confianza o inválida NO es fallo (no se marca faile
   const invalid = await classifySignal({event,mode:'GATEWAY',classifyWithGateway:async()=>({label:'NO_SUCH'}),classifyWithDecision:llm});
   assert.equal('failed' in invalid, false);
 });
+
+// P2-01: documenta la latencia actual de DUAL. Esperar a la sombra es intencional (solo evaluación).
+test('P2-01: DUAL espera a la sombra aunque el activo responda antes', async () => {
+  let shadowDone = false;
+  const started = Date.now();
+  const actual = await classifySignal({
+    event,
+    mode: 'DUAL',
+    classifyWithGateway: () => new Promise(r => setTimeout(() => r({ label: 'PROPOSE_REMINDER' }), 10)),
+    classifyWithDecision: () => new Promise(r => setTimeout(() => {
+      shadowDone = true;
+      r({ label: 'PROPOSE_TASK', confidence: 0.96 });
+    }, 200)),
+  });
+  const elapsed = Date.now() - started;
+  assert.equal(actual.source, 'GATEWAY');
+  assert.equal(actual.label, 'PROPOSE_REMINDER');
+  assert.equal(shadowDone, true, 'el resultado activo se devuelve solo cuando la sombra terminó');
+  assert.ok(elapsed >= 150, `total ${elapsed} ms debe incluir la latencia de la sombra (200 ms)`);
+});

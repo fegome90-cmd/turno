@@ -35,6 +35,7 @@ export const SECRET_PATTERNS = Object.freeze([
 
 // Valores de prueba que el repositorio usa a propósito; nunca son credenciales.
 const ALLOWED_VALUES = /placeholder-not-a-secret|secret-synthetic-test-key|proxy-injected/;
+const ALLOWED_VALUES_ALL = new RegExp(ALLOWED_VALUES.source, 'g');
 const ENV_FILE = /(^|\/)\.env(\.[^/]*)?$/;
 const ENV_EXAMPLE = /(^|\/)\.env\.example$/;
 const SKIP_FILE = /(^|\/)(package-lock\.json|.*\.(png|jpe?g|gif|webp|ico|woff2?|ttf|otf|pdf|heic|zip))$/i;
@@ -80,9 +81,10 @@ export function scanText(file, text) {
       const m = line.match(CREDENTIAL_VARS);
       if (m) findings.push({ file, line: i + 1, kind: `${m[1]} con valor en .env.example (debe quedar vacía)` });
     }
-    if (ALLOWED_VALUES.test(line)) return;
+    // Quita solo el valor de prueba permitido y revisa el resto: un secreto real en la misma línea sigue marcado.
+    const rest = line.replace(ALLOWED_VALUES_ALL, '');
     for (const [kind, re] of SECRET_PATTERNS) {
-      if (re.test(line)) { findings.push({ file, line: i + 1, kind }); break; }
+      if (re.test(rest)) { findings.push({ file, line: i + 1, kind }); break; }
     }
   });
   return findings;
