@@ -1,9 +1,9 @@
-import {useLayoutEffect, useRef} from 'react';
+import {useLayoutEffect, useRef, type ReactNode} from 'react';
 import {useStore} from 'zustand';
 import {Field} from '@base-ui/react/field';
 import {Form} from '@base-ui/react/form';
 import {Plus} from 'lucide-react';
-import type {TurnoStore} from '../app/store';
+import type {SaveResult, TurnoStore} from '../app/store';
 import type {Selection} from '../domain/types';
 import '../styles/editor.css';
 
@@ -15,9 +15,11 @@ function fitTitle(node: HTMLTextAreaElement) {
 }
 
 export type FieldFocusRequest = {revision: number; selection: Selection; origin: Element | null};
-export type EditorProps = {store: TurnoStore; beforeEdit?: () => void; focusFirstInvalid?: (request: FieldFocusRequest) => void; onCreateTask?: () => void};
+export type EditorProps = {store: TurnoStore; beforeEdit?: () => void; focusFirstInvalid?: (request: FieldFocusRequest) => void; onCreateTask?: () => void;
+  // Solo notas: se llama tras un guardado confirmado; `noteAside` se muestra bajo el formulario.
+  onNoteSaved?: (result: SaveResult) => void; noteAside?: ReactNode};
 
-export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreateTask}: EditorProps & {note: boolean}) {
+export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreateTask, onNoteSaved, noteAside}: EditorProps & {note: boolean}) {
   const state = useStore(store);
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
@@ -78,6 +80,7 @@ export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreate
     const result = note ? await store.getState().saveNote() : await store.getState().saveTask();
     if (result.status === 'invalid') queueMicrotask(() => focusInvalid(request));
     else if (result.status === 'saved' && result.appliedToDraft && result.revision === request.revision) queueMicrotask(() => restoreActionFocus(request));
+    if (note && result.status === 'saved') onNoteSaved?.(result);
   };
   const cancel = () => {
     if (locked || store.getState().busy) return;
@@ -132,5 +135,6 @@ export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreate
         {!readOnly && <div className="save-actions"><button type="button" disabled={!state.dirty || state.busy} onClick={cancel}>Cancelar</button><button type="submit" className="primary" disabled={!state.dirty || state.busy}>{state.busy ? 'Guardando…' : 'Guardar'}</button></div>}
       </div>
     </Form>
+    {note && noteAside}
   </main>;
 }

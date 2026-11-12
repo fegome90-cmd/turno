@@ -48,3 +48,8 @@
 /* Una condición operacional explícita, nunca un horario inferido. */
 .editor .metadata .before-close-control{display:inline-flex;align-items:center;gap:9px;padding:9px 12px;min-height:44px;font-size:var(--type-small);font-weight:600;cursor:pointer}
 .editor .metadata .before-close-control input{width:18px;min-width:18px;max-width:18px;height:18px;min-height:18px;padding:0;margin:0;accent-color:var(--ink)}
+.note-proposal{display:flex;flex-direction:column;gap:10px;max-width:76ch;margin:0 auto 24px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-control);background:var(--field)}
+.note-proposal p{margin:0;font-size:var(--type-small);overflow-wrap:break-word}
+.note-proposal-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:9px}
+.note-proposal button{border:1px solid var(--border);border-radius:var(--radius-control);padding:9px 12px;min-height:40px;cursor:pointer;background:var(--canvas);color:var(--ink);font-size:var(--type-small);font-weight:600}
+.note-proposal button.primary{background:var(--solid);color:var(--on-solid);border-color:var(--solid)}

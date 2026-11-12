@@ -17,10 +17,12 @@ import type {FieldFocusRequest} from '../components/EditorForm';
 import {CloseShiftDialog, DomainNameDialog} from '../components/ShiftDialogs';
 import {Archive} from 'lucide-react';
 import {displayDate} from '../domain/format';
-import type {DomainResult} from './store';
+import type {DomainResult, SaveResult} from './store';
 import {ProductNotifications} from '../notifications/ProductNotifications';
 import {AssistanceDialog, type AssistanceTab} from '../components/AssistanceDialog';
 import {collectAmbientSuggestions} from '../ambient/review';
+import {useNoteProposal, type ShownProposal} from './use-note-proposal';
+import {NoteProposalBlock} from '../components/NoteProposal';
 
 type CloseRequest = {key: number; shiftId: string; origin: string | null};
 type NameKind = 'task' | 'bed' | 'note' | 'shift' | 'rename';
@@ -41,6 +43,8 @@ function ProductApp({session}: {session: AppSession}) {
   const state = useStore(session.store);
   const overlays = useOverlays();
   const [assistanceTab, setAssistanceTab] = useState<AssistanceTab>('capture');
+  const [reviewSeed, setReviewSeed] = useState<{key: number; title: string} | null>(null);
+  const seedSequence = useRef(0);
   const [dismissedSuggestions, setDismissedSuggestions] = useState<string[]>([]);
   const allSuggestions = collectAmbientSuggestions(state.snapshot);
   const liveSuggestionIds = JSON.stringify(allSuggestions.map((suggestion) => suggestion.id));
@@ -92,6 +96,24 @@ function ProductApp({session}: {session: AppSession}) {
       setAssistanceTab(tab);
       overlays.open({id: 'assistance', kind: 'assistance', returnFocusKey: origin});
     }, origin);
+  };
+  const selectedNote = state.selection?.kind === 'note' ? state.snapshot?.notes.find((note) => note.id === state.selection?.id) : undefined;
+  const noteProposal = useNoteProposal({
+    source: session.noteProposals, selectedNoteId: selectedNote?.id ?? null, draftRevision: state.draftRevision,
+    current: selectedNote ? {noteId: selectedNote.id, version: selectedNote.version} : null,
+  });
+  // Solo tras un guardado confirmado de la misma versión: si la persona editó mientras guardaba, no se pide propuesta.
+  const onNoteSaved = (result: SaveResult) => {
+    if (result.status !== 'saved') return;
+    const latest = session.store.getState();
+    const note = latest.snapshot?.notes.find((item) => item.id === result.selection.id);
+    if (!note || latest.draftRevision !== result.revision || latest.selection?.id !== note.id) return;
+    noteProposal.request(note.id, note.version);
+  };
+  const reviewProposal = (item: ShownProposal) => {
+    noteProposal.hide(item);
+    setReviewSeed({key: ++seedSequence.current, title: item.proposal.title});
+    openAssistance('capture', 'open-capture');
   };
   const requestName = (kind: NameKind, bedId: string | null = null, focusKey: string | null = null) => {
     const layers = session.store.getState().overlays.layers;
@@ -171,7 +193,10 @@ function ProductApp({session}: {session: AppSession}) {
   const selectedTask = state.selection?.kind === 'task' ? state.snapshot?.tasks.find((task) => task.id === state.selection?.id) : undefined;
   const selectedList = selectedTask ? state.snapshot?.beds.find((bed) => bed.id === selectedTask.bedId)?.label ?? 'Sin lista' : '';
   const title = state.view === 'home' ? '' : state.view === 'archive' ? 'Turnos anteriores' : state.view === 'notes' ? 'Notas rápidas' : selectedTask ? `${selectedList} / ${selectedTask.reason || 'Tareas'}` : shownShift?.label ?? 'Turno';
-  const workspace = state.view === 'archive' ? <main id="main" tabIndex={-1} className="archive-view"><h1>Turnos anteriores</h1><p className="muted">Consulta de solo lectura. Los pendientes se conservan.</p><div className="archive-list">{state.snapshot?.shifts.filter((shift) => shift.status === 'closed').map((shift) => <button key={shift.id} type="button" className="archive-link" onClick={() => navigation.openArchive(shift.id)}><Archive size={20} aria-hidden="true"/><span>{shift.label} · {displayDate(shift.date)}</span></button>)}{!state.snapshot?.shifts.some((shift) => shift.status === 'closed') && <p className="empty">Todavía no hay turnos cerrados.</p>}</div></main> : state.draft?.kind === 'task' ? <TaskEditor key={state.draft.id} store={session.store} focusFirstInvalid={focusInvalid} beforeEdit={navigation.beforeEdit} onCreateTask={() => createTask(undefined, 'create-task-inline')}/> : state.draft?.kind === 'note' ? <NoteEditor key={state.draft.id} store={session.store} focusFirstInvalid={focusInvalid} beforeEdit={navigation.beforeEdit}/> : <main id="main" tabIndex={-1} className="editor-slot"><h1>{title || 'Turno'}</h1><p>{state.view === 'notes' ? 'Selecciona una nota o crea una nueva.' : 'Selecciona una tarea o agrega la primera.'}</p></main>;
+  const shownProposal = noteProposal.visible;
+  const proposalBlock = shownProposal ? <NoteProposalBlock title={shownProposal.proposal.title} onReview={() => reviewProposal(shownProposal)} onDismiss={() => noteProposal.hide(shownProposal)}/> : null;
+  const workspace = state.view === 'archive' ? <main id="main" tabIndex={-1} className="archive-view"><h1>Turnos anteriores</h1><p className="muted">Consulta de solo lectura. Los pendientes se conservan.</p><div className="archive-list">{state.snapshot?.shifts.filter((shift) => shift.status === 'closed').map((shift) => <button key={shift.id} type="button" className="archive-link" onClick={() => navigation.openArchive(shift.id)}><Archive size={20} aria-hidden="true"/><span>{shift.label} · {displayDate(shift.date)}</span></button>)}{!state.snapshot?.shifts.some((shift) => shift.status === 'closed') && <p className="empty">Todavía no hay turnos cerrados.</p>}</div></main> : state.draft?.kind === 'task' ? <TaskEditor key={state.draft.id} store={session.store} focusFirstInvalid={focusInvalid} beforeEdit={navigation.beforeEdit} onCreateTask={() => createTask(undefined, 'create-task-inline')}/> : state.draft?.kind === 'note' ? <NoteEditor key={state.draft.id} store={session.store} focusFirstInvalid={focusInvalid} beforeEdit={navigation.beforeEdit} onNoteSaved={onNoteSaved}
+    noteAside={proposalBlock}/> : <main id="main" tabIndex={-1} className="editor-slot"><h1>{title || 'Turno'}</h1><p>{state.view === 'notes' ? 'Selecciona una nota o crea una nueva.' : 'Selecciona una tarea o agrega la primera.'}</p></main>;
   return <>
     <AppShell assistance={{onCapture: () => openAssistance('capture', 'open-capture'), onSuggestions: () => openAssistance('suggestions', 'open-suggestions'), suggestionCount: visibleSuggestions.length}} closeShift={{available: !!active, busy: state.busy, onClick: requestClose}} navigation={<Navigation store={session.store} actions={{...navigation, openShift, createTask, createBed: () => requestName('bed', null, 'create-bed'), renameBed: (id) => requestName('rename', id, 'rename-' + id), createNote: () => requestName('note', null, 'create-note')}}/>} view={state.view} title={title} inspectorHidden={state.inspectorHidden} onInspectorHidden={state.setInspectorHidden}
       editor={state.view === 'home' ? <Home preferredName={session.preferredName} subtitle={session.homeSubtitle} summary={{message: active ? `${active.label} · ${pending} ${pending === 1 ? 'pendiente' : 'pendientes'}` : 'No hay un turno abierto.', actionLabel: active ? 'Ir al turno actual' : 'Iniciar turno'}} onOpenShift={() => openShift('home-primary')}/> : workspace}
@@ -186,7 +211,7 @@ function ProductApp({session}: {session: AppSession}) {
     <AssistanceDialog store={session.store} notifications={session.notifications}
       open={state.overlays.layers.some((layer) => layer.id === 'assistance')} tab={assistanceTab}
       returnFocusKey={state.overlays.layers.find((layer) => layer.id === 'assistance')?.returnFocusKey ?? null}
-      suggestions={visibleSuggestions} onTabChange={setAssistanceTab}
+      suggestions={visibleSuggestions} onTabChange={setAssistanceTab} reviewSeed={reviewSeed}
       onDismissSuggestion={(id) => setDismissedSuggestions((current) => current.includes(id) ? current : [...current, id])}
       onClose={() => overlays.close('assistance')}
       onSelectTask={(id) => {overlays.close('assistance'); navigation.select({kind: 'task', id});}}/>

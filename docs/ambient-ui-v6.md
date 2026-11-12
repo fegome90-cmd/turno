@@ -40,6 +40,17 @@ Cuando **toda la UI** esté aprobada, un worker Strands Agents remoto podrá sol
 
 **Punto bloqueante de integración futura:** autenticar identidad, autorizar el turno, idempotencia de comandos, protección contra versiones obsoletas, persistencia real, límites de longitud, minimización de datos y auditoría de acciones. La demo no acredita esos requisitos.
 
+## Propuesta inline bajo una nota (R5b)
+
+Tras guardar una nota, la interfaz puede mostrar **una** propuesta de tarea bajo esa nota, con «Revisar tarea» y «Descartar». Nunca hay aviso, diálogo automático ni foco robado.
+
+- **Contrato (R5a):** `{status:'proposed', noteId, noteVersion, suggestions:[…]}` con exactamente una sugerencia `kind:'note-task'`, `channel:'inline'`, `requiresApproval:true` y acciones exactamente `['review','dismiss']`. Cualquier otra forma (abstención, obsoleta, error, título vacío o de más de 80 caracteres) se descarta en `parseNoteProposalResponse`.
+- **Origen:** `createSession({noteProposals})`. El navegador nunca envía texto de nota, no llama a un modelo y no usa red para esto.
+- **Caducidad:** la petición nace solo tras un guardado confirmado de la misma versión. Se cancela al cambiar de nota, al editar otra vez, al desmontar o a los 20 s. Una respuesta solo se pinta si la nota y la versión siguen vigentes.
+- **Revisar tarea:** abre la captura con una sola tarjeta con el título; fecha, hora y lista quedan vacías. Solo «Aprobar y guardar» crea la tarea. Cerrar sin aprobar no escribe nada.
+- **Descartar y revisar** ocultan esa versión durante la sesión. Una versión nueva puede proponer de nuevo.
+- **La demo no tiene origen de propuestas.** Guardar una nota en la demo no muestra nada ni llama a nada; esto es intencional.
+
 ## Pruebas
 
 - Unitarias: validación de fecha/hora/cama, condición de cierre, persistencia atómica del adaptador y sugerencias derivadas de tareas del puerto.

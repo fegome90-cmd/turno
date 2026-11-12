@@ -1,4 +1,4 @@
-import {useRef, useState, type KeyboardEvent} from 'react';
+import {useEffect, useRef, useState, type KeyboardEvent} from 'react';
 import {useStore} from 'zustand';
 import {Dialog} from '@base-ui/react/dialog';
 import {Check, Lightbulb, Plus, X} from 'lucide-react';
@@ -11,7 +11,7 @@ import '../styles/assistance.css';
 export type AssistanceTab = 'capture' | 'suggestions';
 
 export function AssistanceDialog({
-  store, notifications, open, tab, returnFocusKey, suggestions, onTabChange, onDismissSuggestion, onClose, onSelectTask,
+  store, notifications, open, tab, returnFocusKey, suggestions, onTabChange, onDismissSuggestion, onClose, onSelectTask, reviewSeed,
 }: {
   store: TurnoStore;
   notifications: NotificationStore;
@@ -23,6 +23,8 @@ export function AssistanceDialog({
   onDismissSuggestion(id: string): void;
   onClose(): void;
   onSelectTask(id: string): void;
+  // Propuesta de nota (R5b): añade una tarjeta con solo el título. Nada se guarda hasta «Aprobar y guardar».
+  reviewSeed?: {key: number; title: string} | null;
 }) {
   const snapshot = useStore(store, (state) => state.snapshot);
   const globallyBusy = useStore(store, (state) => state.busy);
@@ -37,6 +39,11 @@ export function AssistanceDialog({
   const active = snapshot?.shifts.find((shift) => shift.id === snapshot.activeShiftId && shift.status === 'open');
   const beds = snapshot?.beds.filter((bed) => bed.shiftId === active?.id) ?? [];
   const hasUnreviewed = input.trim().length > 0 || drafts.length > 0;
+  useEffect(() => {
+    if (!reviewSeed) return;
+    setDrafts((current) => current.length >= 10 ? current : [...current, newReviewDraft('review-' + ++serial.current, reviewSeed.title)]);
+    setFormError('');
+  }, [reviewSeed]);
 
   const close = () => {
     if (inFlight.current || globallyBusy) return;
