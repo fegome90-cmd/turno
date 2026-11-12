@@ -30,6 +30,18 @@ jobs:
           npm test
           npm run demo
           npm audit --omit=dev --audit-level=high
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Strands Evals contract and negative tests (no inference)
+        working-directory: server
+        env:
+          TURNO_AI_ENABLED: '0'
+          STRANDS_EVALS_PYTHON: ${{ runner.temp }}/turno-evals/bin/python
+        run: |
+          python -m venv "$RUNNER_TEMP/turno-evals"
+          "$STRANDS_EVALS_PYTHON" -m pip install -r eval/strands/requirements.lock
+          npm run verify:evals
       - name: Frontend v5 baseline (unmodified preview)
         working-directory: prototypes/frontend-v5
         run: |

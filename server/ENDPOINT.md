@@ -188,9 +188,10 @@ el backend no debe reintentar automáticamente una captura.
 
 Los límites por turno son compartidos entre captura y eventos. Solo se admite
 una ejecución a la vez por turno; si vence el plazo HTTP, el turno sigue ocupado
-hasta que termine el proveedor. Los proveedores conservan sus límites originales
-(20 s clasificación, 30 s captura); el plazo HTTP no garantiza cancelar una
-solicitud upstream ni evitar su costo. Las respuestas cierran la conexión.
+hasta que termine el proveedor. La señal HTTP se combina con los límites propios
+(20 s clasificación/extracción, 30 s captura) y llega a Strands o al AI SDK de Jev.
+La cancelación es cooperativa: no garantiza que el proveedor ya haya detenido el
+trabajo ni que no lo cobre. Las respuestas cierran la conexión.
 
 Replay, versiones procesadas y rate limit son **en memoria, por proceso**: reiniciar borra su estado.
 No usar varias réplicas sin un almacén compartido de replay/cupos. Este piloto
@@ -204,7 +205,7 @@ no se despliega ni demuestra disponibilidad/costos del proveedor real.
 - Un fallo (`classifier_failed`, `extraction_failed`), una excepción o una cancelación (`cancelled`)
   liberan la marca: el mismo texto puede volver a procesarse.
 - No hay reintento automático. Para recuperarse, guarda la nota de nuevo (nueva versión) o reenvía el evento.
-- El deadline HTTP (`TURNO_AGENT_TIMEOUT_MS`, 10 s por defecto) cancela la inferencia en curso de `/v1/agent/events`. La captura (`/v1/agent/capture`) aún conserva su propio límite de 30 s y no recibe esa señal (pendiente).
+- El deadline HTTP (`TURNO_AGENT_TIMEOUT_MS`, 10 s por defecto) solicita cancelación en `/v1/agent/events` y `/v1/agent/capture`. Una desconexión del cliente antes de completar la respuesta también aborta la señal. El límite propio de captura sigue siendo 30 s; rige la señal que aborte primero.
   La respuesta sigue siendo el `200` vacío `{"status":"abstain","suggestions":[]}`; un resultado tardío no registra métricas ni comparaciones.
 
 ## Integración posterior del backend
@@ -224,6 +225,16 @@ no se despliega ni demuestra disponibilidad/costos del proveedor real.
    etiqueta (en `GATEWAY` es el adaptador Gateway; en `DECISION`, Jev);
    `haikuCalled` indica que se llamó al extractor.
 
-Pruebas sin sockets ni inferencia: `npm test` (inyecta clasificadores y ejercita
-el listener público de `node:http` con streams). Pendientes: backend real, QA de
+Métricas por llamada: `{ kind: "model_metrics", stage, modelCalls, modelErrors, turns, inputTokens, outputTokens, durationMs, stopReason }`. `stage` es `decision`, `classification`, `extraction` o `capture`. Solo números no negativos y códigos de parada permitidos; no texto, títulos, citas, claves ni errores de proveedor. Un uso no informado es `null`, no cero. Jev usa métricas de Decision API; Haiku usa hooks y `AgentResult.metrics`. Los fallos del registro no alteran el resultado.
+
+Pruebas sin inferencia remota: `npm test`; incluye streams y sockets localhost.
+`npm run test:pack` prueba además los SDK reales con transporte Gateway simulado. Pendientes: backend real, QA de
 interfaz, revisión de privacidad y configuración de presupuesto del proveedor.
+
+## Strands extensions (pack v2)
+
+Each generative Agent has the native ContextInjector and CedarAuthorization. Context is a validated, ephemeral allowlist: stage/source/synthetic/reviewOnly and confirmed note version. Internal IDs and other note/task contents are not injected. HTTP rejects caller-supplied extra context fields. Missing native injection fails closed before model invocation through a required-context input guard.
+
+Cedar grants only the SDK internal `strands_structured_output` action, once, for a ready synthetic review-only context. All business/tool actions are explicitly forbidden, including accidentally added tools. The principal identifies this application capability; it is not user authentication or tenant authorization. The existing backend and human-review controls remain mandatory. Jev's Decision API has no Strands tool loop; these extensions apply to the generative Strands Agents, not a fictitious Jev plugin.
+
+Run `npm run test:pack` for native SDK, transport and authorization regressions. Complete verification also requires `npm run verify:evals` with `STRANDS_EVALS_PYTHON` set. No automatic inference or release follows these checks.

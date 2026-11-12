@@ -79,9 +79,11 @@ export async function analyzeAmbientEvent({
     throw new Error('Faltan callbacks de autenticación y lectura del backend.');
   }
   if (await isAuthorized(event) !== true) throw new Error('Acceso no autorizado.');
+  if (signal?.aborted) return abstain('cancelled');
   const snapshot = await getAuthorizedSnapshot(event);
   if (!snapshot || snapshot.shiftId !== event.shiftId) throw new Error('Snapshot ajeno al turno.');
   if (snapshot.synthetic !== true) throw new Error('Fuente de datos no acreditada como sintética.');
+  if (signal?.aborted) return abstain('cancelled');
   if (event.type !== 'note_saved') {
     const suggestions = inspectDrafts({ shiftId: event.shiftId, drafts: snapshot.drafts, beds: snapshot.beds });
     return suggestions.length > 0 ? { status:'proposed', suggestions } : abstain('no_suggestions');
@@ -142,7 +144,8 @@ async function decideNote(event, snapshot, settings, callbacks, flags) {
 
 async function decideMarked(event, snapshot, note, settings, callbacks, flags, mark) {
   const { classifyWithGateway, classifyWithDecision, recordComparison, extractNoteProposal, signal } = callbacks;
-  const withSignal = fn => (typeof fn === 'function' ? input => fn(input, { signal }) : fn);
+  const modelContext = Object.freeze({source:'confirmed-note', noteVersion:note.version});
+  const withSignal = fn => (typeof fn === 'function' ? input => fn(input, { signal, modelContext }) : fn);
   const classification = await classifySignal({
     event: { id:event.id, text:note.text, synthetic:true },
     mode: settings.decisionMode,
@@ -161,7 +164,8 @@ async function decideMarked(event, snapshot, note, settings, callbacks, flags, m
 
   flags.haikuCalled = true;
   let raw;
-  try { raw = await extractNoteProposal(note.text, { signal }); } catch { return abstain('extraction_failed'); }
+  try { raw = await extractNoteProposal(note.text, { signal, modelContext }); }
+  catch { return abstain(signal?.aborted ? 'cancelled' : 'extraction_failed'); }
   if (signal?.aborted) return abstain('cancelled');
   const action = validateNoteProposal(raw, note.text);
   mark.decided = true;

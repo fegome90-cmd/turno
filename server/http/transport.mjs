@@ -71,6 +71,8 @@ export function createHttpHandler({ secret, health, handle, now = Date.now, time
     if (req.method === 'GET' && req.url === '/healthz') return send(res, 200, health());
     if (req.method !== 'POST' || !paths.has(req.url)) return send(res, 404, { error: 'not_found' });
     const controller = new AbortController();
+    const onDisconnect = () => {if (!res.writableEnded) controller.abort();};
+    res.once?.('close', onDisconnect);
     const empty = () => req.url.endsWith('/capture')
       ? { status: 'abstain', proposals: [] } : { status: 'abstain', suggestions: [] };
     let authenticated = false;
@@ -101,6 +103,7 @@ export function createHttpHandler({ secret, health, handle, now = Date.now, time
       }
     } finally {
       clearTimeout(timer);
+      res.off?.('close', onDisconnect);
     }
   };
 }

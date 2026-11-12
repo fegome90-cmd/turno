@@ -1,3 +1,5 @@
+import {createTurnoExtensions} from './strands-extensions.mjs';
+import { invocationSignal, attachLifecycleMetrics } from './strands-runtime.mjs';
 import { readGatewaySettings, assertSyntheticEvent } from './gateway-config.mjs';
 import { createStrandsModel } from './model-factory.mjs';
 import { CLASSIFIER_PROMPT } from './prompts.mjs';
@@ -10,40 +12,39 @@ import { assertUsableStructuredOutput } from './gateway-capture.mjs';
 export async function createStrandsClassifier({ env = process.env, onMetrics } = {}) {
   const settings = readGatewaySettings(env);
   if (!settings.enabled) throw new Error('TURNO_AI_ENABLED debe ser 1 para crear el agente.');
-  const [{ Agent }, { z }] = await Promise.all([import('@strands-agents/sdk'), import('zod')]);
+  const [sdk, { z }] = await Promise.all([import('@strands-agents/sdk'), import('zod')]);
+  const {Agent} = sdk;
   const schema = z.object({ label: z.enum(['NO_ACTION','PROPOSE_TASK','PROPOSE_REMINDER','NEEDS_REVIEW']) });
-  // options.signal (P1-03): cancelación del llamador; se combina con el límite de 20 s.
-  return async function classifyWithGateway(event, { signal } = {}) {
+  return async function classifyWithGateway(event, {signal, modelContext, onMetrics: callMetrics = onMetrics} = {}) {
+    signal?.throwIfAborted();
     assertSyntheticEvent(event, settings);
     if (typeof event.text !== 'string' || event.text.length < 1 || event.text.length > 500) {
       throw new Error('Entrada de clasificación fuera de límites.');
     }
     // Agent por invocación: sin conversación o historial entre turnos.
+    const extensions = createTurnoExtensions({stage:'classification', modelContext, signal});
     const agent = new Agent({
+      ...extensions,
       model: await createStrandsModel(settings, { maxTokens: 1200, env }),
       systemPrompt: CLASSIFIER_PROMPT,
       structuredOutputSchema: schema,
       tools: [],
       printer: false,
     });
+    const observer = attachLifecycleMetrics(agent, sdk, callMetrics);
+    let result;
     try {
-      const result = await agent.invoke(JSON.stringify({ text: event.text }), {
-        cancelSignal: signal ? AbortSignal.any([signal, AbortSignal.timeout(20_000)]) : AbortSignal.timeout(20_000),
+      signal?.throwIfAborted();
+      result = await agent.invoke(JSON.stringify({ text: event.text }), {
+        cancelSignal: invocationSignal(signal, 20_000),
         limits: { turns: 1, outputTokens: 1200, totalTokens: 3000, structuredOutputAttempts: 1 },
       });
       // Igual que la captura: cancelado, filtrado o sin salida estructurada = fallo (el motor se abstiene).
+      signal?.throwIfAborted();
       const structuredOutput = assertUsableStructuredOutput(result);
-      if (typeof onMetrics === 'function') {
-        const usage = result.metrics?.toJSON?.()?.accumulatedUsage;
-        try {
-          onMetrics(Object.freeze({
-            inputTokens: Number.isFinite(usage?.inputTokens) ? usage.inputTokens : null,
-            outputTokens: Number.isFinite(usage?.outputTokens) ? usage.outputTokens : null,
-          }));
-        } catch { /* Observability cannot change the model result. */ }
-      }
       return schema.parse(structuredOutput);
     } finally {
+      observer.finish(result, signal);
       await agent.shutdown();
     }
   };

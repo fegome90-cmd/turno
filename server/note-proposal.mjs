@@ -1,3 +1,5 @@
+import {createTurnoExtensions} from './strands-extensions.mjs';
+import { invocationSignal, attachLifecycleMetrics } from './strands-runtime.mjs';
 import { readGatewaySettings } from './gateway-config.mjs';
 import { createStrandsModel } from './model-factory.mjs';
 import { NOTE_PROPOSAL_PROMPT } from './prompts.mjs';
@@ -38,39 +40,38 @@ export function validateNoteProposal(raw, noteText) {
 export async function createStrandsNoteExtractor({ env = process.env, onMetrics } = {}) {
   const config = readGatewaySettings(env);
   if (!config.enabled) throw new Error('Extracción de notas desactivada (TURNO_AI_ENABLED=0).');
-  const [{ Agent }, { z }] = await Promise.all([import('@strands-agents/sdk'), import('zod')]);
+  const [sdk, { z }] = await Promise.all([import('@strands-agents/sdk'), import('zod')]);
+  const {Agent} = sdk;
   const schema = z.object({
     action: z.object({ title: z.string(), sourceQuote: z.string() }).nullable(),
   });
-  // options.signal (P1-03): cancelación del llamador; se combina con el límite de 20 s.
-  return async function extractNoteProposal(noteText, { signal } = {}) {
+  return async function extractNoteProposal(noteText, {signal, modelContext, onMetrics: callMetrics = onMetrics} = {}) {
+    signal?.throwIfAborted();
     if (typeof noteText !== 'string' || noteText.length < 1 || noteText.length > 500) {
       throw new Error('Nota fuera de límites para extracción.');
     }
+    const extensions = createTurnoExtensions({stage:'extraction', modelContext, signal});
     const agent = new Agent({
+      ...extensions,
       model: await createStrandsModel(config, { maxTokens: 600, env }),
       systemPrompt: NOTE_PROPOSAL_PROMPT,
       structuredOutputSchema: schema,
       tools: [],
       printer: false,
     });
+    const observer = attachLifecycleMetrics(agent, sdk, callMetrics);
+    let result;
     try {
-      const result = await agent.invoke(JSON.stringify({ note: noteText }), {
-        cancelSignal: signal ? AbortSignal.any([signal, AbortSignal.timeout(20_000)]) : AbortSignal.timeout(20_000),
+      signal?.throwIfAborted();
+      result = await agent.invoke(JSON.stringify({ note: noteText }), {
+        cancelSignal: invocationSignal(signal, 20_000),
         limits: { turns: 1, outputTokens: 600, totalTokens: 2500, structuredOutputAttempts: 1 },
       });
+      signal?.throwIfAborted();
       const structuredOutput = assertUsableStructuredOutput(result);
-      if (typeof onMetrics === 'function') {
-        const usage = result.metrics?.toJSON?.()?.accumulatedUsage;
-        try {
-          onMetrics(Object.freeze({
-            inputTokens: Number.isFinite(usage?.inputTokens) ? usage.inputTokens : null,
-            outputTokens: Number.isFinite(usage?.outputTokens) ? usage.outputTokens : null,
-          }));
-        } catch { /* Observability cannot change the model result. */ }
-      }
       return schema.parse(structuredOutput);
     } finally {
+      observer.finish(result, signal);
       await agent.shutdown();
     }
   };

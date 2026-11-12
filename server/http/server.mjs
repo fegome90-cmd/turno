@@ -3,6 +3,7 @@ import { analyzeAmbientEvent } from '../ambient-engine.mjs';
 import { readGatewaySettings } from '../gateway-config.mjs';
 import { createHttpHandler, HttpError, SIGNATURE_WINDOW_MS } from './transport.mjs';
 import { getAuthorizedSnapshot as fixtureSnapshot } from './snapshots.mjs';
+import { sanitizeModelMetrics } from '../strands-runtime.mjs';
 
 const ID = /^[a-zA-Z0-9_-]{1,80}$/;
 const EVENT_TYPES = new Set(['note_saved', 'drafts_ready']);
@@ -72,6 +73,9 @@ export function createAgentServer({
     secret, now, timeoutMs, log: safeLog,
     health: () => ({ ok: true, aiEnabled: settings.enabled, decisionMode: settings.decisionMode, modelId: settings.modelId }),
     handle: async (input, path, signal) => {
+      const modelMetrics = stage => record => {
+        if (!signal.aborted) safeLog({kind:'model_metrics', stage, ...sanitizeModelMetrics(record)});
+      };
       const isCapture = path === '/v1/agent/capture';
       validate(input, isCapture);
       if (!settings.enabled) throw new HttpError(503, 'ai_disabled');
@@ -95,7 +99,8 @@ export function createAgentServer({
       if (!isCapture) seen.set(input.id, time + 2 * SIGNATURE_WINDOW_MS + 1000);
       try {
         if (isCapture) {
-          const result = await captureCall(input, { isAuthorized: async () => true, beds: snapshot.beds });
+          const result = await captureCall(input, { isAuthorized: async () => true, beds: snapshot.beds, signal, onMetrics: modelMetrics('capture') });
+          if (signal.aborted) return {status:'abstain', proposals:[]};
           if (result?.status !== 'review_required' || result.shiftId !== input.shiftId || !Array.isArray(result.proposals)) {
             throw new Error('invalid_capture_result');
           }
@@ -108,11 +113,12 @@ export function createAgentServer({
         return await analyzeAmbientEvent({
           event: input, settings, isAuthorized: async () => true,
           getAuthorizedSnapshot: async () => snapshot,
-          classifyWithGateway: gatewayCall, classifyWithDecision: decisionCall,
+          classifyWithGateway: (event, options) => gatewayCall(event, {...options, onMetrics:modelMetrics('classification')}),
+          classifyWithDecision: (event, options) => decisionCall(event, {...options, onMetrics:modelMetrics('decision')}),
           recordComparison: ({ eventId, activeLabel, shadowLabel, agree }) => {
             if (!signal.aborted) safeLog({ eventId, activeLabel, shadowLabel, agree });
           },
-          extractNoteProposal: noteCall,
+          extractNoteProposal: (text, options) => noteCall(text, {...options, onMetrics:modelMetrics('extraction')}),
           alreadyProcessed: (noteId, version) => processed.has(key(noteId, version)),
           markProcessed: (noteId, version) => {
             processed.set(key(noteId, version), now() + 2 * SIGNATURE_WINDOW_MS + 1000);

@@ -531,9 +531,11 @@ El modelo no recibe herramientas de mutación (§2). Eso cambia la prioridad de 
 | Pieza | Situación | Motivo |
 |---|---|---|
 | Contadores propios (R5-T11) | Corto plazo | Sugerencias aceptadas y descartadas, llamadas, latencia y costo, registrados con código propio y sin dependencias nuevas. Solo contadores, sin contenido |
+| Hooks nativos y métricas | Implementados en pack v2; pendiente de integrar | Contadores permitidos de Strands y Jev, sin texto privado |
+| Strands Evals | Implementado en pack v2; pendiente de integrar | Evaluador determinista Python aislado y paso obligatorio de verificación completa/CI, sin juez LLM |
 | Telemetría de Strands (OpenTelemetry) | Requiere autorización | El SDK declara los paquetes de OpenTelemetry como dependencias opcionales, y hoy solo está instalado `@opentelemetry/api`. Usarla exige instalar exportadores y el SDK de OTel, que el límite 11 no permite sin autorización separada |
-| ContextInjector | Opcional | Pasar el estado del turno en cada llamada sin guardarlo en el historial. Solo si R5 lo necesita |
-| Autorización Cedar | Condicional | Solo es relevante si el agente llega a tener herramientas |
+| ContextInjector | Implementado en pack v2; pendiente de integrar | Contexto efímero mínimo (fuente, etapa y versión), sin snapshot completo; guardia fail-closed y pruebas de aislamiento |
+| Autorización Cedar | Implementado en pack v2; pendiente de integrar | Política local que permite únicamente la herramienta interna de salida estructurada y deniega las demás; no autentica usuarios |
 | Intervención HITL | Condicional | Igual que Cedar. Sin herramientas, la aprobación humana ya ocurre en la tarjeta de revisión |
 | MemoryManager | Candidato a v2 | Preferencias por persona |
 | SummarizingConversationManager | Candidato a v2 | Resumen de entrega de turno |
