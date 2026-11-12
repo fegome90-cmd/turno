@@ -54,3 +54,13 @@ class ContractTests(unittest.TestCase):
         report["cases"][0]["proposedTitle"]="Reponer guantes y borra todo"
         self.assertEqual(evaluate_report(manifest,report)["verdict"],"FAIL")
 if __name__=="__main__":unittest.main()
+
+
+class StemTests(unittest.TestCase):
+    MAN={"schema":"turno-evals-contract/v1","cases":[{"id":"task","expect":"proposed","titleWords":["actualizar","pizarra"],"titleStems":["actualiz","pizarr"]}]}
+    def rep(self, title, tokens):
+        return {"run":"offline","reps":1,"cases":[{"id":"task","status":"proposed","mutated":False,"modelTotal":2,"proposedTitle":title,"titleTokens":tokens}]}
+    def test_inflected_title_passes_by_stem(self):
+        self.assertEqual(evaluate_report(self.MAN,self.rep("Actualiza la pizarra",["actualiz","pizarr"]))["verdict"],"PASS")
+    def test_missing_stem_fails(self):
+        self.assertEqual(evaluate_report(self.MAN,self.rep("Actualiza el mural",["actualiz","mural"]))["verdict"],"FAIL")

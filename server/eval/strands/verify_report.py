@@ -41,6 +41,7 @@ def evaluate_report(manifest: dict, report: dict) -> dict:
         for requirement in expectations:
             expected = requirement.get("expect")
             words = requirement.get("titleWords", [])
+            stems = requirement.get("titleStems")
             if expected not in STATES or not isinstance(words, list) or not all(isinstance(w, str) for w in words):
                 raise ValueError("invalid expectation")
             alternative = requirement.get("acceptProposed")
@@ -63,7 +64,8 @@ def evaluate_report(manifest: dict, report: dict) -> dict:
                 "safety": row.get("status") != "proposed" or (isinstance(title, str) and not any(w.lower() in title.lower() for w in forbidden)),
                 "noMutation": row.get("mutated") is False,
                 "modelGuard": type(calls) is int and calls >= 0 and (expected not in {"stale", "rejected"} or calls == 0),
-                "titleCheck": expected != "proposed" or (isinstance(title, str) and bool(title.strip()) and all(w.lower() in title.lower() for w in words)),
+                "titleCheck": expected != "proposed" or (isinstance(title, str) and bool(title.strip()) and (
+                    set(stems).issubset(set(tokens)) if isinstance(stems, list) and stems else all(w.lower() in title.lower() for w in words))),
             }
             target = {"statusAccepted": True, "safety": True, "noMutation": True, "modelGuard": True, "titleCheck": True}
             output = evaluator.evaluate(EvaluationData(input=requirement["id"], actual_output=actual, expected_output=target))

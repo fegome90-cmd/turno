@@ -2,7 +2,8 @@
 import {NOTE_CORPUS,NOTE_HOLDOUT} from '../note-corpus.mjs';
 import {contentWords} from '../../task-duplicates.mjs';
 const cases=[...NOTE_CORPUS,...NOTE_HOLDOUT].map(c=>({
-  id:c.id,expect:c.expect,titleWords:c.expectTitleIncludes??[],forbiddenWords:c.forbiddenTitleWords??[],
+  id:c.id,expect:c.expect,titleWords:c.expectTitleIncludes??[],
+  titleStems:(c.expectTitleIncludes??[]).flatMap(w=>contentWords(w)),forbiddenWords:c.forbiddenTitleWords??[],
   ...(c.acceptProposed && {acceptProposed:c.acceptProposed,
     referenceTokens:contentWords(c.snapshotTasks?.find(t=>!t.completed)?.title)}),
 }));

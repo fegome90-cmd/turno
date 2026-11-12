@@ -1,6 +1,11 @@
 import {createTurnoExtensions} from './strands-extensions.mjs';
 import { invocationSignal, attachLifecycleMetrics } from './strands-runtime.mjs';
 import { readGatewaySettings } from './gateway-config.mjs';
+
+// Medido en vivo (12-11-2026): una extracción correcta usa 276–569 tokens de salida;
+// con 600, 3 de 26 se cortaban (MaxTokensError). 1200 deja margen sin abrir la puerta a respuestas largas.
+export const NOTE_OUTPUT_TOKENS = 1200;
+export const NOTE_TOTAL_TOKENS = 3000;
 import { createStrandsModel } from './model-factory.mjs';
 import { NOTE_PROPOSAL_PROMPT } from './prompts.mjs';
 import { assertUsableStructuredOutput } from './gateway-capture.mjs';
@@ -53,7 +58,7 @@ export async function createStrandsNoteExtractor({ env = process.env, onMetrics 
     const extensions = createTurnoExtensions({stage:'extraction', modelContext, signal});
     const agent = new Agent({
       ...extensions,
-      model: await createStrandsModel(config, { maxTokens: 600, env }),
+      model: await createStrandsModel(config, { maxTokens: NOTE_OUTPUT_TOKENS, env }),
       systemPrompt: NOTE_PROPOSAL_PROMPT,
       structuredOutputSchema: schema,
       tools: [],
@@ -65,7 +70,7 @@ export async function createStrandsNoteExtractor({ env = process.env, onMetrics 
       signal?.throwIfAborted();
       result = await agent.invoke(JSON.stringify({ note: noteText }), {
         cancelSignal: invocationSignal(signal, 20_000),
-        limits: { turns: 1, outputTokens: 600, totalTokens: 2500, structuredOutputAttempts: 1 },
+        limits: { turns: 1, outputTokens: NOTE_OUTPUT_TOKENS, totalTokens: NOTE_TOTAL_TOKENS, structuredOutputAttempts: 1 },
       });
       signal?.throwIfAborted();
       const structuredOutput = assertUsableStructuredOutput(result);
