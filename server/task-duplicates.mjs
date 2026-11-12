@@ -5,6 +5,10 @@
  * detalle extra («sala 2», «de traslado») no es duplicado: se propone, y la persona decide.
  * Sin modelo, sin red. Las palabras vacías (artículos, preposiciones) se ignoran y las formas
  * verbales o de plural frecuentes se reducen a una raíz simple (ordena/ordenar -> "orden").
+ * Limitación conocida: la raíz es heurística y puede colisionar («sala» y «sal»
+ * reducen a «sal»). Una colisión puede causar abstención por duplicado pese a
+ * que las tareas sean distintas; la tarea abierta permanece visible y la persona
+ * puede crear otra manualmente. Nunca se realizan escrituras automáticas.
  */
 
 const STOPWORDS = new Set([
