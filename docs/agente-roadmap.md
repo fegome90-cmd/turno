@@ -467,7 +467,7 @@ Puerta nueva de este documento. Reúne la etapa 2 del documento 1 y el hecho ver
 - [ ] **R5-T04** En `server/decision-switch.mjs`, conservar a Jev como clasificador acotado. Costo y latencia por clasificación y tasa de abstención son métricas. La confianza numérica no se trata como probabilidad calibrada.
 - [ ] **R5-T05** En `server/gateway-capture.mjs` y `capture-review.mjs`, extraer **una** acción útil con `title`, ancla al fragmento fuente y referencia a `noteId` y `version` (en el sobre confiable; no se obedecen órdenes del texto). Si hay cero, más de una contradictoria o ninguna con respaldo: silencio. *(Una o varias acciones: depende de C4.)*
 - [ ] **R5-T06** Validar campos: título corto; sin inventar fecha, hora, prioridad, completitud ni lista. El título se puede editar en la tarjeta existente. Sin `saveTask` entre las herramientas de Strands y sin escritura en la respuesta. *(Hora escrita en un recordatorio: depende de C2.)*
-- [ ] **R5-T07** Comparar con las tareas existentes por regla exacta antes de mostrar. No pedir a Haiku que resuelva equivalencia difusa en el primer experimento.
+- [x] **R5-T07** Comparar con las tareas existentes por regla fija antes de mostrar (desde R5c: regla por palabras de contenido, ver §27). No pedir a Haiku que resuelva equivalencia difusa en el primer experimento.
 
 ### TASK — Interacción y límites de ejecución
 
@@ -641,7 +641,7 @@ Acción siguiente: <una sola, sin promoción implícita>
 | R3 — continuidad | `PENDING` | Pendientes accesibles sin transferencias ni modelo |
 | R4 — repetición exacta | `DEFERRED` | Evidencia de frecuencia antes de ejecutar |
 | G1 — PR #6 y PR #8 | `PASS` (11-11-2026, ver §27) | PR #8 sobre PR #6, tres verificaciones de G1-T03, CI en verde |
-| R5 — nota semántica | `IN_PROGRESS`: R5a y R5b en `PASS` (12-11-2026, ver §27); R5c (evaluación en vivo) pendiente de autorización | 18 casos, comparación con el flujo manual, autorización sintética |
+| R5 — nota semántica | `PASS` — decisión `KEEP` (12-11-2026, ver §27): R5a, R5b y R5c en `PASS` | 18 casos, comparación con el flujo manual, autorización sintética |
 | R6 — extensiones | `DEFERRED` | Valor demostrado y baseline convencional insuficiente |
 | Paquete F3 | No se crea (C1 = B, decidida el 12-11-2026) | — |
 | Etapas 7, 8 y 9 | `PENDING` | Ver §21 |
@@ -777,3 +777,19 @@ Veredicto: GO a revisión.
 Acción siguiente: R5c, con autorización.
 ```
 
+### REPLY — Turno Ambient | R5c (evaluación en vivo) y decisión R5 | 12-11-2026
+
+```markdown
+Estado: PASS — decisión R5: KEEP
+Base -> HEAD: 56d89da -> 134289a (PR #4, servidor)
+Cambio: primera corrida en vivo (DECISION, 18 casos, 24 llamadas): 16/18; fallaron los 2 duplicados porque la regla exacta no reconocía «Reponer guantes talla M en la sala 2» ni «Ordena la bodega de ropa limpia». Decisión de la persona dueña: regla por palabras, sin modelo. Una tarea abierta bloquea la propuesta si todas sus palabras de contenido (2 o más) aparecen en el título propuesto; se ignoran artículos y preposiciones, se quitan tildes y una raíz simple une «ordena» y «ordenar». Las letras sueltas cuentan como rótulos («pasillo A» ≠ «pasillo B»). Se agregó un conjunto de control aparte (NOTE_HOLDOUT, 4 casos: 3 duplicados parafraseados y «talla L» con «talla M» abierta, que sí debe proponerse); los 18 casos originales no cambian.
+Archivos: server/task-duplicates.mjs (nuevo), ambient-engine.mjs, ENDPOINT.md, eval/note-corpus.mjs, eval/run-note-eval.mjs (--holdout), package.json, pruebas; eval/results/r5-note-DECISION-2026-11-12(-holdout).json.
+VALIDATE: tester independiente: sin bloqueos; corregidos 2 hallazgos (letras sueltas tratadas como vacías; una tarea de una sola palabra ocultaba propuestas más largas). Colisiones de raíz conocidas y aceptadas (mes/mesa, paso/pasa): solo ocultan una propuesta; la persona puede crear la tarea a mano.
+TEST: servidor 187 -> 202/202; evaluación sin conexión con control 22/22.
+FIX: regla exacta -> regla por palabras; 2 correcciones del tester.
+REPLAY: en vivo (DECISION, 18 + 4 de control, 32 llamadas: 20 Jev, 12 Haiku): 22/22; títulos útiles 7/7; 0 propuestas fuera del grupo tarea; 0 escrituras; 0 llamadas en casos obsoletos o no autorizados; p50 de extremo a extremo 2021 ms, p95 3046 ms. Comparación con el flujo manual: −42,9 % pasos y −63,2 % tiempo (meta 20 % cumplida).
+LLM: 24 + 32 llamadas reales autorizadas. Costo Haiku estimado US$ 0,0023 + 0,0034 (Jev sin precio público); saldo 14,5018 -> 14,4930.
+Riesgos/pendientes: muestra pequeña y sintética (22 casos); sin sinónimos («pedir» ≠ «solicitar»); la confianza de Jev no es probabilidad calibrada. Integrar a main sigue sujeto a la revisión legal y de privacidad y a la aprobación de la persona dueña. D3 y D4 siguen abiertas.
+Veredicto: KEEP — GO a revisión.
+Acción siguiente: decidir D3/D4 y si se abren R2/R3; R6 sigue DEFERRED.
+```
