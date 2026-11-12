@@ -9,11 +9,6 @@ const abstain = reason => ({ status: 'abstain', reason, suggestions: [] });
 const counted = (fn, onCall) => typeof fn === 'function'
   ? async input => { onCall(); return fn(input); } : fn;
 
-/** Comparación exacta tras normalizar: NFC, recorte, espacios colapsados y minúsculas. */
-export function normalizeTaskTitle(title) {
-  return title.normalize('NFC').trim().replace(/\s+/g, ' ').toLocaleLowerCase('es');
-}
-
 function suggestion(id, kind, title, detail, taskIds = []) {
   return Object.freeze({ id, kind, title, detail, taskIds, channel: 'inbox',
     actions: ['review','dismiss'], requiresApproval: true });
