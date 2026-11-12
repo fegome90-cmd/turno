@@ -51,6 +51,7 @@ function asCandidate(result, source, threshold, needsConfidence) {
  * @param {(event:object)=>Promise<object>} options.classifyWithDecision - Local Decision API adapter.
  * @param {(record:object)=>Promise<void>|void} options.recordComparison - Metadata only.
  * @param {number} options.minConfidence - Experimental threshold (must be evaluated).
+ * @returns {Promise<object>} Active result. `failed: true` only when the active classifier threw (P1-03).
  */
 export async function classifySignal({
   event,
@@ -77,14 +78,14 @@ export async function classifySignal({
     try {
       return asCandidate(await classifyWithGateway(event), 'GATEWAY', minConfidence, false);
     } catch {
-      return { source: 'GATEWAY', status: 'abstain', label: 'NO_ACTION' };
+      return { source: 'GATEWAY', status: 'abstain', label: 'NO_ACTION', failed: true };
     }
   }
   if (mode === 'DECISION') {
     try {
       return asCandidate(await classifyWithDecision(event), 'DECISION', minConfidence, true);
     } catch {
-      return { source: 'DECISION', status: 'abstain', label: 'NO_ACTION' };
+      return { source: 'DECISION', status: 'abstain', label: 'NO_ACTION', failed: true };
     }
   }
 
@@ -93,9 +94,10 @@ export async function classifySignal({
     classifyWithGateway(event),
     classifyWithDecision(event),
   ]);
+  // failed:true solo cuando el clasificador ACTIVO lanza (P1-03); una salida de baja confianza no es fallo.
   const active = a.status === 'fulfilled'
     ? asCandidate(a.value, 'GATEWAY', minConfidence, false)
-    : { source: 'GATEWAY', status: 'abstain', label: 'NO_ACTION' };
+    : { source: 'GATEWAY', status: 'abstain', label: 'NO_ACTION', failed: true };
   const shadow = b.status === 'fulfilled'
     ? asCandidate(b.value, 'DECISION', minConfidence, true)
     : { source: 'DECISION', status: 'abstain', label: 'NO_ACTION' };

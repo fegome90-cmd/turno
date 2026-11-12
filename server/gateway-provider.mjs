@@ -12,7 +12,8 @@ export async function createStrandsClassifier({ env = process.env, onMetrics } =
   if (!settings.enabled) throw new Error('TURNO_AI_ENABLED debe ser 1 para crear el agente.');
   const [{ Agent }, { z }] = await Promise.all([import('@strands-agents/sdk'), import('zod')]);
   const schema = z.object({ label: z.enum(['NO_ACTION','PROPOSE_TASK','PROPOSE_REMINDER','NEEDS_REVIEW']) });
-  return async function classifyWithGateway(event) {
+  // options.signal (P1-03): cancelación del llamador; se combina con el límite de 20 s.
+  return async function classifyWithGateway(event, { signal } = {}) {
     assertSyntheticEvent(event, settings);
     if (typeof event.text !== 'string' || event.text.length < 1 || event.text.length > 500) {
       throw new Error('Entrada de clasificación fuera de límites.');
@@ -27,7 +28,7 @@ export async function createStrandsClassifier({ env = process.env, onMetrics } =
     });
     try {
       const result = await agent.invoke(JSON.stringify({ text: event.text }), {
-        cancelSignal: AbortSignal.timeout(20_000),
+        cancelSignal: signal ? AbortSignal.any([signal, AbortSignal.timeout(20_000)]) : AbortSignal.timeout(20_000),
         limits: { turns: 1, outputTokens: 1200, totalTokens: 3000, structuredOutputAttempts: 1 },
       });
       // Igual que la captura: cancelado, filtrado o sin salida estructurada = fallo (el motor se abstiene).

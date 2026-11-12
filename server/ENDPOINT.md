@@ -133,14 +133,16 @@ Códigos de abstención, en el orden en que se evalúan:
 | `note_not_found` | El `noteId` no está en el snapshot autorizado |
 | `empty` | La nota queda vacía tras recortar espacios |
 | `too_long` | Más de 500 caracteres |
-| `already_processed` | Ese `noteId` y versión ya se enviaron al clasificador |
+| `already_processed` | Ese turno, `noteId` y versión ya tienen una decisión registrada (ver «Semántica de procesamiento») |
 | `label_NO_ACTION` | El clasificador no ve nada pendiente |
 | `label_PROPOSE_REMINDER` | Recordatorio explícito: no hay sistema de alarmas (C2) |
 | `label_NEEDS_REVIEW` | Ambigua, condicional o clínica: no se propone (C3) |
-| `classifier_abstain` | Error, timeout o salida inválida del clasificador |
+| `classifier_abstain` | Salida inválida o confianza baja del clasificador (no es un fallo) |
+| `classifier_failed` | El clasificador activo lanzó error: la marca se libera y una nueva entrega reintenta |
+| `cancelled` | Se canceló la inferencia (deadline HTTP): la marca se libera |
 | `no_proposal` | El extractor no devolvió una acción con cita exacta, o devolvió cero o más de una |
-| `extraction_failed` | Error del extractor (el mensaje no se devuelve ni se registra) |
-| `duplicate` | Todas las palabras importantes de una tarea abierta aparecen en el título propuesto (sin distinguir mayúsculas ni tildes; artículos y preposiciones se ignoran; formas verbales como ordena/ordenar cuentan como la misma palabra). Las tareas completadas no bloquean |
+| `extraction_failed` | Error del extractor (el mensaje no se devuelve ni se registra); la marca se libera |
+| `duplicate` | El título propuesto tiene exactamente el mismo conjunto de palabras importantes que una tarea abierta (sin distinguir mayúsculas ni tildes; artículos y preposiciones se ignoran; ordena/ordenar cuentan como la misma palabra). Un detalle extra, como «en la sala 2», no es duplicado. Las tareas completadas no bloquean |
 
 Solo `PROPOSE_TASK` pide extracción. Un título con hora o fecha
 (`15:00`, `9.30`, `12/11`) se descarta; no se corrige.
@@ -150,13 +152,10 @@ Solo `PROPOSE_TASK` pide extracción. Un título con hora o fecha
 
 Se reserva cada `id` antes de invocar el motor. Repetirlo devuelve 401 genérico
 sin una segunda llamada al modelo. En `note_saved`, además, la pareja
-`noteId`+`noteVersion` se marca como procesada antes de clasificar; un evento
-nuevo con el mismo par devuelve `already_processed`. Esa marca tiene la misma
-vigencia que los IDs: 601 segundos. Pasado ese plazo la misma versión podría
-volver a procesarse; por eso el backend no debe reenviar notas sin cambios. Se conserva durante 601 segundos, cubriendo
-el máximo de vigencia de una firma futura válida. Máximo 10000 IDs: caché llena
+en `note_saved`, la clave `turno:noteId:noteVersion` se marca antes de clasificar
+(ver «Semántica de procesamiento»). Máximo 10000 IDs de evento: caché llena
 rechaza con 429 sin expulsar IDs vigentes. Un error o timeout tras la admisión
-también consume el ID y el cupo; no reintentes automáticamente eventos fallidos.
+también consume el ID de evento y el cupo; no reintentes automáticamente eventos fallidos.
 
 ### `POST /v1/agent/capture`
 
@@ -196,6 +195,17 @@ solicitud upstream ni evitar su costo. Las respuestas cierran la conexión.
 Replay, versiones procesadas y rate limit son **en memoria, por proceso**: reiniciar borra su estado.
 No usar varias réplicas sin un almacén compartido de replay/cupos. Este piloto
 no se despliega ni demuestra disponibilidad/costos del proveedor real.
+
+## Semántica de procesamiento
+
+- Una decisión (propuesta, `label_*`, `classifier_abstain` por baja confianza, `no_proposal`,
+  `duplicate`, `extraction_unavailable`) se registra como máximo una vez por turno + nota + versión
+  durante 601 segundos. Un segundo evento de esa misma versión devuelve `already_processed`.
+- Un fallo (`classifier_failed`, `extraction_failed`), una excepción o una cancelación (`cancelled`)
+  liberan la marca: el mismo texto puede volver a procesarse.
+- No hay reintento automático. Para recuperarse, guarda la nota de nuevo (nueva versión) o reenvía el evento.
+- El deadline HTTP (`TURNO_AGENT_TIMEOUT_MS`, 10 s por defecto) ahora cancela la inferencia en curso.
+  La respuesta sigue siendo el `200` vacío `{"status":"abstain","suggestions":[]}`; un resultado tardío no registra métricas ni comparaciones.
 
 ## Integración posterior del backend
 

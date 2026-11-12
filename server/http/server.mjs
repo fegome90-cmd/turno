@@ -46,22 +46,22 @@ export function createAgentServer({
     throw new Error('invalid_endpoint_configuration');
   }
   let gateway, decision, capture;
-  const gatewayCall = classifyWithGateway ?? (async input => {
+  const gatewayCall = classifyWithGateway ?? (async (input, options) => {
     gateway ??= import('../gateway-provider.mjs').then(m => m.createStrandsClassifier({ env }));
-    return (await gateway)(input);
+    return (await gateway)(input, options);
   });
-  const decisionCall = classifyWithDecision ?? (async input => {
+  const decisionCall = classifyWithDecision ?? (async (input, options) => {
     decision ??= import('../decision-provider.mjs').then(m => m.createRemoteDecisionClassifier({ env }));
-    return (await decision)(input);
+    return (await decision)(input, options);
   });
   const captureCall = proposeCapture ?? (async (input, context) => {
     capture ??= import('../gateway-capture.mjs').then(m => m.createStrandsCapture({ env }));
     return (await capture)(input, context);
   });
   let noteExtractor;
-  const noteCall = proposeNote ?? (async text => {
+  const noteCall = proposeNote ?? (async (text, options) => {
     noteExtractor ??= import('../note-proposal.mjs').then(m => m.createStrandsNoteExtractor({ env }));
-    return (await noteExtractor)(text);
+    return (await noteExtractor)(text, options);
   });
   const seen = new Map();
   // Confirmed note versions already sent to the classifier (same TTL policy as seen).
@@ -103,6 +103,8 @@ export function createAgentServer({
             ...proposal, actions: ['review', 'dismiss'], requiresApproval: true,
           })) };
         }
+        // P1-03: la marca es por turno + nota + versión. El deadline HTTP (signal) cancela la inferencia.
+        const key = (noteId, version) => input.shiftId + ':' + noteId + ':' + version;
         return await analyzeAmbientEvent({
           event: input, settings, isAuthorized: async () => true,
           getAuthorizedSnapshot: async () => snapshot,
@@ -111,10 +113,12 @@ export function createAgentServer({
             if (!signal.aborted) safeLog({ eventId, activeLabel, shadowLabel, agree });
           },
           extractNoteProposal: noteCall,
-          alreadyProcessed: (noteId, version) => processed.has(noteId + ':' + version),
+          alreadyProcessed: (noteId, version) => processed.has(key(noteId, version)),
           markProcessed: (noteId, version) => {
-            processed.set(noteId + ':' + version, now() + 2 * SIGNATURE_WINDOW_MS + 1000);
+            processed.set(key(noteId, version), now() + 2 * SIGNATURE_WINDOW_MS + 1000);
           },
+          releaseProcessed: (noteId, version) => { processed.delete(key(noteId, version)); },
+          signal,
           onMetrics: record => { if (!signal.aborted) safeLog(record); },
         });
       } finally {

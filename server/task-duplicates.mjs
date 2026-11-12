@@ -1,6 +1,8 @@
 /**
  * R5c: detección determinista de tareas duplicadas por palabras de contenido.
- * Regla: una tarea abierta está cubierta si todas sus palabras de contenido aparecen en el título propuesto.
+ * Regla (P1-02): una tarea abierta está cubierta solo si el título propuesto tiene EXACTAMENTE el mismo
+ * conjunto de palabras de contenido que la tarea (mismos miembros, mismo tamaño). Un título con
+ * detalle extra («sala 2», «de traslado») no es duplicado: se propone, y la persona decide.
  * Sin modelo, sin red. Las palabras vacías (artículos, preposiciones) se ignoran y las formas
  * verbales o de plural frecuentes se reducen a una raíz simple (ordena/ordenar -> "orden").
  */
@@ -39,7 +41,7 @@ export function contentWords(text) {
   return [...seen];
 }
 
-/** true si alguna tarea abierta con palabras de contenido tiene todas esas palabras en el título. Nunca lanza. */
+/** true si alguna tarea abierta (no completada, ≥ 2 palabras de contenido) tiene exactamente el mismo conjunto de palabras que el título. Nunca lanza. */
 export function isCoveredByOpenTask(title, tasks) {
   try {
     if (typeof title !== 'string' || !Array.isArray(tasks)) return false;
@@ -47,7 +49,7 @@ export function isCoveredByOpenTask(title, tasks) {
     return tasks.some(t => {
       if (!t || t.completed || typeof t.title !== 'string') return false;
       const words = contentWords(t.title);
-      return words.length >= MIN_TASK_WORDS && words.every(w => titleWords.has(w));
+      return words.length >= MIN_TASK_WORDS && words.length === titleWords.size && words.every(w => titleWords.has(w));
     });
   } catch {
     return false;

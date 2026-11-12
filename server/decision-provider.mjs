@@ -9,7 +9,8 @@ export async function createRemoteDecisionClassifier({ env = process.env } = {})
   // Use the key from the validated env, not only process.env; without a key, OIDC via the default provider.
   const key = typeof env.AI_GATEWAY_API_KEY === 'string' ? env.AI_GATEWAY_API_KEY.trim() : '';
   const gateway = key ? createGateway({ apiKey: key }) : defaultGateway;
-  return async function classifyWithDecision(event) {
+  // options.signal (P1-03): cancelación del llamador; se combina con el límite de 20 s.
+  return async function classifyWithDecision(event, { signal } = {}) {
     assertSyntheticEvent(event, settings);
     if (typeof event.text !== 'string' || event.text.length < 1 || event.text.length > 500) {
       throw new Error('Entrada de clasificación fuera de límites.');
@@ -25,7 +26,7 @@ export async function createRemoteDecisionClassifier({ env = process.env } = {})
         },
       }),
       maxRetries: 0,
-      abortSignal: AbortSignal.timeout(20_000),
+      abortSignal: signal ? AbortSignal.any([signal, AbortSignal.timeout(20_000)]) : AbortSignal.timeout(20_000),
     });
     const answer = result?.answers?.signal;
     const label = answer?.choice;

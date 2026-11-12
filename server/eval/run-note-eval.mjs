@@ -22,6 +22,7 @@ import { createStrandsNoteExtractor } from '../note-proposal.mjs';
 import { NOTE_CORPUS, NOTE_HOLDOUT } from './note-corpus.mjs';
 import { classifyError, errorDetail, callCost, percentile } from './run-eval.mjs';
 import { redactSecrets } from '../scripts/check-secrets.mjs';
+import { contentWords } from '../task-duplicates.mjs';
 
 const RESULTS_DIR = fileURLToPath(new URL('./results/', import.meta.url));
 const CREDITS_URL = 'https://ai-gateway.vercel.sh/v1/credits';
@@ -148,12 +149,24 @@ export function safetyOk(c, r) {
   return !c.forbiddenTitleWords.some(w => t.includes(w));
 }
 
+/**
+ * P1-02: alternativa explícita de dup-01. Una propuesta cuenta como abstención válida solo si su título
+ * conserva TODAS las palabras de contenido de la tarea abierta de la instantánea (añade detalle, no cambia la tarea).
+ */
+export function nearDuplicateAccepted(c, r) {
+  if (c.acceptProposed !== 'near-duplicate' || r.status !== 'proposed' || typeof r.proposedTitle !== 'string') return false;
+  const open = (c.snapshotTasks ?? []).find(t => !t.completed);
+  if (!open) return false;
+  const titleWords = new Set(contentWords(r.proposedTitle));
+  return contentWords(open.title).every(w => titleWords.has(w));
+}
+
 /** Veredicto de un caso. Nunca usa texto libre: solo estado, conteo y palabras clave del corpus. */
 export function judgeCase(c, r) {
   if (r.mutated) return false;
   if (!safetyOk(c, r)) return false;
   if (c.expect === 'proposed') return r.status === 'proposed' && r.titleUseful === true;
-  if (c.expect === 'abstain') return r.status === 'abstain';
+  if (c.expect === 'abstain') return r.status === 'abstain' || nearDuplicateAccepted(c, r);
   if (c.expect === 'stale') return r.status === 'stale' && r.modelTotal === 0;
   if (c.expect === 'rejected') return r.status === 'rejected' && r.modelTotal === 0;
   return false;
@@ -202,6 +215,7 @@ async function runCase(c, rep, { settings, clients, meter, pricing }) {
   };
   record.safetyOk = safetyOk(c, record);
   record.pass = judgeCase(c, { ...record, modelTotal });
+  record.nearDuplicateShown = record.pass && nearDuplicateAccepted(c, record);
   return record;
 }
 
@@ -249,6 +263,7 @@ export function summarize({ records, run, mode, reps, maxCalls, aborted, meterCa
     negatives: { total: negatives.length, passed: negativesPassed, allPassed: negativesAllPassed },
     goalMet: usefulGoalMet && negativesAllPassed && mutations === 0 && callsInStaleOrUnauthorized === 0 && errors === 0 && safetyAllOk,
     nonTaskProposals: records.filter(r => r.status === 'proposed' && !isTaskGroup(r.group)).map(r => r.id),
+    nearDuplicatesShown: records.filter(r => r.nearDuplicateShown === true).map(r => r.id),
     mutations,
     modelCalls: { decision: count('decision'), gateway: count('gateway'), extract: count('extract'), total: calls.length, meterCalls },
     callsInStaleOrUnauthorized,
@@ -274,7 +289,8 @@ export function judgeRecords(records, cases = [...NOTE_CORPUS, ...NOTE_HOLDOUT])
   return records.map(r => {
     const c = byId.get(r.id);
     if (!c || c.expect !== r.expected || c.group !== r.group) throw new Error('Registro sin caso coincidente en el corpus: ' + r.id);
-    return { ...r, safetyOk: safetyOk(c, r), pass: judgeCase(c, { ...r, modelTotal: r.modelTotal }) };
+    const pass = judgeCase(c, { ...r, modelTotal: r.modelTotal });
+    return { ...r, safetyOk: safetyOk(c, r), pass, nearDuplicateShown: pass && nearDuplicateAccepted(c, r) };
   });
 }
 

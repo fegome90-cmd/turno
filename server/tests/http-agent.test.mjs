@@ -15,8 +15,8 @@ function setup({ mode = 'GATEWAY', enabled = true, gateway, decision, proposeCap
     env: { TURNO_AGENT_SIGNING_SECRET: secret, TURNO_AI_ENABLED: enabled ? '1' : '0', TURNO_DECISION_MODE: mode, VERCEL: '1' },
     now: () => now,
     log: record => logs.push(record),
-    classifyWithGateway: async input => { calls.gateway++; return gateway ? gateway(input) : { label: 'PROPOSE_TASK' }; },
-    classifyWithDecision: async input => { calls.decision++; return decision ? decision(input) : { label: 'PROPOSE_REMINDER', confidence: 1 }; },
+    classifyWithGateway: async (input, options) => { calls.gateway++; return gateway ? gateway(input, options) : { label: 'PROPOSE_TASK' }; },
+    classifyWithDecision: async (input, options) => { calls.decision++; return decision ? decision(input, options) : { label: 'PROPOSE_REMINDER', confidence: 1 }; },
     proposeCapture: async (input, context) => {
       calls.capture++;
       return proposeCapture ? proposeCapture(input, context) : prepareCaptureReview(input, {
@@ -24,7 +24,7 @@ function setup({ mode = 'GATEWAY', enabled = true, gateway, decision, proposeCap
         invoke: async () => ({ proposals: [{ title: 'Revisar material', bedLabel: 'Cama 1', time: '15:00', beforeClose: false }] }),
       });
     },
-    proposeNote: async text => { notes.count++; return proposeNote(text); },
+    proposeNote: async (text, options) => { notes.count++; return proposeNote(text, options); },
     ...options,
   });
   const handler = server.listeners('request')[0];
@@ -140,9 +140,9 @@ test('AI off returns 503 for both routes with zero provider calls; health stays 
 
 test('model failure abstains without note text, errors, snapshots or signing material in logs', async () => {
   const s = setup({ gateway: input => { throw new Error(input.text + secret); }, proposeCapture: input => { throw new Error(input.text + secret); } });
-  assert.deepEqual((await s.event(event)).body, { status: 'abstain', reason: 'classifier_abstain', suggestions: [] });
+  assert.deepEqual((await s.event(event)).body, { status: 'abstain', reason: 'classifier_failed', suggestions: [] });
   assert.deepEqual((await s.capture(capture)).body, { status: 'abstain', proposals: [] });
-  assert.deepEqual(s.logs.map(r => typeof r === 'string' ? r : r.outcome), ['classifier_abstain', 'request_failed']);
+  assert.deepEqual(s.logs.map(r => typeof r === 'string' ? r : r.outcome), ['classifier_failed', 'request_failed']);
   assert.equal(JSON.stringify(s.logs).includes(capture.text), false);
   assert.equal(JSON.stringify(s.logs).includes(secret), false);
 });
@@ -207,4 +207,85 @@ test('timed-out work retains per-shift exclusion and suppresses late DUAL logs',
   release({ label: 'PROPOSE_TASK' });
   await new Promise(r => setImmediate(r));
   assert.deepEqual(s.logs, ['request_timeout']);
+});
+
+// P1-03: procesamiento por turno + nota + versión, liberación en fallo/cancelación y decisiones que sí quedan marcadas.
+const snapshotWith = (tasks = []) => input => ({ shiftId: input.shiftId, synthetic: true, beds: [], drafts: [],
+  notes: [{ id: 'note-1', version: 1, text: 'Falta reponer el carro de insumos sintético.' }], tasks });
+const otherShift = { ...event, id: 'endpoint-event-2', shiftId: 'other-shift' };
+const second = { ...event, id: 'endpoint-event-3' };
+
+test('P1-03: la misma nota y versión en dos turnos se procesan ambas', async () => {
+  const s = setup({ getAuthorizedSnapshot: snapshotWith() });
+  assert.equal((await s.event(event)).body.status, 'proposed');
+  assert.equal((await s.event(otherShift)).body.status, 'proposed');
+  assert.equal(s.notes.count, 2);
+});
+
+test('P1-03: un extractor que lanza libera la marca; otro evento de la misma versión se procesa de nuevo', async () => {
+  let n = 0;
+  const s = setup({ getAuthorizedSnapshot: snapshotWith(), proposeNote: async () => { if (++n === 1) throw new Error('fallo'); return proposeNoteFake(); } });
+  assert.deepEqual((await s.event(event)).body, { status: 'abstain', reason: 'extraction_failed', suggestions: [] });
+  assert.equal((await s.event(second)).body.status, 'proposed');
+  assert.equal(s.notes.count, 2);
+});
+
+test('P1-03: clasificador activo que lanza → classifier_failed y un nuevo evento reintenta', async () => {
+  let n = 0;
+  const s = setup({ getAuthorizedSnapshot: snapshotWith(), gateway: async () => { if (++n === 1) throw new Error('red'); return { label: 'PROPOSE_TASK' }; } });
+  assert.deepEqual((await s.event(event)).body, { status: 'abstain', reason: 'classifier_failed', suggestions: [] });
+  assert.equal((await s.event(second)).body.status, 'proposed');
+});
+
+for (const [name, opts, expected] of [
+  ['propuesta', {}, 'proposed'],
+  ['etiqueta NO_ACTION', { gateway: async () => ({ label: 'NO_ACTION' }) }, 'abstain'],
+  ['duplicado', { getAuthorizedSnapshot: snapshotWith([{ id: 't', title: 'Reponer carro de insumos sintético', completed: false }]) }, 'abstain'],
+]) {
+  test(`P1-03: decisión ${name} queda marcada: un nuevo evento de la misma versión es already_processed`, async () => {
+    const s = setup({ getAuthorizedSnapshot: snapshotWith(), ...opts });
+    assert.equal((await s.event(event)).body.status, expected);
+    assert.deepEqual((await s.event(second)).body, { status: 'abstain', reason: 'already_processed', suggestions: [] });
+  });
+}
+
+test('P1-03: el deadline HTTP cancela la inferencia: el extractor recibe abort, la respuesta es el 200 vacío y la misma versión se procesa de nuevo', async () => {
+  let hang = true;
+  let seenSignal;
+  let finishedCancel;
+  const cancelled = new Promise(r => { finishedCancel = r; });
+  const s = setup({ timeoutMs: 5, getAuthorizedSnapshot: snapshotWith(),
+    proposeNote: (text, options = {}) => {
+      if (!hang) return proposeNoteFake();
+      seenSignal = options.signal;
+      return new Promise((_, reject) => {
+        options.signal?.addEventListener('abort', () => { reject(new Error('cancelled')); finishedCancel(); }, { once: true });
+      });
+    } });
+  const timedOut = await s.event(event);
+  assert.equal(timedOut.status, 200);
+  assert.deepEqual(timedOut.body, { status: 'abstain', suggestions: [] });
+  await Promise.race([cancelled, new Promise(r => setTimeout(r, 200))]);
+  await new Promise(r => setImmediate(r));
+  assert.equal(seenSignal?.aborted, true, 'el extractor debe recibir una señal que se aborta con el deadline');
+  hang = false;
+  assert.equal((await s.event(second)).body.status, 'proposed');
+});
+
+test('P1-03: el deadline HTTP también cancela el clasificador activo; tras cancelar, la versión se procesa de nuevo', async () => {
+  let hang = true;
+  let seenSignal;
+  const s = setup({ timeoutMs: 5, getAuthorizedSnapshot: snapshotWith(),
+    gateway: (input, options) => {
+      if (!hang) return { label: 'PROPOSE_TASK' };
+      seenSignal = options?.signal;
+      return new Promise((_, reject) => {
+        options?.signal?.addEventListener('abort', () => reject(new Error('cancelled')), { once: true });
+      });
+    } });
+  assert.deepEqual((await s.event(event)).body, { status: 'abstain', suggestions: [] });
+  await new Promise(r => setTimeout(r, 20));
+  assert.equal(seenSignal?.aborted, true, 'el clasificador debe recibir la señal del deadline');
+  hang = false;
+  assert.equal((await s.event(second)).body.status, 'proposed');
 });

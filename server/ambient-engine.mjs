@@ -63,7 +63,8 @@ export function inspectDrafts({ shiftId, drafts, beds = [] }) {
 export async function analyzeAmbientEvent({
   event, settings, isAuthorized, getAuthorizedSnapshot,
   classifyWithGateway, classifyWithDecision, recordComparison,
-  extractNoteProposal, alreadyProcessed = () => false, markProcessed = () => {}, onMetrics,
+  extractNoteProposal, alreadyProcessed = () => false, markProcessed = () => {}, releaseProcessed = () => {},
+  signal, onMetrics,
 }) {
   if (!settings || !settings.enabled) return { status:'disabled', suggestions:[] };
   assertSyntheticEvent(event, settings);
@@ -87,6 +88,7 @@ export async function analyzeAmbientEvent({
   }
   return reviewNote(event, snapshot, settings, {
     classifyWithGateway, classifyWithDecision, recordComparison, extractNoteProposal, alreadyProcessed, markProcessed,
+    releaseProcessed, signal,
   }, onMetrics);
 }
 
@@ -116,7 +118,7 @@ async function reviewNote(event, snapshot, settings, callbacks, onMetrics) {
 }
 
 async function decideNote(event, snapshot, settings, callbacks, flags) {
-  const { classifyWithGateway, classifyWithDecision, recordComparison, extractNoteProposal, alreadyProcessed, markProcessed } = callbacks;
+  const { alreadyProcessed, markProcessed, releaseProcessed } = callbacks;
   if (!Array.isArray(snapshot.notes) || !Array.isArray(snapshot.tasks)) throw new Error('Snapshot de turno inválido.');
   const note = snapshot.notes.find(n => n && n.id === event.noteId);
   if (!note) return abstain('note_not_found');
@@ -127,23 +129,42 @@ async function decideNote(event, snapshot, settings, callbacks, flags) {
 
   flags.eligible = true;
   markProcessed(note.id, note.version);
+  // P1-03: la marca se conserva solo en resultados decididos. Fallo, excepción o cancelación la liberan.
+  const mark = { decided: false };
+  try {
+    return await decideMarked(event, snapshot, note, settings, callbacks, flags, mark);
+  } finally {
+    if (!mark.decided) {
+      try { releaseProcessed(note.id, note.version); } catch { /* Release cannot change the response. */ }
+    }
+  }
+}
+
+async function decideMarked(event, snapshot, note, settings, callbacks, flags, mark) {
+  const { classifyWithGateway, classifyWithDecision, recordComparison, extractNoteProposal, signal } = callbacks;
+  const withSignal = fn => (typeof fn === 'function' ? input => fn(input, { signal }) : fn);
   const classification = await classifySignal({
     event: { id:event.id, text:note.text, synthetic:true },
     mode: settings.decisionMode,
-    classifyWithGateway: counted(classifyWithGateway, () => { flags.jevCalled = true; }),
-    classifyWithDecision: counted(classifyWithDecision, () => { flags.jevCalled = true; }),
+    classifyWithGateway: counted(withSignal(classifyWithGateway), () => { flags.jevCalled = true; }),
+    classifyWithDecision: counted(withSignal(classifyWithDecision), () => { flags.jevCalled = true; }),
     recordComparison,
     ...(Number.isFinite(settings.decisionMinConfidence) && { minConfidence: settings.decisionMinConfidence }),
   });
+  if (signal?.aborted) return abstain('cancelled');
+  if (classification.failed === true) return abstain('classifier_failed');
   if (classification.status !== 'candidate' || classification.label !== 'PROPOSE_TASK') {
+    mark.decided = true;
     return abstain(classification.status === 'abstain' ? 'classifier_abstain' : `label_${classification.label}`);
   }
-  if (typeof extractNoteProposal !== 'function') return abstain('extraction_unavailable');
+  if (typeof extractNoteProposal !== 'function') { mark.decided = true; return abstain('extraction_unavailable'); }
 
   flags.haikuCalled = true;
   let raw;
-  try { raw = await extractNoteProposal(note.text); } catch { return abstain('extraction_failed'); }
+  try { raw = await extractNoteProposal(note.text, { signal }); } catch { return abstain('extraction_failed'); }
+  if (signal?.aborted) return abstain('cancelled');
   const action = validateNoteProposal(raw, note.text);
+  mark.decided = true;
   if (!action) return abstain('no_proposal');
 
   if (isCoveredByOpenTask(action.title, snapshot.tasks)) return abstain('duplicate');

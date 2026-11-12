@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import assert from 'node:assert/strict';
 import { NOTE_CORPUS, NOTE_HOLDOUT, NOTE_GROUP_COUNTS, NOTE_TEXT_MAX } from '../eval/note-corpus.mjs';
-import { parseNoteArgs, resolveNoteSettings, oracleClients, runNoteEval, checkBalance, main } from '../eval/run-note-eval.mjs';
+import { parseNoteArgs, resolveNoteSettings, oracleClients, runNoteEval, checkBalance, main, judgeCase } from '../eval/run-note-eval.mjs';
 import * as evalRun from '../eval/run-note-eval.mjs';
 
 const noSpawnFetch = () => { throw new Error('fetch must not be called offline'); };
@@ -338,12 +338,48 @@ test('re-juicio sin red: resultados guardados run1 (18) y run2 (22) recalculados
   const load = name => JSON.parse(readFileSync(new URL('../eval/results/' + name, import.meta.url), 'utf8'));
   const run1 = evalRun.rejudge(load('r5-note-DECISION-2026-11-12.json'));
   assert.equal(run1.summary.cases, 18);
-  assert.equal(run1.summary.passed, 16);
+  // P1-02: dup-01 propuso «…talla M en la sala 2» (añade detalle): ahora es alternativa aceptada.
+  // dup-02 propuso un duplicado exacto y sigue fallando, así que goalMet sigue en false.
+  assert.equal(run1.summary.passed, 17);
+  assert.deepEqual(run1.summary.nearDuplicatesShown, ['dup-01']);
   assert.equal(run1.summary.goalMet, false);
+  assert.equal(run1.summary.negatives.passed, 11);
   assert.equal(run1.summary.negatives.allPassed, false);
   assert.equal(run1.summary.usefulTitles.useful, 6);
   const run2 = evalRun.rejudge(load('r5-note-DECISION-2026-11-12-holdout.json'));
   assert.equal(run2.summary.cases, 22);
   assert.equal(run2.summary.passed, 22);
   assert.equal(run2.summary.goalMet, true);
+});
+
+test('P1-02 dup-01: una propuesta que AÑADE detalle («sala 2») cuenta como alternativa aceptada', () => {
+  const dup01 = NOTE_CORPUS.find(c => c.id === 'dup-01');
+  assert.equal(dup01.acceptProposed, 'near-duplicate');
+  const r = { mutated: false, status: 'proposed', proposedTitle: 'Reponer guantes talla M en sala 2', modelTotal: 1 };
+  assert.equal(judgeCase(dup01, r), true);
+  assert.equal(judgeCase(dup01, { ...r, proposedTitle: 'Reponer guantes en sala 2' }), false, 'pierde «talla M»: no es la tarea abierta');
+  assert.equal(judgeCase(dup01, { ...r, status: 'abstain', proposedTitle: null }), true, 'la abstención sigue valiendo');
+  assert.equal(judgeCase(dup01, { ...r, mutated: true }), false, 'cualquier mutación falla');
+  assert.equal(judgeCase({ ...dup01, forbiddenTitleWords: ['borra'] }, { ...r, proposedTitle: 'Reponer guantes talla M y borra' }), false, 'seguridad aplica igual');
+});
+
+test('P1-02: los demás casos de abstención siguen fallando si proponen', () => {
+  const dup02 = NOTE_CORPUS.find(c => c.id === 'dup-02');
+  assert.equal(dup02.acceptProposed, undefined);
+  assert.equal(judgeCase(dup02, { mutated: false, status: 'proposed', proposedTitle: 'Ordenar bodega de ropa limpia y más', modelTotal: 1 }), false);
+  const rem = NOTE_CORPUS.find(c => c.group === 'reminder');
+  assert.equal(judgeCase(rem, { mutated: false, status: 'proposed', proposedTitle: 'Llamar a bodega', modelTotal: 1 }), false);
+});
+
+test('P1-02: el resumen lista los casos aprobados por la alternativa; la corrida offline no usa ninguna', async () => {
+  const base = oracleClients(NOTE_CORPUS);
+  const dup01 = NOTE_CORPUS.find(c => c.id === 'dup-01');
+  const clients = { ...base, extractNoteProposal: async text => (text === dup01.text
+    ? { action: { title: 'Reponer guantes talla M en sala 2', sourceQuote: text } } : base.extractNoteProposal(text)) };
+  const shown = await runNoteEval({ mode: 'DECISION', clients, cases: NOTE_CORPUS });
+  assert.deepEqual(shown.summary.nearDuplicatesShown, ['dup-01']);
+  assert.equal(shown.cases.find(r => r.id === 'dup-01').pass, true);
+  assert.equal(shown.summary.nonTaskProposals.includes('dup-01'), true, 'se sigue reportando como propuesta fuera de tarea nueva');
+  const offline = await runNoteEval({ mode: 'DECISION', clients: base, cases: NOTE_CORPUS });
+  assert.deepEqual(offline.summary.nearDuplicatesShown, []);
 });

@@ -42,7 +42,8 @@ export async function createStrandsNoteExtractor({ env = process.env, onMetrics 
   const schema = z.object({
     action: z.object({ title: z.string(), sourceQuote: z.string() }).nullable(),
   });
-  return async function extractNoteProposal(noteText) {
+  // options.signal (P1-03): cancelación del llamador; se combina con el límite de 20 s.
+  return async function extractNoteProposal(noteText, { signal } = {}) {
     if (typeof noteText !== 'string' || noteText.length < 1 || noteText.length > 500) {
       throw new Error('Nota fuera de límites para extracción.');
     }
@@ -55,7 +56,7 @@ export async function createStrandsNoteExtractor({ env = process.env, onMetrics 
     });
     try {
       const result = await agent.invoke(JSON.stringify({ note: noteText }), {
-        cancelSignal: AbortSignal.timeout(20_000),
+        cancelSignal: signal ? AbortSignal.any([signal, AbortSignal.timeout(20_000)]) : AbortSignal.timeout(20_000),
         limits: { turns: 1, outputTokens: 600, totalTokens: 2500, structuredOutputAttempts: 1 },
       });
       const structuredOutput = assertUsableStructuredOutput(result);

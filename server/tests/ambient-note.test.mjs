@@ -20,9 +20,9 @@ function run({ event = noteEvent, snapshot = noteSnapshot(), gateway = async () 
   const marks = [];
   const promise = analyzeAmbientEvent({
     event, settings, isAuthorized, getAuthorizedSnapshot: async () => snapshot,
-    classifyWithGateway: async input => { calls.gateway++; return gateway(input); },
-    classifyWithDecision: async input => { calls.decision++; return decision ? decision(input) : { label: 'NO_ACTION', confidence: 1 }; },
-    extractNoteProposal: async text => { calls.extract++; return extract(text); },
+    classifyWithGateway: async (input, options) => { calls.gateway++; return gateway(input, options); },
+    classifyWithDecision: async (input, options) => { calls.decision++; return decision ? decision(input, options) : { label: 'NO_ACTION', confidence: 1 }; },
+    extractNoteProposal: async (text, options) => { calls.extract++; return extract(text, options); },
     onMetrics: record => records.push(record),
     markProcessed: (noteId, version) => marks.push([noteId, version]),
     ...rest,
@@ -93,9 +93,9 @@ for (const [label, expected] of [['NO_ACTION', 'label_NO_ACTION'], ['PROPOSE_REM
   });
 }
 
-test('el clasificador que falla se abstiene y no pide extracción', async () => {
+test('el clasificador que falla se abstiene (classifier_failed) y no pide extracción', async () => {
   const { promise, calls } = run({ gateway: async () => { throw new Error('red caída'); } });
-  assert.deepEqual(await promise, { status: 'abstain', reason: 'classifier_abstain', suggestions: [] });
+  assert.deepEqual(await promise, { status: 'abstain', reason: 'classifier_failed', suggestions: [] });
   assert.equal(calls.extract, 0);
 });
 
@@ -158,10 +158,19 @@ test('el snapshot sin notas o tareas válidas falla cerrado', async () => {
   await assert.rejects(run({ snapshot: noteSnapshot({ tasks: undefined }) }).promise, /Snapshot de turno inválido/);
 });
 
-test('R5c-FIX: "en la sala 2" con tarea abierta "Reponer guantes talla M" se abstiene como duplicado', async () => {
+test('P1-02: "en la sala 2" con tarea abierta "Reponer guantes talla M" se propone (detalle distinto, no duplicado)', async () => {
   const text = 'Falta reponer guantes talla M en la sala 2.';
   const snapshot = noteSnapshot({ notes: [{ id: 'note-1', version: 2, text }], tasks: [{ id: 't', title: 'Reponer guantes talla M', completed: false }] });
   const { promise } = run({ snapshot, extract: async () => ({ action: { title: 'Reponer guantes talla M en la sala 2', sourceQuote: 'reponer guantes talla M en la sala 2' } }) });
+  const result = await promise;
+  assert.equal(result.status, 'proposed');
+  assert.equal(result.suggestions[0].title, 'Reponer guantes talla M en la sala 2');
+});
+
+test('P1-02: el mismo conjunto de palabras con la tarea abierta se abstiene como duplicado', async () => {
+  const text = 'Falta reponer guantes talla M.';
+  const snapshot = noteSnapshot({ notes: [{ id: 'note-1', version: 2, text }], tasks: [{ id: 't', title: 'Reponer guantes talla M', completed: false }] });
+  const { promise } = run({ snapshot, extract: async () => ({ action: { title: 'Reponer guantes talla M', sourceQuote: 'reponer guantes talla M' } }) });
   assert.deepEqual(await promise, { status: 'abstain', reason: 'duplicate', suggestions: [] });
 });
 
@@ -173,3 +182,55 @@ test('R5c-FIX: otra talla con la misma tarea abierta sigue proponiéndose', asyn
   assert.equal(result.status, 'proposed');
   assert.equal(result.suggestions[0].title, 'Reponer guantes talla L');
 });
+
+// P1-03: marca de procesado. Decidido = se mantiene; fallo, excepción o cancelación = releaseProcessed.
+const releasing = () => { const released = []; return { released, releaseProcessed: (noteId, version) => released.push([noteId, version]) }; };
+
+test('P1-03: clasificador activo que lanza → classifier_failed y libera la marca', async () => {
+  const { released, releaseProcessed } = releasing();
+  const { promise } = run({ gateway: async () => { throw new Error('red'); }, releaseProcessed });
+  assert.deepEqual(await promise, { status: 'abstain', reason: 'classifier_failed', suggestions: [] });
+  assert.deepEqual(released, [['note-1', 2]]);
+});
+
+test('P1-03: extractor que lanza → extraction_failed y libera la marca', async () => {
+  const { released, releaseProcessed } = releasing();
+  const { promise } = run({ extract: async () => { throw new Error('fallo'); }, releaseProcessed });
+  assert.deepEqual(await promise, { status: 'abstain', reason: 'extraction_failed', suggestions: [] });
+  assert.deepEqual(released, [['note-1', 2]]);
+});
+
+test('P1-03: excepción inesperada después de marcar → libera la marca y relanza', async () => {
+  const { released, releaseProcessed } = releasing();
+  const { promise } = run({ settings: { ...settings, decisionMinConfidence: 2 }, releaseProcessed });
+  await assert.rejects(promise, /Umbral de confianza inválido/);
+  assert.deepEqual(released, [['note-1', 2]]);
+});
+
+test('P1-03: cancelación durante la extracción → cancelled, libera la marca y el extractor recibe la señal', async () => {
+  const { released, releaseProcessed } = releasing();
+  const controller = new AbortController();
+  let received;
+  const { promise } = run({ signal: controller.signal, releaseProcessed,
+    extract: async (text, options) => { received = options?.signal; controller.abort(); return proposal; } });
+  assert.deepEqual(await promise, { status: 'abstain', reason: 'cancelled', suggestions: [] });
+  assert.equal(received, controller.signal);
+  assert.deepEqual(released, [['note-1', 2]]);
+});
+
+for (const [name, opts, reason] of [
+  ['propuesta', {}, 'proposed'],
+  ['etiqueta NO_ACTION', { gateway: async () => ({ label: 'NO_ACTION' }) }, 'label_NO_ACTION'],
+  ['baja confianza (no es fallo)', { decision: () => ({ label: 'PROPOSE_TASK', confidence: 0.1 }), settings: { ...settings, decisionMode: 'DECISION' } }, 'classifier_abstain'],
+  ['sin propuesta válida', { extract: async () => ({ action: null }) }, 'no_proposal'],
+  ['duplicado', { snapshot: noteSnapshot({ notes: [{ id: 'note-1', version: 2, text: 'Falta reponer guantes sintéticos.' }], tasks: [{ id: 't', title: 'Reponer guantes sintéticos', completed: false }] }) }, 'duplicate'],
+  ['extracción no disponible', { extractNoteProposal: undefined }, 'extraction_unavailable'],
+]) {
+  test(`P1-03: decisión ${name} conserva la marca (no se libera)`, async () => {
+    const { released, releaseProcessed } = releasing();
+    const { promise } = run({ ...opts, releaseProcessed });
+    const result = await promise;
+    assert.equal(result.reason ?? result.status, reason);
+    assert.deepEqual(released, []);
+  });
+}
