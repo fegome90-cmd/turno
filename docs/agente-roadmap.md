@@ -641,7 +641,7 @@ Acción siguiente: <una sola, sin promoción implícita>
 | R3 — continuidad | `PENDING` | Pendientes accesibles sin transferencias ni modelo |
 | R4 — repetición exacta | `DEFERRED` | Evidencia de frecuencia antes de ejecutar |
 | G1 — PR #6 y PR #8 | `PASS` (11-11-2026, ver §27) | PR #8 sobre PR #6, tres verificaciones de G1-T03, CI en verde |
-| R5 — nota semántica | `PENDING` (con puerta; C2, C3 y C4 decididas el 12-11-2026) | 18 casos, comparación con el flujo manual, autorización sintética |
+| R5 — nota semántica | `IN_PROGRESS`: R5a y R5b en `PASS` (12-11-2026, ver §27); R5c (evaluación en vivo) pendiente de autorización | 18 casos, comparación con el flujo manual, autorización sintética |
 | R6 — extensiones | `DEFERRED` | Valor demostrado y baseline convencional insuficiente |
 | Paquete F3 | No se crea (C1 = B, decidida el 12-11-2026) | — |
 | Etapas 7, 8 y 9 | `PENDING` | Ver §21 |
@@ -758,5 +758,22 @@ LLM: 0 llamadas.
 Riesgos/pendientes: T05 (retroalimentación shown/dismissed/expired) no se implementó, sin telemetría nueva. Dos cambios agrupados en un mismo render (ir y volver de hora) conservan el descarte. Firefox, WebKit y lector de pantalla no se probaron.
 Veredicto: GO a revisión.
 Acción siguiente: R5, con su puerta (G1, R0, R1a y R1b en PASS; C2–C4 decididas).
+```
+
+### REPLY — Turno Ambient | R5a (servidor) y R5b (interfaz) | 12-11-2026
+
+```markdown
+Estado: PASS (sin inferencia real; R5c pendiente)
+Base -> HEAD: servidor 47516ca -> 1eee902 (PR #4); interfaz 335aa97 -> 38c6e8e (PR #5)
+Cambio: R5a: note_saved lleva noteId y noteVersion; el servidor lee la nota del snapshot autorizado. Filtros fijos antes del modelo (nota inexistente o desactualizada, vacía, más de 500 caracteres, ya procesada). Solo PROPOSE_TASK pasa a extraer una única acción (C2–C4). El título debe citar un fragmento exacto de la nota (8 caracteres o más) y no lleva fecha, hora ni día relativo; una tarea abierta con el mismo título la bloquea. Un registro de métricas por nota, solo contadores. R5b: la propuesta aparece debajo de la nota guardada con «Revisar tarea» y «Descartar»; «Revisar tarea» abre la tarjeta de revisión existente con solo el título; se descarta en silencio si la nota cambió, se eligió otra o pasaron 20 s. La demo no tiene fuente de propuestas.
+Archivos: server/ (ambient-engine, note-proposal, prompts, http/server, http/snapshots, live-background, ENDPOINT.md, README.md y pruebas); prototypes/frontend-v6/ (note-proposals, use-note-proposal, NoteProposal, EditorForm, AssistanceDialog, App, create-session, editor.css y pruebas); docs/ambient-ui-v6.md.
+VALIDATE: revisión adversaria de worker y tester: la nota llega al modelo como datos JSON con instrucciones fijas; ninguna ruta de abstención llama al extractor; el navegador nunca envía el texto; sin fetch nuevo en la interfaz.
+TEST: servidor 120 -> 166/166, sin fallos intermitentes en dos corridas; interfaz unitarias 167 -> 173, componentes 328 -> 346, E2E 231/231, check:portable PASS. Pruebas nuevas en FAIL sobre el código anterior.
+FIX: escenario «recordatorio» de la prueba en vivo alineado con C2; cita mínima de 8 caracteres; «15h», «hoy», «mañana» y días de la semana rechazados en el título; fuente que lanza o no devuelve promesa queda en silencio; la interfaz revalida cada propuesta antes de mostrarla.
+REPLAY: servidor real con peticiones firmadas y modelos simulados: propuesta, 401 por repetición, ya procesada, desactualizada, NEEDS_REVIEW y PROPOSE_REMINDER se abstienen, duplicado, 400 si el cuerpo trae texto. Demo en Chromium (1440×900 y 390×844): al guardar una nota no aparece propuesta y no sale ninguna petición.
+LLM: 0 llamadas reales.
+Riesgos/pendientes: R5c (18 casos en vivo con Jev y Haiku, costo por tarea aprobada y comparación del 20 % con el flujo manual) requiere autorización de gasto. La versión de nota procesada se recuerda 601 s por proceso. Si el clasificador falla, esa versión no se reintenta en ese lapso.
+Veredicto: GO a revisión.
+Acción siguiente: R5c, con autorización.
 ```
 
