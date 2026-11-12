@@ -31,6 +31,9 @@ export function validateEditor(draft: Task | QuickNote, temporal: TemporalDraft 
   } catch (error) {
     errors.date = (error as Error).message;
   }
+  if ('beforeClose' in draft && draft.beforeClose && (temporal.date || temporal.time)) {
+    errors.date = 'Antes del cierre no tiene fecha ni hora programada.';
+  }
   const time = String(temporal.time).trim();
   if (time && !date && !errors.date) errors.date = 'Agrega una fecha antes de indicar una hora.';
 

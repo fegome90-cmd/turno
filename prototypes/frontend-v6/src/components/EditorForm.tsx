@@ -1,9 +1,9 @@
-import {useLayoutEffect, useRef} from 'react';
+import {useLayoutEffect, useRef, type ReactNode} from 'react';
 import {useStore} from 'zustand';
 import {Field} from '@base-ui/react/field';
 import {Form} from '@base-ui/react/form';
 import {Plus} from 'lucide-react';
-import type {TurnoStore} from '../app/store';
+import type {SaveResult, TurnoStore} from '../app/store';
 import type {Selection} from '../domain/types';
 import '../styles/editor.css';
 
@@ -15,9 +15,11 @@ function fitTitle(node: HTMLTextAreaElement) {
 }
 
 export type FieldFocusRequest = {revision: number; selection: Selection; origin: Element | null};
-export type EditorProps = {store: TurnoStore; beforeEdit?: () => void; focusFirstInvalid?: (request: FieldFocusRequest) => void; onCreateTask?: () => void};
+export type EditorProps = {store: TurnoStore; beforeEdit?: () => void; focusFirstInvalid?: (request: FieldFocusRequest) => void; onCreateTask?: () => void;
+  // Solo notas: se llama tras un guardado confirmado; `noteAside` se muestra bajo el formulario.
+  onNoteSaved?: (result: SaveResult) => void; noteAside?: ReactNode};
 
-export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreateTask}: EditorProps & {note: boolean}) {
+export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreateTask, onNoteSaved, noteAside}: EditorProps & {note: boolean}) {
   const state = useStore(store);
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
@@ -78,6 +80,7 @@ export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreate
     const result = note ? await store.getState().saveNote() : await store.getState().saveTask();
     if (result.status === 'invalid') queueMicrotask(() => focusInvalid(request));
     else if (result.status === 'saved' && result.appliedToDraft && result.revision === request.revision) queueMicrotask(() => restoreActionFocus(request));
+    if (note && result.status === 'saved') onNoteSaved?.(result);
   };
   const cancel = () => {
     if (locked || store.getState().busy) return;
@@ -87,7 +90,7 @@ export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreate
     const request = {origin, revision: current.draftRevision, selection: current.selection};
     queueMicrotask(() => restoreActionFocus(request));
   };
-  const setTask = (field: 'reason'|'priority'|'completed', value: string|boolean) => {
+  const setTask = (field: 'reason'|'priority'|'completed'|'beforeClose', value: string|boolean) => {
     if (locked || store.getState().busy) return;
     beforeEdit?.(); state.setTaskField(field, value);
   };
@@ -119,6 +122,7 @@ export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreate
         <span className="metadata-context">{state.snapshot?.beds.find((bed) => bed.id === task?.bedId)?.label ?? 'Sin lista'}</span>
         <label className="metadata-field" htmlFor="reason"><span>Motivo</span><input id="reason" name="reason" data-focus-key="field-reason" value={draft.reason} placeholder="Ej.: Exámenes" maxLength={80} readOnly={locked} onChange={(event) => setTask('reason', event.currentTarget.value)}/></label>
         <label className="metadata-field priority-field" htmlFor="priority"><span>Prioridad</span><select id="priority" name="priority" data-focus-key="field-priority" value={draft.priority} disabled={locked} onChange={(event) => setTask('priority', event.currentTarget.value)}><option value="normal">Normal</option><option value="high">Alta</option><option value="low">Baja</option></select></label>
+        <label className="before-close-control" htmlFor="editor-before-close"><input id="editor-before-close" type="checkbox" checked={draft.beforeClose} disabled={locked} onChange={(event) => setTask('beforeClose', event.currentTarget.checked)}/><span>Antes del cierre</span></label>
       </div> : <p className="note-caption">Una nota independiente de tus turnos y listas.</p>}
       <Field.Root name="body" invalid={!!state.errors.body} className="body-field">
         <Field.Label className="notes-heading" htmlFor="body">{note ? 'Texto de la nota' : 'Notas de la tarea'}</Field.Label>
@@ -131,5 +135,6 @@ export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreate
         {!readOnly && <div className="save-actions"><button type="button" disabled={!state.dirty || state.busy} onClick={cancel}>Cancelar</button><button type="submit" className="primary" disabled={!state.dirty || state.busy}>{state.busy ? 'Guardando…' : 'Guardar'}</button></div>}
       </div>
     </Form>
+    {note && noteAside}
   </main>;
 }

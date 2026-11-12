@@ -22,8 +22,8 @@ export function DomainNameDialog({open, title, requestKey, onClosed, ...form}: O
   </Dialog.Root>;
 }
 
-export function CloseShiftDialog({open, shiftName, pending, busy, error, onCancel, onConfirm, onClosed}: {
-  open: boolean; shiftName: string; pending: number; busy: boolean; error: string; onCancel(): void; onConfirm(): void; onClosed(): void;
+export function CloseShiftDialog({open, shiftName, pending, beforeClose = 0, busy, error, onCancel, onConfirm, onClosed}: {
+  open: boolean; shiftName: string; pending: number; beforeClose?: number; busy: boolean; error: string; onCancel(): void; onConfirm(): void; onClosed(): void;
 }) {
   const cancel = useRef<HTMLButtonElement>(null);
   return <Dialog.Root open={open} onOpenChange={(next, details) => {if (!next) {if (busy) details.cancel(); else onCancel();}}} onOpenChangeComplete={(next) => {if (!next) onClosed();}}>
@@ -31,6 +31,7 @@ export function CloseShiftDialog({open, shiftName, pending, busy, error, onCance
       <Dialog.Popup className="demo-dialog domain-dialog" initialFocus={cancel} finalFocus={false}>
         <Dialog.Title>Cerrar turno</Dialog.Title>
         <Dialog.Description>Se cerrará el turno «{shiftName}». <strong>{pending} {pending === 1 ? 'tarea pendiente' : 'tareas pendientes'}</strong> {pending === 1 ? 'se conservará' : 'se conservarán'} en el archivo.</Dialog.Description>
+        {beforeClose > 0 && <p><strong>{beforeClose} {beforeClose === 1 ? 'tarea está pendiente' : 'tareas están pendientes'} con la condición «antes del cierre».</strong> Revisa su estado antes de archivar.</p>}
         <p>No se completarán ni pasarán al siguiente turno. Este prototipo no tiene avisos conectados.</p>
         {error && <p className="error" role="alert">{error}</p>}
         <div className="demo-actions"><button ref={cancel} type="button" disabled={busy} onClick={onCancel}>Volver</button><button type="button" className="primary" disabled={busy} onClick={onConfirm}>Cerrar y archivar</button></div>

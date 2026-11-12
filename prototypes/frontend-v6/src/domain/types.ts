@@ -18,8 +18,10 @@ export type Task = {
   performed: string;
   duration: string;
   completed: boolean;
+  beforeClose?: boolean;
   version: number;
 };
+export type ReviewedTaskInput = {shiftId: string; title: string; bedId: string | null; date: string | null; time: string; beforeClose: boolean};
 export type QuickNote = {id: string; title: string; body: string; version: number};
 export type Snapshot = {
   profile: {preferredName: string};

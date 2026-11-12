@@ -1,0 +1,36 @@
+.assist-dialog{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1000;width:min(700px,calc(100vw - 24px));max-height:min(88dvh,820px);overflow-y:auto;overscroll-behavior:contain;background:var(--canvas);color:var(--ink);border:1px solid var(--dialog-border);border-radius:var(--radius-panel);box-shadow:0 24px 70px var(--shadow);padding:24px;font:400 var(--type-body) var(--font-ui)}
+.assist-dialog:focus{outline:none}
+.assist-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:16px}
+.assist-heading h2{font-family:var(--font-writing);font-size:1.6rem;line-height:1.2;margin:0 0 7px}
+.assist-heading p{font-size:var(--type-small);color:var(--secondary);margin:0;max-width:55ch}
+.assist-tabs{display:flex;gap:16px;border-bottom:1px solid var(--border);margin-bottom:18px}
+.assist-tabs button{border:0;background:transparent;color:var(--secondary);font-size:var(--type-small);font-weight:600;padding:10px 1px;border-bottom:2px solid transparent;cursor:pointer}
+.assist-tabs button[aria-selected=true]{border-bottom-color:var(--ink);color:var(--ink)}
+.assist-info{background:var(--surface-subtle);padding:12px 14px;border-radius:var(--radius-control);margin-bottom:16px;font-size:var(--type-small)}
+.assist-info p{color:var(--secondary);margin:5px 0 0;line-height:1.5}
+.assist-field{display:flex;flex-direction:column;gap:5px;font-size:var(--type-small);font-weight:600;flex:1;min-width:0}
+.assist-field input,.assist-field select,.assist-field textarea{font:400 var(--type-body) var(--font-ui);padding:9px 11px;border:1px solid var(--border);border-radius:var(--radius-control);background:var(--field);color:var(--ink);width:100%;min-width:0}
+.assist-field textarea{resize:vertical;line-height:1.5}
+.assist-field input:focus-visible,.assist-field select:focus-visible,.assist-field textarea:focus-visible,.assist-tabs button:focus-visible,.assist-dialog button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.assist-inline-actions,.assist-card-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;align-items:center;gap:9px;margin:12px 0}
+.assist-dialog button.assist-secondary,.assist-dialog button.assist-primary{border:1px solid var(--border);border-radius:var(--radius-control);padding:9px 12px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;background:var(--canvas);color:var(--ink);font-size:var(--type-small);font-weight:600}
+.assist-dialog button.assist-primary{background:var(--solid);color:var(--on-solid);border-color:var(--solid)}
+.assist-dialog button:disabled{opacity:.55;cursor:default}
+.assist-review-list,.assist-suggestion-list{display:flex;flex-direction:column;gap:14px;margin:18px 0}
+.assist-review-card,.assist-suggestion{border:1px solid var(--border);border-radius:var(--radius-panel);padding:13px 14px;min-width:0}
+.assist-review-card legend{font-weight:600;font-size:var(--type-small);padding:0 6px}
+.assist-review-card>.assist-field{margin:7px 0 12px}
+.assist-fields-row{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+.assist-fields-row .assist-field{flex:1 1 125px}
+.assist-condition{display:flex;align-items:center;gap:9px;margin:13px 0;font-size:var(--type-small);cursor:pointer}
+.assist-condition input{width:18px;height:18px}
+.assist-error{color:var(--error);font-size:var(--type-small);margin:9px 0}
+.assist-empty{color:var(--secondary);padding:18px 8px;text-align:center;font-size:var(--type-small)}
+.assist-footnote{border-top:1px solid var(--line-soft);padding-top:12px;font-size:var(--type-caption);color:var(--secondary);line-height:1.5}
+.assist-suggestion-head{display:flex;align-items:center;gap:9px}
+.assist-suggestion-head h3{font-size:var(--type-body);margin:0}
+.assist-suggestion p{margin:9px 0 12px;color:var(--secondary);font-size:var(--type-small)}
+.assist-discard-confirm{border:1px solid var(--dialog-border);background:var(--surface-subtle);border-radius:var(--radius-control);padding:12px;margin-top:16px}
+.assist-discard-confirm p{margin:0}
+.assist-count{font-size:.75rem;border-radius:999px;background:var(--selected);color:var(--ink);padding:1px 6px;margin-left:4px}
+@media(max-width:650px){.assist-dialog{top:auto;bottom:0;left:0;right:0;transform:none;width:100%;border-radius:14px 14px 0 0;max-height:94dvh;padding:16px}.assist-fields-row{gap:10px}.assist-inline-actions{justify-content:flex-start}.assist-card-actions button{flex:1 1 auto}}

@@ -27,6 +27,7 @@ function validateTask(task: Task): Task {
     if (value && !TIME.test(value)) throw new Error('Usa una hora válida de 24 horas: HH:mm.');
   }
   if (task.time && !task.date) throw new Error('Agrega una fecha antes de indicar una hora.');
+  if (task.beforeClose && (task.date || task.time)) throw new Error('Antes del cierre no tiene fecha ni hora programada.');
   for (const value of [task.estimate, task.duration]) {
     if (value !== '' && (!/^\d+$/.test(String(value)) || Number(value) > 1440)) {
       throw new Error('Usa minutos entre 0 y 1440.');
@@ -136,6 +137,25 @@ export function createPreviewAdapter({delay = 0, preferredName = 'Demo'}: Previe
       // La etiqueta es presentación: los IDs estables mantienen cada tarea en su lista, aunque dos nombres coincidan.
       bed.label = titled(label);
       return clone(bed);
+    },
+    async createReviewedTask(input) {
+      await wait();
+      const shift = current();
+      if (input.shiftId !== shift.id) throw new Error('La propuesta no pertenece al turno activo.');
+      if (input.bedId && !state.beds.some((bed) => bed.id === input.bedId && bed.shiftId === shift.id)) {
+        throw new Error('La lista no pertenece al turno.');
+      }
+      const task: Task = validateTask({
+        id: `task-${sequence + 1}`, shiftId: shift.id,
+        bedId: input.bedId, title: input.title, body: '', reason: '',
+        priority: 'normal', date: input.date, time: input.time,
+        estimate: '', performed: '', duration: '', completed: false,
+        beforeClose: input.beforeClose, version: 1,
+      });
+      // Única escritura: validamos todo antes de agregar la tarea.
+      sequence += 1;
+      state.tasks.push(task);
+      return clone(task);
     },
     async createTask(title, bedId = null) {
       await wait();
