@@ -96,3 +96,73 @@ it('un error real al guardar la revisión sigue anunciándose como error',async(
   await waitFor(()=>expect(session.notifications.getState().items.some((item)=>item.kind==='error'&&/Fallo simulado/.test(item.message))).toBe(true));
   expect(session.store.getState().snapshot!.tasks.some((task)=>task.title==='Revisar tarea con error')).toBe(false);
 });
+
+async function sharedSlot(session: ReturnType<typeof createSession>) {
+  await act(async()=>{
+    await session.port.createReviewedTask({shiftId:'demo-shift-1',title:'Revisar tarea A',bedId:'bed-1',date:'2026-11-07',time:'15:00',beforeClose:false});
+    await session.port.createReviewedTask({shiftId:'demo-shift-1',title:'Revisar tarea B',bedId:'bed-1',date:'2026-11-07',time:'15:00',beforeClose:false});
+    await session.store.getState().load();
+  });
+}
+async function editTask(session: ReturnType<typeof createSession>, title: string, patch: Record<string, unknown>) {
+  const task=(await session.port.load()).tasks.find((item)=>item.title===title)!;
+  await act(async()=>{
+    await session.port.saveTask({...task,...patch});
+    await session.store.getState().load();
+  });
+}
+const sharedVisible = (dialog: HTMLElement) => within(dialog).queryByText('Tareas en el mismo horario');
+
+it('R1b-T02: una sugerencia descartada no vuelve si el mismo hecho se guarda otra vez',async()=>{
+  const {session,user,dialog}=await open();
+  await sharedSlot(session);
+  await user.click(within(dialog).getByRole('tab',{name:/Sugerencias/}));
+  expect(sharedVisible(dialog)).toBeInTheDocument();
+  await user.click(within(dialog).getByRole('button',{name:'Descartar'}));
+  expect(sharedVisible(dialog)).not.toBeInTheDocument();
+  await editTask(session,'Revisar tarea A',{});
+  expect(sharedVisible(dialog)).not.toBeInTheDocument();
+  await editTask(session,'Revisar tarea B',{});
+  expect(sharedVisible(dialog)).not.toBeInTheDocument();
+});
+
+it('R1b-T03: cambiar la condición caduca la sugerencia; recrear la misma coincidencia la muestra otra vez',async()=>{
+  const {session,user,dialog}=await open();
+  await sharedSlot(session);
+  await user.click(within(dialog).getByRole('tab',{name:/Sugerencias/}));
+  await user.click(within(dialog).getByRole('button',{name:'Descartar'}));
+  await editTask(session,'Revisar tarea A',{time:'16:00'});
+  expect(sharedVisible(dialog)).not.toBeInTheDocument();
+  await editTask(session,'Revisar tarea A',{time:'15:00'});
+  expect(sharedVisible(dialog)).toBeInTheDocument();
+});
+
+it('R1b-T03: completar una tarea o cerrar la jornada retira la sugerencia',async()=>{
+  const {session,user,dialog}=await open();
+  await sharedSlot(session);
+  await user.click(within(dialog).getByRole('tab',{name:/Sugerencias/}));
+  expect(sharedVisible(dialog)).toBeInTheDocument();
+  await editTask(session,'Revisar tarea A',{completed:true});
+  expect(sharedVisible(dialog)).not.toBeInTheDocument();
+  await act(async()=>{
+    await session.port.closeShift('demo-shift-1');
+    await session.store.getState().load();
+  });
+  expect(collectAmbientSuggestions(session.store.getState().snapshot!)).toHaveLength(0);
+});
+
+it('R1b-T04: una sugerencia nueva no roba el foco ni agrega avisos con el diálogo cerrado',async()=>{
+  Object.defineProperty(window,'innerWidth',{configurable:true,writable:true,value:1440});
+  const session=createSession({port:createPreviewAdapter({delay:0}),random:()=>0}); sessions.push(session);
+  await session.store.getState().load();
+  render(<AppProviders><App session={session}/></AppProviders>);
+  const trigger=screen.getByRole('button',{name:'Abrir captura de tareas'});
+  trigger.focus();
+  expect(document.activeElement).toBe(trigger);
+  const noticesBefore=session.notifications.getState().items.length;
+  await sharedSlot(session);
+  expect(screen.queryByRole('dialog',{name:'Captura y sugerencias'})).not.toBeInTheDocument();
+  expect(document.activeElement).toBe(trigger);
+  expect(session.notifications.getState().items).toHaveLength(noticesBefore);
+  expect(screen.getByRole('button',{name:'Abrir captura de tareas'})).toBe(trigger);
+});

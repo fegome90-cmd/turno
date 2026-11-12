@@ -43,7 +43,15 @@ function ProductApp({session}: {session: AppSession}) {
   const [assistanceTab, setAssistanceTab] = useState<AssistanceTab>('capture');
   const [dismissedSuggestions, setDismissedSuggestions] = useState<string[]>([]);
   const allSuggestions = collectAmbientSuggestions(state.snapshot);
+  const liveSuggestionIds = JSON.stringify(allSuggestions.map((suggestion) => suggestion.id));
   const visibleSuggestions = allSuggestions.filter((suggestion) => !dismissedSuggestions.includes(suggestion.id));
+  // A dismissal lasts only while its exact fact exists: when the live set changes, forget the ids that left it.
+  const [liveSnapshot, setLiveSnapshot] = useState(liveSuggestionIds);
+  if (liveSnapshot !== liveSuggestionIds) {
+    const live = new Set<string>(JSON.parse(liveSuggestionIds) as string[]);
+    setLiveSnapshot(liveSuggestionIds);
+    setDismissedSuggestions((current) => current.filter((id) => live.has(id)));
+  }
   const [nameRequest, setNameRequest] = useState<NameRequest | null>(null);
   const [closeRequest, setCloseRequest] = useState<CloseRequest | null>(null), [closeError, setCloseError] = useState('');
   const closeCurrent = useRef<CloseRequest | null>(null);

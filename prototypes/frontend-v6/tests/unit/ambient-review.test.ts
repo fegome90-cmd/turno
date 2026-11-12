@@ -42,3 +42,31 @@ describe('captura y sugerencias verificables', () => {
     expect(collectAmbientSuggestions(await adapter.load()).some((s)=>s.kind==='shared-slot')).toBe(false);
   });
 });
+
+describe('R1b identidad de sugerencias', () => {
+  it('R1b-T01: el mismo hecho produce el mismo id en 20 evaluaciones y 3 guardados idénticos', async () => {
+    const adapter = createPreviewAdapter();
+    await adapter.createReviewedTask({shiftId:'demo-shift-1',title:'Revisar tarea A',bedId:'bed-1',date:'2026-11-07',time:'15:00',beforeClose:false});
+    await adapter.createReviewedTask({shiftId:'demo-shift-1',title:'Revisar tarea B',bedId:'bed-1',date:'2026-11-07',time:'15:00',beforeClose:false});
+    let snapshot = await adapter.load();
+    const first = collectAmbientSuggestions(snapshot);
+    expect(first.filter((s) => s.kind === 'shared-slot')).toHaveLength(1);
+    const repeated = Array.from({length: 20}, () => collectAmbientSuggestions(snapshot).map((s) => s.id));
+    for (const ids of repeated) expect(ids).toEqual(first.map((s) => s.id));
+    for (const title of ['Revisar tarea A', 'Revisar tarea B', 'Revisar tarea A']) {
+      const task = snapshot.tasks.find((item) => item.title === title)!;
+      await adapter.saveTask({...task});
+      snapshot = await adapter.load();
+      expect(collectAmbientSuggestions(snapshot).map((s) => s.id)).toEqual(first.map((s) => s.id));
+    }
+    expect(collectAmbientSuggestions(snapshot).filter((s) => s.kind === 'shared-slot')).toHaveLength(1);
+  });
+  it('R1b-T03: cerrar la jornada activa deja 0 sugerencias', async () => {
+    const adapter = createPreviewAdapter();
+    await adapter.createReviewedTask({shiftId:'demo-shift-1',title:'Revisar tarea A',bedId:'bed-1',date:'2026-11-07',time:'15:00',beforeClose:false});
+    await adapter.createReviewedTask({shiftId:'demo-shift-1',title:'Completar informe',bedId:null,date:null,time:'',beforeClose:true});
+    expect(collectAmbientSuggestions(await adapter.load()).length).toBeGreaterThan(0);
+    await adapter.closeShift('demo-shift-1');
+    expect(collectAmbientSuggestions(await adapter.load())).toHaveLength(0);
+  });
+});
