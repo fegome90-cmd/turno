@@ -183,6 +183,19 @@ Decisiones del documento 1 que **no** entran en conflicto y se mantienen:
 | Métricas | Solo contadores |
 | Memoria | En v1, lo que el agente recuerda vive en los datos de la app. Hoy esos datos son el adaptador en memoria de la demo: los descartes duran la sesión (R1b-T02, R1b-T05) |
 
+**Decididas el 12-11-2026 por la persona dueña:**
+
+| # | Decisión | Efecto en el plan |
+|---|---|---|
+| C1 | **B:** F3 queda fuera de v1. Sin revisión periódica ni avisos globales | No hay paquete F3. Los límites 9 y 10 de §2 se mantienen sin excepción |
+| C2 | **Se abstiene:** `PROPOSE_REMINDER` no produce propuesta | R5-T03 y R5-T06 quedan como están escritos; el caso «recordatorio» del corpus espera 0 propuestas |
+| C3 | **Se abstiene:** `NEEDS_REVIEW` no produce propuesta | R5-T03 queda como está escrito |
+| C4 | **Una propuesta inline** bajo la nota, una sola acción | R5-T05 y R5-T08 quedan como están escritos. Las expectativas de `CAPTURE_CASES` que piden varias tareas por texto se revisan en R5 |
+| C5 | Sin efecto (depende de C1 = A) | No se implementa |
+
+Preguntas de la ronda 4: Q13, Q14 y Q16 quedan sin efecto con C1 = B. Q15 se resuelve así: F2 sigue sugiriendo «confirmar fecha» en los borradores capturados.
+
+
 Preguntas todavía abiertas de la ronda 4:
 
 | # | Pregunta | Depende de |
@@ -628,9 +641,9 @@ Acción siguiente: <una sola, sin promoción implícita>
 | R3 — continuidad | `PENDING` | Pendientes accesibles sin transferencias ni modelo |
 | R4 — repetición exacta | `DEFERRED` | Evidencia de frecuencia antes de ejecutar |
 | G1 — PR #6 y PR #8 | `PASS` (11-11-2026, ver §27) | PR #8 sobre PR #6, tres verificaciones de G1-T03, CI en verde |
-| R5 — nota semántica | `PENDING` (con puerta; depende de C2, C3, C4) | 18 casos, comparación con el flujo manual, autorización sintética |
+| R5 — nota semántica | `PENDING` (con puerta; C2, C3 y C4 decididas el 12-11-2026) | 18 casos, comparación con el flujo manual, autorización sintética |
 | R6 — extensiones | `DEFERRED` | Valor demostrado y baseline convencional insuficiente |
-| Paquete F3 | No definido (solo si C1 = A) | — |
+| Paquete F3 | No se crea (C1 = B, decidida el 12-11-2026) | — |
 | Etapas 7, 8 y 9 | `PENDING` | Ver §21 |
 
 ## 24. Primer paquete listo para implementar: R1a
