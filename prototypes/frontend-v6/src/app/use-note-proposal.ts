@@ -2,7 +2,7 @@
 // Una petición se cancela al cambiar de nota, al editar otra vez, al desmontar o a los 20 s. Una respuesta solo se
 // pinta si la nota y la versión siguen vigentes y no fue descartada.
 import {useEffect, useRef, useState, type MutableRefObject} from 'react';
-import type {NoteProposal, NoteProposalSource} from '../adapters/note-proposals';
+import {isDisplayableNoteProposal, type NoteProposal, type NoteProposalSource} from '../adapters/note-proposals';
 
 const TIMEOUT_MS = 20_000;
 type Ticket = {controller: AbortController; timer: ReturnType<typeof setTimeout>};
@@ -47,10 +47,11 @@ export function useNoteProposal({source, selectedNoteId, draftRevision, current}
     const controller = new AbortController();
     const ticket: Ticket = {controller, timer: setTimeout(() => {releaseTicket(pending, ticket); controller.abort();}, TIMEOUT_MS)};
     pending.current = ticket;
-    source.proposeFromNote({noteId, noteVersion}, controller.signal).then((proposal) => {
+    // Una fuente que lance o no devuelva una promesa también termina en silencio.
+    Promise.resolve().then(() => source.proposeFromNote({noteId, noteVersion}, controller.signal)).then((proposal) => {
       if (controller.signal.aborted || pending.current !== ticket) return;
       releaseTicket(pending, ticket);
-      if (proposal && proposal.noteId === noteId && proposal.noteVersion === noteVersion) setShown({noteId, noteVersion, proposal});
+      if (isDisplayableNoteProposal(proposal, noteId, noteVersion)) setShown({noteId, noteVersion, proposal});
     }, () => {
       // Error o rechazo: silencio. No hay aviso ni reintento.
       if (pending.current === ticket) releaseTicket(pending, ticket);

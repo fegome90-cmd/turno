@@ -14,6 +14,14 @@ export type NoteProposalSource = {
 };
 
 const MAX_TITLE = 80;
+
+/** Comprobación mínima de una propuesta ya construida, para fuentes que no pasen por el parser. */
+export function isDisplayableNoteProposal(value: unknown, noteId: string, noteVersion: number): value is NoteProposal {
+  if (!value || typeof value !== 'object') return false;
+  const item = value as Record<string, unknown>;
+  return item.kind === 'note-task' && item.noteId === noteId && item.noteVersion === noteVersion
+    && typeof item.title === 'string' && item.title.trim() !== '' && item.title.length <= MAX_TITLE;
+}
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value);
 
 // Solo la forma exacta de R5a: estado «proposed», una sugerencia inline, aprobación obligatoria y acciones
