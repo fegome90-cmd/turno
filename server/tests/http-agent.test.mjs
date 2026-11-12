@@ -172,16 +172,32 @@ for (const invalid of [{ ...capture, synthetic: false }, { ...capture, shiftId: 
   });
 }
 
-for (const type of ['drafts_ready', 'shift_close_attempt']) {
-  test(`${type} keeps deterministic behavior without classifiers`, async () => {
-    const s = setup();
-    const response = await s.event({ id: event.id, shiftId: event.shiftId, synthetic: true, type });
-    assert.equal(response.body.status, 'proposed');
-    assert.ok(response.body.suggestions.length > 0);
-    assert.equal(s.calls.gateway + s.calls.decision, 0);
-    assert.ok(response.body.suggestions.every(p => p.requiresApproval && p.actions.join(',') === 'review,dismiss'));
-  });
-}
+test('drafts_ready keeps deterministic behavior without model calls', async () => {
+  const s = setup();
+  const response = await s.event({ id: event.id, shiftId: event.shiftId, synthetic: true, type: 'drafts_ready' });
+  assert.equal(response.body.status, 'proposed');
+  assert.deepEqual(response.body.suggestions.map(x => x.kind), ['resolve-bed', 'resolve-date']);
+  assert.equal(s.calls.gateway + s.calls.decision + s.calls.capture, 0);
+  assert.equal(s.notes.count, 0);
+  assert.ok(response.body.suggestions.every(p => p.requiresApproval && p.actions.join(',') === 'review,dismiss'));
+});
+
+test('shift_close_attempt is rejected as an unknown event type', async () => {
+  const s = setup();
+  const response = await s.event({ id: event.id, shiftId: event.shiftId, synthetic: true, type: 'shift_close_attempt' });
+  assert.equal(response.status, 400);
+  assert.deepEqual(response.body, { error: 'invalid_request' });
+  assert.equal(s.calls.gateway + s.calls.decision + s.calls.capture + s.notes.count, 0);
+});
+
+test('drafts_ready with clean drafts abstains with no suggestions', async () => {
+  const clean = { shiftId: 'demo-shift', synthetic: true, beds: [{ id: 'bed-1', label: 'Cama 1' }],
+    drafts: [{ id: 'c', title: 'Completar informe', completed: false }], notes: [], tasks: [] };
+  const s = setup({ getAuthorizedSnapshot: () => clean });
+  const response = await s.event({ id: event.id, shiftId: event.shiftId, synthetic: true, type: 'drafts_ready' });
+  assert.equal(response.status, 200);
+  assert.deepEqual(response.body, { status: 'abstain', reason: 'no_suggestions', suggestions: [] });
+});
 
 test('timed-out work retains per-shift exclusion and suppresses late DUAL logs', async () => {
   let release;

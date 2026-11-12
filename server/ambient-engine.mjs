@@ -14,13 +14,16 @@ export function normalizeTaskTitle(title) {
   return title.normalize('NFC').trim().replace(/\s+/g, ' ').toLocaleLowerCase('es');
 }
 
-function suggestion(id, kind, title, detail, taskIds = [], channel = 'inbox') {
-  return Object.freeze({ id, kind, title, detail, taskIds, channel,
+function suggestion(id, kind, title, detail, taskIds = []) {
+  return Object.freeze({ id, kind, title, detail, taskIds, channel: 'inbox',
     actions: ['review','dismiss'], requiresApproval: true });
 }
 
-/** Reglas de dominio: verificables sin modelo, sin acceso a datos reales. */
-export function inspectDrafts({ shiftId, drafts, beds = [], closing = false }) {
+/**
+ * Reglas de borradores sin modelo y sin acceso a datos reales.
+ * Las reglas de tareas guardadas (repeticiones, cierre) viven en el frontend (D3).
+ */
+export function inspectDrafts({ shiftId, drafts, beds = [] }) {
   if (typeof shiftId !== 'string' || !Array.isArray(drafts) || !Array.isArray(beds)) {
     throw new Error('Snapshot de turno inválido.');
   }
@@ -28,36 +31,26 @@ export function inspectDrafts({ shiftId, drafts, beds = [], closing = false }) {
   const proposed = [];
   const missingBedLabels = new Set();
   const missingDateIds = [];
-  const slots = new Map();
-  const pendingCloseIds = [];
+  const missingDateTimes = new Set();
   for (const task of drafts) {
     if (!task || !/^[a-zA-Z0-9_-]{1,80}$/.test(task.id || '') ||
       typeof task.title !== 'string' || task.title.length > 300) {
       throw new Error('Tarea sintética inválida.');
     }
     if (task.bedLabel && (!task.bedId || !knownBeds.has(task.bedId))) missingBedLabels.add(task.bedLabel);
-    if (task.time && !task.date) missingDateIds.push(task.id);
-    if (task.time && task.bedLabel) {
-      const key = [task.date || 'fecha-pendiente',task.time,task.bedLabel].join('|');
-      const current = slots.get(key) || []; current.push(task.id); slots.set(key,current);
+    if (task.time && !task.date) {
+      missingDateIds.push(task.id);
+      missingDateTimes.add(task.time);
     }
-    if (closing && task.beforeClose && !task.completed) pendingCloseIds.push(task.id);
   }
   if (missingBedLabels.size > 0) {
     proposed.push(suggestion('bed:'+shiftId,'resolve-bed','Vincular cama antes de guardar',
       [...missingBedLabels].join(', ')+' no está asociada al turno.'));
   }
   if (missingDateIds.length) {
-    proposed.push(suggestion('date:'+shiftId,'resolve-date','Confirmar fecha de las 15:00',
-      'Hay tareas con hora definida, pero sin fecha confirmada.',missingDateIds));
-  }
-  for (const [slot, ids] of slots) {
-    if (ids.length > 1) proposed.push(suggestion('slot:'+shiftId+':'+slot,'shared-slot',
-      'Tareas con el mismo horario','Revisar juntas; esto no demuestra que estén duplicadas.',ids));
-  }
-  if (pendingCloseIds.length) {
-    proposed.push(suggestion('close:'+shiftId,'before-close','Pendientes antes del cierre',
-      'Hay una tarea sin completar que estaba prevista antes del cierre.',pendingCloseIds,'toast'));
+    const times = [...missingDateTimes].sort().join(', ');
+    proposed.push(suggestion('date:'+shiftId,'resolve-date','Confirmar fecha de tareas con hora',
+      'Hay tareas con hora ('+times+') pero sin fecha confirmada.',missingDateIds));
   }
   return proposed;
 }
@@ -74,7 +67,7 @@ export async function analyzeAmbientEvent({
 }) {
   if (!settings || !settings.enabled) return { status:'disabled', suggestions:[] };
   assertSyntheticEvent(event, settings);
-  if (!['drafts_ready','note_saved','shift_close_attempt'].includes(event.type)) {
+  if (!['drafts_ready','note_saved'].includes(event.type)) {
     throw new Error('Tipo de evento no autorizado.');
   }
   if (event.type === 'note_saved' && (typeof event.noteId !== 'string' || !NOTE_ID.test(event.noteId) ||
@@ -89,10 +82,8 @@ export async function analyzeAmbientEvent({
   if (!snapshot || snapshot.shiftId !== event.shiftId) throw new Error('Snapshot ajeno al turno.');
   if (snapshot.synthetic !== true) throw new Error('Fuente de datos no acreditada como sintética.');
   if (event.type !== 'note_saved') {
-    return { status:'proposed', suggestions: inspectDrafts({
-      shiftId: event.shiftId, drafts: snapshot.drafts,
-      beds: snapshot.beds, closing: event.type === 'shift_close_attempt'
-    }) };
+    const suggestions = inspectDrafts({ shiftId: event.shiftId, drafts: snapshot.drafts, beds: snapshot.beds });
+    return suggestions.length > 0 ? { status:'proposed', suggestions } : abstain('no_suggestions');
   }
   return reviewNote(event, snapshot, settings, {
     classifyWithGateway, classifyWithDecision, recordComparison, extractNoteProposal, alreadyProcessed, markProcessed,

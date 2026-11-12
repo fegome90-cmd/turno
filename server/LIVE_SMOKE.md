@@ -71,7 +71,7 @@ Las pruebas usan el proveedor de `TURNO_AI_PROVIDER` y su clave, por ejemplo `TU
 npm run smoke:background:env        # o smoke:background:keychain en Mac
 ```
 
-Envía eventos sintéticos fijos a `analyzeAmbientEvent`: cuatro `note_saved` (recordatorio, tarea, sin acción e intento de inyección de instrucciones) que sí llaman al modelo, y `drafts_ready` / `shift_close_attempt`, que se resuelven con reglas deterministas sin modelo. Verifica la etiqueta, el estado (`proposed`/`abstain`) y que toda sugerencia sea solo `review`/`dismiss` con aprobación humana. Con modelos `-free` espacia las llamadas 13 s (`TURNO_LIVE_PACE_MS` para cambiarlo). Si el modelo falla, el motor se abstiene (fail-closed).
+Envía eventos sintéticos fijos a `analyzeAmbientEvent`: cuatro `note_saved` (recordatorio, tarea, sin acción e intento de inyección de instrucciones) que sí llaman al modelo, y `drafts_ready`, que se resuelve con reglas deterministas sin modelo (`shift_close_attempt` se retiró en D3). Verifica la etiqueta, el estado (`proposed`/`abstain`) y que toda sugerencia sea solo `review`/`dismiss` con aprobación humana. Con modelos `-free` espacia las llamadas 13 s (`TURNO_LIVE_PACE_MS` para cambiarlo). Si el modelo falla, el motor se abstiene (fail-closed).
 
 **Detrás de un proxy HTTPS** (p. ej. sandbox en la nube): el `fetch` de Node no usa `HTTPS_PROXY` por defecto; ejecutar con `NODE_USE_ENV_PROXY=1` (Node ≥ 22.21).
 

@@ -213,7 +213,7 @@ Preguntas todavía abiertas de la ronda 4:
 |---|---|---|---|
 | D1 | ¿Integrar el PR #6 en la rama del PR #4 (`feature/opencode-secure-config`)? | Sí: CI en verde y revisión cerrada | **Decidida el 11-11-2026: sí** |
 | D2 | ¿Dónde vive el código del agente? | El PR #4 apunta a `main` | **Decidida el 11-11-2026: el agente va a `main` a través del PR #4** |
-| D3 | ¿Quién es dueño de las reglas fijas? | El agente; la interfaz las muestra a través del backend | El plan v1.1 las deja en el frontend (R0-T04: `collectAmbientSuggestions` como regla pura sobre el `Snapshot`) y pide una sola política equivalente, no dos implementaciones (R1b). Sin resolver. No bloquea R1a–R3; sí define dónde quedan las reglas a partir de R5 |
+| D3 | ¿Quién es dueño de las reglas fijas? | El agente; la interfaz las muestra a través del backend | **Decidida el 12-11-2026: opción B.** Las reglas sobre tareas guardadas (compartir horario y pendientes antes del cierre) viven en el frontend (PR #5) y son el único dueño de esas sugerencias. El servidor conserva solo lo que necesita su ruta sintética de borradores (`resolve-bed` y `resolve-date` sobre borradores sin guardar); `drafts_ready` sin sugerencias responde `abstain`, y ningún cliente envía borradores hoy, así que esa ruta es un banco de pruebas y no una segunda política. Pérdida aceptada: no hay aviso de «mismo horario» antes de guardar. El selector único de `beforeClose` (`review.ts` frente a `App.tsx`) pasa a R2 |
 | D4 | ¿Dónde se guardan los resultados de evaluación? | En el repositorio solo los resúmenes; los JSON completos como artefacto del CI | Conviene decidirla antes del `REPLY` de R5 |
 
 ## 8. Etapa 0 — Inferencia real (hecha)
@@ -371,6 +371,7 @@ Antes del primer parche. No permite refactorizaciones.
 - [ ] **R2-T02** Sustituir o complementar el número anónimo con un enlace **«Revisar pendiente»** cuando hay exactamente una tarea, o con una lista breve de enlaces cuando hay más. Si abre la tarea, cerrar el diálogo respetando el retorno de foco y la navegación existente.
 - [ ] **R2-T03** Mantener **«Cerrar y archivar»** disponible aunque la tarea siga pendiente. La advertencia no presume que deba completarse.
 - [ ] **R2-T04** No enviar `shift_close_attempt` a modelos para este caso. Usar el snapshot ya confirmado.
+- [ ] **R2-T05** Unificar el selector de pendientes `beforeClose` que usan la bandeja (`review.ts`) y el diálogo de cierre (`App.tsx`), con una sola función compartida. Decidido en D3: las reglas de tareas guardadas viven en el frontend.
 
 ### VALIDATE / TEST
 

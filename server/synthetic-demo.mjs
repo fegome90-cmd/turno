@@ -9,5 +9,5 @@ const snapshot = {
     {id:'c',title:'Completar informe',bedLabel:null,bedId:null,time:'',date:null,beforeClose:true,completed:false}
   ]
 };
-const proposals = inspectDrafts({...snapshot,closing:true});
+const proposals = inspectDrafts(snapshot);
 process.stdout.write(JSON.stringify({ mode:'synthetic/no-inference', suggestions:proposals },null,2)+'\n');

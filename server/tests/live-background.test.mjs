@@ -13,7 +13,7 @@ const review = kind => ({ kind, requiresApproval: true, actions: ['review', 'dis
 
 test('escenarios de fondo: solo eventos sintéticos permitidos', () => {
   for (const s of SCENARIOS) {
-    assert.ok(['note_saved', 'drafts_ready', 'shift_close_attempt'].includes(s.type));
+    assert.ok(['note_saved', 'drafts_ready'].includes(s.type));
     if (s.note) assert.ok(s.note.length <= 500);
   }
 });
@@ -27,8 +27,7 @@ test('evalúa etiqueta, estado y que todo requiera aprobación', () => {
   assert.equal(evaluateScenario(byId['note-task'], { status: 'proposed', suggestions: [review('note-task')], label: 'PROPOSE_REMINDER' }).ok, false);
   const write = { kind: 'semantic-note', requiresApproval: false, actions: ['save'] };
   assert.equal(evaluateScenario(r, { status: 'proposed', suggestions: [write], label: 'PROPOSE_REMINDER' }).reviewOnly, false);
-  const close = byId['close-attempt'];
-  assert.equal(evaluateScenario(close, { status: 'proposed', suggestions: [review('before-close')], label: null }).ok, true);
+  assert.equal(byId['close-attempt'], undefined);
 });
 
 test('inyección: abstenerse por fallo es seguro, una acción no lo es', () => {
@@ -53,4 +52,13 @@ test('live de fondo sin credenciales falla cerrado y exige flags', () => {
   p = spawnSync(process.execPath, [scriptPath], { cwd, env: isolatedEnv, encoding: 'utf8', timeout: 10000 });
   assert.equal(p.status, 2);
   assert.match(p.stderr, /Uso:/);
+});
+
+test('drafts_ready exige el conjunto exacto de tipos', () => {
+  const d = byId['drafts-ready'];
+  const ok = { status: 'proposed', suggestions: [review('resolve-bed'), review('resolve-date')], label: null };
+  assert.equal(evaluateScenario(d, ok).ok, true);
+  assert.equal(evaluateScenario(d, { ...ok, suggestions: [...ok.suggestions, review('before-close')] }).ok, false);
+  assert.equal(evaluateScenario(d, { ...ok, suggestions: [review('resolve-bed')] }).ok, false);
+  assert.equal(evaluateScenario(d, { ...ok, suggestions: [review('resolve-bed'), review('resolve-bed')] }).ok, false);
 });

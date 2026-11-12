@@ -97,8 +97,7 @@ No incluye claves ni snapshots. Con IA activa informa el modo configurado;
 
 ### `POST /v1/agent/events`
 
-Objeto estricto, sin campos adicionales. Para `drafts_ready` y
-`shift_close_attempt`:
+Objeto estricto, sin campos adicionales. Para `drafts_ready`:
 
 ```json
 {"id":"endpoint-event","type":"drafts_ready","shiftId":"demo-shift","synthetic":true}
@@ -112,11 +111,11 @@ Para `note_saved` (R5a) el cuerpo solo referencia la nota confirmada:
 
 `id`, `shiftId` y `noteId`: 1–80 caracteres alfanuméricos, guion o guion bajo.
 `noteVersion`: entero de 1 a 1 000 000. Tipos admitidos: `note_saved`,
-`drafts_ready`, `shift_close_attempt`. El único turno piloto es `demo-shift`.
+`drafts_ready`. `shift_close_attempt` se retiró en D3 y devuelve 400 como cualquier tipo desconocido. El único turno piloto es `demo-shift`.
 El navegador **nunca** envía texto de nota: `text`, `noteText` o cualquier otro
 campo extra en `note_saved` devuelve 400. El servidor lee la nota y su versión
 desde `notes` del snapshot autorizado (`http/snapshots.mjs`), junto con `tasks`
-y las camas. Los otros dos eventos conservan las reglas deterministas.
+y las camas. `drafts_ready` conserva reglas deterministas sobre borradores. Las reglas de tareas guardadas (compartir horario y pendientes antes del cierre) viven en el frontend (D3).
 
 HTTP 200 en `note_saved`:
 
@@ -146,9 +145,8 @@ Códigos de abstención, en el orden en que se evalúan:
 Solo `PROPOSE_TASK` pide extracción. Un título con hora o fecha
 (`15:00`, `9.30`, `12/11`) se descarta; no se corrige.
 
-Los eventos `drafts_ready` y `shift_close_attempt` responden como antes:
-`{"status":"proposed","suggestions":[...]}` o `{"status":"abstain","suggestions":[]}`,
-con `actions:["review","dismiss"]` y `requiresApproval:true`.
+`drafts_ready` responde `{"status":"proposed","suggestions":[...]}` con `actions:["review","dismiss"]` y `requiresApproval:true`, o
+`{"status":"abstain","reason":"no_suggestions","suggestions":[]}` cuando no hay sugerencias. Sus tipos son `resolve-bed` y `resolve-date`; no hay `shared-slot` ni `before-close`.
 
 Se reserva cada `id` antes de invocar el motor. Repetirlo devuelve 401 genérico
 sin una segunda llamada al modelo. En `note_saved`, además, la pareja

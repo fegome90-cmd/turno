@@ -5,7 +5,7 @@ import { createHttpHandler, HttpError, SIGNATURE_WINDOW_MS } from './transport.m
 import { getAuthorizedSnapshot as fixtureSnapshot } from './snapshots.mjs';
 
 const ID = /^[a-zA-Z0-9_-]{1,80}$/;
-const EVENT_TYPES = new Set(['note_saved', 'drafts_ready', 'shift_close_attempt']);
+const EVENT_TYPES = new Set(['note_saved', 'drafts_ready']);
 const BASE_KEYS = ['id', 'type', 'shiftId', 'synthetic'];
 // note_saved carries only the confirmed note reference. The browser never sends text.
 const NOTE_KEYS = [...BASE_KEYS, 'noteId', 'noteVersion'];
