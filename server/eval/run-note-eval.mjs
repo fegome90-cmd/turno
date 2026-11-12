@@ -109,12 +109,21 @@ export function oracleClients(cases = NOTE_CORPUS) {
 
 /** Clientes reales (live). Cada llamada reporta tokens al sumidero compartido cuando el proveedor los da. */
 export async function createLiveClients({ env, mode, tokenSink }) {
-  const sink = kind => m => tokenSink.push(Object.freeze({ kind, inputTokens: m?.inputTokens ?? null, outputTokens: m?.outputTokens ?? null }));
+  // Extract diagnostics are a fixed enum, a count and a boolean: never text, prompts or outputs.
+  const sink = kind => m => tokenSink.push(Object.freeze({ kind, inputTokens: m?.inputTokens ?? null, outputTokens: m?.outputTokens ?? null,
+    ...(kind === 'extract' && { stopReason: m?.stopReason ?? null, turns: m?.turns ?? null,
+      structuredOutputPresent: m?.structuredOutputPresent ?? null }) }));
   const clients = {};
   if (mode !== 'DECISION') clients.classifyWithGateway = await createStrandsClassifier({ env, onMetrics: sink('gateway') });
   if (mode !== 'GATEWAY') clients.classifyWithDecision = await createRemoteDecisionClassifier({ env });
   clients.extractNoteProposal = await createStrandsNoteExtractor({ env, onMetrics: sink('extract') });
   return clients;
+}
+
+/** Diagnostics of the last extract metric recorded during one metered call; null when the sink saw none. */
+function extractDiagnostics(entries) {
+  const e = entries.findLast(x => x.kind === 'extract' && 'stopReason' in x);
+  return { stopReason: e?.stopReason ?? null, turns: e?.turns ?? null, structuredOutputPresent: e?.structuredOutputPresent ?? null };
 }
 
 function addTokens(list) {
@@ -140,16 +149,17 @@ function instrument(kind, fn, meter, pricing) {
     const started = performance.now();
     const mark = meter.tokenSink.length;
     const tokens = () => addTokens(meter.tokenSink.slice(mark));
+    const diagnostics = () => (kind === 'extract' ? extractDiagnostics(meter.tokenSink.slice(mark)) : {});
     try {
       const value = await fn(input);
       const t = tokens();
       meter.calls.push({ kind, ms: Math.round(performance.now() - started), ok: true, errorType: null, errorDetail: null,
-        tokens: t, costUsd: callCost(t, pricing?.[kind] ?? null) });
+        tokens: t, costUsd: callCost(t, pricing?.[kind] ?? null), ...diagnostics() });
       return value;
     } catch (error) {
       const t = tokens();
       meter.calls.push({ kind, ms: Math.round(performance.now() - started), ok: false, errorType: classifyError(error).type,
-        errorDetail: errorDetail(error), tokens: t, costUsd: callCost(t, pricing?.[kind] ?? null) });
+        errorDetail: errorDetail(error), tokens: t, costUsd: callCost(t, pricing?.[kind] ?? null), ...diagnostics() });
       throw error;
     }
   };
@@ -224,7 +234,8 @@ async function runCase(c, rep, { settings, clients, meter, pricing }) {
     costUsd: calls.some(x => Number.isFinite(x.costUsd)) ? round(calls.reduce((a, x) => a + (x.costUsd ?? 0), 0)) : null,
     mutated, errorType: meter.exceeded && !exceededBefore ? 'max_calls' : (firstError?.errorType ?? null),
     errorDetail: thrown ? redactSecrets(String(thrown.message).slice(0, 160)) : (firstError?.errorDetail ?? null),
-    calls: calls.map(x => ({ kind: x.kind, ms: x.ms, ok: x.ok, errorType: x.errorType, tokens: x.tokens, costUsd: x.costUsd ?? null })),
+    calls: calls.map(x => ({ kind: x.kind, ms: x.ms, ok: x.ok, errorType: x.errorType, tokens: x.tokens, costUsd: x.costUsd ?? null,
+      ...(x.kind === 'extract' && { stopReason: x.stopReason, turns: x.turns, structuredOutputPresent: x.structuredOutputPresent }) })),
   };
   record.safetyOk = safetyOk(c, record);
   record.pass = judgeCase(c, { ...record, modelTotal });

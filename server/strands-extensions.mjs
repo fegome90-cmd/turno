@@ -27,6 +27,35 @@ export function prepareModelContext(stage, modelContext) {
     ...(source === 'confirmed-note' && {noteVersion})});
 }
 
+/**
+ * Cedar's context cannot hold JSON null ("JSON `null`s are not allowed in Cedar"), so a valid structured
+ * output such as {action:null} was denied before the policy ran. The policy never inspects tool input,
+ * so Cedar evaluates this null-free copy. Nulls are dropped only for Cedar; the real input is untouched.
+ */
+export function cedarSafeInput(value) {
+  if (Array.isArray(value)) {
+    return value.filter(item => item !== null && item !== undefined).map(cedarSafeInput);
+  }
+  if (value && typeof value === 'object') {
+    const out = {};
+    for (const [key, item] of Object.entries(value)) {
+      if (item !== null && item !== undefined) out[key] = cedarSafeInput(item);
+    }
+    return out;
+  }
+  return value;
+}
+
+/** Cedar sees a null-free view of the tool input; every other event field is passed through as-is. */
+export class NullSafeCedarAuthorization extends CedarAuthorization {
+  beforeToolCall(event) {
+    return super.beforeToolCall({
+      ...event,
+      toolUse: {...event.toolUse, input: cedarSafeInput(event.toolUse.input)},
+    });
+  }
+}
+
 /** Fresh native extensions per Agent. Never shared across notes, shifts or invocations. */
 export function createTurnoExtensions({stage, modelContext, signal}) {
   signal?.throwIfAborted();
@@ -54,7 +83,7 @@ export function createTurnoExtensions({stage, modelContext, signal}) {
       });
     },
   };
-  const cedar = new CedarAuthorization({
+  const cedar = new NullSafeCedarAuthorization({
     policies:POLICY_PATH,
     principal:{type:'User', id:'turno-synthetic-agent'},
     // These values come from the application closure, never tool input or note text.

@@ -26,6 +26,10 @@ Native ContextInjector skips failed callbacks by default. The next input transfo
 
 Cedar principal is the application capability `User::"turno-synthetic-agent"`, not an end-user identity. The only allowed action is `strands_structured_output`, resource `agent`, ready context, allowed stage, synthetic/review-only mode, first call only. All other tool actions have an explicit forbid. The policy context is a trusted application closure, not tool arguments or note content. `onError:'deny'`; malformed/missing policy or missing dependencies prevents a usable agent. No business tool or write permission is added. Cedar does not replace HMAC, user authorization, snapshot permissions or human approval.
 
+## Structured output with null
+
+Cedar's context cannot hold JSON `null`, so a valid structured output such as `{action:null}` (the extractor's abstention) or a capture proposal with `bedLabel: null` or `time: null` was denied before the policy ran, and the call failed as `Strands no completó una salida estructurada válida`. The fix keeps the policy and the real output unchanged: `NullSafeCedarAuthorization` lets Cedar evaluate a null-free copy of the tool input (`cedarSafeInput`), since the policy never inspects input. The note extractor now allows one forced structured retry after prose (`NOTE_LIMITS`: 2 turns, 2 structured attempts, 2400 output tokens, 5000 total tokens); the capture limits are unchanged. Metrics and eval call records gain `structuredOutputPresent`, and extract calls also record `stopReason` and `turns`; none carry text.
+
 ## Dependencies
 
 SDK stays 1.24.0. Add exact optional SDK peers as runtime dependencies: `@cedar-policy/cedar-wasm@4.14.0` and `@cedar-policy/mcp-schema-generator-wasm@0.6.1`. Both are local WASM engines; no AWS service, Bedrock inference or account is used. Fresh `npm ci --ignore-scripts` is required. Python dependencies remain evaluation-only and pinned separately.

@@ -56,5 +56,5 @@ test('pack metrics: only bounded counters and fixed codes leave the adapter',()=
     durationMs:2,stopReason:'private note',note:'private note',password:'not a real credential'});
   assert.equal(value.modelCalls,null);assert.equal(value.modelErrors,null);assert.equal(value.inputTokens,null);
   assert.equal(value.outputTokens,9);assert.equal(value.stopReason,'unknown');
-  assert.deepEqual(Object.keys(value).sort(),['durationMs','inputTokens','modelCalls','modelErrors','outputTokens','stopReason','turns'].sort());
+  assert.deepEqual(Object.keys(value).sort(),['durationMs','inputTokens','modelCalls','modelErrors','outputTokens','stopReason','structuredOutputPresent','turns'].sort());
 });

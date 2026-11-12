@@ -14,6 +14,7 @@ export function sanitizeModelMetrics(raw = {}) {
     modelCalls: count(raw.modelCalls), modelErrors: count(raw.modelErrors), turns: count(raw.turns),
     inputTokens: count(raw.inputTokens), outputTokens: count(raw.outputTokens),
     durationMs: count(raw.durationMs), stopReason: STOP_REASONS.has(raw.stopReason) ? raw.stopReason : 'unknown',
+    structuredOutputPresent: raw.structuredOutputPresent === true,
   });
 }
 
@@ -36,7 +37,8 @@ export function attachLifecycleMetrics(agent, {BeforeModelCallEvent, AfterModelC
       const record = sanitizeModelMetrics({modelCalls, modelErrors, turns:m?.cycleCount,
         inputTokens:m?.accumulatedUsage?.inputTokens, outputTokens:m?.accumulatedUsage?.outputTokens,
         durationMs:Math.round(performance.now()-started),
-        stopReason:signal?.aborted ? 'cancelled' : result?.stopReason ?? 'error'});
+        stopReason:signal?.aborted ? 'cancelled' : result?.stopReason ?? 'error',
+        structuredOutputPresent:result?.structuredOutput !== undefined});
       Promise.resolve(onMetrics(record)).catch(() => {});
     } catch { /* Non-authoritative telemetry. */ }
   }};
