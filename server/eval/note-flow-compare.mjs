@@ -12,9 +12,8 @@
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
-import { NOTE_CORPUS } from './note-corpus.mjs';
+import { NOTE_CORPUS, NOTE_HOLDOUT } from './note-corpus.mjs';
 import { isTaskGroup, titleHasKeywords } from './run-note-eval.mjs';
-import { NOTE_HOLDOUT } from './note-corpus.mjs';
 import { NOTE_EXTENDED } from './note-extended.mjs';
 
 export const KLM = Object.freeze({ K: 0.28, P: 1.1, B: 0.1, M: 1.35, H: 0.4 });

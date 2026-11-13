@@ -38,7 +38,7 @@ SDK stays 1.24.0. Add exact optional SDK peers as runtime dependencies: `@cedar-
 
 Full verification requires the Python evaluator environment; absence is BLOCKED (exit 2), not a successful partial run. GitHub Actions now includes the deterministic Evals step. The remote CI workflow itself is not claimed executed until the pack is applied/pushed and GitHub runs it. Tests are synthetic: localhost HTTP is real, SDK adapters and native extensions are real, remote Gateway responses are mocked. No browser/React v6 E2E or live-model quality claim.
 
-The historical run re-score remains a strict 21/22 (task-04 literal keyword mismatch). It checks evaluator compatibility with old outputs, NOT live accuracy after adding context. Release and real-data gates remain unchanged.
+Re-scored with the current stem rule (be9c08f), the historical holdout run is 22/22 in both the JS rejudge and Strands Evals. It checks evaluator compatibility with old outputs, NOT live accuracy after adding context. Release and real-data gates remain unchanged.
 
 ## Audit
 
