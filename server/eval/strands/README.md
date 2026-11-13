@@ -53,7 +53,7 @@ VERIFY_REPORT=/absolute/path/run.json VERIFY_SET=extended-probe \
 
 - Offline holdout (CI, deterministic, no model calls): 22/22, PASS.
 - Keyword rule: a task title passes when each `expectTitleIncludes` keyword matches by stem, using Turno's `contentWords`. For example `actualizar` matches the title "Actualiza", so the earlier `task-04` failure no longer applies.
-- Reference live run `run3-56x3.json` (56 cases x 3 repetitions, extended-probe set, read-only, not committed): 55/56 cases pass, runs 165/168, flaky `[]`, only `ext-22` fails (3 of 3 repetitions), verdict FAIL. This is a diagnostic result, not the product promotion gate.
+- Reference live run `run3-56x3.json` (56 cases x 3 repetitions, extended-probe set, read-only, not committed): 55/56 cases pass, runs 165/168, flaky `[]`, only `ext-22` fails (3 of 3 repetitions), verdict FAIL. This is a diagnostic result, not the product promotion gate. Since `ext-22` now carries `acceptProposed: 'near-duplicate'` (P1-02, same as `dup-01`), rejudging that run is expected to give 56/56: its proposals keep every content word of the open task. Exact-duplicate filtering (`task-duplicates.mjs`) is unchanged.
 
 ## Sources checked
 

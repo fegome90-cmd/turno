@@ -57,7 +57,10 @@ const CASES = [
   { id: 'ext-21', group: 'ext-duplicate', text: 'Falta ordenar el estante de carpetas de la oficina, lo dejé pendiente.', expect: 'abstain',
     snapshotTasks: [{ id: 'open-ext-21', title: 'Ordenar estante de carpetas de la oficina', completed: false }],
     oracleLabel: 'PROPOSE_TASK', oracleTitle: 'Ordenar el estante de carpetas de la oficina' },
+  // P1-02 (igual que dup-01): el título añade detalle («de revisión») a la tarea abierta; se acepta como propuesta
+  // solo si conserva todas sus palabras. La regla de duplicados exactos no se relaja.
   { id: 'ext-22', group: 'ext-duplicate', text: 'Tengo que revisar que el extintor del pasillo B tenga la tarjeta de revisión al día.', expect: 'abstain',
+    acceptProposed: 'near-duplicate',
     snapshotTasks: [{ id: 'open-ext-22', title: 'Revisar tarjeta del extintor pasillo B', completed: false }],
     oracleLabel: 'PROPOSE_TASK', oracleTitle: 'Revisar la tarjeta de revisión del extintor del pasillo B' },
 

@@ -12,6 +12,9 @@
  * veredictos por grupo y la parada de llamadas; NO mide calidad de modelo.
  * Live: exige --live y TURNO_AI_ENABLED=1; antes de empezar comprueba el saldo (GET /v1/credits) y
  * aborta si no hay 200 o si el saldo es menor que --min-balance. Parada dura en --max-calls.
+ * Con --extended o --probe en vivo, --max-calls es obligatorio (offline se ajusta solo al conjunto).
+ * Salida: 0 meta cumplida, 1 meta no cumplida, 2 uso/precondición, 3 corrida truncada. El informe se
+ * imprime (offline) o se escribe (live) antes de salir, también cuando el código no es 0.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -49,7 +52,8 @@ export function titleHasKeywords(title, keywords) {
 export const isTaskGroup = g => g === 'task' || g === 'holdout-task' || g === 'ext-task';
 
 export function parseNoteArgs(argv) {
-  const o = { live: false, holdout: false, extended: false, probe: false, mode: 'DECISION', maxCalls: 60, paceMs: null, minBalance: 5, reps: 1 };
+  const o = { live: false, holdout: false, extended: false, probe: false, mode: 'DECISION', maxCalls: 60, maxCallsExplicit: false,
+    paceMs: null, minBalance: 5, reps: 1 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const next = () => argv[++i];
@@ -58,7 +62,7 @@ export function parseNoteArgs(argv) {
     else if (a === '--extended') { o.holdout = true; o.extended = true; }
     else if (a === '--probe') o.probe = true;
     else if (a === '--mode') o.mode = String(next() ?? '').toUpperCase();
-    else if (a === '--max-calls') o.maxCalls = Number(next());
+    else if (a === '--max-calls') { o.maxCalls = Number(next()); o.maxCallsExplicit = true; }
     else if (a === '--pace-ms') o.paceMs = Number(next());
     else if (a === '--min-balance') o.minBalance = Number(next());
     else if (a === '--reps') o.reps = Number(next());
@@ -413,6 +417,18 @@ export async function fetchPricing(modelId, fetchImpl = globalThis.fetch) {
   }
 }
 
+/** Cota de llamadas a modelo por caso y repetición (clasificador activo + sombra + extracción). */
+export const MAX_CALLS_PER_CASE = 3;
+
+/**
+ * Código de salida: 0 completo y meta cumplida; 1 meta no cumplida; 3 corrida truncada (p. ej. max_calls).
+ * 2 queda para errores de uso o de precondición (argumentos, TURNO_AI_ENABLED).
+ */
+export function exitCodeFor(report) {
+  if (report?.aborted != null || report?.summary?.aborted != null) return 3;
+  return report?.summary?.goalMet === true ? 0 : 1;
+}
+
 export async function main(argv = process.argv.slice(2), deps = {}) {
   const { env = process.env, fetchImpl = globalThis.fetch, sleep = defaultSleep, now = () => new Date(),
     log = m => console.error(m), out = m => console.log(m), resultsDir = RESULTS_DIR, clients: injected } = deps;
@@ -423,11 +439,19 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
     : opts.holdout ? [...NOTE_CORPUS, ...NOTE_HOLDOUT] : NOTE_CORPUS;
   const cases = opts.probe ? [...base, ...NOTE_PROBE] : base;
   const suffix = (opts.extended ? '-extended50' : opts.holdout ? '-holdout' : '') + (opts.probe ? '-probe' : '');
+  const fullBudget = Math.min(500, cases.length * opts.reps * MAX_CALLS_PER_CASE);
   if (!opts.live) {
-    const report = await runNoteEval({ cases, mode: opts.mode, reps: opts.reps, maxCalls: opts.maxCalls, paceMs, run: 'offline',
+    // Offline no gasta: sin --max-calls explícito, el presupuesto cubre el conjunto completo.
+    const maxCalls = opts.maxCallsExplicit ? opts.maxCalls : Math.max(opts.maxCalls, fullBudget);
+    const report = await runNoteEval({ cases, mode: opts.mode, reps: opts.reps, maxCalls, paceMs, run: 'offline',
       clients: oracleClients(cases), sleep });
     out(JSON.stringify(report, null, 2));
-    return 0;
+    return exitCodeFor(report);
+  }
+  // Live sí gasta: un conjunto mayor que el base exige un tope explícito; nunca se sube solo.
+  if ((opts.extended || opts.probe) && !opts.maxCallsExplicit) {
+    log(`--extended/--probe en vivo exige --max-calls explícito (conjunto completo: hasta ${fullBudget}). No se hizo ninguna llamada.`);
+    return 2;
   }
   if (env.TURNO_AI_ENABLED !== '1') {
     log('--live requiere TURNO_AI_ENABLED=1 en el entorno del servidor. No se hizo ninguna llamada.');
@@ -447,7 +471,8 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
   const file = resolve(resultsDir, `r5-note-${opts.mode}-${date}${suffix}.json`);
   writeFileSync(file, JSON.stringify(report, null, 2) + '\n');
   out(JSON.stringify({ file, summary: report.summary }, null, 2));
-  return 0;
+  // El informe ya está escrito: el código de salida no borra la evidencia de una corrida fallida o truncada.
+  return exitCodeFor(report);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {

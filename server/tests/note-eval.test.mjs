@@ -464,7 +464,64 @@ test('pass^k sobre la corrida 56x3 de referencia (NOTE_RUN3_REF; se omite si no 
   const j = evalRun.rejudge(JSON.parse(readFileSync(RUN3_REF, 'utf8')));
   assert.equal(j.summary.consistency.reps, 3);
   assert.equal(j.summary.consistency.cases, 56);
-  assert.equal(j.summary.consistency.passAll, 55);
-  assert.equal(j.summary.consistency.passAny, 55);
+  // ext-22 se acepta como casi-duplicado (P1-02, acceptProposed) desde la reconciliación A2.
+  assert.equal(j.summary.consistency.passAll, 56);
+  assert.equal(j.summary.consistency.passAny, 56);
   assert.deepEqual(j.summary.consistency.flaky, []);
+});
+
+const quiet = { env: {}, fetchImpl: noSpawnFetch, log: () => {}, out: () => {} };
+
+test('A1: exitCodeFor distingue meta cumplida, no cumplida y corrida truncada', () => {
+  assert.equal(evalRun.exitCodeFor({ aborted: null, summary: { aborted: null, goalMet: true } }), 0);
+  assert.equal(evalRun.exitCodeFor({ aborted: null, summary: { aborted: null, goalMet: false } }), 1);
+  assert.equal(evalRun.exitCodeFor({ aborted: 'max_calls', summary: { aborted: 'max_calls', goalMet: true } }), 3);
+  assert.equal(evalRun.exitCodeFor(null), 1);
+});
+
+test('A1: offline truncado por --max-calls explícito sale con 3 y aun así imprime el informe', async () => {
+  const lines = [];
+  const code = await main(['--holdout', '--max-calls', '1'], { ...quiet, out: l => lines.push(l) });
+  assert.equal(code, 3);
+  assert.equal(JSON.parse(lines.join('\n')).summary.aborted, 'max_calls');
+});
+
+test('A1: offline --extended y --extended --probe sin --max-calls cubren el conjunto completo', async () => {
+  for (const [argv, expected] of [[['--extended'], 50], [['--extended', '--probe'], 56]]) {
+    const lines = [];
+    const code = await main(argv, { ...quiet, out: l => lines.push(l) });
+    const summary = JSON.parse(lines.join('\n')).summary;
+    assert.equal(summary.aborted, null, argv.join(' '));
+    assert.equal(summary.expectedCases, expected);
+    assert.equal(summary.passed, expected);
+    assert.equal(code, 0);
+  }
+});
+
+test('A1: --live --extended sin --max-calls explícito se niega antes de tocar la red', async () => {
+  const lines = [];
+  const urls = [];
+  const code = await main(['--live', '--extended'], { env: { TURNO_AI_ENABLED: '1' }, fetchImpl: async u => { urls.push(u); throw new Error('sin red'); },
+    log: l => lines.push(l), out: () => {} });
+  assert.equal(code, 2);
+  assert.deepEqual(urls, []);
+  assert.match(lines.join('\n'), /--max-calls/);
+});
+
+test('A1: live con meta no cumplida escribe el informe y sale con 1', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'r5c-'));
+  const fetchImpl = async url => {
+    if (url.endsWith('/v1/credits')) return { ok: true, status: 200, json: async () => ({ balance: '40' }) };
+    return { ok: true, status: 200, json: async () => ({ data: [] }) };
+  };
+  const clients = oracleClients(NOTE_CORPUS);
+  const broken = { ...clients, extractNoteProposal: async () => { throw new Error('fallo sintético'); } };
+  try {
+    const code = await main(['--live'], { env: { TURNO_AI_ENABLED: '1', AI_GATEWAY_API_KEY: 'placeholder-not-a-secret-key-1234' }, fetchImpl, clients: broken, resultsDir: dir,
+      sleep: async () => {}, now: () => new Date('2026-11-12T12:00:00Z'), log: () => {}, out: () => {} });
+    assert.equal(code, 1);
+    assert.equal(existsSync(join(dir, 'r5-note-DECISION-2026-11-12.json')), true);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
