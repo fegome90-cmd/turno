@@ -68,3 +68,12 @@ test('titlesFromReport: incluye títulos útiles de task, holdout-task y ext-tas
 test('titlesFromReport: sin títulos útiles lanza error', () => {
   assert.throws(() => titlesFromReport({ cases: [{ group: 'ext-task', titleUseful: false, proposedTitle: 'X' }] }), /títulos útiles/);
 });
+
+test('titlesFromReport re-juzga: task-04 («Actualiza…») cuenta en la corrida 3 guardada', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { titlesFromReport } = await import('../eval/note-flow-compare.mjs');
+  const report = JSON.parse(readFileSync(new URL('../eval/results/r5-note-DECISION-2026-11-12-holdout-run3.json', import.meta.url), 'utf8'));
+  const titles = titlesFromReport(report);
+  assert.equal(titles.length, 7);
+  assert.ok(titles.some(t => t.startsWith('Actualiza')));
+});
