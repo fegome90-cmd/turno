@@ -69,6 +69,34 @@ test('harness offline con oráculo: veredictos correctos por grupo, sin propuest
   assert.equal(report.summary.byGroup.task.passRate, 1);
 });
 
+test('autorización realmente denegada: evento sintético válido, cero lecturas y cero modelos', async () => {
+  const task = NOTE_CORPUS.find(c => c.group === 'task');
+  const denied = { ...task, id: 'auth-denied-eval-01', group: 'unauthorized', expect: 'rejected', authorized: false };
+  const forbidden = async () => { throw new Error('el modelo no debió ejecutarse'); };
+  const report = await runNoteEval({ cases: [denied], mode: 'DECISION',
+    clients: { classifyWithDecision: forbidden, classifyWithGateway: forbidden, extractNoteProposal: forbidden } });
+  const row = report.cases[0];
+  assert.equal(row.status, 'rejected');
+  assert.equal(row.reason, 'rejected_before_model');
+  assert.equal(row.snapshotReads, 0);
+  assert.equal(row.modelTotal, 0);
+  assert.equal(row.errorType, null);
+  assert.equal(row.pass, true);
+  assert.equal(report.summary.callsInStaleOrUnauthorized, 0);
+  assert.equal(judgeCase(denied, { ...row, snapshotReads: 1 }), false, 'leer snapshot tras denegar debe fallar');
+});
+
+test('dos confianzas de Jev quedan en la evaluación sin afectar el umbral', async () => {
+  const task = NOTE_CORPUS.find(c => c.group === 'task');
+  const clients = { ...oracleClients([task]), classifyWithDecision: async () =>
+    ({ label: 'PROPOSE_TASK', confidence: 0.68, labelProbability: 0.91, typesafeConfidence: 0.68 }) };
+  const report = await runNoteEval({ cases: [task], mode: 'DECISION', clients });
+  assert.equal(report.cases[0].pass, true);
+  const call = report.cases[0].calls.find(c => c.kind === 'decision');
+  assert.equal(call.labelProbability, 0.91);
+  assert.equal(call.typesafeConfidence, 0.68);
+});
+
 test('stale y no autorizado: cero llamadas al modelo', async () => {
   const report = await runNoteEval({ mode: 'DECISION', clients: oracleClients(NOTE_CORPUS), fetchImpl: noSpawnFetch });
   for (const id of ['stale-01', 'unauth-01']) {
@@ -152,12 +180,42 @@ test('main offline: imprime resumen y no escribe archivos', async () => {
   assert.equal(printed.summary.passed, 18);
 });
 
+test('resultados: nunca se sobrescribe un archivo existente', async () => {
+  const { mkdtempSync, readFileSync, readdirSync, rmSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const dir = mkdtempSync(join(tmpdir(), 'turno-results-'));
+  try {
+    const a = evalRun.writeNewResult(dir, 'r5-note-DECISION-2026-11-13', 'uno');
+    const b = evalRun.writeNewResult(dir, 'r5-note-DECISION-2026-11-13', 'dos');
+    const c = evalRun.writeNewResult(dir, 'r5-note-DECISION-2026-11-13', 'tres');
+    assert.deepEqual([a, b, c].map(f => f.split('/').pop()),
+      ['r5-note-DECISION-2026-11-13.json', 'r5-note-DECISION-2026-11-13-2.json', 'r5-note-DECISION-2026-11-13-3.json']);
+    assert.equal(readFileSync(a, 'utf8'), 'uno');
+    assert.equal(readdirSync(dir).length, 3);
+    assert.throws(() => evalRun.writeNewResult(dir, '../fuera', 'x'), /inválido/);
+    const failing = () => { const e = new Error('disco'); e.code = 'EACCES'; throw e; };
+    assert.throws(() => evalRun.writeNewResult(dir, 'otro', 'x', failing), /disco/);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('diferencia de créditos: ausencia y variaciones no inventan gasto', () => {
+  assert.equal(evalRun.observedCreditDelta(40, 39.961), 0.039);
+  assert.equal(evalRun.observedCreditDelta(null, 40), null);
+  assert.equal(evalRun.observedCreditDelta(40, Number.NaN), null);
+  assert.equal(evalRun.observedCreditDelta(40, 40.02), -0.02);
+});
+
 test('P6b: live con red sintética mantiene guard de saldo pero no publica balance', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'r5c-'));
   const urls = [];
+  let creditReads = 0;
   const fetchImpl = async url => {
     urls.push(url);
-    if (url.endsWith('/v1/credits')) return { ok: true, status: 200, json: async () => ({ balance: '40' }) };
+    if (url.endsWith('/v1/credits')) {
+      creditReads++;
+      return { ok: true, status: 200, json: async () => ({ balance: creditReads === 1 ? '40' : '39.96' }) };
+    }
     if (url.endsWith('/v1/models')) return { ok: true, status: 200, json: async () => ({ data: [{ id: 'anthropic/claude-haiku-5.5', pricing: { input: '0.000001', output: '0.000005' } }] }) };
     throw new Error('red no permitida en la prueba');
   };
@@ -175,9 +233,12 @@ test('P6b: live con red sintética mantiene guard de saldo pero no publica balan
     const printed = JSON.parse(lines.join('\n'));
     assert.equal(printed.summary.run, 'live');
     assert.equal(printed.summary.balance, null);
-    assert.equal(urls.filter(url => url.endsWith('/v1/credits')).length, 1, 'solo lee saldo antes de enviar');
+    assert.equal(urls.filter(url => url.endsWith('/v1/credits')).length, 2, 'lectura de preflight y postflight');
     const report = JSON.parse(readFileSync(join(dir, 'r5-note-DECISION-2026-11-12.json'), 'utf8'));
     assert.equal(report.summary.balance, null);
+    assert.equal(report.creditDeltaUsd, 0.04);
+    assert.equal(printed.creditDeltaUsd, 0.04);
+    assert.equal(JSON.stringify(report).includes('"balance":"40"'), false);
     assert.equal(printed.summary.passed, 18);
   } finally {
     rmSync(dir, { recursive: true, force: true });

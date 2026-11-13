@@ -214,7 +214,7 @@ Preguntas todavía abiertas de la ronda 4:
 | D1 | ¿Integrar el PR #6 en la rama del PR #4 (`feature/opencode-secure-config`)? | Sí: CI en verde y revisión cerrada | **Decidida el 11-11-2026: sí** |
 | D2 | ¿Dónde vive el código del agente? | El PR #4 apunta a `main` | **Decidida el 11-11-2026: el agente va a `main` a través del PR #4** |
 | D3 | ¿Quién es dueño de las reglas fijas? | El agente; la interfaz las muestra a través del backend | **Decidida el 12-11-2026: opción B.** Las reglas sobre tareas guardadas (compartir horario y pendientes antes del cierre) viven en el frontend (PR #5) y son el único dueño de esas sugerencias. El servidor conserva solo lo que necesita su ruta sintética de borradores (`resolve-bed` y `resolve-date` sobre borradores sin guardar); `drafts_ready` sin sugerencias responde `abstain`, y ningún cliente envía borradores hoy, así que esa ruta es un banco de pruebas y no una segunda política. Pérdida aceptada: no hay aviso de «mismo horario» antes de guardar. El selector único de `beforeClose` (`review.ts` frente a `App.tsx`) pasa a R2 |
-| D4 | ¿Dónde se guardan los resultados de evaluación? | En el repositorio solo los resúmenes; los JSON completos como artefacto del CI | Conviene decidirla antes del `REPLY` de R5 |
+| D4 | ¿Dónde se guardan los resultados de evaluación? | En el repositorio solo los resúmenes; los JSON completos como artefacto del CI | **PENDIENTE de decisión del dueño.** Propuesta: resúmenes sin saldos + hash SHA-256 y localizador; JSON íntegros fuera del repo, en almacenamiento privado persistente. Artefactos CI solo como copia temporal. Nunca dar por cerrado D4 sin verificar recuperación y hash |
 
 ## 8. Etapa 0 — Inferencia real (hecha)
 
@@ -791,7 +791,7 @@ VALIDATE: tester independiente: sin bloqueos; corregidos 2 hallazgos (letras sue
 TEST: servidor 187 -> 202/202; evaluación sin conexión con control 22/22.
 FIX: regla exacta -> regla por palabras; 2 correcciones del tester.
 REPLAY: en vivo (DECISION, 18 + 4 de control, 32 llamadas: 20 Jev, 12 Haiku): 22/22; títulos útiles 7/7; 0 propuestas fuera del grupo tarea; 0 escrituras; 0 llamadas en casos obsoletos o no autorizados; p50 de extremo a extremo 2021 ms, p95 3046 ms. Comparación con el flujo manual: −42,9 % pasos y −63,2 % tiempo (meta 20 % cumplida).
-LLM: 24 + 32 llamadas reales autorizadas. Costo Haiku estimado US$ 0,0023 + 0,0034 (Jev sin precio público); saldo 14,5018 -> 14,4930.
+LLM: 24 + 32 llamadas reales autorizadas. Costo Haiku estimado US$ 0,0023 + 0,0034 (Jev sin precio público). Los saldos de cuenta se omiten de la documentación versionada.
 Riesgos/pendientes: muestra pequeña y sintética (22 casos); sin sinónimos («pedir» ≠ «solicitar»); la confianza de Jev no es probabilidad calibrada. Integrar a main sigue sujeto a la revisión legal y de privacidad y a la aprobación de la persona dueña. D3 y D4 siguen abiertas.
 Veredicto: KEEP — GO a revisión.
 Acción siguiente: decidir D3/D4 y si se abren R2/R3; R6 sigue DEFERRED.
@@ -839,9 +839,60 @@ DUAL: prueba que documenta que espera a la sombra; sin cambio (solo evaluación)
 VALIDATE: testers independientes: A PASS; C PASS tras corregir la firma del commit y limitar «a las 15» a :00; B PASS (sin bloqueos; 1 corrección de documentación). Carrera: dos eventos simultáneos de la misma nota -> 1 llamada al modelo + 429.
 TEST: servidor 207 -> 252/252; check y check:secrets limpios; evaluación sin conexión 18/18 y 22/22 con goalMet.
 REPLAY en vivo (DECISION, 22 casos, 32 llamadas): 21/22; goalMet VERDADERO con la puerta completa; negativos 15/15; 0 escrituras; 0 llamadas en obsoletos/no autorizados; dup-01 mostrado como near-duplicate (esperado); p50 2017 ms, p95 2746 ms. Fallo: task-04, título «Actualiza la pizarra de turnos de la semana»; la comprobación de palabras clave exige «actualizar» literal. Es variación del modelo y rigidez del evaluador, no defecto de los paquetes; no se ajustó el evaluador después de ver el resultado.
-LLM: 32 llamadas autorizadas; Haiku ~US$ 0,0033 (Jev sin precio público); saldo 14,4930 -> 14,4879.
+LLM: 32 llamadas autorizadas; Haiku ~US$ 0,0033 (Jev sin precio público). Los saldos de cuenta se omiten de la documentación versionada.
 Rechazados: ninguno.
-Riesgos/pendientes (límites declarados del piloto): a lo más una vez sin reintento automático; DUAL espera a la sombra; KLM estimado; corpus pequeño y sintético; costo con cobertura parcial; colisiones de raíz posibles («cambiar/cambio»); la captura (/capture) aún no recibe la señal HTTP; formas como «cada 8 h» o «15.03.2026» pueden respaldar una hora (queda para revisión humana); palabras clave del evaluador sin raíz (task-04).
+Riesgos/pendientes al cierre de esta auditoría histórica: a lo más una vez sin reintento automático; DUAL espera a la sombra; KLM estimado; corpus pequeño y sintético; costo con cobertura parcial; colisiones de raíz posibles («cambiar/cambio»); formas como «cada 8 h» o «15.03.2026» pueden respaldar una hora (queda para revisión humana). Nota de vigencia: el HTTP ahora sí pasa la señal a /capture y el evaluador posterior normaliza raíces (task-04); ver REPLY de actualización siguiente.
 Veredicto: GO a revisión. R5 sigue en KEEP.
 Acción siguiente: decidir D4; luego R2 (incluye R2-T05) y R3.
+```
+
+### REPLY — Turno Ambient | Pack Strands v2 + R5 50/56 + Cedar + evaluador | 13-11-2026
+
+```markdown
+Estado: DOCUMENTADO; PR #4 en HOLD, no hay aprobación para main.
+Base consultada: PR #4 feature/opencode-secure-config @ a5c405a0b21277a8c23e2f8649902aabe616e4a7.
+Fuentes: informe «Turno · Evaluación en vivo R5 con 50 casos» del 12-11-2026 y código de PR #4.
+Cedar: f562d29 crea NullSafeCedarAuthorization, evalúa una copia sin null; conserva
+la salida real y la política. 00fdf1e incorpora las 16 pruebas nuevas al test:pack.
+R5 primera ampliación: 50 casos, 47/50. Corrida 56 x 3: 165/168 aprobadas,
+54/54 títulos útiles, 0 errores técnicos declarados y 0 escrituras declaradas.
+15 clasificaciones condicionales erradas por Jev terminan en no_proposal tras
+la reparación de Cedar. ext-22 se propone repetida en las tres ejecuciones;
+goalMet del producto permanece false, sin reclasificar el caso.
+Evals: el HEAD consultado admite reps=1..10, exige cada (id, rep) una vez y
+reporta passAll/passAny/flaky. La comprobación estricta 56 x 3 sigue en FAIL
+(165/168), diferente de la evaluación de cobertura del producto.
+VALIDATE: lectura de código y datos reportados; el JSON íntegro de la corrida 56 x 3
+NO está versionado y no se verificó su hash ni el resultado en vivo de forma independiente.
+TEST: 316/316 pruebas de servidor declaradas en el informe; Strands Evals
+reportado por separado. NO repetidas por esta actualización documental. No se hicieron llamadas al modelo.
+Riesgos: D4 pendiente; sin auditoría de notas reales, autenticación de usuario ni
+integración React v6 <-> agente; no habilitar datos clínicos.
+DECISIÓN de ext-22: propuesta conservadora, aceptación del límite por confirmar
+con la persona dueña; no relajar automáticamente el comparador ni declarar goalMet=true.
+```
+
+### REPLY — Turno Ambient | Parches de métricas, autorización y documentación | 13-11-2026
+
+```markdown
+Estado: PASS en rama de revisión; no integrado a main.
+Base: a5c405a0b21277a8c23e2f8649902aabe616e4a7.
+CAMBIO: evaluación con autorización realmente denegada (0 lecturas del turno, 0 llamadas al modelo)
+sin cambiar el corpus 56x3; informes live agregan creditDeltaUsd (lectura antes/después, nunca
+saldos; puede incluir consumo paralelo de la cuenta); los resultados nunca sobrescriben un archivo
+existente (sufijos -2, -3…).
+Jev: labelProbability = answers.signal.probabilities[choice]; typesafeConfidence =
+providerMetadata.typesafe.confidence.signal. El Gateway valida answers con un esquema que descarta
+cualquier campo «confidence» dentro de la respuesta, por eso no se lee de ahí. confidence (el valor
+del umbral) sigue siendo la probabilidad de la etiqueta, igual que en todas las corridas anteriores.
+Ruta confirmada con 1 llamada real a Jev (13-11-2026, nota sintética): providerMetadata.typesafe.confidence.signal
+existe; si faltara, el valor queda null. La misma respuesta trae providerMetadata.gateway.cost por llamada,
+útil para medir el costo de Jev (hoy sin precio público); no se usa en este parche.
+FIX sobre la propuesta original: typesafeConfidence leía answers.signal.confidence (siempre null en
+real) y el resultado se escribía con writeFileSync sin protección contra sobrescritura.
+TEST: server 327 -> 333 (1 omitida: corrida de referencia fuera del repo); test:pack 56/56;
+check y check:secrets PASS; Strands Evals 21 pruebas + 22/22 PASS; offline 56 casos 55/56 (ext-22).
+Las pruebas nuevas fallan con el código anterior y con la versión original del parche (Jev).
+D4: pendiente de aprobación sobre ubicación/retención/recuperación y hash de JSON.
+R2/R3 y puente con React v6: paquetes separados; no se implementan aquí.
 ```

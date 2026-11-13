@@ -2,6 +2,26 @@ import { readGatewaySettings, assertSyntheticEvent } from './gateway-config.mjs'
 import { invocationSignal, sanitizeModelMetrics } from './strands-runtime.mjs';
 import { DECISION_INSTRUCTIONS, DECISION_CRITERIA, sortKeysDeep } from './prompts.mjs';
 
+/**
+ * Dos métricas independientes de Jev, solo para evaluación.
+ * - labelProbability: answers.signal.probabilities[choice] (lo que el Gateway entrega en la respuesta).
+ * - typesafeConfidence: providerMetadata.typesafe.confidence.signal. El Gateway valida `answers` con un
+ *   esquema que solo conserva type/choice/probabilities y descarta cualquier otro campo, así que una
+ *   «confidence» dentro de la respuesta nunca llega; providerMetadata sí se transmite sin cambios.
+ *   Ruta confirmada con una llamada real (13-11-2026).
+ * confidence conserva el valor que el umbral ha usado siempre (la probabilidad de la etiqueta):
+ * no se cambia el umbral en el mismo paquete que la medición.
+ */
+export function decisionConfidence(answer, providerMetadata) {
+  const label = answer?.choice;
+  const probabilities = answer?.probabilities;
+  const labelProbability = probabilities && !Array.isArray(probabilities) && Number.isFinite(probabilities[label])
+    ? probabilities[label] : null;
+  const raw = providerMetadata?.typesafe?.confidence?.signal;
+  const typesafeConfidence = Number.isFinite(raw) && raw >= 0 && raw <= 1 ? raw : null;
+  return { confidence: labelProbability, labelProbability, typesafeConfidence };
+}
+
 /** Decisión cerrada REMOTA mediante Vercel AI Gateway (no Strands Decider local). */
 export async function createRemoteDecisionClassifier({ env = process.env } = {}) {
   const settings = readGatewaySettings(env);
@@ -35,11 +55,8 @@ export async function createRemoteDecisionClassifier({ env = process.env } = {})
       signal?.throwIfAborted();
       const answer = result?.answers?.signal;
       const label = answer?.choice;
-      // Los modelos de decisión no siempre entregan probabilidades comparables.
-      const p = answer?.probabilities;
-      const confidence = Number.isFinite(answer?.confidence) ? answer.confidence
-        : (p && !Array.isArray(p) && Number.isFinite(p[label]) ? p[label] : null);
-      return { label, confidence };
+      // Ambas señales quedan disponibles para evaluar Jev, sin alterar el umbral vigente.
+      return { label, ...decisionConfidence(answer, result?.providerMetadata) };
     } finally {
       if (typeof onMetrics === 'function') {
         try {

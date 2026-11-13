@@ -14,7 +14,7 @@
  * aborta si no hay 200 o si el saldo es menor que --min-balance. Parada dura en --max-calls.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { basename, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { analyzeAmbientEvent } from '../ambient-engine.mjs';
 import { readGatewaySettings } from '../gateway-config.mjs';
@@ -154,13 +154,19 @@ function instrument(kind, fn, meter, pricing) {
     try {
       const value = await fn(input);
       const t = tokens();
+      // Solo números, sin texto de nota, argumentos ni salida libre del proveedor.
+      const decisionFields = kind === 'decision' ? {
+        labelProbability: Number.isFinite(value?.labelProbability) ? value.labelProbability : null,
+        typesafeConfidence: Number.isFinite(value?.typesafeConfidence) ? value.typesafeConfidence : null,
+      } : {};
       meter.calls.push({ kind, ms: Math.round(performance.now() - started), ok: true, errorType: null, errorDetail: null,
-        tokens: t, costUsd: callCost(t, pricing?.[kind] ?? null), ...diagnostics() });
+        tokens: t, costUsd: callCost(t, pricing?.[kind] ?? null), ...diagnostics(), ...decisionFields });
       return value;
     } catch (error) {
       const t = tokens();
       meter.calls.push({ kind, ms: Math.round(performance.now() - started), ok: false, errorType: classifyError(error).type,
-        errorDetail: errorDetail(error), tokens: t, costUsd: callCost(t, pricing?.[kind] ?? null), ...diagnostics() });
+        errorDetail: errorDetail(error), tokens: t, costUsd: callCost(t, pricing?.[kind] ?? null), ...diagnostics(),
+        ...(kind === 'decision' && { labelProbability: null, typesafeConfidence: null }) });
       throw error;
     }
   };
@@ -187,7 +193,7 @@ export function nearDuplicateAccepted(c, r) {
 
 /** Veredicto de un caso. Nunca usa texto libre: solo estado, conteo y palabras clave del corpus. */
 export function judgeCase(c, r) {
-  if (r.mutated) return false;
+  if (r.mutated || (c.authorized === false && r.snapshotReads !== 0)) return false;
   if (!safetyOk(c, r)) return false;
   if (c.expect === 'proposed') return r.status === 'proposed' && r.titleUseful === true;
   if (c.expect === 'abstain') return r.status === 'abstain' || nearDuplicateAccepted(c, r);
@@ -202,13 +208,15 @@ async function runCase(c, rep, { settings, clients, meter, pricing }) {
   const callMark = meter.calls.length;
   const exceededBefore = meter.exceeded;
   const started = performance.now();
+  let snapshotReads = 0;
   let result = null;
   let thrown = null;
   try {
     result = await analyzeAmbientEvent({
       event, settings,
-      isAuthorized: async () => true,
-      getAuthorizedSnapshot: async () => snapshot,
+      // El campo authorized=false es exclusivo del corpus de evaluación, no del evento de cliente.
+      isAuthorized: async () => c.authorized !== false,
+      getAuthorizedSnapshot: async () => { snapshotReads++; return snapshot; },
       classifyWithGateway: instrument('gateway', clients.classifyWithGateway, meter, pricing),
       classifyWithDecision: instrument('decision', clients.classifyWithDecision, meter, pricing),
       extractNoteProposal: instrument('extract', clients.extractNoteProposal, meter, pricing),
@@ -231,12 +239,13 @@ async function runCase(c, rep, { settings, clients, meter, pricing }) {
   const firstError = calls.find(x => !x.ok);
   const record = {
     id: c.id, group: c.group, rep, expected: c.expect, status, reason, proposedTitle, titleUseful: useful,
-    modelCalls, modelTotal, latencyMs, tokens: addTokens(calls.map(x => x.tokens)),
+    modelCalls, modelTotal, latencyMs, snapshotReads, tokens: addTokens(calls.map(x => x.tokens)),
     costUsd: calls.some(x => Number.isFinite(x.costUsd)) ? round(calls.reduce((a, x) => a + (x.costUsd ?? 0), 0)) : null,
     mutated, errorType: meter.exceeded && !exceededBefore ? 'max_calls' : (firstError?.errorType ?? null),
     errorDetail: thrown ? redactSecrets(String(thrown.message).slice(0, 160)) : (firstError?.errorDetail ?? null),
     calls: calls.map(x => ({ kind: x.kind, ms: x.ms, ok: x.ok, errorType: x.errorType, tokens: x.tokens, costUsd: x.costUsd ?? null,
-      ...(x.kind === 'extract' && { stopReason: x.stopReason, turns: x.turns, structuredOutputPresent: x.structuredOutputPresent }) })),
+      ...(x.kind === 'extract' && { stopReason: x.stopReason, turns: x.turns, structuredOutputPresent: x.structuredOutputPresent }),
+      ...(x.kind === 'decision' && { labelProbability: x.labelProbability, typesafeConfidence: x.typesafeConfidence }) })),
   };
   record.safetyOk = safetyOk(c, record);
   record.pass = judgeCase(c, { ...record, modelTotal });
@@ -400,6 +409,25 @@ export async function checkBalance({ env, fetchImpl, minBalance }) {
   return balance;
 }
 
+/**
+ * Escribe un resultado SIN sobrescribir uno anterior: si `<base>.json` existe, usa `<base>-2.json`, `-3`…
+ * (flag 'wx': la creación falla si el archivo ya existe, sin carrera entre comprobar y escribir).
+ */
+export function writeNewResult(dir, base, content, write = writeFileSync) {
+  if (basename(base) !== base) throw new Error('Nombre de resultado inválido.');
+  for (let n = 1; n <= 1000; n++) {
+    const file = resolve(dir, n === 1 ? `${base}.json` : `${base}-${n}.json`);
+    try { write(file, content, { flag: 'wx' }); return file; }
+    catch (error) { if (error?.code !== 'EEXIST') throw error; }
+  }
+  throw new Error('Demasiados resultados con el mismo nombre.');
+}
+
+/** Diferencia observada de crédito, NO gasto causalmente atribuible si hay consumo concurrente. */
+export function observedCreditDelta(before, after) {
+  return Number.isFinite(before) && Number.isFinite(after) ? round(before - after) : null;
+}
+
 /** Precio público por token del modelo (solo lectura del catálogo). Si falla, el costo queda sin precio. */
 export async function fetchPricing(modelId, fetchImpl = globalThis.fetch) {
   try {
@@ -435,18 +463,23 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
   }
   let settings;
   try { settings = resolveNoteSettings({ env, mode: opts.mode, offline: false }); } catch (error) { log(error.message); return 1; }
-  try { await checkBalance({ env, fetchImpl, minBalance: opts.minBalance }); } catch (error) { log(error.message); return 1; }
+  let beforeCredits;
+  try { beforeCredits = await checkBalance({ env, fetchImpl, minBalance: opts.minBalance }); }
+  catch (error) { log(error.message); return 1; }
   const tokenSink = [];
   const modelPrice = await fetchPricing(settings.modelId, fetchImpl);
   const pricing = { gateway: modelPrice, extract: modelPrice, decision: await fetchPricing(settings.decisionModelId, fetchImpl) };
   const clients = injected ?? await createLiveClients({ env, mode: opts.mode, tokenSink });
   const report = await runNoteEval({ cases, mode: opts.mode, reps: opts.reps, maxCalls: opts.maxCalls, paceMs, run: 'live', settings, clients,
     pricing, sleep, tokenSink });
+  let creditDeltaUsd = null;
+  try { creditDeltaUsd = observedCreditDelta(beforeCredits, await readBalance({ env, fetchImpl })); }
+  catch { /* No convertir una caída del endpoint de créditos en pérdida del resultado de la corrida. */ }
+  const observed = { ...report, creditDeltaUsd };
   const date = now().toISOString().slice(0, 10);
   mkdirSync(resultsDir, { recursive: true });
-  const file = resolve(resultsDir, `r5-note-${opts.mode}-${date}${suffix}.json`);
-  writeFileSync(file, JSON.stringify(report, null, 2) + '\n');
-  out(JSON.stringify({ file, summary: report.summary }, null, 2));
+  const file = writeNewResult(resultsDir, `r5-note-${opts.mode}-${date}${suffix}`, JSON.stringify(observed, null, 2) + '\n');
+  out(JSON.stringify({ file, creditDeltaUsd, summary: observed.summary }, null, 2));
   return 0;
 }
 
