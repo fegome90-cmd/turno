@@ -45,7 +45,8 @@ export function titleHasKeywords(title, keywords) {
   return keywords.every(w => contentWords(w).every(t => tokens.has(t)));
 }
 
-const isTaskGroup = g => g === 'task' || g === 'holdout-task' || g === 'ext-task';
+/** Grupos cuyo título propuesto se califica por palabras clave (corpus principal, holdout y extendido). */
+export const isTaskGroup = g => g === 'task' || g === 'holdout-task' || g === 'ext-task';
 
 export function parseNoteArgs(argv) {
   const o = { live: false, holdout: false, extended: false, probe: false, mode: 'DECISION', maxCalls: 60, paceMs: null, minBalance: 5, reps: 1 };
@@ -259,6 +260,32 @@ const pct = xs => ({ n: xs.filter(Number.isFinite).length, p50: percentile(xs, 5
 /** Alcance del informe: qué puede y qué no puede afirmar. Va dentro de cada resumen. */
 export const SCOPE = 'Corpus sintético pequeño; casos holdout escritos tras ver fallos (regresión, no ciegos); ahorro por KLM estimado, no observado; costo con cobertura parcial (Jev sin precio público).';
 
+/** Umbral de títulos útiles para un total: ceil(5/6 × total). El epsilon evita que un error de coma flotante suba el umbral. */
+export const usefulGoalCount = of => Math.ceil(USEFUL_GOAL * of - 1e-9);
+
+/**
+ * pass^k, pass@k y casos inestables, calculados solo desde los registros. k = repeticiones observadas
+ * (1 con una sola corrida). pass^k: todas las repeticiones del caso aprueban; pass@k: al menos una aprueba.
+ */
+export function consistencyOf(records) {
+  const k = records.reduce((m, r) => Math.max(m, r.rep ?? 1), 0);
+  const byId = new Map();
+  for (const r of records) {
+    if (!byId.has(r.id)) byId.set(r.id, []);
+    byId.get(r.id).push(r.pass === true);
+  }
+  let passAll = 0;
+  let passAny = 0;
+  const flaky = [];
+  for (const [id, results] of byId) {
+    const passes = results.filter(Boolean).length;
+    if (passes === results.length && results.length === k) passAll++;
+    if (passes > 0) passAny++;
+    if (passes > 0 && passes < results.length) flaky.push(id);
+  }
+  return { reps: k, cases: byId.size, passAll, passAny, flaky };
+}
+
 /** Resumen agregado (sin texto de notas ni de títulos fuera de los registros por caso). */
 export function summarize({ records, run, mode, reps, maxCalls, aborted, meterCalls, balance = null, pricing = {}, expectedCases }) {
   const tasks = records.filter(r => isTaskGroup(r.group));
@@ -283,9 +310,10 @@ export function summarize({ records, run, mode, reps, maxCalls, aborted, meterCa
     passed: records.filter(r => r.pass).length,
     passRate: ratio(records.filter(r => r.pass).length, records.length),
     byGroup: groupsOf(records),
-    usefulTitles: { useful, of: tasks.length, goal: '≥ 5 de 6', goalMet: usefulGoalMet },
+    usefulTitles: { useful, of: tasks.length, goal: `≥ ${usefulGoalCount(tasks.length)} de ${tasks.length}`, goalMet: usefulGoalMet },
     negatives: { total: negatives.length, passed: negativesPassed, allPassed: negativesAllPassed },
     goalMet: usefulGoalMet && negativesAllPassed && mutations === 0 && callsInStaleOrUnauthorized === 0 && errors === 0 && safetyAllOk,
+    consistency: consistencyOf(records),
     nonTaskProposals: records.filter(r => r.status === 'proposed' && !isTaskGroup(r.group)).map(r => r.id),
     nearDuplicatesShown: records.filter(r => r.nearDuplicateShown === true).map(r => r.id),
     mutations,
@@ -313,8 +341,10 @@ export function judgeRecords(records, cases = [...NOTE_CORPUS, ...NOTE_HOLDOUT, 
   return records.map(r => {
     const c = byId.get(r.id);
     if (!c || c.expect !== r.expected || c.group !== r.group) throw new Error('Registro sin caso coincidente en el corpus: ' + r.id);
-    const pass = judgeCase(c, { ...r, modelTotal: r.modelTotal });
-    return { ...r, safetyOk: safetyOk(c, r), pass, nearDuplicateShown: pass && nearDuplicateAccepted(c, r) };
+    // La utilidad del título se recalcula con la regla por raíz vigente, no con la que tenía al guardarse.
+    const judged = { ...r, titleUseful: isTaskGroup(c.group) ? titleHasKeywords(r.proposedTitle, c.expectTitleIncludes) : null };
+    const pass = judgeCase(c, { ...judged, modelTotal: r.modelTotal });
+    return { ...judged, safetyOk: safetyOk(c, judged), pass, nearDuplicateShown: pass && nearDuplicateAccepted(c, judged) };
   });
 }
 

@@ -386,3 +386,85 @@ test('P1-02: el resumen lista los casos aprobados por la alternativa; la corrida
   const offline = await runNoteEval({ mode: 'DECISION', clients: base, cases: NOTE_CORPUS });
   assert.deepEqual(offline.summary.nearDuplicatesShown, []);
 });
+
+// --- Corrección P2: re-juicio con regla por raíz, meta de títulos calculada y pass^k ---
+const RUN3_HOLDOUT = new URL('../eval/results/r5-note-DECISION-2026-11-12-holdout-run3.json', import.meta.url);
+const loadRun3Holdout = () => JSON.parse(readFileSync(RUN3_HOLDOUT, 'utf8'));
+
+test('re-juicio: holdout-run3 con task-04 «Actualiza la pizarra…» pasa bajo la regla por raíz (22/22)', () => {
+  const j = evalRun.rejudge(loadRun3Holdout());
+  const t4 = j.cases.find(c => c.id === 'task-04');
+  assert.equal(t4.titleUseful, true);
+  assert.equal(t4.pass, true);
+  assert.equal(j.summary.cases, 22);
+  assert.equal(j.summary.passed, 22);
+});
+
+test('re-juicio: una palabra clave realmente ausente en task-04 sigue fallando', () => {
+  const report = loadRun3Holdout();
+  const cases = report.cases.map(r => (r.id === 'task-04' ? { ...r, proposedTitle: 'Revisa el piso del pasillo' } : r));
+  const j = evalRun.rejudge({ ...report, cases });
+  const t4 = j.cases.find(c => c.id === 'task-04');
+  assert.equal(t4.titleUseful, false);
+  assert.equal(t4.pass, false);
+  assert.equal(j.summary.passed, 21);
+});
+
+const syntheticTasks = (n, useful) => Array.from({ length: n }, (_, i) => ({ id: `t${i}`, group: 'task', rep: 1, expected: 'proposed',
+  status: 'proposed', reason: null, proposedTitle: 'Reponer guantes', titleUseful: i < useful, pass: i < useful, safetyOk: true,
+  mutated: false, modelTotal: 2, modelCalls: {}, latencyMs: 1, tokens: null, costUsd: null, errorType: null, errorDetail: null, calls: [] }));
+
+test('summary: la meta de títulos útiles se calcula desde el total (6, 7, 54), no es literal', () => {
+  const goalOf = n => evalRun.summarize({ records: syntheticTasks(n, n), run: 'offline', mode: 'DECISION' }).usefulTitles.goal;
+  assert.equal(goalOf(6), '≥ 5 de 6');
+  assert.equal(goalOf(7), '≥ 6 de 7');
+  assert.equal(goalOf(54), '≥ 45 de 54');
+});
+
+test('summary: goalMet de títulos cumple el umbral 5/6 con el mismo total (6, 7, 54)', () => {
+  const met = (n, useful) => evalRun.summarize({ records: syntheticTasks(n, useful), run: 'offline', mode: 'DECISION' }).usefulTitles.goalMet;
+  assert.equal(met(6, 5), true);
+  assert.equal(met(6, 4), false);
+  assert.equal(met(7, 6), true);
+  assert.equal(met(7, 5), false);
+  assert.equal(met(54, 45), true);
+  assert.equal(met(54, 44), false);
+});
+
+const rec = (id, rep, pass) => ({ id, group: 'task', rep, expected: 'proposed', pass, safetyOk: true, mutated: false, modelTotal: 0,
+  calls: [], latencyMs: 1, status: 'proposed', reason: null, titleUseful: pass, errorType: null, errorDetail: null, tokens: null, costUsd: null });
+
+test('pass^k con reps=1: pass^1 = pass@1 y sin casos inestables', () => {
+  const s = evalRun.summarize({ records: [rec('a', 1, true), rec('b', 1, false), rec('c', 1, true)], run: 'offline', mode: 'DECISION' });
+  assert.deepEqual(s.consistency, { reps: 1, cases: 3, passAll: 2, passAny: 2, flaky: [] });
+});
+
+test('pass^k con 3 repeticiones: distingue pass^k, pass@k y casos inestables', () => {
+  const records = [
+    rec('a', 1, true), rec('a', 2, true), rec('a', 3, true),
+    rec('b', 1, true), rec('b', 2, false), rec('b', 3, true),
+    rec('c', 1, false), rec('c', 2, false), rec('c', 3, false),
+  ];
+  const s = evalRun.summarize({ records, run: 'offline', mode: 'DECISION', reps: 3 });
+  assert.deepEqual(s.consistency, { reps: 3, cases: 3, passAll: 1, passAny: 2, flaky: ['b'] });
+});
+
+test('pass^k: rejudge recalcula consistency desde los registros', () => {
+  const report = { run: 'offline', mode: 'DECISION', reps: 1, maxCalls: 60, aborted: null, expectedCases: 2,
+    summary: { run: 'offline', mode: 'DECISION', reps: 1, maxCalls: 60, aborted: null, expectedCases: 2, modelCalls: { meterCalls: 0 }, cost: { pricing: {} }, balance: null },
+    cases: [CASES_BY_ID['task-01'], CASES_BY_ID['desc-01']].map(c => ({ id: c.id, group: c.group, rep: 1, expected: c.expect, status: 'abstain', reason: null, proposedTitle: null, titleUseful: null, modelCalls: {}, modelTotal: 0, latencyMs: 1, tokens: null, costUsd: null, mutated: false, errorType: null, errorDetail: null, calls: [] })) };
+  const j = evalRun.rejudge(report);
+  assert.equal(j.summary.consistency.cases, 2);
+  assert.equal(j.summary.consistency.passAll, j.cases.filter(r => r.pass).length);
+  assert.deepEqual(j.summary.consistency.flaky, []);
+});
+
+const RUN3_REF = process.env.NOTE_RUN3_REF ?? '';
+test('pass^k sobre la corrida 56x3 de referencia (NOTE_RUN3_REF; se omite si no existe)', { skip: !RUN3_REF || !existsSync(RUN3_REF) ? 'NOTE_RUN3_REF no definido o el archivo no existe' : false }, () => {
+  const j = evalRun.rejudge(JSON.parse(readFileSync(RUN3_REF, 'utf8')));
+  assert.equal(j.summary.consistency.reps, 3);
+  assert.equal(j.summary.consistency.cases, 56);
+  assert.equal(j.summary.consistency.passAll, 55);
+  assert.equal(j.summary.consistency.passAny, 55);
+  assert.deepEqual(j.summary.consistency.flaky, []);
+});

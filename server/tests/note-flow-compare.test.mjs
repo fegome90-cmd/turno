@@ -45,3 +45,26 @@ test('mediana y lista vacía', () => {
   assert.equal(median([1, 2, 3, 4]), 2.5);
   assert.throws(() => compareFlows([]), /títulos/);
 });
+
+import { titlesFromReport } from '../eval/note-flow-compare.mjs';
+import { isTaskGroup } from '../eval/run-note-eval.mjs';
+
+test('isTaskGroup: task, holdout-task y ext-task cuentan como tareas; el resto no', () => {
+  for (const g of ['task', 'holdout-task', 'ext-task']) assert.equal(isTaskGroup(g), true, g);
+  for (const g of ['descriptive', 'duplicate', 'reminder', 'stale', 'ext-descriptive']) assert.equal(isTaskGroup(g), false, g);
+});
+
+test('titlesFromReport: incluye títulos útiles de task, holdout-task y ext-task; excluye no útiles y otros grupos', () => {
+  const report = { cases: [
+    { group: 'task', titleUseful: true, proposedTitle: 'A' },
+    { group: 'holdout-task', titleUseful: true, proposedTitle: 'B' },
+    { group: 'ext-task', titleUseful: true, proposedTitle: 'C' },
+    { group: 'task', titleUseful: false, proposedTitle: 'D' },
+    { group: 'descriptive', titleUseful: null, proposedTitle: 'E' },
+  ] };
+  assert.deepEqual(titlesFromReport(report), ['A', 'B', 'C']);
+});
+
+test('titlesFromReport: sin títulos útiles lanza error', () => {
+  assert.throws(() => titlesFromReport({ cases: [{ group: 'ext-task', titleUseful: false, proposedTitle: 'X' }] }), /títulos útiles/);
+});

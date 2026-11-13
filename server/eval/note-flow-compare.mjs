@@ -13,6 +13,7 @@ import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 import { NOTE_CORPUS } from './note-corpus.mjs';
+import { isTaskGroup } from './run-note-eval.mjs';
 
 export const KLM = Object.freeze({ K: 0.28, P: 1.1, B: 0.1, M: 1.35, H: 0.4 });
 export const GOAL_REDUCTION = 0.2;
@@ -97,7 +98,7 @@ function round3(x) { return Math.round(x * 1000) / 1000; }
 
 /** Títulos útiles de un informe live (propuestas que la persona aprobaría) o títulos esperados del corpus. */
 export function titlesFromReport(report) {
-  const useful = report.cases.filter(c => c.group === 'task' && c.titleUseful === true).map(c => c.proposedTitle);
+  const useful = report.cases.filter(c => isTaskGroup(c.group) && c.titleUseful === true).map(c => c.proposedTitle);
   if (!useful.length) throw new Error('El informe no tiene títulos útiles.');
   return useful;
 }

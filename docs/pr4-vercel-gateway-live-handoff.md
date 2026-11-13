@@ -48,6 +48,7 @@ Una propuesta incorrecta **no** debe corregirse maquillando el corpus, el prompt
 - El pack v2 superó pruebas offline y E2E de backend con tráfico externo simulado. Esto **no** verifica inferencia real de los dos modelos.
 - React v6 todavía no consume `/v1/agent/events` ni `/v1/agent/capture`. No declarar E2E de producto completo mientras no exista ese puente.
 - En una ejecución local de navegador del 12-11-2026, 226/227 pruebas aprobaron; un test de primer pintado (`offline-theme.spec.ts`) tenía una condición de carrera. Con espera explícita mediante `expect.poll()` pasó, pero esa corrección no se incorporó aquí.
-- La comprobación estricta de una corrida histórica mantiene `task-04` como FAIL por la diferencia literal «Actualiza»/«actualizar». Conservar esa evidencia.
+- La comprobación estricta de una corrida histórica marcaba `task-04` como FAIL por la diferencia literal «Actualiza»/«actualizar». Ya no aplica: desde be9c08f los títulos se juzgan por raíz de palabra, y el re-juicio de la corrida holdout guardada da 22/22 con `task-04` aprobado. Conservar la evidencia original.
+- Una corrida live 56x3 sobre 00fdf1e dio 165/168 con 0 errores técnicos; solo ext-22 falla (3 de 3). Los resultados completos no se guardan en el repositorio hasta resolver D4.
 
 **No merge ni despliegue automático.** Cerrar con `REPLY` trazable y esperar la decisión de integración a producto por separado.
