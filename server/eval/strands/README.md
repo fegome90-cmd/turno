@@ -21,7 +21,7 @@ Pin: Strands Evals 1.9.0; transitive packages are pinned in `requirements.lock`.
 
 ## Contract and boundaries
 
-The manifest comes from the corpus, separately from the report. The adapter ignores self-reported `pass`, `goalMet` and summary totals. It requires all expected IDs exactly once, exact statuses (including explicitly declared alternatives), no mutation, zero model calls on stale/unauthorized cases, and existing keyword checks. It uses the existing Node `contentWords` for the declared near-duplicate alternative rather than inventing a second Spanish tokenizer in Python.
+The manifest comes from the corpus, separately from the report. The adapter ignores self-reported `pass`, `goalMet` and summary totals. It requires every expected ID exactly once per repetition (`reps` 1 to 10, rows carry `rep`), exact statuses (including explicitly declared alternatives), no mutation, zero model calls on stale/unauthorized cases, and existing keyword checks. It uses the existing Node `contentWords` for the declared near-duplicate alternative rather than inventing a second Spanish tokenizer in Python.
 
 The full pack verifier and CI require this check; missing Python/SDK is BLOCKED rather than a partial PASS. Run `STRANDS_EVALS_PYTHON=/absolute/path/to/venv/bin/python npm run verify:evals`.
 
@@ -29,9 +29,31 @@ The verdict is strict per-case: any failed case makes this diagnostic comparison
 
 The prepared JSON is an observation, not cryptographic evidence of provider execution. The checker does not prove semantic faithfulness, real-user utility, billing, or robustness beyond the supplied cases. It does not alter the main evaluator or repair its outputs.
 
-## Recorded replay at base 8b96b7b
+## Sets and repetitions
 
-Offline oracle: 22/22, PASS. The already-recorded `r5-note-DECISION-2026-11-12-holdout-run3.json` re-scores 21/22, strict FAIL, agreeing with its per-case result. `task-04` says “Actualiza” rather than the required literal “actualizar”. The declared `dup-01` alternative is respected. No new model call was made and the keyword rule was not relaxed.
+`export-manifest.mjs --set` selects the corpus: `holdout` (default, 22 cases, the CI set), `extended` (50 = holdout + 28 extended) and `extended-probe` (56 = extended + 6 abstain probes). The manifest records its `set`.
+
+Multi-rep reports (for example a live run with 3 repetitions) are verified with the same contract:
+
+- every manifest case must appear exactly `reps` times, with distinct `rep` numbers 1..reps; unknown IDs, duplicates or missing repetitions are `BLOCKED`;
+- a case passes only if all its repetitions pass (pass^k); `passAny` (pass@k) is also reported;
+- `flaky` lists cases with mixed outcomes; `runsPassed/runsTotal` counts repetitions;
+- the verdict is `PASS` only if every case passes every repetition.
+
+Verify an existing report without running the offline eval:
+
+```sh
+VERIFY_REPORT=/absolute/path/run.json VERIFY_SET=extended-probe \
+  STRANDS_EVALS_PYTHON=/absolute/path/venv/bin/python npm run verify:evals
+```
+
+`VERIFY_REPORT` and `VERIFY_SET` must be given together. Without them, CI runs the offline holdout as before.
+
+## Current facts
+
+- Offline holdout (CI, deterministic, no model calls): 22/22, PASS.
+- Keyword rule: a task title passes when each `expectTitleIncludes` keyword matches by stem, using Turno's `contentWords`. For example `actualizar` matches the title "Actualiza", so the earlier `task-04` failure no longer applies.
+- Reference live run `run3-56x3.json` (56 cases x 3 repetitions, extended-probe set, read-only, not committed): 55/56 cases pass, runs 165/168, flaky `[]`, only `ext-22` fails (3 of 3 repetitions), verdict FAIL. This is a diagnostic result, not the product promotion gate.
 
 ## Sources checked
 

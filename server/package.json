@@ -22,7 +22,8 @@
     "eval:flow": "node eval/note-flow-compare.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
     "test:pack": "node --test tests/strands-pack.test.mjs tests/strands-runtime.test.mjs tests/gateway-pack.test.mjs tests/strands-extensions.test.mjs tests/strands-extensions-wire.test.mjs tests/strands-extensions-e2e.test.mjs tests/strands-null-output.test.mjs",
-    "verify:evals": "bash scripts/verify-strands-evals.sh"
+    "verify:evals": "bash scripts/verify-strands-evals.sh",
+    "verify:report": "echo 'Usage: VERIFY_REPORT=<run.json> VERIFY_SET=holdout|extended|extended-probe npm run verify:evals' && exit 2"
   },
   "dependencies": {
     "@ai-sdk/gateway": "3.0.232",
