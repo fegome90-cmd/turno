@@ -1,0 +1,40 @@
+{
+  "name": "turno-ambient-agent-pilot",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check gateway-config.mjs && node --check gateway-provider.mjs && node --check decision-provider.mjs && node --check decision-switch.mjs && node --check ambient-engine.mjs && node --check capture-review.mjs && node --check gateway-capture.mjs && node --check note-proposal.mjs && node --check live-smoke.mjs && node --check live-background.mjs && node --check model-providers.mjs && node --check model-factory.mjs && node --check eval/dataset.mjs && node --check eval/run-eval.mjs && node --check eval/report.mjs && node --check prompts.mjs && node --check scripts/check-secrets.mjs && node --check http/transport.mjs && node --check http/server.mjs && node --check http/snapshots.mjs && node --check http/serve.mjs && node --check eval/note-corpus.mjs && node --check eval/run-note-eval.mjs && node --check eval/note-flow-compare.mjs && node --check task-duplicates.mjs && node --check strands-runtime.mjs && node --check eval/strands/export-manifest.mjs && node --check eval/strands/prepare-report.mjs && node --check strands-extensions.mjs",
+    "serve": "node http/serve.mjs",
+    "demo": "node synthetic-demo.mjs",
+    "smoke:preflight": "node live-smoke.mjs --preflight",
+    "smoke:live:keychain": "node live-smoke.mjs --live --from-keychain",
+    "smoke:live:env": "node live-smoke.mjs --live --from-env",
+    "smoke:background:env": "node live-background.mjs --live --from-env",
+    "smoke:background:keychain": "node live-background.mjs --live --from-keychain",
+    "eval:live": "node eval/run-eval.mjs --live",
+    "eval:report": "node eval/report.mjs",
+    "eval:note": "node eval/run-note-eval.mjs",
+    "eval:note:live": "node eval/run-note-eval.mjs --live",
+    "eval:flow": "node eval/note-flow-compare.mjs",
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "test:pack": "node --test tests/strands-pack.test.mjs tests/strands-runtime.test.mjs tests/gateway-pack.test.mjs tests/strands-extensions.test.mjs tests/strands-extensions-wire.test.mjs tests/strands-extensions-e2e.test.mjs tests/strands-null-output.test.mjs",
+    "verify:evals": "bash scripts/verify-strands-evals.sh",
+    "verify:report": "echo 'Usage: VERIFY_REPORT=<run.json> VERIFY_SET=holdout|extended|extended-probe npm run verify:evals' && exit 2"
+  },
+  "dependencies": {
+    "@ai-sdk/gateway": "3.0.232",
+    "@ai-sdk/provider": "3.0.19",
+    "@anthropic-ai/sdk": "0.109.1",
+    "@cedar-policy/cedar-wasm": "4.14.0",
+    "@cedar-policy/mcp-schema-generator-wasm": "0.6.1",
+    "@google/genai": "2.32.0",
+    "@strands-agents/sdk": "1.24.0",
+    "ai": "7.0.128",
+    "openai": "6.49.0",
+    "zod": "4.6.7"
+  }
+}

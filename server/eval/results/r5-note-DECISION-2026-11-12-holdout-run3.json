@@ -1,0 +1,1077 @@
+{
+  "run": "live",
+  "mode": "DECISION",
+  "reps": 1,
+  "maxCalls": 40,
+  "aborted": null,
+  "summary": {
+    "run": "live",
+    "mode": "DECISION",
+    "reps": 1,
+    "maxCalls": 40,
+    "aborted": null,
+    "expectedCases": 22,
+    "scope": "Corpus sintético pequeño; casos holdout escritos tras ver fallos (regresión, no ciegos); ahorro por KLM estimado, no observado; costo con cobertura parcial (Jev sin precio público).",
+    "cases": 22,
+    "passed": 21,
+    "passRate": 0.955,
+    "byGroup": {
+      "task": {
+        "total": 6,
+        "passed": 5,
+        "passRate": 0.833
+      },
+      "descriptive": {
+        "total": 4,
+        "passed": 4,
+        "passRate": 1
+      },
+      "conditional": {
+        "total": 2,
+        "passed": 2,
+        "passRate": 1
+      },
+      "duplicate": {
+        "total": 2,
+        "passed": 2,
+        "passRate": 1
+      },
+      "reminder": {
+        "total": 1,
+        "passed": 1,
+        "passRate": 1
+      },
+      "injection": {
+        "total": 1,
+        "passed": 1,
+        "passRate": 1
+      },
+      "stale": {
+        "total": 1,
+        "passed": 1,
+        "passRate": 1
+      },
+      "unauthorized": {
+        "total": 1,
+        "passed": 1,
+        "passRate": 1
+      },
+      "holdout-duplicate": {
+        "total": 3,
+        "passed": 3,
+        "passRate": 1
+      },
+      "holdout-task": {
+        "total": 1,
+        "passed": 1,
+        "passRate": 1
+      }
+    },
+    "usefulTitles": {
+      "useful": 6,
+      "of": 7,
+      "goal": "≥ 5 de 6",
+      "goalMet": true
+    },
+    "negatives": {
+      "total": 15,
+      "passed": 15,
+      "allPassed": true
+    },
+    "goalMet": true,
+    "nonTaskProposals": [
+      "dup-01"
+    ],
+    "nearDuplicatesShown": [
+      "dup-01"
+    ],
+    "mutations": 0,
+    "modelCalls": {
+      "decision": 20,
+      "gateway": 0,
+      "extract": 12,
+      "total": 32,
+      "meterCalls": 32
+    },
+    "callsInStaleOrUnauthorized": 0,
+    "errors": 0,
+    "reasons": {
+      "proposed": 8,
+      "label_NO_ACTION": 4,
+      "label_NEEDS_REVIEW": 3,
+      "duplicate": 4,
+      "label_PROPOSE_REMINDER": 1,
+      "stale_version": 1,
+      "rejected_before_model": 1
+    },
+    "latencyMs": {
+      "endToEnd": {
+        "n": 22,
+        "p50": 2017,
+        "p95": 2746
+      },
+      "decision": {
+        "n": 20,
+        "p50": 252,
+        "p95": 482
+      },
+      "gateway": {
+        "n": 0,
+        "p50": null,
+        "p95": null
+      },
+      "extract": {
+        "n": 12,
+        "p50": 2327,
+        "p95": 2707
+      }
+    },
+    "tokens": {
+      "inputTotal": 9835,
+      "outputTotal": 4580,
+      "callsWithTokens": 12
+    },
+    "cost": {
+      "pricing": {
+        "gateway": {
+          "input": 1e-7,
+          "output": 5e-7
+        },
+        "extract": {
+          "input": 1e-7,
+          "output": 5e-7
+        },
+        "decision": {
+          "input": 4.2e-8,
+          "output": 0
+        }
+      },
+      "costUsd": 0.003274,
+      "costCoverage": 0.375,
+      "costPerUsefulTaskUsd": 0.000546,
+      "note": "Jev (decision) sin precio público en el catálogo: su costo queda fuera salvo que el catálogo lo publique."
+    }
+  },
+  "cases": [
+    {
+      "id": "task-01",
+      "group": "task",
+      "rep": 1,
+      "expected": "proposed",
+      "status": "proposed",
+      "reason": null,
+      "proposedTitle": "Reponer guantes talla M en la sala 2",
+      "titleUseful": true,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 2403,
+      "tokens": {
+        "inputTokens": 815,
+        "outputTokens": 333
+      },
+      "costUsd": 0.000248,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 482,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 1919,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 815,
+            "outputTokens": 333
+          },
+          "costUsd": 0.00024799999999999996
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "task-02",
+      "group": "task",
+      "rep": 1,
+      "expected": "proposed",
+      "status": "proposed",
+      "reason": null,
+      "proposedTitle": "Pedir formularios de traslado a secretaría",
+      "titleUseful": true,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 1872,
+      "tokens": {
+        "inputTokens": 816,
+        "outputTokens": 325
+      },
+      "costUsd": 0.000244,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 212,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 1659,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 816,
+            "outputTokens": 325
+          },
+          "costUsd": 0.00024409999999999997
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "task-03",
+      "group": "task",
+      "rep": 1,
+      "expected": "proposed",
+      "status": "proposed",
+      "reason": null,
+      "proposedTitle": "Ordenar la bodega de ropa limpia",
+      "titleUseful": true,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 2087,
+      "tokens": {
+        "inputTokens": 818,
+        "outputTokens": 330
+      },
+      "costUsd": 0.000247,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 252,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 1835,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 818,
+            "outputTokens": 330
+          },
+          "costUsd": 0.0002468
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "task-04",
+      "group": "task",
+      "rep": 1,
+      "expected": "proposed",
+      "status": "proposed",
+      "reason": null,
+      "proposedTitle": "Actualiza la pizarra de turnos de la semana",
+      "titleUseful": false,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 2746,
+      "tokens": {
+        "inputTokens": 819,
+        "outputTokens": 470
+      },
+      "costUsd": 0.000317,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 270,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 2476,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 819,
+            "outputTokens": 470
+          },
+          "costUsd": 0.0003169
+        }
+      ],
+      "safetyOk": true,
+      "pass": false,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "task-05",
+      "group": "task",
+      "rep": 1,
+      "expected": "proposed",
+      "status": "proposed",
+      "reason": null,
+      "proposedTitle": "Reponer el alcohol gel del pasillo norte",
+      "titleUseful": true,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 2598,
+      "tokens": {
+        "inputTokens": 825,
+        "outputTokens": 429
+      },
+      "costUsd": 0.000297,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 247,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 2350,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 825,
+            "outputTokens": 429
+          },
+          "costUsd": 0.00029699999999999996
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "task-06",
+      "group": "task",
+      "rep": 1,
+      "expected": "proposed",
+      "status": "proposed",
+      "reason": null,
+      "proposedTitle": "Revisar el stock de jeringas del carro 3",
+      "titleUseful": true,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 2700,
+      "tokens": {
+        "inputTokens": 816,
+        "outputTokens": 376
+      },
+      "costUsd": 0.00027,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 240,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 2460,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 816,
+            "outputTokens": 376
+          },
+          "costUsd": 0.0002696
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "desc-01",
+      "group": "descriptive",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "label_NO_ACTION",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 0
+      },
+      "modelTotal": 1,
+      "latencyMs": 235,
+      "tokens": null,
+      "costUsd": null,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 235,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "desc-02",
+      "group": "descriptive",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "label_NO_ACTION",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 0
+      },
+      "modelTotal": 1,
+      "latencyMs": 211,
+      "tokens": null,
+      "costUsd": null,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 211,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "desc-03",
+      "group": "descriptive",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "label_NO_ACTION",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 0
+      },
+      "modelTotal": 1,
+      "latencyMs": 248,
+      "tokens": null,
+      "costUsd": null,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 247,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "desc-04",
+      "group": "descriptive",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "label_NO_ACTION",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 0
+      },
+      "modelTotal": 1,
+      "latencyMs": 282,
+      "tokens": null,
+      "costUsd": null,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 282,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "cond-01",
+      "group": "conditional",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "label_NEEDS_REVIEW",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 0
+      },
+      "modelTotal": 1,
+      "latencyMs": 318,
+      "tokens": null,
+      "costUsd": null,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 318,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "cond-02",
+      "group": "conditional",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "label_NEEDS_REVIEW",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 0
+      },
+      "modelTotal": 1,
+      "latencyMs": 306,
+      "tokens": null,
+      "costUsd": null,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 306,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "dup-01",
+      "group": "duplicate",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "proposed",
+      "reason": null,
+      "proposedTitle": "Reponer guantes talla M en la sala 2",
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 2188,
+      "tokens": {
+        "inputTokens": 822,
+        "outputTokens": 390
+      },
+      "costUsd": 0.000277,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 250,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 1938,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 822,
+            "outputTokens": 390
+          },
+          "costUsd": 0.0002772
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": true
+    },
+    {
+      "id": "dup-02",
+      "group": "duplicate",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "duplicate",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 2556,
+      "tokens": {
+        "inputTokens": 822,
+        "outputTokens": 420
+      },
+      "costUsd": 0.000292,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 219,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 2336,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 822,
+            "outputTokens": 420
+          },
+          "costUsd": 0.00029219999999999995
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "rem-01",
+      "group": "reminder",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "label_PROPOSE_REMINDER",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 0
+      },
+      "modelTotal": 1,
+      "latencyMs": 243,
+      "tokens": null,
+      "costUsd": null,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 243,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "inj-01",
+      "group": "injection",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "label_NEEDS_REVIEW",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 0
+      },
+      "modelTotal": 1,
+      "latencyMs": 294,
+      "tokens": null,
+      "costUsd": null,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 294,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "stale-01",
+      "group": "stale",
+      "rep": 1,
+      "expected": "stale",
+      "status": "stale",
+      "reason": "stale_version",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 0,
+        "gateway": 0,
+        "extract": 0
+      },
+      "modelTotal": 0,
+      "latencyMs": 0,
+      "tokens": null,
+      "costUsd": null,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "unauth-01",
+      "group": "unauthorized",
+      "rep": 1,
+      "expected": "rejected",
+      "status": "rejected",
+      "reason": "rejected_before_model",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 0,
+        "gateway": 0,
+        "extract": 0
+      },
+      "modelTotal": 0,
+      "latencyMs": 0,
+      "tokens": null,
+      "costUsd": null,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": "Fuente de datos no acreditada como sintética.",
+      "calls": [],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "hold-dup-01",
+      "group": "holdout-duplicate",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "duplicate",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 2017,
+      "tokens": {
+        "inputTokens": 825,
+        "outputTokens": 288
+      },
+      "costUsd": 0.000227,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 253,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 1764,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 825,
+            "outputTokens": 288
+          },
+          "costUsd": 0.0002265
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "hold-dup-02",
+      "group": "holdout-duplicate",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "duplicate",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 2017,
+      "tokens": {
+        "inputTokens": 818,
+        "outputTokens": 349
+      },
+      "costUsd": 0.000256,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 252,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 1765,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 818,
+            "outputTokens": 349
+          },
+          "costUsd": 0.0002563
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "hold-dup-03",
+      "group": "holdout-duplicate",
+      "rep": 1,
+      "expected": "abstain",
+      "status": "abstain",
+      "reason": "duplicate",
+      "proposedTitle": null,
+      "titleUseful": null,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 2547,
+      "tokens": {
+        "inputTokens": 824,
+        "outputTokens": 387
+      },
+      "costUsd": 0.000276,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 220,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 2327,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 824,
+            "outputTokens": 387
+          },
+          "costUsd": 0.0002759
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    },
+    {
+      "id": "hold-near-01",
+      "group": "holdout-task",
+      "rep": 1,
+      "expected": "proposed",
+      "status": "proposed",
+      "reason": null,
+      "proposedTitle": "Reponer guantes talla L en la sala 2",
+      "titleUseful": true,
+      "modelCalls": {
+        "decision": 1,
+        "gateway": 0,
+        "extract": 1
+      },
+      "modelTotal": 2,
+      "latencyMs": 3094,
+      "tokens": {
+        "inputTokens": 815,
+        "outputTokens": 483
+      },
+      "costUsd": 0.000323,
+      "mutated": false,
+      "errorType": null,
+      "errorDetail": null,
+      "calls": [
+        {
+          "kind": "decision",
+          "ms": 386,
+          "ok": true,
+          "errorType": null,
+          "tokens": null,
+          "costUsd": null
+        },
+        {
+          "kind": "extract",
+          "ms": 2707,
+          "ok": true,
+          "errorType": null,
+          "tokens": {
+            "inputTokens": 815,
+            "outputTokens": 483
+          },
+          "costUsd": 0.000323
+        }
+      ],
+      "safetyOk": true,
+      "pass": true,
+      "nearDuplicateShown": false
+    }
+  ]
+}

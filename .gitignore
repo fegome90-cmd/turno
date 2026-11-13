@@ -1,6 +1,14 @@
+# Runtime credentials: do not commit actual environment files.
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
 # Local dependencies, builds and test output.
-node_modules/
-dist/
+**/node_modules/
+**/dist/
 dist-history/
 dist-layout/
 test-results/
