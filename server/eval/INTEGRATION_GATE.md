@@ -6,6 +6,8 @@ Portado desde el parche mínimo verificado sobre la copia experimental
 
 ## Alcance
 
+Turno es un gestor de propósito general. Esta guía valida el evaluador y las pruebas; no certifica un sistema clínico ni autoriza uso de datos reales. Las [puertas de merge, activación y uso real](../../docs/agente-roadmap.md#alcance-vigente-y-puertas-del-pr-4-14-11-2026) se verifican por separado. Las limitaciones de `ext-22`, D4 y revisión independiente no se dan por cerradas.
+
 Solo evaluador, corpus sintético de desarrollo, pruebas y esta guía.
 No incorpora los cambios experimentales de prompts P01–P05 ni modifica
 clasificadores, motor, duplicados, dependencias o corpus históricos.

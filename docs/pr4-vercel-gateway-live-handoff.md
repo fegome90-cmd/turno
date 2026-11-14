@@ -4,6 +4,8 @@
 
 ## Objetivo del siguiente agente
 
+**Alcance vigente (14-11-2026):** Turno organiza tareas, notas y jornadas para cualquier profesión. Este protocolo autoriza únicamente pruebas sintéticas bajo sus puertas de credenciales y gasto; no define una aplicación clínica. La [tabla de puertas](agente-roadmap.md#alcance-vigente-y-puertas-del-pr-4-14-11-2026) separa integrar código, activar IA y conectar datos reales. Este documento no bloquea el merge de código inactivo por requisitos clínicos ni sustituye la aprobación del merge.
+
 Ejecutar una prueba **real** y trazable del recorrido `nota sintética -> Jev -> Haiku 5.5 -> propuesta para revisión`, conservando la autorización humana y cero escrituras de tareas. No sustituir esta prueba por mocks ni anunciarla como realizada hasta observar llamadas en Gateway Logs.
 
 **Proveedor y modelos fijos:** Vercel AI Gateway; decider `typesafe-ai/jev` por la Decision API (`DECISION`); extractor `anthropic/claude-haiku-5.5` por Strands `VercelModel`. El decider no ejecuta plugins de Strands; ContextInjector y Cedar operan en Haiku. El runtime se mantiene sin herramientas de negocio y sin modificación de tareas.
@@ -14,7 +16,7 @@ Ejecutar una prueba **real** y trazable del recorrido `nota sintética -> Jev ->
 2. Comprobar la **cuenta y equipo de Vercel correctos**. El conector `@Vercel` y la CLI local pueden estar autenticados en cuentas diferentes; no atribuir el acceso de una a otra. Revisar `vercel whoami`, `vercel project list` y la identidad del equipo/clave. No copiar secretos a logs, código o chat.
 3. Confirmar un presupuesto vigente y autorizado (equipo, proyecto o clave según método de autenticación) y saldo suficiente. Inspeccionar mediante `vercel ai-gateway budgets list --json` y `vercel ai-gateway api-keys inspect <ID> --json` si se utiliza clave. La consulta de saldo sola no comprueba un límite de gasto. **BYOK puede facturarse por separado y escapar al presupuesto del Gateway.** No crear/modificar claves o presupuestos sin autorización explícita.
 4. Disponer de autenticación de backend: `AI_GATEWAY_API_KEY` en entorno seguro o `VERCEL_OIDC_TOKEN` en un runtime Vercel vinculado, no en el frontend. Nunca imprimir valores. Si no hay clave/token adecuado o el presupuesto no está verificado, devolver `BLOCKED` y detenerse. No solicitar al usuario pegar una clave en el chat.
-5. Confirmar que los modelos siguen disponibles en el catálogo `/v1/models` y el ID exacto en la configuración. No activar fallbacks alternativos para esta comparación. Solo fixtures sintéticas incluidas en el repositorio; **prohibidos datos clínicos reales**.
+5. Confirmar que los modelos siguen disponibles en el catálogo `/v1/models` y el ID exacto en la configuración. No activar fallbacks alternativos para esta comparación. Solo fixtures sintéticas incluidas en el repositorio; **prohibidos datos reales personales o empresariales no autorizados**, incluidos los de pacientes cuando corresponda.
 
 ## Ejecución solicitada — solo después de cumplir la puerta
 

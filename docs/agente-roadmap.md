@@ -1,6 +1,6 @@
 # Turno — Hoja de ruta maestra del agente de fondo
 
-**Estado:** borrador maestro. **Fecha:** 11 de noviembre de 2026 (America/Santiago).
+**Estado:** borrador maestro; alcance actualizado el 14-11-2026. **Fecha de origen:** 11 de noviembre de 2026 (America/Santiago).
 **Proyecto:** <https://github.com/fegome90-cmd/turno>
 
 Este documento reemplaza a los dos anteriores:
@@ -8,11 +8,34 @@ Este documento reemplaza a los dos anteriores:
 1. «Hoja de ruta del agente de fondo de Turno» (11-11-2026), versión previa de este mismo archivo `docs/agente-roadmap.md`. Aportaba la visión por etapas 0–7, las decisiones de producto de la sesión de preguntas y las decisiones D1–D4.
 2. «Turno — Roadmap ejecutable de inteligencia ambiental v1.1» (10-11-2026), `turno_roadmap_inteligencia_ambiental_v1_1_ejecucion.md`. Es un documento externo: no está en el repositorio y este archivo lo reemplaza. Aportaba los paquetes de ejecución G0, R1a, R0, R1b, R2, R3, R4, R5 y R6.
 
-Es un plan. **Nada de lo que describe se ha ejecutado**, salvo la etapa 0 (PR #6, pendiente de integrar). No autoriza despliegues ni integraciones a `main`.
+Este documento combina el plan y los registros fechados de ejecución de §27. Las tablas iniciales son una foto histórica; no sustituyen esos registros ni una comprobación del SHA actual. No autoriza por sí solo despliegues ni integraciones a `main`.
 
-**Objetivo:** integrar en Turno mejoras ambientales pequeñas, medibles y silenciosas, sin chatbot, sin decisión clínica y sin volver a implementar la infraestructura Strands que ya existe.
+**Objetivo:** integrar en Turno, gestor de tareas, notas y jornadas de propósito general, mejoras ambientales pequeñas, medibles y silenciosas, sin chatbot, sin decisiones profesionales delegadas y sin volver a implementar la infraestructura Strands que ya existe.
 
 ---
+
+
+## Alcance vigente y puertas del PR #4 (14-11-2026)
+
+**Decisión de producto confirmada por Felipe:** Turno puede usarlo cualquier persona, independientemente de su profesión. Su uso personal en clínica es un contexto, no la definición del producto. No se construye una ficha clínica ni un sistema de decisión asistencial.
+
+Esta aclaración prevalece sobre la lectura clínica de las secciones anteriores y los registros históricos. No borra evidencia, no modifica el comportamiento del código ni concede permisos nuevos.
+
+| Puerta | Criterio que corresponde | Estado y límite |
+|---|---|---|
+| Integrar código inactivo a `main` | Revisión del SHA final, pruebas reproducibles, seguridad y contratos de datos, fallos resueltos o aceptación explícita de límites, configuración por defecto apagada y aprobación del merge | No requiere aprobación clínica por la profesión de quien lo usa. `ext-22`, D4 y revisión independiente siguen abiertos; no hay merge autorizado |
+| Activar IA / ejecutar inferencia facturable | Identidad y credencial de backend, presupuesto autorizado (A-05), prueba real trazable y costo observado, control de exposición al proveedor y confirmación humana | Pendiente. Publicar código o aprobar tests offline no habilita inferencia ni cambia presupuestos |
+| Conectar datos reales / integrar el producto | Autenticación y autorización de usuario, snapshot autorizado, minimización, retención y privacidad de datos personales o empresariales (A-07); validación de la integración | Pendiente para cualquier profesión. Las condiciones específicas de una organización o sector se evalúan solo para ese despliegue |
+| Desplegar o habilitar una release | Revisar entorno, configuración efectiva, permisos y alcance de la release; autorización explícita | Separado del merge. Las automatizaciones ya conectadas pueden generar previews al hacer push; no equivalen a activar el agente |
+
+A-05 y la prueba live son requisitos de activación/inferencia, no una autorización clínica de merge. A-07 no desaparece: corresponde a datos e integración reales en cualquier contexto. Una revisión legal sectorial solo procede cuando el uso concreto la justifica; no se convierte en requisito universal por el trabajo de Felipe. Ninguno de esos requisitos se da por aprobado aquí.
+
+La barrera actual sigue intacta: `TURNO_AI_ENABLED=0` por defecto, `TURNO_SYNTHETIC_ONLY=1`, fixtures controladas y cero escrituras automáticas del agente. No habilitar datos reales cambiando una etiqueta o una variable: requiere otro cambio autorizado y validado.
+
+Los campos `bedId`/`bedLabel`, los ejemplos de «cama» y algunas reglas conservadoras de los prompts son herencia del prototipo. Se conservan para compatibilidad y trazabilidad; no restringen la definición de producto a salud. Generalizar contratos, fixtures o prompts es un cambio aparte que necesita sus propias pruebas; esta actualización no afirma haberlo realizado.
+
+`ext-22` conserva su fallo 55/56 y su expectativa; no se ha aceptado la excepción. D4 sigue pendiente de decisión de ubicación, retención y recuperación de evidencia. El presupuesto y el smoke live no se sustituyen por oráculos offline. Los REPLY históricos de §27 se mantienen sin reescribir resultados ni aprobaciones.
+
 
 ## 1. Cómo usar este documento
 
@@ -45,9 +68,9 @@ Cada paquete tiene seis partes:
 ## 2. Principios y límites no negociables
 
 1. **El agente propone; la persona decide.** El agente no guarda, completa, borra ni mueve tareas, ni cambia fechas, prioridades, listas o jornadas. Toda mutación pasa por el puerto de Turno con confirmación humana.
-2. **Sin decisiones clínicas.** Ante algo clínico, como máximo sugiere «revisar» (ver C3).
+2. **Organización, no decisiones profesionales.** El agente ayuda a registrar trabajo pendiente; no diagnostica, prescribe ni sustituye el criterio profesional. La regla vigente C3 se conserva: `NEEDS_REVIEW` se abstiene. Los ejemplos clínicos históricos no definen el público del producto.
 3. **No sigue órdenes escritas dentro de una nota.**
-4. **Sin datos reales ni identificables de pacientes. 100 % sintético hasta la revisión legal y de privacidad.** La etiqueta `synthetic: true` por sí sola no valida privacidad: la fuente debe estar controlada por el backend.
+4. **En este entorno de pruebas, solo datos sintéticos.** No enviar datos personales, de clientes, pacientes, empleados ni información empresarial confidencial a proveedores sin autorización. La etiqueta `synthetic: true` por sí sola no valida privacidad: la fuente debe estar controlada por el backend. Conectar datos reales requiere la puerta de privacidad e integración, no una condición exclusiva de salud.
 5. **El modelo no recibe herramientas de mutación.**
 6. **Métricas sin contenido:** solo contadores. Nunca texto de notas, títulos ni datos identificables.
 7. **Sin secretos en el repositorio.** El escáner corre en el hook de pre-commit, en `npm test` y en el CI. Las claves nunca van en el frontend ni en comandos o logs compartidos.
@@ -118,7 +141,7 @@ Orden de ejecución de arriba hacia abajo. La etapa 1 corre en paralelo: no bloq
 | 4. Integración del agente | Agente y endpoint alineados con el PR #6 | G1 | D1 y D2 decididas. Corre en paralelo con las etapas 2 y 3: no depende de ellas | `PENDING` |
 | 5. Agente v1 con modelo | Nota → propuesta de tarea | R5 | R0 + R1a + R1b en `PASS`, G1 en `PASS`, C2–C4 decididas, solo fixtures sintéticos | `PENDING` (con puerta) |
 | 6. Extensiones | Fechas en títulos, relaciones nota-tarea | R6 | R5 con valor demostrado | `DEFERRED` |
-| 7. Piloto y fase `DUAL` | Uso real autorizado | — | Revisión legal y de privacidad aprobada | `PENDING` |
+| 7. Piloto y fase `DUAL` | Uso real autorizado | — | Autorización y privacidad del uso concreto; requisitos sectoriales cuando correspondan | `PENDING` |
 | 8. Fase `DECISION` | Jev clasifica solo | — | Desacuerdos de `DUAL` revisados sin errores graves de Jev | `PENDING` |
 | 9. Versión 2 | Por definir | — | Datos del piloto | `PENDING` |
 
@@ -177,8 +200,8 @@ Decisiones del documento 1 que **no** entran en conflicto y se mantienen:
 
 | Tema | Decisión |
 |---|---|
-| Usuario | Solo quien hace el turno. La coordinación queda para v2 |
-| Vocabulario | El agente dice «lista» y también entiende «cama» |
+| Usuario | Una persona organiza su trabajo en cualquier profesión. «Turno» representa una jornada/sesión de trabajo; no exige una ocupación con turnos. La coordinación multiusuario queda para v2 |
+| Vocabulario | Lenguaje general de tareas, notas, listas y jornadas. «Cama» permanece como alias heredado en el prototipo, no como concepto obligatorio del producto |
 | F2, avisos de revisión con reglas fijas | Lista sin vincular, hora sin fecha, choque de horario en la misma lista, pendientes «antes del cierre» al cerrar el turno. Cubiertos por R0, R1b y R2. «Hora sin fecha» ya está bloqueada en `main` para tareas normales; aplica a borradores capturados |
 | Métricas | Solo contadores |
 | Memoria | En v1, lo que el agente recuerda vive en los datos de la app. Hoy esos datos son el adaptador en memoria de la demo: los descartes duran la sesión (R1b-T02, R1b-T05) |
@@ -451,7 +474,7 @@ Puerta nueva de este documento. Reúne la etapa 2 del documento 1 y el hecho ver
 
 **Término:** el agente y el endpoint están en `main` con el CI en verde, y G1-T03 está demostrado.
 
-**Fuera de G1, tareas de la persona dueña para cerrar el PR #4:** revisar el presupuesto de la clave en Vercel (A-05) y correr `npm run smoke:live:keychain` en su Mac. Esta última es inferencia facturable: se aprueba aparte y su resultado se registra separado de las pruebas offline. No bloquea R5.
+**Activación separada de G1 (alcance aclarado el 14-11-2026):** revisar el presupuesto de la clave/equipo/proyecto (A-05) y ejecutar la prueba live con credencial segura y autorización de gasto. El script `smoke:live:keychain` es una vía local; no es un requisito clínico. Su resultado se registra separado de los tests offline. Integrar código inactivo no cierra estos pendientes ni autoriza activar el agente; rige la tabla de puertas al inicio de este documento.
 
 ## 18. R5 — Primer experimento donde un modelo sí aporta valor
 
@@ -547,7 +570,7 @@ Cada pieza que se agregue va de a una, midiendo latencia y casos de inyección d
 
 ### 21.1 Etapa 7 — Piloto y fase `DUAL`
 
-**Entrada:** revisión legal y de privacidad aprobada. Hasta entonces, todo es sintético.
+**Entrada:** autenticación, autorización, privacidad e integración aprobadas para el uso real previsto, en cualquier profesión; los requisitos específicos de una organización o sector se revisan cuando correspondan. Hasta entonces, el entorno del agente permanece sintético. Esta puerta de uso real no define a Turno como aplicación clínica.
 
 1. Piloto con uso real autorizado y metas iniciales:
 
@@ -661,7 +684,7 @@ Después de G0. Trabajar sobre `feature/turno-capture-review-ui-v6` en una rama 
 - Herramientas que dan acceso a la máquina o a internet (`shell`, `bash`, `python-repl`, `web-fetch`, `http-request`).
 - Varios agentes trabajando juntos, hasta que v2 lo justifique.
 - Chatbot, memoria vectorial, dashboards de IA y resúmenes masivos.
-- Datos reales o identificables de pacientes antes de la revisión legal y de privacidad.
+- Datos reales personales o empresariales en el agente sin autorización y revisión de privacidad del uso concreto; incluye información de pacientes cuando ese sea el contexto.
 
 ## 26. Referencias de código
 
@@ -895,4 +918,29 @@ check y check:secrets PASS; Strands Evals 21 pruebas + 22/22 PASS; offline 56 ca
 Las pruebas nuevas fallan con el código anterior y con la versión original del parche (Jev).
 D4: pendiente de aprobación sobre ubicación/retención/recuperación y hash de JSON.
 R2/R3 y puente con React v6: paquetes separados; no se implementan aquí.
+```
+
+### REPLY — Turno | Alcance de propósito general y puertas separadas | 14-11-2026
+
+```markdown
+Decisión de producto de Felipe: no es una app clínica; puede utilizarla cualquiera.
+Cambio: definición de tareas/notas/jornadas para cualquier profesión; separar merge de código
+inactivo, activación con presupuesto/credencial y datos reales autorizados.
+A-05 y smoke live siguen pendientes para activación/inferencia. A-07 conserva identidad,
+snapshot autorizado y privacidad general; una aprobación clínica no es requisito universal.
+Sin cambios en runtime, prompts, contratos HTTP, fixtures históricas ni barrera sintética.
+Los términos bedId/bedLabel y algunos ejemplos de salud quedan registrados como herencia,
+no generalizados silenciosamente en este cambio.
+No se aceptó ext-22, no se cerró D4 ni se concedió aprobación independiente.
+La corrección permite avanzar la revisión del PR; no autoriza merge ni activa IA.
+Base verificada: 7e43e4a7eb75deee6b04c7b7f6da1c03212a60da; Node 24.22.2 / npm 11.20.0.
+TEST fresco: servidor 363 PASS / 0 FAIL / 1 SKIP (NOTE_RUN3_REF); v5 212/212;
+v6 unit 162/162, componentes 319/319 sin avisos act, tooling 13/13;
+Chromium completo 227/227, primera pintura 20/20 y smoke WebKit 1/1;
+TypeScript, lint, build, portabilidad, paridad y documentación PASS.
+La primera corrida de componentes dio 318/319 por aserción de foco anticipada.
+Diagnóstico: 5/20 lecturas prematuras, foco entregado 20/20. Se esperó la condición
+sin cambiar la app; impedir el foco deliberadamente sigue haciendo fallar el test.
+Strands Evals: 21 tests y contrato 22/22. Histórico 55/56 (ext-22), sin maquillar.
+Se preservaron los logs de fallo y los controles negativos. Sin inferencia real.
 ```

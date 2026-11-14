@@ -1,8 +1,10 @@
 # Servicio interno del agente (piloto sintético)
 
 Solo el backend de Turno debe llamar este servicio. No hay CORS, persistencia,
-notificaciones ni conexión a datos clínicos. No publiques el puerto en Internet.
+notificaciones ni conexión a datos reales de usuarios u organizaciones. No publiques el puerto en Internet.
 El transporte firmado no reemplaza la autenticación de usuarios del backend.
+
+Turno es de propósito general. Los nombres de campos y fixtures heredados de salud no lo convierten en un sistema clínico. La [separación de puertas](../docs/agente-roadmap.md#alcance-vigente-y-puertas-del-pr-4-14-11-2026) conserva autorización, privacidad y revisión humana para cualquier contexto. No se modifica el contrato HTTP en esta aclaración.
 
 ## Firma de servicio a servicio
 
