@@ -100,15 +100,16 @@ describe('4A TimePanel · submitted errors and one raw draft', () => {
   });
 
   it('tabs and Collapsible · keyboard wraps, panel associations hold and closing moves focus out of hidden content', async () => {
+    const errors = vi.spyOn(console, 'error');
     const {user, session} = await setup();
     const task = screen.getByRole('tab', {name: 'Tarea'});
     const agenda = screen.getByRole('tab', {name: 'Agenda'});
-    task.focus(); await user.keyboard('{ArrowLeft}');
+    act(() => task.focus()); await user.keyboard('{ArrowLeft}');
     expect(agenda).toHaveFocus(); expect(agenda).toHaveAttribute('aria-selected', 'true');
     await user.keyboard('{Home}'); expect(task).toHaveFocus();
     await user.keyboard('{End}'); expect(agenda).toHaveFocus();
     await user.click(task); await property(user, 'Estimación');
-    const input = screen.getByLabelText('Minutos estimados'); input.focus();
+    const input = screen.getByLabelText('Minutos estimados'); act(() => input.focus());
     const trigger = screen.getByRole('button', {name: /^Estimación ·/});
     const panelId = trigger.getAttribute('aria-controls');
     expect(document.getElementById(panelId!)).toContainElement(input);
@@ -118,5 +119,6 @@ describe('4A TimePanel · submitted errors and one raw draft', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
     expect(document.getElementById(panelId!)).toHaveAttribute('inert');
     expect(document.getElementById(task.getAttribute('aria-controls')!)).toHaveAttribute('aria-labelledby', task.id);
+    expect(errors.mock.calls.filter(args => String(args[0]).includes('was not wrapped in act'))).toEqual([]);
   });
 });
