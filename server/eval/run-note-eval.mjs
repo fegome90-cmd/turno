@@ -5,7 +5,8 @@
  *   node eval/run-note-eval.mjs                       # offline: oráculo fijo, sin red, imprime el informe
  *   node eval/run-note-eval.mjs --holdout             # igual, con los 4 casos de validación (NOTE_HOLDOUT): 22 casos
  *   node eval/run-note-eval.mjs --extended            # 22 + 28 casos escritos a ciegas (NOTE_EXTENDED): 50 casos
- *   node eval/run-note-eval.mjs --extended --probe    # + 6 condicionales de sondeo escritos a ciegas (NOTE_PROBE): 56 casos
+ *   node eval/run-note-eval.mjs --extended --probe --max-calls 120 --strict  # 56 casos, modo DECISION
+ *   node eval/run-note-eval.mjs --goals --strict       # 20 casos de DESARROLLO; no holdout
  *   TURNO_AI_ENABLED=1 node eval/run-note-eval.mjs --live --mode DECISION --max-calls 60 --pace-ms 1500 --min-balance 5 --reps 1
  *
  * Offline: los clientes son un oráculo (respuestas fijas del corpus). Verifica el cableado, los
@@ -24,6 +25,7 @@ import { createStrandsNoteExtractor } from '../note-proposal.mjs';
 import { NOTE_CORPUS, NOTE_HOLDOUT } from './note-corpus.mjs';
 import { NOTE_EXTENDED } from './note-extended.mjs';
 import { NOTE_PROBE } from './note-probe.mjs';
+import { NOTE_GOALS } from './note-goals.mjs';
 import { classifyError, errorDetail, callCost, percentile } from './run-eval.mjs';
 import { redactSecrets } from '../scripts/check-secrets.mjs';
 import { contentWords } from '../task-duplicates.mjs';
@@ -46,10 +48,36 @@ export function titleHasKeywords(title, keywords) {
 }
 
 /** Grupos cuyo título propuesto se califica por palabras clave (corpus principal, holdout y extendido). */
-export const isTaskGroup = g => g === 'task' || g === 'holdout-task' || g === 'ext-task';
+export const isTaskGroup = g => g === 'task' || g === 'holdout-task' || g === 'ext-task' || g === 'goals-task';
+
+// Literal critical fields are separate from the heuristic duplicate stemmer.
+const wordSegmenter = new Intl.Segmenter('es', { granularity: 'word' });
+const normalizeExact = text => text.normalize('NFC').toLocaleLowerCase('es').replace(/\s+/gu, ' ').trim();
+
+/** Whole literal phrases; accents, punctuation and digit sequences retain their identity. */
+export function titleHasExactTerms(title, terms = []) {
+  if (typeof title !== 'string' || !Array.isArray(terms)) return false;
+  const text = normalizeExact(title);
+  if (!text) return false;
+  const words = [...wordSegmenter.segment(text)].filter(part => part.isWordLike);
+  const ends = new Set(words.map(part => part.index + part.segment.length));
+  return terms.every(term => {
+    if (typeof term !== 'string') return false;
+    const wanted = normalizeExact(term);
+    return wanted.length > 0 && words.some(part =>
+      text.startsWith(wanted, part.index) && ends.has(part.index + wanted.length));
+  });
+}
+
+/** A lexical rubric with explicit critical literals, NOT a semantic correctness judge. */
+export function titleMeetsCaseRequirements(title, c) {
+  return titleHasKeywords(title, c.expectTitleIncludes) &&
+    (!c.requiredTitleTerms || titleHasKeywords(title, c.requiredTitleTerms)) &&
+    titleHasExactTerms(title, c.requiredExactTerms);
+}
 
 export function parseNoteArgs(argv) {
-  const o = { live: false, holdout: false, extended: false, probe: false, mode: 'DECISION', maxCalls: 60, paceMs: null, minBalance: 5, reps: 1 };
+  const o = { live: false, holdout: false, extended: false, probe: false, goals: false, strict: false, mode: 'DECISION', maxCalls: 60, paceMs: null, minBalance: 5, reps: 1 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const next = () => argv[++i];
@@ -57,6 +85,8 @@ export function parseNoteArgs(argv) {
     else if (a === '--holdout') o.holdout = true;
     else if (a === '--extended') { o.holdout = true; o.extended = true; }
     else if (a === '--probe') o.probe = true;
+    else if (a === '--goals') o.goals = true;
+    else if (a === '--strict') o.strict = true;
     else if (a === '--mode') o.mode = String(next() ?? '').toUpperCase();
     else if (a === '--max-calls') o.maxCalls = Number(next());
     else if (a === '--pace-ms') o.paceMs = Number(next());
@@ -64,6 +94,7 @@ export function parseNoteArgs(argv) {
     else if (a === '--reps') o.reps = Number(next());
     else throw new Error('Argumento desconocido: ' + a);
   }
+  if (o.goals && (o.extended || o.holdout || o.probe)) throw new Error('--goals debe ejecutarse separado de los corpus previos.');
   if (!MODES.includes(o.mode)) throw new Error('--mode debe ser GATEWAY, DUAL o DECISION.');
   if (!Number.isInteger(o.maxCalls) || o.maxCalls < 1 || o.maxCalls > 500) throw new Error('--max-calls entre 1 y 500.');
   if (o.paceMs !== null && (!Number.isFinite(o.paceMs) || o.paceMs < 0 || o.paceMs > 60_000)) throw new Error('--pace-ms entre 0 y 60000.');
@@ -231,7 +262,7 @@ async function runCase(c, rep, { settings, clients, meter, pricing }) {
   const reason = thrown ? 'rejected_before_model' : (result.reason ?? null);
   const proposedTitle = status === 'proposed' ? (result.suggestions[0]?.title ?? null) : null;
   const useful = isTaskGroup(c.group)
-    ? titleHasKeywords(proposedTitle, c.expectTitleIncludes)
+    ? titleMeetsCaseRequirements(proposedTitle, c)
     : null;
   const modelCalls = { decision: calls.filter(x => x.kind === 'decision').length,
     gateway: calls.filter(x => x.kind === 'gateway').length, extract: calls.filter(x => x.kind === 'extract').length };
@@ -239,6 +270,8 @@ async function runCase(c, rep, { settings, clients, meter, pricing }) {
   const firstError = calls.find(x => !x.ok);
   const record = {
     id: c.id, group: c.group, rep, expected: c.expect, status, reason, proposedTitle, titleUseful: useful,
+    criticalTermsOk: status === 'proposed' && c.requiredExactTerms !== undefined
+      ? titleHasExactTerms(proposedTitle, c.requiredExactTerms) : null,
     modelCalls, modelTotal, latencyMs, snapshotReads, tokens: addTokens(calls.map(x => x.tokens)),
     costUsd: calls.some(x => Number.isFinite(x.costUsd)) ? round(calls.reduce((a, x) => a + (x.costUsd ?? 0), 0)) : null,
     mutated, errorType: meter.exceeded && !exceededBefore ? 'max_calls' : (firstError?.errorType ?? null),
@@ -307,6 +340,7 @@ export function summarize({ records, run, mode, reps, maxCalls, aborted, meterCa
   const callsInStaleOrUnauthorized = records.filter(r => ['stale', 'unauthorized', 'ext-stale', 'ext-unauthorized'].includes(r.group)).reduce((a, r) => a + r.modelTotal, 0);
   const errors = records.filter(r => r.errorType).length;
   const safetyAllOk = records.every(r => r.safetyOk === true);
+  const criticalTermFailures = records.filter(r => r.criticalTermsOk === false).map(r => r.id);
   const calls = records.flatMap(r => r.calls);
   const count = kind => calls.filter(x => x.kind === kind).length;
   const priced = calls.filter(x => Number.isFinite(x.costUsd));
@@ -321,7 +355,8 @@ export function summarize({ records, run, mode, reps, maxCalls, aborted, meterCa
     byGroup: groupsOf(records),
     usefulTitles: { useful, of: tasks.length, goal: `≥ ${usefulGoalCount(tasks.length)} de ${tasks.length}`, goalMet: usefulGoalMet },
     negatives: { total: negatives.length, passed: negativesPassed, allPassed: negativesAllPassed },
-    goalMet: usefulGoalMet && negativesAllPassed && mutations === 0 && callsInStaleOrUnauthorized === 0 && errors === 0 && safetyAllOk,
+    criticalTermFailures,
+    goalMet: usefulGoalMet && negativesAllPassed && mutations === 0 && callsInStaleOrUnauthorized === 0 && errors === 0 && safetyAllOk && criticalTermFailures.length === 0,
     consistency: consistencyOf(records),
     nonTaskProposals: records.filter(r => r.status === 'proposed' && !isTaskGroup(r.group)).map(r => r.id),
     nearDuplicatesShown: records.filter(r => r.nearDuplicateShown === true).map(r => r.id),
@@ -345,20 +380,23 @@ export function summarize({ records, run, mode, reps, maxCalls, aborted, meterCa
  * Recalcula safetyOk y pass de registros ya guardados, sin red ni modelos. Cada registro debe
  * coincidir con su caso del corpus (id, grupo y expect); si no, se lanza error en vez de inventar.
  */
-export function judgeRecords(records, cases = [...NOTE_CORPUS, ...NOTE_HOLDOUT, ...NOTE_EXTENDED, ...NOTE_PROBE]) {
+export function judgeRecords(records, cases = [...NOTE_CORPUS, ...NOTE_HOLDOUT, ...NOTE_EXTENDED, ...NOTE_PROBE, ...NOTE_GOALS]) {
   const byId = new Map(cases.map(c => [c.id, c]));
   return records.map(r => {
     const c = byId.get(r.id);
     if (!c || c.expect !== r.expected || c.group !== r.group) throw new Error('Registro sin caso coincidente en el corpus: ' + r.id);
     // La utilidad del título se recalcula con la regla por raíz vigente, no con la que tenía al guardarse.
-    const judged = { ...r, titleUseful: isTaskGroup(c.group) ? titleHasKeywords(r.proposedTitle, c.expectTitleIncludes) : null };
+    const judged = { ...r,
+      criticalTermsOk: r.status === 'proposed' && c.requiredExactTerms !== undefined
+        ? titleHasExactTerms(r.proposedTitle, c.requiredExactTerms) : null,
+      titleUseful: isTaskGroup(c.group) ? titleMeetsCaseRequirements(r.proposedTitle, c) : null };
     const pass = judgeCase(c, { ...judged, modelTotal: r.modelTotal });
     return { ...judged, safetyOk: safetyOk(c, judged), pass, nearDuplicateShown: pass && nearDuplicateAccepted(c, judged) };
   });
 }
 
 /** Re-juicio de un informe guardado: mismos registros crudos, veredictos y resumen recalculados. */
-export function rejudge(report, cases = [...NOTE_CORPUS, ...NOTE_HOLDOUT, ...NOTE_EXTENDED, ...NOTE_PROBE]) {
+export function rejudge(report, cases = [...NOTE_CORPUS, ...NOTE_HOLDOUT, ...NOTE_EXTENDED, ...NOTE_PROBE, ...NOTE_GOALS]) {
   const s = report.summary;
   const records = judgeRecords(report.cases, cases);
   const summary = summarize({ records, run: s.run, mode: s.mode, reps: s.reps, maxCalls: s.maxCalls, aborted: s.aborted,
@@ -388,6 +426,13 @@ export async function runNoteEval({ cases = NOTE_CORPUS, mode = 'DECISION', run 
   const summary = summarize({ records, run, mode, reps, maxCalls, aborted, meterCalls: meter.used, balance, pricing,
     expectedCases: cases.length * reps });
   return { run, mode, reps, maxCalls, aborted, summary, cases: records };
+}
+
+/** Gate estricto opcional: no confundir una corrida truncada o parcialmente útil con PASS. */
+export function strictPass(report) {
+  const summary = report?.summary;
+  return summary?.goalMet === true && summary.cases === summary.expectedCases &&
+    report.aborted === null && Number.isInteger(summary.expectedCases) && summary.expectedCases > 0;
 }
 
 /** Saldo del Gateway. Sin clave en el entorno se llama igual (un proxy puede inyectarla). */
@@ -449,13 +494,13 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
   const paceMs = opts.paceMs ?? (opts.live ? LIVE_PACE_MS : 0);
   const base = opts.extended ? [...NOTE_CORPUS, ...NOTE_HOLDOUT, ...NOTE_EXTENDED]
     : opts.holdout ? [...NOTE_CORPUS, ...NOTE_HOLDOUT] : NOTE_CORPUS;
-  const cases = opts.probe ? [...base, ...NOTE_PROBE] : base;
-  const suffix = (opts.extended ? '-extended50' : opts.holdout ? '-holdout' : '') + (opts.probe ? '-probe' : '');
+  const cases = opts.goals ? NOTE_GOALS : opts.probe ? [...base, ...NOTE_PROBE] : base;
+  const suffix = opts.goals ? '-goals20' : (opts.extended ? '-extended50' : opts.holdout ? '-holdout' : '') + (opts.probe ? '-probe' : '');
   if (!opts.live) {
     const report = await runNoteEval({ cases, mode: opts.mode, reps: opts.reps, maxCalls: opts.maxCalls, paceMs, run: 'offline',
       clients: oracleClients(cases), sleep });
     out(JSON.stringify(report, null, 2));
-    return 0;
+    return opts.strict && !strictPass(report) ? 1 : 0;
   }
   if (env.TURNO_AI_ENABLED !== '1') {
     log('--live requiere TURNO_AI_ENABLED=1 en el entorno del servidor. No se hizo ninguna llamada.');
@@ -480,7 +525,7 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
   mkdirSync(resultsDir, { recursive: true });
   const file = writeNewResult(resultsDir, `r5-note-${opts.mode}-${date}${suffix}`, JSON.stringify(observed, null, 2) + '\n');
   out(JSON.stringify({ file, creditDeltaUsd, summary: observed.summary }, null, 2));
-  return 0;
+  return opts.strict && !strictPass(observed) ? 1 : 0;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
