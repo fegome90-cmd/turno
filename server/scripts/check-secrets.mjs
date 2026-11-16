@@ -36,7 +36,7 @@ export const SECRET_PATTERNS = Object.freeze([
 // Valores de prueba que el repositorio usa a propósito; nunca son credenciales.
 const ALLOWED_VALUES = /placeholder-not-a-secret|secret-synthetic-test-key|proxy-injected/;
 const ALLOWED_VALUES_ALL = new RegExp(ALLOWED_VALUES.source, 'g');
-const ENV_FILE = /(^|\/)\.env(\.[^/]*)?$/;
+const ENV_FILE = /(^|\/)\.(?:env|envrc)(?:\.[^/]*)?$/;
 const ENV_EXAMPLE = /(^|\/)\.env\.example$/;
 const SKIP_FILE = /(^|\/)(package-lock\.json|.*\.(png|jpe?g|gif|webp|ico|woff2?|ttf|otf|pdf|heic|zip))$/i;
 const CREDENTIAL_VARS = /^\s*([A-Z0-9_]*(?:API_KEY|_TOKEN|_SECRET|PASSWORD|ACCESS_KEY_ID|SECRET_ACCESS_KEY))\s*=\s*(\S+)/;
@@ -75,6 +75,7 @@ export function scanText(file, text) {
     findings.push({ file, line: 0, kind: 'archivo de entorno real versionado (solo se permite .env.example)' });
     return findings;
   }
+  if (typeof text !== 'string' || text.includes('\0')) return findings; // binario
   const lines = text.split(/\r?\n/);
   lines.forEach((line, i) => {
     if (ENV_EXAMPLE.test(file)) {
@@ -97,7 +98,6 @@ export function scanRepo({ staged = false } = {}) {
     if (SKIP_FILE.test(file)) continue;
     let text;
     try { text = readContent(root, file, staged); } catch { continue; }
-    if (text.includes('\0')) continue; // binario
     findings.push(...scanText(file, text));
   }
   return findings;

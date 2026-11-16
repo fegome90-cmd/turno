@@ -1,4 +1,39 @@
 #!/bin/sh
-# Bloquea el commit si lo que está por entrar trae un .env real o algo con forma de clave.
-# Activar una vez por clon:  git config core.hooksPath .githooks
-exec node "$(git rev-parse --show-toplevel)/server/scripts/check-secrets.mjs" --staged
+set -eu
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "[pre-commit] Error: 'node' no está disponible en PATH." >&2
+  exit 1
+fi
+
+# 1. Bloquea el commit si lo que está por entrar trae un .env/.envrc real o algo con forma de clave (fail-closed)
+if [ -f "$ROOT/server/scripts/check-secrets.mjs" ]; then
+  node "$ROOT/server/scripts/check-secrets.mjs" --staged
+else
+  echo "[pre-commit] Error: falta server/scripts/check-secrets.mjs; commit abortado." >&2
+  exit 1
+fi
+
+STAGED_FILES="$(git -c core.quotePath=false diff --cached --name-only --diff-filter=ACMRDT)"
+[ -z "$STAGED_FILES" ] && exit 0
+
+# 2. Auto-verificación del escáner de secretos
+if printf '%s\n' "$STAGED_FILES" | grep -qE '^(server/scripts/check-secrets\.mjs|server/tests/no-secrets\.test\.mjs)$'; then
+  node --test "$ROOT/server/tests/no-secrets.test.mjs"
+fi
+
+# 3. Protección de README.md, frontend-v5 y docs/migration-v6 (con guarda índice vs. disco)
+if printf '%s\n' "$STAGED_FILES" | grep -qE '^(README\.md|prototypes/frontend-v5/|docs/migration-v6/)'; then
+  if ! command -v python3 >/dev/null 2>&1; then
+    echo "[pre-commit] Error: 'python3' no está disponible en PATH para ejecutar check_docs.py." >&2
+    exit 1
+  fi
+  if git -c core.quotePath=false status --porcelain -- README.md prototypes/frontend-v5/ docs/migration-v6/ | grep -qE '^(.[^ ]|\?\?)'; then
+    echo "[pre-commit] Error: hay cambios sin stagear o sin seguimiento en README.md, prototypes/frontend-v5/ o docs/migration-v6/." >&2
+    exit 1
+  fi
+  python3 "$ROOT/docs/migration-v6/scripts/check_docs.py"
+fi

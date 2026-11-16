@@ -15,6 +15,9 @@ test('detecta archivos de entorno reales; .env.example se permite', () => {
   assert.equal(scanText('server/.env', 'TURNO_AI_ENABLED=0').length, 1);
   assert.equal(scanText('.env.local', '').length, 1);
   assert.equal(scanText('server/.env.production', '').length, 1);
+  assert.equal(scanText('.envrc', '').length, 1);
+  assert.equal(scanText('sub/.envrc.local', '').length, 1);
+  assert.equal(scanText('.env', 'FOO=1\0').length, 1);
   assert.deepEqual(scanText('server/.env.example', 'TURNO_AI_ENABLED=0\nAI_GATEWAY_API_KEY=\n'), []);
 });
 
