@@ -166,3 +166,31 @@ it('R1b-T04: una sugerencia nueva no roba el foco ni agrega avisos con el diálo
   expect(session.notifications.getState().items).toHaveLength(noticesBefore);
   expect(screen.getByRole('button',{name:'Abrir captura de tareas'})).toBe(trigger);
 });
+
+it('marcar Antes del cierre limpia y deshabilita Fecha y Hora en la tarjeta de revisión',async()=>{
+  const {user,dialog}=await open();
+  await user.click(within(dialog).getByRole('button',{name:/Nueva tarjeta/}));
+  const card=within(dialog).getByRole('group',{name:/Tarea 1 · Pendiente de aprobación/});
+  const dateInput=within(card).getByLabelText('Fecha');
+  const timeInput=within(card).getByLabelText('Hora');
+  fireEvent.change(dateInput,{target:{value:'2026-11-07'}});
+  fireEvent.change(timeInput,{target:{value:'15:00'}});
+  await user.click(within(card).getByRole('checkbox',{name:/Antes del cierre/}));
+  expect(dateInput).toBeDisabled();
+  expect(timeInput).toBeDisabled();
+  expect(dateInput).toHaveValue('');
+  expect(timeInput).toHaveValue('');
+  await user.click(within(card).getByRole('checkbox',{name:/Antes del cierre/}));
+  expect(dateInput).toBeEnabled();
+  expect(timeInput).toBeEnabled();
+});
+
+it('confirmación de descarte aparece arriba de los paneles y copy UI evita términos clínicos o internos',async()=>{
+  const {user,dialog}=await open();
+  expect(dialog.textContent).not.toMatch(/\bStrands\b|camas|cl[ií]nica/i);
+  await user.type(within(dialog).getByRole('textbox',{name:'Tareas para revisar'}),'Borrador');
+  await user.click(within(dialog).getByRole('button',{name:'Cerrar captura y sugerencias'}));
+  const alert=within(dialog).getByRole('alert',{name:'Descartar revisión'});
+  const capturePanel=document.getElementById('assist-capture-panel')!;
+  expect(Boolean(alert.compareDocumentPosition(capturePanel) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(true);
+});

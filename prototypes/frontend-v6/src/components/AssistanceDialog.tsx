@@ -118,12 +118,16 @@ export function AssistanceDialog({
           <div><Dialog.Title>Captura y sugerencias</Dialog.Title><Dialog.Description>Revisión de tareas de Turno. No hay un modelo de IA conectado.</Dialog.Description></div>
           <button type="button" className="icon-button" aria-label="Cerrar captura y sugerencias" disabled={!!pendingSave} onClick={close}><X size={20} aria-hidden="true"/></button>
         </div>
+        {discardConfirm && <div className="assist-discard-confirm" role="alert" aria-label="Descartar revisión">
+          <p>Hay texto o tareas sin guardar. ¿Quieres descartarlos y cerrar?</p>
+          <div className="assist-card-actions"><button type="button" className="assist-secondary" onClick={() => setDiscardConfirm(false)}>Seguir revisando</button><button type="button" className="assist-primary" onClick={discardAndClose}>Descartar y cerrar</button></div>
+        </div>}
         <div className="assist-tabs" role="tablist" aria-label="Asistencia de Turno">
           <button role="tab" id="assist-capture-tab" onKeyDown={onTabKeyDown} aria-selected={tab === 'capture'} aria-controls="assist-capture-panel" tabIndex={tab === 'capture' ? 0 : -1} onClick={() => onTabChange('capture')}>Captura</button>
           <button role="tab" id="assist-suggestions-tab" onKeyDown={onTabKeyDown} aria-selected={tab === 'suggestions'} aria-controls="assist-suggestions-panel" tabIndex={tab === 'suggestions' ? 0 : -1} onClick={() => onTabChange('suggestions')}>Sugerencias ({suggestions.length})</button>
         </div>
         <section id="assist-capture-panel" role="tabpanel" aria-labelledby="assist-capture-tab" hidden={tab !== 'capture'}>
-          <div className="assist-info"><strong>Captura manual disponible</strong><p>Escribe una tarea literal por línea. No interpretaremos horarios, camas ni instrucciones: completarás esos campos durante la revisión. La interpretación con Strands se conectará después.</p></div>
+          <div className="assist-info"><strong>Captura manual disponible</strong><p>Escribe una tarea literal por línea. No interpretaremos horarios, listas ni instrucciones: completarás esos campos durante la revisión. La sugerencia automática asistida por IA se conectará después.</p></div>
           <label className="assist-field" htmlFor="assist-input">Tareas para revisar
             <textarea id="assist-input" rows={3} maxLength={2500} value={input} disabled={!active || !!pendingSave}
               placeholder="Una tarea por línea" onChange={(event) => {setInput(event.target.value); setFormError('');}}/>
@@ -153,16 +157,16 @@ export function AssistanceDialog({
                   </select>
                 </label>
                 <label className="assist-field">Fecha
-                  <input type="date" value={draft.date} disabled={!!pendingSave}
+                  <input type="date" value={draft.date} disabled={!!pendingSave || draft.beforeClose}
                     onChange={(event) => update(draft.localId, {date: event.target.value})}/>
                 </label>
                 <label className="assist-field">Hora
-                  <input type="time" value={draft.time} disabled={!!pendingSave}
+                  <input type="time" value={draft.time} disabled={!!pendingSave || draft.beforeClose}
                     onChange={(event) => update(draft.localId, {time: event.target.value})}/>
                 </label>
               </div>
               <label className="assist-condition"><input type="checkbox" checked={draft.beforeClose} disabled={!!pendingSave}
-                onChange={(event) => update(draft.localId, {beforeClose: event.target.checked})}/> Antes del cierre (sin fecha ni hora)</label>
+                onChange={(event) => update(draft.localId, event.target.checked ? {beforeClose: true, date: '', time: ''} : {beforeClose: false})}/> Antes del cierre (sin fecha ni hora)</label>
               {errors[draft.localId] && <p role="alert" className="assist-error">{errors[draft.localId]}</p>}
               <div className="assist-card-actions">
                 <button type="button" className="assist-secondary" disabled={!!pendingSave} onClick={() => {
@@ -173,7 +177,7 @@ export function AssistanceDialog({
               </div>
             </fieldset>)}
           </div>
-          <p className="assist-footnote">Cada tarea se valida y guarda individualmente después de tu aprobación. No hay guardado automático, análisis de texto ni conexión clínica.</p>
+          <p className="assist-footnote">Cada tarea se valida y guarda individualmente después de tu aprobación. No hay guardado automático, análisis de texto ni conexión externa.</p>
         </section>
         <section id="assist-suggestions-panel" role="tabpanel" aria-labelledby="assist-suggestions-tab" hidden={tab !== 'suggestions'}>
           <div className="assist-info"><strong>Solo hechos verificables</strong><p>Estas sugerencias se calculan a partir de las tareas del turno abierto; no son conclusiones de un modelo.</p></div>
@@ -189,10 +193,6 @@ export function AssistanceDialog({
             </article>)}
           </div>
         </section>
-        {discardConfirm && <div className="assist-discard-confirm" role="alert" aria-label="Descartar revisión">
-          <p>Hay texto o tareas sin guardar. ¿Quieres descartarlos y cerrar?</p>
-          <div className="assist-card-actions"><button type="button" onClick={() => setDiscardConfirm(false)}>Seguir revisando</button><button type="button" onClick={discardAndClose}>Descartar y cerrar</button></div>
-        </div>}
       </Dialog.Popup>
     </Dialog.Portal>
   </Dialog.Root>;

@@ -131,7 +131,7 @@ export function EditorForm({store, note, beforeEdit, focusFirstInvalid, onCreate
           onChange={(event) => edit('body', event.currentTarget.value)}/>
         {state.errors.body && <Field.Error match={true} id="field-error-body" className="field-error error">{state.errors.body}</Field.Error>}
       </Field.Root>
-      <div className="save-footer"><div><p id="save-error" className="error">{generalSaveError}</p><p id="save-feedback" className="save-feedback">{state.feedback || (state.dirty ? 'Cambios sin guardar' : readOnly ? 'Solo lectura' : 'Guardado en memoria de demostración')}</p></div>
+      <div className="save-footer"><div><p id="save-error" className="error">{generalSaveError}</p><p id="save-feedback" className="save-feedback">{state.feedback || (state.dirty ? 'Cambios sin guardar' : readOnly ? 'Solo lectura' : 'Guardado en esta demostración.')}</p></div>
         {!readOnly && <div className="save-actions"><button type="button" disabled={!state.dirty || state.busy} onClick={cancel}>Cancelar</button><button type="submit" className="primary" disabled={!state.dirty || state.busy}>{state.busy ? 'Guardando…' : 'Guardar'}</button></div>}
       </div>
     </Form>
