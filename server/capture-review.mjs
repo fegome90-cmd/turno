@@ -18,18 +18,30 @@ export function normalizeTime(value) {
 
 // Formas en que el texto fuente puede escribir una hora: «15:00», «15.00», «9:00»,
 // «15h», «15 h», «15hs», «15 hrs», «a las 15». Un número de cama («cama 15») no cuenta.
+// Una hora seguida de am/pm («3pm», «3:30 p.m.») no cuenta en estas formas: la valida AMPM_FORM con su
+// conversión a 24 h, para que «3:00 pm» no respalde «03:00».
+const NOT_AMPM = String.raw`(?!\s?[ap]\.?\s?m(?![\p{L}\d]))`;
 const SOURCE_HOUR_FORMS = [
-  /(?<!\d)(\d{1,2})\s?(?:[:.]|h)\s?(\d{2})(?!\d)/gi,
-  /\ba\s+las?\s+(\d{1,2})(?!\d)(?:\s?[:.]\s?(\d{2})(?!\d))?/gi,
+  new RegExp(String.raw`(?<!\d)(\d{1,2})\s?(?:[:.]|h)\s?(\d{2})(?!\d)` + NOT_AMPM, 'giu'),
+  new RegExp(String.raw`\ba\s+las?\s+(\d{1,2})(?!\d)(?:\s?[:.]\s?(\d{2})(?!\d))?` + NOT_AMPM, 'giu'),
   /(?<!\d)(\d{1,2})\s?h(?:oras?|rs?|s)?\b/gi,
 ];
+// «3pm», «3 pm», «3:30 p.m.», «11 am»: el prompt pide normalizarlas a 24 h («3pm» -> «15:00»).
+const AMPM_FORM = /(?<!\d)(\d{1,2})(?:\s?[:.]\s?(\d{2}))?\s?([ap])\.?\s?m(?![\p{L}\d])\.?/giu;
+
+/** Hora 24 h de una forma am/pm, o null si la hora escrita no es de 1 a 12. */
+function ampmHour(hour, meridiem) {
+  if (hour < 1 || hour > 12) return null;
+  return (hour % 12) + (meridiem.toLowerCase() === 'p' ? 12 : 0);
+}
 
 /** True when the source text writes this HH:MM hour. Written minutes must agree; unwritten minutes only support :00 («a las 15» ≠ 15:30). */
 function sourceHasTime(sourceText, time) {
   const hour = Number(time.slice(0, 2));
   const minutes = time.slice(3);
-  return SOURCE_HOUR_FORMS.some(re => [...sourceText.matchAll(re)].some(m =>
-    Number(m[1]) === hour && (m[2] === undefined ? minutes === '00' : m[2] === minutes)));
+  const minutesAgree = m => (m[2] === undefined ? minutes === '00' : m[2] === minutes);
+  return SOURCE_HOUR_FORMS.some(re => [...sourceText.matchAll(re)].some(m => Number(m[1]) === hour && minutesAgree(m)))
+    || [...sourceText.matchAll(AMPM_FORM)].some(m => ampmHour(Number(m[1]), m[3]) === hour && minutesAgree(m));
 }
 
 export function validateCaptureInput(input) {

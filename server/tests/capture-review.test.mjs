@@ -121,6 +121,13 @@ test('P2-02: conserva la hora cuando el texto fuente la escribe de cualquier for
     ['Revisar A 15hs', '15:00'],
     ['Revisar A 15 hrs', '15:00'],
     ['Revisar A 9:00', '09:00'],
+    ['Revisar A 3pm', '15:00'],
+    ['Revisar A 3 pm', '15:00'],
+    ['Revisar A 3:30 p.m.', '15:30'],
+    ['Revisar A a las 3 PM', '15:00'],
+    ['Revisar A 11am', '11:00'],
+    ['Revisar A 12 am', '00:00'],
+    ['Revisar A 12pm', '12:00'],
   ]) {
     const p = oneTime(time, text);
     assert.equal(p.time, time, text);
@@ -138,6 +145,12 @@ test('P2-02: hora ausente del texto fuente -> null + confirm_time, sin rechazar'
     ['Revisar A 15:00', '01:00'],           // «1» no es «15»
     ['Revisar A a las 15', '15:30'],        // minutos no escritos solo respaldan :00
     ['Revisar A 15 h', '15:45'],
+    ['Revisar A 3pm', '03:00'],             // «3pm» no respalda la hora de la mañana
+    ['Revisar A 3:00 pm', '03:00'],
+    ['Revisar A 3am', '15:00'],
+    ['Revisar A 3:30 pm', '15:00'],         // otros minutos
+    ['Revisar A 13pm', '13:00'],            // am/pm solo acepta horas de 1 a 12
+    ['Revisar A 3 pmx', '15:00'],           // «pm» debe ser palabra completa
   ]) {
     const p = oneTime(time, text);
     assert.equal(p.time, null, text);
