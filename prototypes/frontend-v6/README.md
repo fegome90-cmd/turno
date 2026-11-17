@@ -33,3 +33,9 @@ Las pruebas del App real se distinguen de los harnesses técnicos y los eventos 
 Las auditorías de dependencias no se han ejecutado por restricción de acceso. No hay resultado npm ni conclusión sobre vulnerabilidades; BLOCKED no equivale a PASS ni a FAIL.
 
 El producto conserva el código de `ed374be`. La corrección posterior de tooling añade preparación de artefactos, smoke y validaciones, sin cambiar dependencias, v5 ni canon. La incorporación por el plugin GitHub es un snapshot nuevo sobre la historia remota de `fd777bf`; la historia local original queda respaldada por separado. Sin backend, autenticación, persistencia, colaboración ni host ChatGPT. Este estado no acredita push, merge ni despliegue. Las regresiones completas se repiten después de cualquier integración posterior.
+
+## Trabajo experimental posterior: captura sin LLM
+
+La rama `feature/turno-capture-review-ui-v6` añade captura literal por líneas, tarjetas editables con aprobación individual, condición «antes del cierre» y sugerencias basadas en reglas sobre el estado del turno. No instala ni invoca modelos, ni atribuye resultados a una IA. Conserva el puerto de demostración en memoria; sigue sin existir un backend autenticado de producción.
+
+[Contrato, alcance, límites y verificación](../../docs/ambient-ui-v6.md). Esta sección documenta exclusivamente la rama experimental; no modifica los registros históricos de aceptación 4A/4B.

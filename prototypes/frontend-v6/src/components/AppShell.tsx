@@ -1,12 +1,13 @@
 import {useEffect, useLayoutEffect, useRef, useState, type ReactNode} from 'react';
 import {Dialog} from '@base-ui/react/dialog';
-import {Clock, PanelLeft, Power, X} from 'lucide-react';
+import {Clock, Lightbulb, ListPlus, PanelLeft, Power, X} from 'lucide-react';
 import {getPanelMode} from '../appearance/panel-mode';
 import {isLayerOpen, resolveReturnFocus, useOverlays} from './OverlayCoordinator';
 
 type CloseShiftAction = {available: boolean; busy: boolean; onClick(): void};
+type AssistanceActions = {onCapture(): void; onSuggestions(): void; suggestionCount: number};
 export type AppShellProps = {
-  navigation: ReactNode; editor: ReactNode; timePanel: ReactNode; closeShift?: CloseShiftAction;
+  navigation: ReactNode; editor: ReactNode; timePanel: ReactNode; closeShift?: CloseShiftAction; assistance?: AssistanceActions;
   view: 'home' | 'workspace' | 'notes' | 'archive';
   title: string; inspectorHidden: boolean; onInspectorHidden(hidden: boolean): void;
   timePanelOwnsHeading?: boolean; onTimeOpenComplete?: () => void;
@@ -89,7 +90,7 @@ function DockedPanel({id, label, column, children, ownsHeading = false, onOpenCo
   </Dialog.Root>;
 }
 
-export function AppShell({navigation, editor, timePanel, view, title, inspectorHidden, onInspectorHidden, timePanelOwnsHeading, onTimeOpenComplete, timeInitialFocus, onPanelCloseComplete, closeShift}: AppShellProps) {
+export function AppShell({navigation, editor, timePanel, view, title, inspectorHidden, onInspectorHidden, timePanelOwnsHeading, onTimeOpenComplete, timeInitialFocus, onPanelCloseComplete, closeShift, assistance}: AppShellProps) {
   const width = useViewportWidth();
   const mode = getPanelMode(width);
   const overlays = useOverlays();
@@ -103,6 +104,7 @@ export function AppShell({navigation, editor, timePanel, view, title, inspectorH
         <button type="button" className="navigation-trigger icon-button" hidden={navColumn} data-focus-key="open-nav" aria-label="Abrir navegación" aria-controls="navigation-panel" aria-expanded={isLayerOpen(overlays.state, 'navigation')} onClick={() => overlays.open({id: 'navigation', kind: 'navigation', returnFocusKey: 'open-nav'})}><PanelLeft aria-hidden="true" size={20}/></button>
         <span className="toolbar-title">{title}</span>
       </div><div className="toolbar-trailing">
+        {assistance && <><button type="button" data-focus-key="open-capture" className="icon-button" aria-label="Abrir captura de tareas" onClick={assistance.onCapture}><ListPlus size={20} aria-hidden="true"/></button><button type="button" data-focus-key="open-suggestions" className="icon-button" aria-label={`Revisar sugerencias (${assistance.suggestionCount})`} onClick={assistance.onSuggestions}><Lightbulb size={20} aria-hidden="true"/>{assistance.suggestionCount > 0 && <span className="assist-count" aria-hidden="true">{assistance.suggestionCount}</span>}</button></>}
         {closeShift?.available !== false && <button type="button" className="close-shift-button" data-focus-key="close-shift-toolbar" aria-label="Cerrar turno" disabled={!closeShift || closeShift.busy} onClick={closeShift?.onClick}><Power size={20} aria-hidden="true"/><span>Cerrar turno</span></button>}
         <button type="button" className="icon-button" data-focus-key="open-time" aria-label={timeColumn ? 'Ocultar Tiempo' : 'Mostrar Tiempo'} aria-controls="time-panel" aria-expanded={timeColumn || isLayerOpen(overlays.state, 'time')} onClick={() => {
           if (timeColumn) onInspectorHidden(true);

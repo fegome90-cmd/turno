@@ -71,6 +71,7 @@ describe('4A editor · actual task and note forms', () => {
 
   it('UI-07 INTERFACE-SKILLS-07 · conflict retains body, no false success, retry succeeds', async () => {
     const {session, user} = await setup();
+    expect(document.getElementById('save-feedback')).toHaveTextContent('Guardado en esta demostración.');
     await user.type(body(), 'Borrador que no se pierde'); session.port.failNext('conflict');
     await user.click(screen.getByRole('button', {name: 'Guardar'}));
     await waitFor(() => expect(session.store.getState().busy).toBe(false));
