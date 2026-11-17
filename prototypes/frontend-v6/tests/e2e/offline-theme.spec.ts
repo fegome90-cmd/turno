@@ -99,6 +99,10 @@ for (const scheme of ['light', 'dark'] as const) {
       expect(state.buttonsInMain).toBe(1);
       expect(state.inputs).toBe(0);
       expect(state.storage).toEqual({local: 0, session: 0});
+      // A visible heading does not guarantee that PerformanceObserver has delivered paint entries.
+      await expect.poll(() => page.evaluate(() =>
+        (window as unknown as {__paints: unknown[]}).__paints.length,
+      ), {message: 'the paint observer must deliver an entry'}).toBeGreaterThan(0);
       const paints = await page.evaluate(() => (window as unknown as {__paints: {name: string; theme: string | null; htmlBackground: string}[]}).__paints);
       expect(paints.length).toBeGreaterThan(0);
       const first = paints[0];

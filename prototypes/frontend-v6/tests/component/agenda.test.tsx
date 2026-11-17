@@ -1,4 +1,4 @@
-import {render, screen, waitFor, within} from '@testing-library/react';
+import {act, render, screen, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {afterEach, describe, expect, it, vi} from 'vitest';
 import {App} from '../../src/app/App';
@@ -61,10 +61,14 @@ describe('4A Agenda · confirmed shift tasks and stable Home', () => {
   });
 
   it('Agenda civil groups · date-only, Tomorrow and undated groups stay civil and task selection returns to the editor', async () => {
+    const errors = vi.spyOn(console, 'error');
     vi.useFakeTimers({toFake: ['Date']}); vi.setSystemTime(new Date('2026-11-07T12:00:00Z'));
     const {session, user, nav} = await setup();
     await user.click(nav.getByRole('button', {name: 'Ir al turno actual'})); await user.click(nav.getByRole('button', {name: 'Revisar insumos'}));
-    session.store.getState().setTemporalField('date', '08/11/2026'); await session.store.getState().saveTask();
+    await act(async () => {
+      session.store.getState().setTemporalField('date', '08/11/2026');
+      await session.store.getState().saveTask();
+    });
     await user.click(screen.getByRole('tab', {name: 'Agenda'}));
     expect(agenda().getByRole('heading', {name: 'Hoy'})).toBeInTheDocument();
     expect(agenda().getByRole('heading', {name: 'Mañana'})).toBeInTheDocument();
@@ -73,6 +77,7 @@ describe('4A Agenda · confirmed shift tasks and stable Home', () => {
     await user.click(agenda().getByRole('button', {name: /Preparar educación/}));
     expect(screen.getByRole('textbox', {name: 'Título de tarea'})).toHaveValue('Preparar educación');
     expect(session.store.getState().selection).toEqual({kind: 'task', id: 'task-3'});
+    expect(errors.mock.calls.filter(args => String(args[0]).includes('was not wrapped in act'))).toEqual([]);
   });
 
   it('UI-14/20/40 VIEWPORT-07 · opening Time on Home selects Agenda without replacing greeting or choosing another subtitle', async () => {

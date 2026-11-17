@@ -1,0 +1,55 @@
+/**
+ * Casos sintéticos de DESARROLLO de cobertura de objetivos; no holdout ciego.
+ * requiredTitleTerms: componentes operativos que no deben desaparecer del título.
+ */
+const task = (id, text, title, requiredTitleTerms, requiredExactTerms = []) => Object.freeze({
+  id, group: 'goals-task', text, expect: 'proposed', expectedTitle: title,
+  expectTitleIncludes: requiredTitleTerms.slice(0, 2),
+  requiredTitleTerms, requiredExactTerms: Object.freeze([...requiredExactTerms]), oracleLabel: 'PROPOSE_TASK', oracleTitle: title,
+});
+const reject = (id, text, label = 'NEEDS_REVIEW') => Object.freeze({
+  id, group: 'goals-negative', text, expect: 'abstain', oracleLabel: label,
+});
+export const NOTE_GOALS = Object.freeze([
+  task('go-01', 'Revisar la caja y llevarla al vestidor.',
+    'Revisar la caja y llevarla al vestidor', ['revisar','caja','vestidor']),
+  task('go-02', 'Sacar el carro de lavandería, apretar su rueda y dejarlo en taller.',
+    'Sacar carro de lavandería, ajustar rueda y dejarlo en taller',
+    ['carro','lavandería','rueda','taller']),
+  task('go-03', 'Preparar y entregar los kits de limpieza a sala 3.',
+    'Preparar y entregar kits de limpieza a sala 3',
+    ['preparar','entregar','kits','sala','3'], ['sala 3']),
+  task('go-04', 'Armar el cronograma, pegarlo en la sala de descanso y avisar a Cecilia.',
+    'Armar cronograma, pegarlo en sala de descanso y avisar a Cecilia',
+    ['cronograma','pegarlo','descanso','avisar','cecilia'], ['descanso','Cecilia']),
+  task('go-05', 'Pedir más cinta adhesiva y tijeras para el depósito.',
+    'Pedir cinta adhesiva y tijeras para el depósito',
+    ['pedir','cinta','tijeras','depósito']),
+  task('go-06', 'Solicitar rollos de papel y marcadores para la oficina.',
+    'Solicitar rollos de papel y marcadores para la oficina',
+    ['rollos','papel','marcadores','oficina']),
+  task('go-07', 'El inventario semanal tiene errores. Los corrijo y se lo mando a Paola.',
+    'Corregir inventario semanal y enviarlo a Paola',
+    ['corregir','inventario','paola'], ['Paola']),
+  task('go-08', 'La planilla de turnos está incompleta. La termino y la llevo a recepción.',
+    'Completar planilla de turnos y entregarla en recepción',
+    ['planilla','turnos','recepción']),
+  task('go-09', 'El carro de traslado está en el pasillo. Lo reviso y lo guardo en bodega.',
+    'Revisar carro de traslado y guardarlo en bodega',
+    ['carro','traslado','bodega']),
+  task('go-10', 'Recordar comprar pilas AA para la linterna.',
+    'Comprar pilas AA para la linterna', ['comprar','pilas','AA','linterna'], ['AA']),
+  task('go-11', 'No olvidar enviar el archivo de compras a Rodrigo.',
+    'Enviar archivo de compras a Rodrigo', ['enviar','archivo','rodrigo'], ['Rodrigo']),
+  task('go-12', 'Pasar en limpio el inventario de aseo y enviarlo a Rodrigo de bodega.',
+    'Pasar en limpio inventario de aseo y enviarlo a Rodrigo de bodega',
+    ['inventario','aseo','enviarlo','rodrigo','bodega'], ['Rodrigo']),
+  reject('go-13','Pedir guantes y llamar a mantención por la puerta.'),
+  reject('go-14','Actualizar el inventario y reservar la sala para la reunión.'),
+  reject('go-15','Recuérdame comprar pilas AA.','PROPOSE_REMINDER'),
+  reject('go-16','Avísame que debo revisar el kit mañana.','PROPOSE_REMINDER'),
+  reject('go-17','Pon una alarma para llamar a bodega.','PROPOSE_REMINDER'),
+  reject('go-18','Lo arreglo y se lo envío a Teresa, como habíamos hablado.'),
+  reject('go-19','El envío está cerrado y ya entregué las cajas.','NO_ACTION'),
+  reject('go-20','Si llegan los insumos, quizás prepare las bolsas nuevas.'),
+]);

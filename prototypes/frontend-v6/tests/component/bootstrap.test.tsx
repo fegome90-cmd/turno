@@ -49,6 +49,7 @@ afterEach(() => {
 describe('EXTRA-STRICTMODE-HOME · arranque real (startApp)', () => {
   it('EXTRA-STRICTMODE-HOME · random se llama exactamente 1 vez y no se usa Math.random', () => {
     installMatchMediaProbe();
+    const errors = vi.spyOn(console, 'error');
     const random = vi.fn(() => 0.9);
     const mathRandom = vi.spyOn(Math, 'random');
     const root = newRoot();
@@ -60,6 +61,9 @@ describe('EXTRA-STRICTMODE-HOME · arranque real (startApp)', () => {
     expect(mathRandom).not.toHaveBeenCalled();
     expect(root.textContent).toContain('¿En qué te ayudo hoy?');
     act(() => stop());
+    expect(errors.mock.calls.filter(args => String(args[0]).includes(
+      'The current testing environment is not configured to support act',
+    ))).toEqual([]);
   });
 
   it('EXTRA-STRICTMODE-HOME · StrictMode activo: los efectos de ThemeProvider se ejecutan dos veces al montar', () => {

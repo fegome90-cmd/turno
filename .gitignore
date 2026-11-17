@@ -1,10 +1,27 @@
-# Local dependencies, builds and test output.
-node_modules/
-dist/
-dist-history/
-dist-layout/
-test-results/
-playwright-report/
+# Runtime credentials: do not commit actual environment files.
+.env
+.env.*
+.envrc
+.envrc.*
+**/.env
+**/.env.*
+**/.envrc
+**/.envrc.*
+!.env.example
+!**/.env.example
+
+# Local dependencies, builds, virtualenvs and test output.
+**/node_modules/
+**/dist/
+**/dist-history/
+**/dist-layout/
+**/test-results/
+**/playwright-report/
+**/.venv/
+
+# Repo local context cache.
+_ctx/
+
 # Python bytecode and platform metadata are not source evidence.
 __pycache__/
 *.py[cod]

@@ -74,7 +74,9 @@ describe('4B prepared RED · real domain workflows', () => {
 
   it('UI-31/33/34 INTERFACE-SKILLS-11 EMIL-SKILLS-09 · rename invalid and failed values stay correctible, then update the same list everywhere', async () => {
     const {session, user, nav} = await setup(), tasks = structuredClone(session.store.getState().snapshot!.tasks), entry = nav.getByRole('button', {name: 'Editar nombre de Lista 1'}); expect(entry).toBeEnabled(); await user.click(entry);
-    const dialog = modal(renameName), field = within(dialog).getByRole('textbox', {name: 'Nombre de la lista'}), submit = within(dialog).getByRole('button', {name: 'Guardar nombre'}); expect(field).toHaveValue('Lista 1'); expect(field).toHaveFocus();
+    const dialog = modal(renameName), field = within(dialog).getByRole('textbox', {name: 'Nombre de la lista'}), submit = within(dialog).getByRole('button', {name: 'Guardar nombre'}); expect(field).toHaveValue('Lista 1');
+    // Base UI schedules initial focus after mounting the popup.
+    await waitFor(() => expect(field).toHaveFocus());
     await user.clear(field); await user.type(field, '   '); fireEvent.submit(dialog.querySelector('form')!); await waitFor(() => expect(field).toHaveAttribute('aria-invalid', 'true')); expect(field).toHaveValue('   '); expect(field).toHaveFocus(); expectAssociatedError(field, /Nombre de la lista/i);
     const literal = 'Lista <noche> · 夜班 · '.repeat(14).trim(); fireEvent.change(field, {target: {value: literal}}); session.port.failNext('error'); await user.click(submit); await waitFor(() => expect(submit).toBeEnabled()); expect(field).toHaveValue(literal); expect(dialog).toBeInTheDocument(); expect(session.store.getState().snapshot!.beds[0]!.label).toBe('Lista 1');
     await user.click(submit); await waitFor(() => expect(screen.queryByRole('dialog', {name: renameName})).not.toBeInTheDocument());
