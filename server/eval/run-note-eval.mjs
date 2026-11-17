@@ -139,6 +139,11 @@ export function oracleClients(cases = NOTE_CORPUS) {
   };
 }
 
+/** Fija un sumidero de métricas por llamada en un cliente cuya fábrica no lo acepta (el clasificador Decision). */
+export function withMetrics(fn, onMetrics) {
+  return (input, opts = {}) => fn(input, { ...opts, onMetrics });
+}
+
 /** Clientes reales (live). Cada llamada reporta tokens al sumidero compartido cuando el proveedor los da. */
 export async function createLiveClients({ env, mode, tokenSink }) {
   // Extract diagnostics are a fixed enum, a count and a boolean: never text, prompts or outputs.
@@ -147,7 +152,9 @@ export async function createLiveClients({ env, mode, tokenSink }) {
       structuredOutputPresent: m?.structuredOutputPresent ?? null }) }));
   const clients = {};
   if (mode !== 'DECISION') clients.classifyWithGateway = await createStrandsClassifier({ env, onMetrics: sink('gateway') });
-  if (mode !== 'GATEWAY') clients.classifyWithDecision = await createRemoteDecisionClassifier({ env });
+  if (mode !== 'GATEWAY') {
+    clients.classifyWithDecision = withMetrics(await createRemoteDecisionClassifier({ env }), sink('decision'));
+  }
   clients.extractNoteProposal = await createStrandsNoteExtractor({ env, onMetrics: sink('extract') });
   return clients;
 }

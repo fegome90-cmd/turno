@@ -529,3 +529,14 @@ test('pass^k sobre la corrida 56x3 de referencia (NOTE_RUN3_REF; se omite si no 
   assert.equal(j.summary.consistency.passAny, 55);
   assert.deepEqual(j.summary.consistency.flaky, []);
 });
+
+test('Codex P2: withMetrics fija el sumidero de tokens del clasificador Decision en cada llamada', async () => {
+  const {withMetrics} = await import('../eval/run-note-eval.mjs');
+  const seen = [];
+  const sink = m => seen.push(m);
+  const fake = async (event, {signal, onMetrics} = {}) => { onMetrics({inputTokens: 7, outputTokens: 2}); return {label: 'NO_ACTION', signal}; };
+  const signal = AbortSignal.timeout(1000);
+  const out = await withMetrics(fake, sink)({text: 'x'}, {signal});
+  assert.equal(out.signal, signal, 'conserva las demás opciones');
+  assert.deepEqual(seen, [{inputTokens: 7, outputTokens: 2}]);
+});
